@@ -77,8 +77,8 @@ function(
                     }
                 } else {
                     sum = features[0].attributes;
-                    if (features[0].attributes.hasOwnProperty(this.config.impact_field)) {
-                        var value = features[0].attributes[this.config.impact_field];
+                    if (features[0].attributes.hasOwnProperty(this._attributeField)) {
+                        var value = features[0].attributes[this._attributeField];
                         var item = query('[data-value=' + value + ']', dom.byId('renderer_menu'));
                         if (item.length) {
                             domClass.add(item[0], 'selected');
@@ -138,6 +138,7 @@ function(
         _setValueRange: function() {
             this._multiple = false;
             var renderer = this._impactLayer.renderer;
+            this._attributeField = renderer.attributeField || this.config.impact_field;
             if(renderer){
                 var infos = renderer.infos;
                 if (infos && infos.length) {
@@ -164,13 +165,13 @@ function(
                         }));
                         on(dom.byId('renderer_menu'), '.item:click', lang.hitch(this, function(evt) {
                             this._clearSelected();
-                            var value = parseInt(domAttr.get(evt.target, 'data-value'), 10);
+                            var value = domAttr.get(evt.target, 'data-value');
                             domClass.add(evt.target, 'selected');
                             var q = new Query();
                             if (value === 0) {
                                 q.where = '1 = 1';
                             } else {
-                                q.where = this.config.impact_field + ' = ' + value;
+                                q.where = this._attributeField + ' = ' + value;
                             }
                             this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
                                 this._displayStats(fs.features);
@@ -201,10 +202,10 @@ function(
             var q = new Query();
             q.where = '1=1';
             if(this._multiple){
-                //q.where = '"' + this.config.impact_field + '" = (SELECT MAX("' + this.config.impact_field + '") FROM ' + this._impactLayer.id + ')';
+                //q.where = '"' + this._attributeField + '" = (SELECT MAX("' + this._attributeField + '") FROM ' + this._impactLayer.id + ')';
                 //console.log(q.where);
                 // FIELD" = (SELECT MAX("FIELD") FROM layer)
-                q.orderByFields = [this.config.impact_field + ' DESC'];   
+                q.orderByFields = [this._attributeField + ' DESC'];   
             }
             this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
                 if (fs.features.length) {
