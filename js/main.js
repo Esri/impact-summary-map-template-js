@@ -23,7 +23,8 @@ define([
     "esri/graphic",
     "esri/layers/GraphicsLayer",
     "dijit/layout/BorderContainer",
-    "dijit/layout/ContentPane"
+    "dijit/layout/ContentPane",
+    "dojo/_base/fx"
 ],
 function(
     ready, 
@@ -49,7 +50,8 @@ function(
     event,
     Graphic,
     GraphicsLayer,
-    BorderContainer, ContentPane
+    BorderContainer, ContentPane,
+    baseFx
 ) {
     return declare("", null, {
         config: {},
@@ -92,6 +94,20 @@ function(
             this._bc_inner.startup();
             this._bc_outer.layout();
             this._bc_inner.layout();
+            
+            on(dom.byId('hamburger_button'), 'click', lang.hitch(this, function(evt) {
+                this._toggleDrawer();
+            }));
+        },
+        _toggleDrawer: function(){
+            var drawer = dom.byId('cp_outer_left');
+            if(domStyle.get(drawer, 'display') === 'block'){
+                domStyle.set(drawer, 'display', 'none');
+            }
+            else{
+                domStyle.set(drawer, 'display', 'block');
+            }
+            this._bc_outer.layout();
         },
         _displayStats: function(features) {
             if (features && features.length) {
@@ -252,7 +268,6 @@ function(
             on(this._impactLayer, 'click', lang.hitch(this, function(evt) {
                 this._selectEvent(evt);
             }));
-            
         },
         _clearSelected: function() {
             var items = query('.selected', dom.byId('renderer_menu'));
