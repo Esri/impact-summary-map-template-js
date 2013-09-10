@@ -1,12 +1,80 @@
-html,body,#mapDiv {
+html,body {
 	padding:0;
 	margin:0;
 	height:100%;
+	width:100%;
 	font-family:Arial,Helvetica,sans-serif;
+}
+
+#bc_inner,#bc_outer {
+	width:100%;
+	height:100%;
+	padding:0;
+	margin:0;
+	border:0;
+}
+
+#cp_inner_top {
+	width:100%;
+	height:35px;
+	padding:0;
+	margin:0;
+	border:0;
+	overflow:hidden;
+	z-index:3;
+}
+
+#cp_outer_left {
+	width:280px;
+	height:100%;
+	padding:0;
+	margin:0;
+	border:0;
+}
+
+#cp_inner_center,#cp_outer_center {
+	width:100%;
+	height:100%;
+	padding:0;
+	margin:0;
+	border:0;
+}
+
+#mapDiv {
+	padding:0;
+	margin:0;
+	width:100%;
+	height:100%;
+	position:relative;
 }
 
 .esriRtl label {
 /*Example of a rule that will be applied if the app is viewed in a browser wtih a RTL locale like Hebrew or Arabic.*/
+}
+
+.drawer {
+}
+
+.topBar {
+	background:#f8f8f8;
+	height:22px;
+	border-bottom:1px solid #ddd;
+	color:#007ac2;
+	font-size:18px;
+	line-height:22px;
+	padding:6px;
+}
+
+#hamburger_button {
+	float:left;
+	width:22px;
+	height:22px;
+	background:#eee url(../images/hamburger.png) no-repeat top left;
+	margin:0 10px 0 0;
+}
+
+#title {
+	float:left;
 }
 
 #renderer_menu {
@@ -18,11 +86,11 @@ html,body,#mapDiv {
 	-moz-user-select:none;
 	-webkit-user-select:none;
 	user-select:none;
-	display: none;
+	display:none;
 }
 
-.summarize{
-    text-align:center;
+.summarize {
+	text-align:center;
 	display:block;
 	color:#fff;
 	background-color:#333;
@@ -30,20 +98,19 @@ html,body,#mapDiv {
 	-webkit-border-radius:5px;
 	border-radius:5px;
 	padding:5px 10px;
-	margin: 10px 0;
-	cursor: pointer;
+	margin:10px 0;
+	cursor:pointer;
 }
 
-.menuList{
-    list-style: none;
-    padding: 0;
-    text-align: left;
-    margin: 0;
-    background:rgba(0,0,0,0.85);
+.menuList {
+	list-style:none;
+	padding:0;
+	text-align:left;
+	margin:0;
+	background:rgba(0,0,0,0.85);
 	-webkit-border-radius:0 0 5px 5px;
 	border-radius:0 0 5px 5px;
 }
-
 
 #renderer_menu .title {
 	padding:10px;
@@ -58,7 +125,7 @@ html,body,#mapDiv {
 	padding:5px 10px;
 	cursor:pointer;
 	color:#fff;
-	margin: 0;
+	margin:0;
 }
 
 #renderer_menu #selectAll {
@@ -71,8 +138,7 @@ html,body,#mapDiv {
 	color:#fff;
 }
 
-
-#renderer_menu .selected, #renderer_menu .selected:hover, #renderer_menu .selected:active {
+#renderer_menu .selected,#renderer_menu .selected:hover,#renderer_menu .selected:active {
 	background:#4266c1;
 	color:#fff;
 	cursor:default;
@@ -82,7 +148,7 @@ html,body,#mapDiv {
 	position:absolute;
 	z-index:99;
 	bottom:30px;
-	width: 100%;
+	width:100%;
 	-moz-user-select:none;
 	-webkit-user-select:none;
 	user-select:none;
@@ -113,7 +179,7 @@ html,body,#mapDiv {
 
 .geoData .panel {
 	text-align:center;
-	display: inline-block;
+	display:inline-block;
 	color:#fff;
 	padding:20px;
 	margin:10px;
@@ -121,12 +187,12 @@ html,body,#mapDiv {
 	background-color:rgba(51,51,51,0.85);
 	-webkit-border-radius:5px;
 	border-radius:5px;
-	cursor: pointer;
+	cursor:pointer;
 }
 
 .geoData .panel-expanded {
 	text-align:center;
-	display: inline-block;
+	display:inline-block;
 	color:#fff;
 	padding:20px;
 	margin:10px;
@@ -134,11 +200,9 @@ html,body,#mapDiv {
 	background-color:rgba(51,51,51,0.85);
 	-webkit-border-radius:5px;
 	border-radius:5px;
-	display: none;
-	cursor: pointer;
+	display:none;
+	cursor:pointer;
 }
-
-
 
 .geoData .count {
 	font-size:24px;

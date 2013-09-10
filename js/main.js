@@ -21,7 +21,9 @@ define([
     "dojo/text!views/panels.html",
     "dojo/_base/event",
     "esri/graphic",
-    "esri/layers/GraphicsLayer"
+    "esri/layers/GraphicsLayer",
+    "dijit/layout/BorderContainer",
+    "dijit/layout/ContentPane"
 ],
 function(
     ready, 
@@ -46,11 +48,13 @@ function(
     panelsView,
     event,
     Graphic,
-    GraphicsLayer
+    GraphicsLayer,
+    BorderContainer, ContentPane
 ) {
     return declare("", null, {
         config: {},
         constructor: function(config) {
+            this._containers();
             //config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
             // any url parameters and any application specific configuration information. 
@@ -58,6 +62,36 @@ function(
             ready(lang.hitch(this, function() {
                 this._createWebMap();
             }));
+        },
+        _containers: function() {
+            // outer container
+            this._bc_outer = new BorderContainer({gutters:false}, dom.byId('bc_outer'));
+            // center panel
+            var cp_outer_center = new ContentPane({
+                region: "center"
+            }, dom.byId('cp_outer_center'));
+            this._bc_outer.addChild(cp_outer_center);
+            // left panel
+            var cp_outer_left = new ContentPane({
+                region: "left"
+            }, dom.byId('cp_outer_left'));
+            this._bc_outer.addChild(cp_outer_left);
+            this._bc_outer.startup();
+            // inner countainer
+            this._bc_inner = new BorderContainer({gutters:false}, dom.byId('bc_inner'));
+            // top panel
+            var cp_inner_top = new ContentPane({
+                region: "top"
+            }, dom.byId('cp_inner_top'));
+            this._bc_inner.addChild(cp_inner_top);
+            // center panel
+            var cp_inner_center = new ContentPane({
+                region: "center"
+            }, dom.byId('cp_inner_center'));
+            this._bc_inner.addChild(cp_inner_center);
+            this._bc_inner.startup();
+            this._bc_outer.layout();
+            this._bc_inner.layout();
         },
         _displayStats: function(features) {
             if (features && features.length) {
