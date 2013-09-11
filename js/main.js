@@ -24,7 +24,9 @@ define([
     "esri/layers/GraphicsLayer",
     "dijit/layout/BorderContainer",
     "dijit/layout/ContentPane",
-    "dojo/_base/fx"
+    "dojo/_base/fx",
+    "dojo/fx/easing",
+    "dojo/dom-geometry"
 ],
 function(
     ready, 
@@ -51,7 +53,9 @@ function(
     Graphic,
     GraphicsLayer,
     BorderContainer, ContentPane,
-    baseFx
+    fx,
+    easing,
+    domGeom
 ) {
     return declare("", null, {
         config: {},
@@ -94,20 +98,48 @@ function(
             this._bc_inner.startup();
             this._bc_outer.layout();
             this._bc_inner.layout();
-            
-            on(dom.byId('hamburger_button'), 'click', lang.hitch(this, function(evt) {
+            on(dom.byId('hamburger_button'), 'click', lang.hitch(this, function() {
                 this._toggleDrawer();
             }));
+            this._drawer = cp_outer_left.domNode;
+            this._drawerWidth = domGeom.getMarginBox(this._drawer).w;
         },
         _toggleDrawer: function(){
-            var drawer = dom.byId('cp_outer_left');
-            if(domStyle.get(drawer, 'display') === 'block'){
-                domStyle.set(drawer, 'display', 'none');
+            if(domStyle.get(this._drawer, 'display') === 'block'){
+                fx.animateProperty({
+                    node:this._drawer,
+                    properties: {
+                        width: { start:this._drawerWidth, end: 0 }
+                    },
+                    duration: 250,
+                    easing: easing.expoOut,
+                    onAnimate: lang.hitch(this, function(){
+                        this._bc_outer.layout();
+                    }),
+                    onEnd: lang.hitch(this, function(){
+                        domStyle.set(this._drawer, 'display', 'none');
+                        this._bc_outer.layout();
+                    })
+                }).play();
+
             }
             else{
-                domStyle.set(drawer, 'display', 'block');
+                domStyle.set(this._drawer, 'display', 'block');
+                fx.animateProperty({
+                    node:this._drawer,
+                    properties: {
+                        width: { start:0, end: this._drawerWidth }
+                    },
+                    duration: 250,
+                    easing: easing.expoOut,
+                    onAnimate: lang.hitch(this, function(){
+                        this._bc_outer.layout();
+                    }),
+                    onEnd: lang.hitch(this, function(){
+                        this._bc_outer.layout();
+                    })
+                }).play();
             }
-            this._bc_outer.layout();
         },
         _displayStats: function(features) {
             if (features && features.length) {
