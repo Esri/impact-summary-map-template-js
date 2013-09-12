@@ -1,3 +1,7 @@
+.LayerLegend{
+    width:280px;
+}
+
 .LayerLegend .esriLegendServiceLabel,.LayerLegend .esriLegendLayerLabel {
 	display:none;
 }
