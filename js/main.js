@@ -306,6 +306,9 @@ function(
             on(this._impactLayer, 'click', lang.hitch(this, function(evt) {
                 this._selectEvent(evt);
             }));
+            on(this._impactLayer, 'visibility-change', lang.hitch(this, function(evt) {
+                this._selectedGraphics.setVisibility(evt.visible);
+            }));
         },
         _clearSelected: function() {
             var items = query('.selected', dom.byId('renderer_menu'));

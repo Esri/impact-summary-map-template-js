@@ -16,10 +16,11 @@ html,body {
 
 #cp_inner_top {
 	width:100%;
-	height:35px;
+	height:34px;
 	padding:0;
 	margin:0;
 	border:0;
+	border-bottom:1px solid #ddd;
 	overflow:hidden;
 	z-index:3;
 }
@@ -30,6 +31,7 @@ html,body {
 	padding:0;
 	margin:0;
 	border:0;
+	border-right:1px solid #ddd;
 }
 
 #cp_inner_center,#cp_outer_center {
@@ -59,7 +61,6 @@ html,body {
 .topBar {
 	background:#f8f8f8;
 	height:22px;
-	border-bottom:1px solid #ddd;
 	color:#007ac2;
 	font-size:18px;
 	line-height:22px;
