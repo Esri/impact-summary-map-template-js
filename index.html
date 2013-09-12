@@ -10,13 +10,15 @@
 	<link rel="stylesheet" type="text/css" href="//jsdev.arcgis.com/3.7/js/esri/css/esri.css">
 	<!--Load any application specific styles-->
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/LayerLegend.css">
 </head>
 <body class="claro">
    <!--The ArcGIS API for JavaScript provides bidirectional support.  When viewing the application in an right to left (rtl) language like Hebrew and Arabic the map needs to remain in left-to-right (ltr) mode. Specify this by setting the dir attribute on the div to ltr. --> 
     <div id="bc_outer">
         <div id="cp_outer_left">
+            <div>Toggle Here</div>
             <div class="drawer">
-                Drawer
+                <div id="LayerLegend"></div>
             </div>
         </div>
         <div id="cp_outer_center">
@@ -41,6 +43,10 @@
         packages:[
         { 
             name: "application",
+            location: package_path + '/js' 
+         },
+         { 
+            name: "modules",
             location: package_path + '/js' 
          },
          { 

@@ -26,7 +26,8 @@ define([
     "dijit/layout/ContentPane",
     "dojo/_base/fx",
     "dojo/fx/easing",
-    "dojo/dom-geometry"
+    "dojo/dom-geometry",
+    "modules/LayerLegend"
 ],
 function(
     ready, 
@@ -55,7 +56,8 @@ function(
     BorderContainer, ContentPane,
     fx,
     easing,
-    domGeom
+    domGeom,
+    LayerLegend
 ) {
     return declare("", null, {
         config: {},
@@ -121,7 +123,6 @@ function(
                         this._bc_outer.layout();
                     })
                 }).play();
-
             }
             else{
                 domStyle.set(this._drawer, 'display', 'block');
@@ -270,6 +271,11 @@ function(
             }
         },
         _init: function() {
+            var LL = new LayerLegend({
+                map: this.map,
+                layers: this.layers
+            }, "LayerLegend");
+            LL.startup();
             this._selectedGraphics = new GraphicsLayer({
                 id: "selectedArea",
                 visible: true

@@ -30,8 +30,6 @@ html,body {
 	padding:0;
 	margin:0;
 	border:0;
-	background:#444;
-	overflow:hidden;
 }
 
 #cp_inner_center,#cp_outer_center {
@@ -55,9 +53,7 @@ html,body {
 }
 
 .drawer {
-	width:260px;
-	padding:10px;
-	color:#fff;
+    background: #f8f8f8;
 }
 
 .topBar {
