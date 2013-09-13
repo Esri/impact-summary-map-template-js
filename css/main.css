@@ -59,12 +59,50 @@ html,body {
 }
 
 #drawer_menu{
-    padding: 14px 0;
-    text-align: center;
     background-color: #007ac2;
-    color:#b9e0f7;
     font-size: 18px;
     line-height: 18px;
+    text-align: center;
+    overflow: visible;
+    width: 281px;
+}
+
+#drawer_menu .item{
+    width: 50%;
+    text-align: center;
+    color:#b9e0f7;
+    float: left;
+    cursor: pointer;
+}
+
+#drawer_menu .item-container{
+    position: relative;
+    padding: 14px 0;
+    overflow: visible;
+}
+
+#drawer_menu .item-first .item-container{
+    border-right: 1px solid #5fa8d4;
+}
+
+#drawer_menu .item-selected{
+    color:#fff;
+    cursor: default;
+}
+
+#drawer_menu .arrow{
+    display: none;
+}
+
+#drawer_menu .item-selected .arrow{
+    display: block;
+    position: absolute;
+    bottom:-2px;
+    left: 0;
+    z-index: 2;
+    height: 9px;
+    width: 100%;
+    background: url(../images/selected-arrow.png) no-repeat center bottom;
 }
 
 .topBar {
