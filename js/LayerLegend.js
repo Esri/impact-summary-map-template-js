@@ -65,6 +65,7 @@ function (
                 title: "LL_Title",
                 content: "LL_Content",
                 titleCheckbox: "LL_Checkbox",
+                checkboxCheck: "icon-ok",
                 titleText: "LL_Text",
                 selected: "LL_Selected",
                 visible: "LL_Visible"
@@ -115,9 +116,10 @@ function (
                     if(i === 0){
                         firstLayer = ' ' + this._css.firstLayer;
                     }
-                    var visible = '';
+                    var visible = '', checked = '';
                     if(layer.visibility){
                         visible = ' ' + this._css.visible;
+                        checked = ' ' + this._css.checkboxCheck;
                     }
                     // layer node
                     var layerDiv = domConstruct.create("div", {
@@ -131,7 +133,7 @@ function (
                     domConstruct.place(titleDiv, layerDiv, "last");
                     // Title checkbox
                     var titleCheckbox = domConstruct.create("span", {
-                        className: this._css.titleCheckbox
+                        className: this._css.titleCheckbox + checked
                     });
                     domAttr.set(titleCheckbox, 'data-layer', i);
                     domConstruct.place(titleCheckbox, titleDiv, "last");
@@ -198,6 +200,7 @@ function (
         _checkboxEvent: function(checkboxNode, layerNode){
             on(checkboxNode, 'click', lang.hitch(this, function(evt){
                 domClass.toggle(layerNode, this._css.visible);
+                domClass.toggle(checkboxNode, this._css.checkboxCheck);
                 var layer = parseInt(domAttr.get(evt.currentTarget, 'data-layer') , 10);
                 this._toggleLayer(layer);
                 event.stop(evt);

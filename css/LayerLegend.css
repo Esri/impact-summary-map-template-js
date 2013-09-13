@@ -1,13 +1,13 @@
-.LayerLegend{
-    width:280px;
+.LayerLegend {
+	width:280px;
 }
 
 .LayerLegend .esriLegendServiceLabel,.LayerLegend .esriLegendLayerLabel {
 	display:none;
 }
 
-.LayerLegend .esriLegendService{
-    padding-bottom: 0;
+.LayerLegend .esriLegendService {
+	padding-bottom:0;
 }
 
 .LayerLegend .LL_Title {
@@ -36,26 +36,30 @@
 
 .LayerLegend .LL_Text {
 	display:inline-block;
-	padding:10px 0;
+	margin:9px 0;
 	text-overflow:ellipsis;
 	width:225px;
 	white-space:nowrap;
 	overflow:hidden;
+	line-height:16px;
+	height:16px;
+	border:1px solid transparent;
+	vertical-align:middle;
 }
 
 .LayerLegend .LL_Checkbox {
 	display:inline-block;
-	width:16px;
 	height:16px;
-	background:url(http://png.findicons.com/files/icons/2139/uidesign/16/checkbox_no.png) no-repeat center center;
+	width:16px;
 	margin:0;
 	display:inline-block;
-	padding:10px 6px;
+	border:1px solid #bababa;
+	margin:9px 5px;
 	vertical-align:middle;
-}
-
-.LayerLegend .LL_Visible .LL_Checkbox {
-	background:url(http://png.findicons.com/files/icons/2139/uidesign/16/checkbox_yes.png) no-repeat center center;
+	font-size:12px;
+	line-height:16px;
+	background-color:#fff;
+	color:#000;
 }
 
 .LayerLegend .LL_Content {
@@ -70,7 +74,7 @@
 }
 
 .LayerLegend .LL_Content::-webkit-scrollbar {
-	width:10px;
+	width:16px;
 }
 
 .LayerLegend .LL_Content::-webkit-scrollbar-track {
@@ -79,6 +83,14 @@
 
 .LayerLegend .LL_Content::-webkit-scrollbar-thumb {
 	background-color:#8c5296;
+}
+
+.LayerLegend .LL_Content::-webkit-scrollbar-thumb:hover {
+	background-color:#af68bb;
+}
+
+.LayerLegend .LL_Content::-webkit-scrollbar-thumb:active {
+	background-color:#c575d2;
 }
 
 .LayerLegend .LL_Selected .LL_Content {
