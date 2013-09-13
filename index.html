@@ -19,13 +19,13 @@
     <div id="bc_outer">
         <div id="cp_outer_left">
             <div id="drawer_menu">
-                <div class="item item-first item-selected">
+                <div class="item item-first item-selected" data-menu="legend_panel">
                     <div class="item-container">
                         <div class="title">Legend</div>
                         <div class="arrow"></div>
                     </div>
                 </div>
-                <div class="item">
+                <div class="item" data-menu="features_panel">
                     <div class="item-container">
                         <div class="title">Intensity</div>
                         <div class="arrow"></div>
@@ -33,8 +33,13 @@
                 </div>
                 <div class="clear"></div>
             </div>
-            <div class="drawer">
-                <div id="LayerLegend"></div>
+            <div id="drawer_panels">
+                <div class="panel panel-selected" id="legend_panel">
+                    <div id="LayerLegend"></div>
+                </div>
+                <div class="panel" id="features_panel">
+                    Intensity
+                </div>
             </div>
         </div>
         <div id="cp_outer_center">

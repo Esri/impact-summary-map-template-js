@@ -32,6 +32,7 @@ html,body {
 	margin:0;
 	border:0;
 	border-right:1px solid #ddd;
+	background: #f8f8f8;
 }
 
 #cp_inner_center,#cp_outer_center {
@@ -54,8 +55,12 @@ html,body {
 /*Example of a rule that will be applied if the app is viewed in a browser wtih a RTL locale like Hebrew or Arabic.*/
 }
 
-.drawer {
-    background: #f8f8f8;
+#drawer_panels .panel{
+    display: none;
+}
+
+#drawer_panels .panel-selected{
+    display: block;
 }
 
 #drawer_menu{
