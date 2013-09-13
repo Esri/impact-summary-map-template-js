@@ -107,19 +107,23 @@ function(
             this._drawerWidth = domGeom.getMarginBox(this._drawer).w;
             this._drawerMenu();
         },
-        _drawerMenu: function(){
+        _showDrawerPanel: function(buttonNode){
             var menus = query('.item', dom.byId('drawer_menu'));
             var panels = query('.panel', dom.byId('drawer_panels'));
+            for(var i = 0; i < menus.length; i++){
+                domClass.remove(menus[i], 'item-selected');
+            }
+            for(var i = 0; i < panels.length; i++){
+                domClass.remove(panels[i], 'panel-selected');
+            }
+            var menu = domAttr.get(buttonNode, 'data-menu');
+            domClass.add(buttonNode, 'item-selected');
+            domClass.add(menu, 'panel-selected');
+        },
+        _drawerMenu: function(){
+            var menus = query('.item', dom.byId('drawer_menu'));
             on(menus, 'click', lang.hitch(this, function(evt) {
-                for(var i = 0; i < menus.length; i++){
-                    domClass.remove(menus[i], 'item-selected');
-                }
-                for(var i = 0; i < panels.length; i++){
-                    domClass.remove(panels[i], 'panel-selected');
-                }
-                var menu = domAttr.get(evt.currentTarget, 'data-menu');
-                domClass.add(evt.currentTarget, 'item-selected');
-                domClass.add(menu, 'panel-selected');
+                this._showDrawerPanel(evt.currentTarget);
             }));
         },
         _toggleDrawer: function(){

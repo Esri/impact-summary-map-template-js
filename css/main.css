@@ -78,15 +78,22 @@ html,body {
     color:#b9e0f7;
     float: left;
     cursor: pointer;
+    -moz-user-select:none;
+	-webkit-user-select:none;
+	user-select:none;
 }
 
 #drawer_menu .item-container{
     position: relative;
-    padding: 14px 0;
     overflow: visible;
+    padding: 7px 0;
 }
 
-#drawer_menu .item-first .item-container{
+#drawer_menu .item .title{
+    padding: 7px 0;
+}
+
+#drawer_menu .item-first .title{
     border-right: 1px solid #5fa8d4;
 }
 
