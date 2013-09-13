@@ -32,7 +32,7 @@ html,body {
 	margin:0;
 	border:0;
 	border-right:1px solid #ddd;
-	background: #f8f8f8;
+	background:#f8f8f8;
 }
 
 #cp_inner_center,#cp_outer_center {
@@ -55,66 +55,66 @@ html,body {
 /*Example of a rule that will be applied if the app is viewed in a browser wtih a RTL locale like Hebrew or Arabic.*/
 }
 
-#drawer_panels .panel{
-    display: none;
+#drawer_panels .panel {
+	display:none;
 }
 
-#drawer_panels .panel-selected{
-    display: block;
+#drawer_panels .panel-selected {
+	display:block;
 }
 
-#drawer_menu{
-    background-color: #007ac2;
-    font-size: 18px;
-    line-height: 18px;
-    text-align: center;
-    overflow: visible;
-    width: 281px;
+#drawer_menu {
+	background-color:#007ac2;
+	font-size:18px;
+	line-height:18px;
+	text-align:center;
+	overflow:visible;
+	width:281px;
 }
 
-#drawer_menu .item{
-    width: 50%;
-    text-align: center;
-    color:#b9e0f7;
-    float: left;
-    cursor: pointer;
-    -moz-user-select:none;
+#drawer_menu .item {
+	width:50%;
+	text-align:center;
+	color:#b9e0f7;
+	float:left;
+	cursor:pointer;
+	-moz-user-select:none;
 	-webkit-user-select:none;
 	user-select:none;
 }
 
-#drawer_menu .item-container{
-    position: relative;
-    overflow: visible;
-    padding: 7px 0;
+#drawer_menu .item-container {
+	position:relative;
+	overflow:visible;
+	padding:7px 0;
 }
 
-#drawer_menu .item .title{
-    padding: 7px 0;
+#drawer_menu .item .title {
+	padding:7px 0;
 }
 
-#drawer_menu .item-first .title{
-    border-right: 1px solid #5fa8d4;
+#drawer_menu .item-first .title {
+	border-right:1px solid #5fa8d4;
 }
 
-#drawer_menu .item-selected{
-    color:#fff;
-    cursor: default;
+#drawer_menu .item-selected {
+	color:#fff;
+	cursor:default;
 }
 
-#drawer_menu .arrow{
-    display: none;
+#drawer_menu .arrow {
+	display:none;
 }
 
-#drawer_menu .item-selected .arrow{
-    display: block;
-    position: absolute;
-    bottom:-2px;
-    left: 0;
-    z-index: 2;
-    height: 9px;
-    width: 100%;
-    background: url(../images/selected-arrow.png) no-repeat center bottom;
+#drawer_menu .item-selected .arrow {
+	display:block;
+	position:absolute;
+	bottom:-2px;
+	left:0;
+	z-index:2;
+	height:9px;
+	width:100%;
+	background:url(../images/selected-arrow.png) no-repeat center bottom;
 }
 
 .topBar {
@@ -129,26 +129,14 @@ html,body {
 #hamburger_button {
 	float:left;
 	height:22px;
-	font-size: 20px;
-	line-height: 22px;
+	font-size:20px;
+	line-height:22px;
 	margin:0 6px 0 0;
 	cursor:pointer;
 }
 
 #title {
 	float:left;
-}
-
-#renderer_menu {
-	position:absolute;
-	z-index:99;
-	top:20px;
-	right:20px;
-	text-align:center;
-	-moz-user-select:none;
-	-webkit-user-select:none;
-	user-select:none;
-	display:none;
 }
 
 .summarize {
