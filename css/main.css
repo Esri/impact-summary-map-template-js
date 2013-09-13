@@ -58,6 +58,15 @@ html,body {
     background: #f8f8f8;
 }
 
+#drawer_menu{
+    padding: 14px 0;
+    text-align: center;
+    background-color: #007ac2;
+    color:#b9e0f7;
+    font-size: 18px;
+    line-height: 18px;
+}
+
 .topBar {
 	background:#f8f8f8;
 	height:22px;
