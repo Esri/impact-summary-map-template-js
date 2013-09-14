@@ -62,6 +62,14 @@
 	color:#000;
 }
 
+.LayerLegend .LL_Checkbox:hover {
+    color:#555;
+}
+
+.LayerLegend .LL_Checkbox:active {
+    color:#999;
+}
+
 .LayerLegend .LL_Content {
 	background:#6b1978;
 	color:#fff;
