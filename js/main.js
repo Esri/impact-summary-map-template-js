@@ -104,7 +104,7 @@ function(
                 this._toggleDrawer();
             }));
             this._drawer = cp_outer_left.domNode;
-            this._drawerWidth = domGeom.getMarginBox(this._drawer).w;
+            this._drawerWidth = domGeom.getContentBox(this._drawer).w;
             this._drawerMenu();
         },
         _showDrawerPanel: function(buttonNode){
