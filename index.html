@@ -13,6 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="css/LayerLegend.css">
 	<link rel="stylesheet" href="css/fontello.css">
 	<!--[if IE 7]><link rel="stylesheet" href="css/fontello-ie7.css"><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
 </head>
 <body class="claro">
    <!--The ArcGIS API for JavaScript provides bidirectional support.  When viewing the application in an right to left (rtl) language like Hebrew and Arabic the map needs to remain in left-to-right (ltr) mode. Specify this by setting the dir attribute on the div to ltr. --> 
@@ -21,13 +22,13 @@
             <div id="drawer_menu">
                 <div class="item item-first item-selected" data-menu="legend_panel">
                     <div class="item-container">
-                        <div class="title">Legend</div>
+                        <div id="legend_name" class="title"></div>
                         <div class="arrow"></div>
                     </div>
                 </div>
                 <div class="item" data-menu="features_panel">
                     <div class="item-container">
-                        <div class="title">Intensity</div>
+                        <div id="impact_name" class="title"></div>
                         <div class="arrow"></div>
                     </div>
                 </div>
@@ -45,7 +46,7 @@
         <div id="cp_outer_center">
             <div id="bc_inner">
                 <div id="cp_inner_top">
-                    <div class="topBar"><div id="hamburger_button" class="icon-menu"></div><div id="title">Title</div></div>
+                    <div class="topBar"><div id="hamburger_button" class="icon-menu toggle-blue toggle-blue-on"></div><div id="title"></div></div>
                 </div>
                 <div id="cp_inner_center">
                     <div id="mapDiv" dir="ltr">

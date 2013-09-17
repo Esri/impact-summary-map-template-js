@@ -3,7 +3,7 @@ html,body {
 	margin:0;
 	height:100%;
 	width:100%;
-	font-family:Arial,Helvetica,sans-serif;
+	font-family: 'Lato', sans-serif;
 }
 
 #bc_inner,#bc_outer {
@@ -123,10 +123,13 @@ html,body {
 .topBar {
 	background:#f8f8f8;
 	height:22px;
-	color:#007ac2;
 	font-size:18px;
 	line-height:22px;
 	padding:6px;
+}
+
+#title{
+    color:#007ac2;
 }
 
 #hamburger_button {
@@ -138,6 +141,22 @@ html,body {
 	cursor:pointer;
 }
 
+.toggle-grey{
+    color:#999999;
+}
+
+.toggle-grey-on{
+    color:#007ac2;
+}
+
+.toggle-blue{
+    color:#007ac2;
+}
+
+.toggle-blue-on{
+    color:#f36f20;
+}
+
 #title {
 	float:left;
 }
@@ -145,11 +164,6 @@ html,body {
 .summarize {
 	text-align:center;
 	display:block;
-	color:#fff;
-	background-color:#333;
-	background-color:rgba(51,51,51,0.85);
-	-webkit-border-radius:5px;
-	border-radius:5px;
 	padding:5px 10px;
 	margin:10px 0;
 	cursor:pointer;
@@ -160,40 +174,22 @@ html,body {
 	padding:0;
 	text-align:left;
 	margin:0;
-	background:rgba(0,0,0,0.85);
-	-webkit-border-radius:0 0 5px 5px;
-	border-radius:0 0 5px 5px;
-}
-
-#renderer_menu .title {
-	padding:10px;
-	color:#fff;
-	font-weight:700;
-	background:rgba(51,51,51,0.9);
-	-webkit-border-radius:5px 5px 0 0;
-	border-radius:5px 5px 0 0;
 }
 
 #renderer_menu li {
 	padding:5px 10px;
 	cursor:pointer;
-	color:#fff;
 	margin:0;
 }
 
 #renderer_menu #selectAll {
-	-webkit-border-radius:0 0 5px 5px;
-	border-radius:0 0 5px 5px;
+
 }
 
 #renderer_menu li:hover {
-	background:rgba(255,255,255,0.10);
-	color:#fff;
 }
 
 #renderer_menu .selected,#renderer_menu .selected:hover,#renderer_menu .selected:active {
-	background:#4266c1;
-	color:#fff;
 	cursor:default;
 }
 

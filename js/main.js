@@ -19,6 +19,7 @@ define([
     "dojo/_base/Color",
     "application/Mustache",
     "dojo/text!views/panels.html",
+    "dojo/text!views/renderer.html",
     "dojo/_base/event",
     "esri/graphic",
     "esri/layers/GraphicsLayer",
@@ -50,6 +51,7 @@ function(
     Color,
     Mustache,
     panelsView,
+    rendererView,
     event,
     Graphic,
     GraphicsLayer,
@@ -67,9 +69,39 @@ function(
             // and application id
             // any url parameters and any application specific configuration information. 
             this.config = config;
+            this._cssStyles();
             ready(lang.hitch(this, function() {
+                this._setLanguageStrings();
                 this._createWebMap();
             }));
+        },
+        _setLanguageStrings: function(){
+            var node;
+            node = dom.byId('legend_name');
+            if(node){
+                node.innerHTML = this.config.i18n.general.legend;
+            }
+            node = dom.byId('impact_name');
+            if(node){
+                node.innerHTML = this.config.i18n.general.impact;
+            }
+        },
+        _cssStyles: function(){
+            this.css = {
+                toggleBlue: 'toggle-blue',
+                toggleBlueOn: 'toggle-blue-on',
+                menuItem: 'item',
+                menuItemSelected: 'item-selected',
+                menuPanel: 'panel',
+                menuPanelSelected: 'panel-selected',
+                rendererMenu: 'menuList',
+                rendererMenuItem: 'item',
+                rendererSelected: 'selected',
+                rendererSummarize: 'summarize',
+                stats: 'geoData',
+                statsPanel: 'panel',
+                statsPanelSelected: 'panel-expanded'
+            };
         },
         _containers: function() {
             // outer container
@@ -100,31 +132,40 @@ function(
             this._bc_inner.startup();
             this._bc_outer.layout();
             this._bc_inner.layout();
-            on(dom.byId('hamburger_button'), 'click', lang.hitch(this, function() {
+            on(dom.byId('hamburger_button'), 'click', lang.hitch(this, function(evt) {
                 this._toggleDrawer();
+                domClass.toggle(evt.target, this.css.toggleBlueOn);
             }));
             this._drawer = cp_outer_left.domNode;
             this._drawerWidth = domGeom.getContentBox(this._drawer).w;
             this._drawerMenu();
         },
         _showDrawerPanel: function(buttonNode){
-            var menus = query('.item', dom.byId('drawer_menu'));
-            var panels = query('.panel', dom.byId('drawer_panels'));
-            for(var i = 0; i < menus.length; i++){
-                domClass.remove(menus[i], 'item-selected');
+            var menus = query('.' +  this.css.menuItemSelected, dom.byId('drawer_menu'));
+            var panels = query('.' + this.css.menuPanelSelected, dom.byId('drawer_panels'));
+            var i;
+            for(i = 0; i < menus.length; i++){
+                domClass.remove(menus[i], this.css.menuItemSelected);
             }
-            for(var i = 0; i < panels.length; i++){
-                domClass.remove(panels[i], 'panel-selected');
+            for(i = 0; i < panels.length; i++){
+                domClass.remove(panels[i], this.css.menuPanelSelected);
             }
             var menu = domAttr.get(buttonNode, 'data-menu');
-            domClass.add(buttonNode, 'item-selected');
-            domClass.add(menu, 'panel-selected');
+            domClass.add(buttonNode, this.css.menuItemSelected);
+            domClass.add(menu, this.css.menuPanelSelected);
         },
         _drawerMenu: function(){
             var menus = query('.item', dom.byId('drawer_menu'));
             on(menus, 'click', lang.hitch(this, function(evt) {
                 this._showDrawerPanel(evt.currentTarget);
             }));
+        },
+        _setTitle: function(title){
+            var node = dom.byId('title');
+            if(node){
+                node.innerHTML = title;
+            }
+            window.document.title = title;
         },
         _toggleDrawer: function(){
             if(domStyle.get(this._drawer, 'display') === 'block'){
@@ -184,7 +225,7 @@ function(
                         var value = features[0].attributes[this._attributeField];
                         var item = query('[data-value=' + value + ']', dom.byId('renderer_menu'));
                         if (item.length) {
-                            domClass.add(item[0], 'selected');
+                            domClass.add(item[0], this.css.rendererSelected);
                         }
                     }
                 }
@@ -202,7 +243,7 @@ function(
                     this._showExpanded(type);
                     event.stop(evt);
                 }));
-                this._expandedClick = on(query('.panel-expanded', this.dataNode), 'click', lang.hitch(this, function(evt) {
+                this._expandedClick = on(query('.' + this.css.statsPanelSelected, this.dataNode), 'click', lang.hitch(this, function(evt) {
                     this._hideExpanded();
                     event.stop(evt);
                 }));
@@ -221,12 +262,12 @@ function(
             }
         },
         _hideExpanded: function() {
-            query('.panel-expanded', this.dataNode).style('display', 'none');
-            query('.panel', this.dataNode).style('display', 'inline-block');
+            query('.' + this.css.statsPanelSelected, this.dataNode).style('display', 'none');
+            query('.' + this.css.statsPanel, this.dataNode).style('display', 'inline-block');
         },
         _showExpanded: function(type) {
-            query('.panel', this.dataNode).style('display', 'none');
-            query('.panel-expanded[data-type="' + type + '"]', this.dataNode).style('display', 'inline-block');
+            query('.' + this.css.statsPanel, this.dataNode).style('display', 'none');
+            query('.' + this.css.statsPanelSelected + '[data-type="' + type + '"]', this.dataNode).style('display', 'inline-block');
         },
         // get layer of impact area by layer title
         getLayerByTitle: function(map, layers, title) {
@@ -245,18 +286,17 @@ function(
             if(renderer){
                 var infos = renderer.infos;
                 if (infos && infos.length) {
+                    // multiple polygon impact
                     this._multiple = true;
-                    var html = '';
-                    html += '<div class="title">' + this.config.menu_title + '</div>';
-                    html += '<ul class="menuList">';
-                    for (var i = 0; i < infos.length; i++) {
-                        html += '<li class="item" data-value="' + infos[i].maxValue + '">' + infos[i].label + '</li>';
-                    }
-                    html += '</ul>';
-                    html += '</div>';
-                    html += '<div id="summarize" class="summarize">Summarize</div>';
-                    if (html) {
-                        dom.byId('renderer_menu').innerHTML = html;
+                    // template data
+                    var data = {
+                        i18n: this.config.i18n,
+                        css: this.css,
+                        infos: infos
+                    };
+                    var output = Mustache.render(rendererView, data);
+                    if (output) {
+                        dom.byId('renderer_menu').innerHTML = output;
                         domStyle.set(dom.byId('renderer_menu'), 'display', 'block');
                         this._summarizeClick = on(dom.byId('summarize'), 'click', lang.hitch(this, function() {
                             var q = new Query();
@@ -269,7 +309,7 @@ function(
                         on(dom.byId('renderer_menu'), '.item:click', lang.hitch(this, function(evt) {
                             this._clearSelected();
                             var value = domAttr.get(evt.target, 'data-value');
-                            domClass.add(evt.target, 'selected');
+                            domClass.add(evt.target, this.css.rendererSelected);
                             var q = new Query();
                             if (value === 0) {
                                 q.where = '1 = 1';
@@ -302,10 +342,10 @@ function(
             });
             this.map.addLayer(this._selectedGraphics);
             this.dataNode = domConstruct.place(domConstruct.create('div', {
-                className: "geoData"
+                className: this.css.stats
             }), this.map._layersDiv, 'first');
             // get layer by id
-            this._impactLayer = this.getLayerByTitle(this.map, this.layers, "Impact Area");
+            this._impactLayer = this.getLayerByTitle(this.map, this.layers, this.config.impact_layer);
             this._setValueRange();
             var q = new Query();
             q.where = '1=1';
@@ -331,11 +371,11 @@ function(
             }));
         },
         _clearSelected: function() {
-            var items = query('.selected', dom.byId('renderer_menu'));
+            var items = query('.' + this.css.rendererSelected, dom.byId('renderer_menu'));
             var i;
             if (items.length) {
                 for (i = 0; i < items.length; i++) {
-                    domClass.remove(items[i], 'selected');
+                    domClass.remove(items[i], this.css.rendererSelected);
                 }
             }
         },
@@ -356,6 +396,7 @@ function(
                 //console.log(this.config);
                 this.map = response.map;
                 this.layers = response.itemInfo.itemData.operationalLayers;
+                this._setTitle(response.itemInfo.item.title);
                 if (this.map.loaded) {
                     this._init();
                 } else {
