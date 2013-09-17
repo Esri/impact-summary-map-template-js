@@ -54,6 +54,24 @@ html,body {
 	position:relative;
 }
 
+#BasemapToggle{
+    position: absolute;
+    top:20px;
+    right:20px;
+    z-index: 35;
+}
+
+#mapButtons{
+    position: absolute;
+    top:92px;
+    left: 20px;
+    z-index: 35;
+}
+
+#HomeButton{
+    margin-top: 6px;
+}
+
 .esriRtl label {
 /*Example of a rule that will be applied if the app is viewed in a browser wtih a RTL locale like Hebrew or Arabic.*/
 }

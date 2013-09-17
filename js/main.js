@@ -28,7 +28,10 @@ define([
     "dojo/_base/fx",
     "dojo/fx/easing",
     "dojo/dom-geometry",
-    "modules/LayerLegend"
+    "modules/LayerLegend",
+    "esri/dijit/HomeButton",
+    "esri/dijit/LocateButton",
+    "esri/dijit/BasemapToggle"
 ],
 function(
     ready, 
@@ -46,20 +49,18 @@ function(
     FeatureLayer,
     domClass,
     query,
-    SimpleFillSymbol,
-    SimpleLineSymbol,
+    SimpleFillSymbol, SimpleLineSymbol,
     Color,
     Mustache,
-    panelsView,
-    rendererView,
+    panelsView, rendererView,
     event,
-    Graphic,
-    GraphicsLayer,
+    Graphic, GraphicsLayer,
     BorderContainer, ContentPane,
     fx,
     easing,
     domGeom,
-    LayerLegend
+    LayerLegend,
+    HomeButton, LocateButton, BasemapToggle
 ) {
     return declare("", null, {
         config: {},
@@ -331,21 +332,54 @@ function(
             }
         },
         _init: function() {
+            
+            var LB = new LocateButton({
+                map: this.map
+            }, 'LocateButton');
+            LB.startup();
+            
+            var HB = new HomeButton({
+                map: this.map
+            }, 'HomeButton');
+            HB.startup();
+            
+            var BT = new BasemapToggle({
+                map: this.map,
+                basemap: "hybrid",
+                defaultBasemap: "topo"
+            }, 'BasemapToggle');
+            BT.startup();
+            
             var LL = new LayerLegend({
                 map: this.map,
                 layers: this.layers
             }, "LayerLegend");
             LL.startup();
-            this._selectedGraphics = new GraphicsLayer({
-                id: "selectedArea",
-                visible: true
-            });
-            this.map.addLayer(this._selectedGraphics);
+            
+            /* Temporary until after 3.8 is released */
+            var layers = this.map.getLayersVisibleAtScale(this.map.getScale());
+            on.once(this.map, 'basemap-change', lang.hitch(this, function(){
+                for(var i = 0; i < layers.length; i++){
+                    if(layers[i]._basemapGalleryLayerType){
+                        var layer = this.map.getLayer(layers[i].id);
+                        this.map.removeLayer(layer);
+                    }
+                }
+            }));
+            /* END Temporary until after 3.8 is released */
+            
             this.dataNode = domConstruct.place(domConstruct.create('div', {
                 className: this.css.stats
             }), this.map._layersDiv, 'first');
             // get layer by id
             this._impactLayer = this.getLayerByTitle(this.map, this.layers, this.config.impact_layer);
+            if(this._impactLayer){
+                this._selectedGraphics = new GraphicsLayer({
+                    id: "selectedArea",
+                    visible: this._impactLayer.visible
+                });
+                this.map.addLayer(this._selectedGraphics);
+            }
             this._setValueRange();
             var q = new Query();
             q.where = '1=1';
