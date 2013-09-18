@@ -20,6 +20,8 @@ define([
     "application/Mustache",
     "dojo/text!views/panels.html",
     "dojo/text!views/renderer.html",
+    "dojo/text!views/share.html",
+    "dojo/text!views/about.html",
     "dojo/_base/event",
     "esri/graphic",
     "esri/layers/GraphicsLayer",
@@ -31,7 +33,8 @@ define([
     "modules/LayerLegend",
     "esri/dijit/HomeButton",
     "esri/dijit/LocateButton",
-    "esri/dijit/BasemapToggle"
+    "esri/dijit/BasemapToggle",
+    "dijit/Dialog"
 ],
 function(
     ready, 
@@ -52,7 +55,7 @@ function(
     SimpleFillSymbol, SimpleLineSymbol,
     Color,
     Mustache,
-    panelsView, rendererView,
+    panelsView, rendererView, shareView, aboutView,
     event,
     Graphic, GraphicsLayer,
     BorderContainer, ContentPane,
@@ -60,7 +63,8 @@ function(
     easing,
     domGeom,
     LayerLegend,
-    HomeButton, LocateButton, BasemapToggle
+    HomeButton, LocateButton, BasemapToggle,
+    Dialog
 ) {
     return declare("", null, {
         config: {},
@@ -134,13 +138,54 @@ function(
             this._bc_inner.startup();
             this._bc_outer.layout();
             this._bc_inner.layout();
+            this._appDialog();
+            this._topButtons();
+            this._drawer = cp_outer_left.domNode;
+            this._drawerWidth = domGeom.getContentBox(this._drawer).w;
+            this._drawerMenu();
+        },
+        _appDialog: function(){
+            this._dialog = new Dialog({
+                style: "width: 300px"
+            }, domConstruct.create('div'));
+            on(this._dialog, 'hide', lang.hitch(this, function(){
+                if(this._lastActiveButton){
+                    domClass.remove(this._lastActiveButton, this.css.toggleBlueOn);
+                }
+            }));
+        },
+        _toggleDialog: function(target, title, content){
+            if(this._lastActiveButton){
+                domClass.remove(this._lastActiveButton, this.css.toggleBlueOn);
+            }
+            if(this._dialog.get("open")){
+                this._dialog.hide();
+                domClass.remove(target, this.css.toggleBlueOn);
+                this._lastActiveButton = null;
+            }
+            else{
+                this._dialog.set("title", title);
+                this._dialog.set("content", content);
+                this._dialog.show();
+                domClass.add(target, this.css.toggleBlueOn);
+                this._lastActiveButton = target;
+            }
+        },
+        _topButtons: function(){
             on(dom.byId('hamburger_button'), 'click', lang.hitch(this, function(evt) {
                 this._toggleDrawer();
                 domClass.toggle(evt.target, this.css.toggleBlueOn);
             }));
-            this._drawer = cp_outer_left.domNode;
-            this._drawerWidth = domGeom.getContentBox(this._drawer).w;
-            this._drawerMenu();
+            on(dom.byId('share'), 'click', lang.hitch(this, function(evt) {
+                var shareOutput = Mustache.render(shareView, {});
+                this._toggleDialog(evt.target, this.config.i18n.general.share, shareOutput);
+            }));
+            on(dom.byId('about'), 'click', lang.hitch(this, function(evt) {
+                var aboutOutput = Mustache.render(aboutView, {
+                    item: this.item
+                });
+                this._toggleDialog(evt.target, this.config.i18n.general.about, aboutOutput);
+            }));
         },
         _showDrawerPanel: function(buttonNode){
             var menus = query('.' +  this.css.menuItemSelected, dom.byId('drawer_menu'));
@@ -336,19 +381,22 @@ function(
         _init: function() {
             
             var LB = new LocateButton({
-                map: this.map
+                map: this.map,
+                theme: "LocateButtonCalcite"
             }, 'LocateButton');
             LB.startup();
             
             var HB = new HomeButton({
-                map: this.map
+                map: this.map,
+                theme: "HomeButtonCalcite"
             }, 'HomeButton');
             HB.startup();
             
             var BT = new BasemapToggle({
                 map: this.map,
                 basemap: "hybrid",
-                defaultBasemap: "topo"
+                defaultBasemap: "topo",
+                theme: "BasemapToggleCalcite"
             }, 'BasemapToggle');
             BT.startup();
             
@@ -433,6 +481,7 @@ function(
                 this.map = response.map;
                 this.layers = response.itemInfo.itemData.operationalLayers;
                 this._setTitle(response.itemInfo.item.title);
+                this.item = response.itemInfo.item;
                 if (this.map.loaded) {
                     this._init();
                 } else {

@@ -6,7 +6,9 @@ define({root:
     general: {
         legend: "Legend",
         impact: "Impact",
-        summarize: "Summarize"
+        summarize: "Summarize",
+        share: "Share",
+        about: "About"
     }
 }),
 "fr":1

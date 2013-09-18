@@ -66,7 +66,7 @@ function (
                 titleContainer: "LL_TitleContainer",
                 content: "LL_Content",
                 titleCheckbox: "LL_Checkbox",
-                checkboxCheck: "icon-ok",
+                checkboxCheck: "icon-check-1",
                 titleText: "LL_Text",
                 selected: "LL_Selected",
                 visible: "LL_Visible"

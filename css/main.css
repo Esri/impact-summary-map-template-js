@@ -140,23 +140,23 @@ html,body {
 
 .topBar {
 	background:#f8f8f8;
-	height:22px;
-	font-size:18px;
-	line-height:22px;
-	padding:6px;
+	height:34px;
 }
 
 #title {
 	color:#007ac2;
+	padding:6px 0;
+	line-height:22px;
+	font-size:18px;
 }
 
 #hamburger_button {
 	float:left;
-	height:22px;
-	font-size:21px;
-	line-height:22px;
-	margin:0 6px 0 0;
+	padding:6px;
 	cursor:pointer;
+	height:22px;
+	font-size:22px;
+	line-height:22px;
 }
 
 .toggle-grey {
@@ -171,13 +171,14 @@ html,body {
 	float:left;
 }
 
-.icon-right{
-    float: right;
-    cursor: pointer;
-    height: 22px;
-    font-size: 21px;
-    line-height: 22px;
-    margin: 0 0 0 10px;        
+.icon-right {
+	float:right;
+	cursor:pointer;
+	height:22px;
+	font-size:18px;
+	padding:6px;
+	line-height:22px;
+	margin:0;
 }
 
 .menuList {
@@ -204,7 +205,7 @@ html,body {
 	border-left-style:solid;
 	border-left-width:16px;
 	padding:13px 9px;
-	margin: 0 0 0 1px;
+	margin:0 0 0 1px;
 	background:#f8f8f8;
 	color:#555;
 	cursor:pointer;
@@ -214,7 +215,7 @@ html,body {
 	border-left-color:#007ac2;
 }
 
-#renderer_menu .selected .item-container, #renderer_menu .selected .item-container:hover, #renderer_menu .selected .item-container:active {
+#renderer_menu .selected .item-container,#renderer_menu .selected .item-container:hover,#renderer_menu .selected .item-container:active {
 	cursor:default;
 	font-weight:700;
 	background:#fff;
