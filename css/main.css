@@ -167,24 +167,8 @@ html,body {
     color:#007ac2;
 }
 
-.toggle-blue{
-    color:#007ac2;
-}
-
-.toggle-blue-on{
-    color:#f36f20;
-}
-
 #title {
 	float:left;
-}
-
-.summarize {
-	text-align:center;
-	display:block;
-	padding:5px 10px;
-	margin:10px 0;
-	cursor:pointer;
 }
 
 .menuList {
@@ -198,10 +182,6 @@ html,body {
 	padding:5px 10px;
 	cursor:pointer;
 	margin:0;
-}
-
-#renderer_menu #selectAll {
-
 }
 
 #renderer_menu li:hover {

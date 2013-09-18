@@ -89,8 +89,8 @@ function(
         },
         _cssStyles: function(){
             this.css = {
-                toggleBlue: 'toggle-blue',
-                toggleBlueOn: 'toggle-blue-on',
+                toggleBlue: 'toggle-grey',
+                toggleBlueOn: 'toggle-grey-on',
                 menuItem: 'item',
                 menuItemSelected: 'item-selected',
                 menuPanel: 'panel',
@@ -307,7 +307,7 @@ function(
                                 this._displayStats(fs.features);
                             }));
                         }));
-                        on(dom.byId('renderer_menu'), '.item:click', lang.hitch(this, function(evt) {
+                        on(dom.byId('renderer_menu'), '.' + this.css.rendererMenuItem + ':click', lang.hitch(this, function(evt) {
                             this._clearSelected();
                             var value = domAttr.get(evt.target, 'data-value');
                             domClass.add(evt.target, this.css.rendererSelected);
