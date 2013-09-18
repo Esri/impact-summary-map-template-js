@@ -174,17 +174,17 @@ function(
         _topButtons: function(){
             on(dom.byId('hamburger_button'), 'click', lang.hitch(this, function(evt) {
                 this._toggleDrawer();
-                domClass.toggle(evt.target, this.css.toggleBlueOn);
+                domClass.toggle(evt.currentTarget, this.css.toggleBlueOn);
             }));
             on(dom.byId('share'), 'click', lang.hitch(this, function(evt) {
                 var shareOutput = Mustache.render(shareView, {});
-                this._toggleDialog(evt.target, this.config.i18n.general.share, shareOutput);
+                this._toggleDialog(evt.currentTarget, this.config.i18n.general.share, shareOutput);
             }));
             on(dom.byId('about'), 'click', lang.hitch(this, function(evt) {
                 var aboutOutput = Mustache.render(aboutView, {
                     item: this.item
                 });
-                this._toggleDialog(evt.target, this.config.i18n.general.about, aboutOutput);
+                this._toggleDialog(evt.currentTarget, this.config.i18n.general.about, aboutOutput);
             }));
         },
         _showDrawerPanel: function(buttonNode){
