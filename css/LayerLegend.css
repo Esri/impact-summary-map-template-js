@@ -11,10 +11,7 @@
 }
 
 .LayerLegend .LL_Title {
-	background:#f8f8f8;
-	color:#555;
 	border-bottom:1px solid #e0e0e0;
-	border-left:5px solid #ccc;
 	cursor:pointer;
 	font-size:16px;
 	line-height:16px;
@@ -29,6 +26,15 @@
 
 .LayerLegend .LL_Selected .LL_Title {
 	border-bottom:0;
+}
+
+.LayerLegend .LL_TitleContainer {
+	border-left:5px solid #ccc;
+	background:#f8f8f8;
+	color:#555;
+}
+
+.LayerLegend .LL_Selected .LL_TitleContainer {
 	border-left:5px solid #8f499c;
 	background:#fff;
 	color:#8f499c;
@@ -36,7 +42,7 @@
 
 .LayerLegend .LL_Text {
 	display:inline-block;
-	margin:9px 0;
+	margin:12px 0;
 	text-overflow:ellipsis;
 	width:225px;
 	white-space:nowrap;
@@ -54,7 +60,7 @@
 	margin:0;
 	display:inline-block;
 	border:1px solid #bababa;
-	margin:9px 5px;
+	margin:12px 8px;
 	vertical-align:middle;
 	font-size:12px;
 	line-height:16px;
@@ -63,11 +69,11 @@
 }
 
 .LayerLegend .LL_Checkbox:hover {
-    color:#555;
+	color:#555;
 }
 
 .LayerLegend .LL_Checkbox:active {
-    color:#999;
+	color:#999;
 }
 
 .LayerLegend .LL_Content {

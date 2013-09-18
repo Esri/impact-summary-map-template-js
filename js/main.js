@@ -98,6 +98,7 @@ function(
                 rendererMenu: 'menuList',
                 rendererMenuItem: 'item',
                 rendererSelected: 'selected',
+                rendererContainer: 'item-container',
                 rendererSummarize: 'summarize',
                 stats: 'geoData',
                 statsPanel: 'panel',
@@ -299,18 +300,19 @@ function(
                     if (output) {
                         dom.byId('renderer_menu').innerHTML = output;
                         domStyle.set(dom.byId('renderer_menu'), 'display', 'block');
-                        this._summarizeClick = on(dom.byId('summarize'), 'click', lang.hitch(this, function() {
+                        this._summarizeClick = on(dom.byId('summarize'), 'click', lang.hitch(this, function(evt) {
+                            this._clearSelected();
+                            domClass.add(evt.currentTarget, this.css.rendererSelected);
                             var q = new Query();
                             q.where = '1 = 1';
                             this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
-                                this._clearSelected();
                                 this._displayStats(fs.features);
                             }));
                         }));
-                        on(dom.byId('renderer_menu'), '.' + this.css.rendererMenuItem + ':click', lang.hitch(this, function(evt) {
+                        on(query('.'  + this.css.rendererMenuItem, dom.byId('renderer_menu')), 'click', lang.hitch(this, function(evt) {
                             this._clearSelected();
-                            var value = domAttr.get(evt.target, 'data-value');
-                            domClass.add(evt.target, this.css.rendererSelected);
+                            var value = domAttr.get(evt.currentTarget, 'data-value');
+                            domClass.add(evt.currentTarget, this.css.rendererSelected);
                             var q = new Query();
                             if (value === 0) {
                                 q.where = '1 = 1';
@@ -407,7 +409,7 @@ function(
         _clearSelected: function() {
             var items = query('.' + this.css.rendererSelected, dom.byId('renderer_menu'));
             var i;
-            if (items.length) {
+            if (items && items.length) {
                 for (i = 0; i < items.length; i++) {
                     domClass.remove(items[i], this.css.rendererSelected);
                 }

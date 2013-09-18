@@ -63,6 +63,7 @@ function (
                 firstLayer: "LL_FirstLayer",
                 legend: "LL_Legend",
                 title: "LL_Title",
+                titleContainer: "LL_TitleContainer",
                 content: "LL_Content",
                 titleCheckbox: "LL_Checkbox",
                 checkboxCheck: "icon-ok",
@@ -131,19 +132,24 @@ function (
                         className: this._css.title,
                     });
                     domConstruct.place(titleDiv, layerDiv, "last");
+                    // title container
+                    var titleContainerDiv = domConstruct.create("div", {
+                        className: this._css.titleContainer,
+                    });
+                    domConstruct.place(titleContainerDiv, titleDiv, "last");
                     // Title checkbox
                     var titleCheckbox = domConstruct.create("span", {
                         className: this._css.titleCheckbox + checked
                     });
                     domAttr.set(titleCheckbox, 'data-layer', i);
-                    domConstruct.place(titleCheckbox, titleDiv, "last");
+                    domConstruct.place(titleCheckbox, titleContainerDiv, "last");
                     // Title text
                     var titleText = domConstruct.create("span", {
                         className: this._css.titleText,
                         title: layer.title,
                         innerHTML: layer.title
                     });
-                    domConstruct.place(titleText, titleDiv, "last");
+                    domConstruct.place(titleText, titleContainerDiv, "last");
                     // content of layer
                     var contentDiv = domConstruct.create("div", {
                         className: this._css.content

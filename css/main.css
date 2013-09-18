@@ -3,7 +3,7 @@ html,body {
 	margin:0;
 	height:100%;
 	width:100%;
-	font-family: 'Lato', sans-serif;
+	font-family:'Lato',sans-serif;
 }
 
 #bc_inner,#bc_outer {
@@ -27,15 +27,15 @@ html,body {
 
 #cp_outer_left {
 	width:280px;
-    max-width:280px;
+	max-width:280px;
 	height:100%;
 	padding:0;
 	margin:0;
 	border:0;
 	border-right:1px solid #ddd;
 	background:#f8f8f8;
-    overflow:auto;
-    overflow-x:hidden;
+	overflow:auto;
+	overflow-x:hidden;
 }
 
 #cp_inner_center,#cp_outer_center {
@@ -54,22 +54,22 @@ html,body {
 	position:relative;
 }
 
-#BasemapToggle{
-    position: absolute;
-    top:20px;
-    right:20px;
-    z-index: 35;
+#BasemapToggle {
+	position:absolute;
+	top:20px;
+	right:20px;
+	z-index:35;
 }
 
-#mapButtons{
-    position: absolute;
-    top:92px;
-    left: 20px;
-    z-index: 35;
+#mapButtons {
+	position:absolute;
+	top:92px;
+	left:20px;
+	z-index:35;
 }
 
-#HomeButton{
-    margin-top: 6px;
+#HomeButton {
+	margin-top:6px;
 }
 
 .esriRtl label {
@@ -146,8 +146,8 @@ html,body {
 	padding:6px;
 }
 
-#title{
-    color:#007ac2;
+#title {
+	color:#007ac2;
 }
 
 #hamburger_button {
@@ -159,16 +159,25 @@ html,body {
 	cursor:pointer;
 }
 
-.toggle-grey{
-    color:#999999;
+.toggle-grey {
+	color:#999;
 }
 
-.toggle-grey-on{
-    color:#007ac2;
+.toggle-grey-on {
+	color:#007ac2;
 }
 
 #title {
 	float:left;
+}
+
+.icon-right{
+    float: right;
+    cursor: pointer;
+    height: 22px;
+    font-size: 21px;
+    line-height: 22px;
+    margin: 0 0 0 10px;        
 }
 
 .menuList {
@@ -179,16 +188,37 @@ html,body {
 }
 
 #renderer_menu li {
-	padding:5px 10px;
-	cursor:pointer;
+	line-height:16px;
+	font-size:16px;
 	margin:0;
+	padding:0;
+	border-top:1px solid #e0e0e0;
+	background:#fff;
 }
 
-#renderer_menu li:hover {
+#renderer_menu li.summarize {
+	border-bottom:1px solid #e0e0e0;
 }
 
-#renderer_menu .selected,#renderer_menu .selected:hover,#renderer_menu .selected:active {
+#renderer_menu li .item-container {
+	border-left-style:solid;
+	border-left-width:16px;
+	padding:13px 9px;
+	margin: 0 0 0 1px;
+	background:#f8f8f8;
+	color:#555;
+	cursor:pointer;
+}
+
+#renderer_menu .summarize .item-container {
+	border-left-color:#007ac2;
+}
+
+#renderer_menu .selected .item-container, #renderer_menu .selected .item-container:hover, #renderer_menu .selected .item-container:active {
 	cursor:default;
+	font-weight:700;
+	background:#fff;
+	color:#000;
 }
 
 .geoData {
