@@ -317,6 +317,16 @@ html,body {
 	background-color:rgba(218,77,30,0.80);
 }
 
+.geoData .population:hover .count {
+	background-color:#f36f20;
+	background-color:rgba(243,111,32,0.70);
+}
+
+.geoData .population:hover .title {
+	background-color:#da4d1e;
+	background-color:rgba(218,77,30,0.70);
+}
+
 .geoData .households .count {
 	background-color:#007ac2;
 	background-color:rgba(0,122,194,0.80);
@@ -326,6 +336,17 @@ html,body {
 	background-color:#004575;
 	background-color:rgba(0,69,117,0.80);
 }
+
+.geoData .households:hover .count {
+	background-color:#007ac2;
+	background-color:rgba(0,122,194,0.70);
+}
+
+.geoData .households:hover .title {
+	background-color:#004575;
+	background-color:rgba(0,69,117,0.70);
+}
+
 
 .geoData .critical-infrastructure .count {
 	background-color:#35ac46;
@@ -337,6 +358,16 @@ html,body {
 	background-color:rgba(42,116,51,0.80);
 }
 
+.geoData .critical-infrastructure:hover .count {
+	background-color:#35ac46;
+	background-color:rgba(53,172,70,0.70);
+}
+
+.geoData .critical-infrastructure:hover .title {
+	background-color:#2a7433;
+	background-color:rgba(42,116,51,0.70);
+}
+
 .geoData .businesses .count {
 	background-color:#8f499c;
 	background-color:rgba(143,73,156,0.80);
@@ -345,6 +376,16 @@ html,body {
 .geoData .businesses .title {
 	background-color:#6b1978;
 	background-color:rgba(107,25,120,0.80);
+}
+
+.geoData .businesses:hover .count {
+	background-color:#8f499c;
+	background-color:rgba(143,73,156,0.70);
+}
+
+.geoData .businesses:hover .title {
+	background-color:#6b1978;
+	background-color:rgba(107,25,120,0.70);
 }
 
 .clear {
