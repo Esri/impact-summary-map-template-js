@@ -111,7 +111,11 @@ html,body {
 }
 
 #drawer_menu .item .title {
-	padding:7px 0;
+	padding:7px 5%;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	width:90%;
 }
 
 #drawer_menu .item-first .title {

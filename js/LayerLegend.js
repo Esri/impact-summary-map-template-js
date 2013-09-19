@@ -115,7 +115,7 @@ function (
                     var layer = layers[i];
                     var firstLayer = '';
                     if(i === 0){
-                        firstLayer = ' ' + this._css.firstLayer;
+                        firstLayer = ' ' + this._css.firstLayer + ' ' + this._css.selected;
                     }
                     var visible = '', checked = '';
                     if(layer.visibility){

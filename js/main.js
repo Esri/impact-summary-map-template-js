@@ -90,7 +90,7 @@ function(
             }
             node = dom.byId('impact_name');
             if(node){
-                node.innerHTML = this.config.i18n.general.impact;
+                node.innerHTML = this.config.impact_layer || this.config.i18n.general.impact;
             }
         },
         _cssStyles: function(){
@@ -472,7 +472,7 @@ function(
         _createWebMap: function() {
             
             var customPopup = new Popup({
-            }, dojo.create("div"));
+            }, domConstruct.create("div"));
             domClass.add(customPopup.domNode, "calcite");
             
             //can be defined for the popup like modifying the highlight symbol, margin etc.
