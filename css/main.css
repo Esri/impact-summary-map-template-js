@@ -151,12 +151,12 @@ html,body {
 }
 
 #hamburger_button {
-	float:left;
-	padding:6px;
-	cursor:pointer;
-	height:22px;
-	font-size:22px;
-	line-height:22px;
+    float: left;
+    padding: 5px 0 4px 0;
+    cursor: pointer;
+    height: 25px;
+    font-size: 25px;
+    line-height: 25px;
 }
 
 .toggle-grey {
