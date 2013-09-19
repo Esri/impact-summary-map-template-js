@@ -310,11 +310,11 @@ function(
         },
         _hideExpanded: function() {
             query('.' + this.css.statsPanelSelected, this.dataNode).style('display', 'none');
-            query('.' + this.css.statsPanel, this.dataNode).style('display', 'inline-block');
+            query('.' + this.css.statsPanel, this.dataNode).style('display', 'block');
         },
         _showExpanded: function(type) {
             query('.' + this.css.statsPanel, this.dataNode).style('display', 'none');
-            query('.' + this.css.statsPanelSelected + '[data-type="' + type + '"]', this.dataNode).style('display', 'inline-block');
+            query('.' + this.css.statsPanelSelected + '[data-type="' + type + '"]', this.dataNode).style('display', 'block');
         },
         // get layer of impact area by layer title
         getLayerByTitle: function(map, layers, title) {
@@ -376,6 +376,7 @@ function(
             if (evt.graphic) {
                 this._clearSelected();
                 this._displayStats([evt.graphic]);
+                event.stop(evt);
             }
         },
         _init: function() {
@@ -406,7 +407,7 @@ function(
             }, "LayerLegend");
             LL.startup();
             
-            /* Temporary until after 3.8 is released */
+            /* Start temporary until after JSAPI 3.8 is released */
             var layers = this.map.getLayersVisibleAtScale(this.map.getScale());
             on.once(this.map, 'basemap-change', lang.hitch(this, function(){
                 for(var i = 0; i < layers.length; i++){
@@ -416,7 +417,7 @@ function(
                     }
                 }
             }));
-            /* END Temporary until after 3.8 is released */
+            /* END temporary until after JSAPI 3.8 is released */
             
             this.dataNode = domConstruct.place(domConstruct.create('div', {
                 className: this.css.stats

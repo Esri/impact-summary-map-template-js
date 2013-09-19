@@ -151,12 +151,12 @@ html,body {
 }
 
 #hamburger_button {
-    float: left;
-    padding: 5px 0 4px 0;
-    cursor: pointer;
-    height: 25px;
-    font-size: 25px;
-    line-height: 25px;
+	float:left;
+	padding:4px 0;
+	cursor:pointer;
+	height:25px;
+	font-size:25px;
+	line-height:25px;
 }
 
 .toggle-grey {
@@ -225,13 +225,17 @@ html,body {
 .geoData {
 	position:absolute;
 	z-index:99;
-	bottom:30px;
+	bottom:40px;
 	width:100%;
 	-moz-user-select:none;
 	-webkit-user-select:none;
 	user-select:none;
 	display:none;
 	text-align:center;
+}
+
+.geodata-container {
+	display:inline-block;
 }
 
 .geoData table {
@@ -257,14 +261,9 @@ html,body {
 
 .geoData .panel {
 	text-align:center;
-	display:inline-block;
+	display:block;
+	float:left;
 	color:#fff;
-	padding:20px;
-	margin:10px;
-	background-color:#333;
-	background-color:rgba(51,51,51,0.85);
-	-webkit-border-radius:5px;
-	border-radius:5px;
 	cursor:pointer;
 }
 
@@ -283,17 +282,57 @@ html,body {
 }
 
 .geoData .count {
-	font-size:24px;
-	font-weight:700;
+	font-size:34px;
 	margin:0;
 	padding:0;
+	padding:15px 25px;
 }
 
 .geoData .title {
 	margin:0;
 	padding:0;
 	font-size:14px;
-	font-weight:700;
+	padding:6px 25px;
+}
+
+.geoData .population .count {
+	background-color:#f36f20;
+	background-color:rgba(243,111,32,0.80);
+}
+
+.geoData .population .title {
+	background-color:#da4d1e;
+	background-color:rgba(218,77,30,0.80);
+}
+
+.geoData .households .count {
+	background-color:#007ac2;
+	background-color:rgba(0,122,194,0.80);
+}
+
+.geoData .households .title {
+	background-color:#004575;
+	background-color:rgba(0,69,117,0.80);
+}
+
+.geoData .critical-infrastructure .count {
+	background-color:#35ac46;
+	background-color:rgba(53,172,70,0.80);
+}
+
+.geoData .critical-infrastructure .title {
+	background-color:#2a7433;
+	background-color:rgba(42,116,51,0.80);
+}
+
+.geoData .businesses .count {
+	background-color:#8f499c;
+	background-color:rgba(143,73,156,0.80);
+}
+
+.geoData .businesses .title {
+	background-color:#6b1978;
+	background-color:rgba(107,25,120,0.80);
 }
 
 .clear {
