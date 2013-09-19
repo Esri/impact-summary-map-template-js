@@ -42,6 +42,7 @@
 
 .esriSimpleSliderDecrementButton:hover,.esriSimpleSliderIncrementButton:hover {
 	background-color:#eee;
+	color:#333;
 }
 
 .esriSimpleSliderDecrementButton:active,.esriSimpleSliderIncrementButton:active {

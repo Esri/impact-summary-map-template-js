@@ -34,7 +34,8 @@ define([
     "esri/dijit/HomeButton",
     "esri/dijit/LocateButton",
     "esri/dijit/BasemapToggle",
-    "dijit/Dialog"
+    "dijit/Dialog",
+    "esri/dijit/Popup"
 ],
 function(
     ready, 
@@ -64,7 +65,8 @@ function(
     domGeom,
     LayerLegend,
     HomeButton, LocateButton, BasemapToggle,
-    Dialog
+    Dialog,
+    Popup
 ) {
     return declare("", null, {
         config: {},
@@ -297,8 +299,8 @@ function(
                 // add features to graphics layer
                 this._selectedGraphics.clear();
                 for (i = 0; i < features.length; i++) {
-                    var sls = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 0, 255]), 2);
-                    var symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_FORWARD_DIAGONAL, sls, new Color([255, 255, 255, 0]));
+                    var sls = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255, 1]), 2);
+                    var symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, sls, new Color([0, 255, 255, 0]));
                     var g = new Graphic(features[i].geometry, symbol, features[i].attributes, null);
                     if (g) {
                         this._selectedGraphics.add(g);
@@ -380,6 +382,8 @@ function(
             }
         },
         _init: function() {
+            
+            console.log(this.map);
             
             var LB = new LocateButton({
                 map: this.map,
@@ -466,9 +470,15 @@ function(
         },
         //create a map based on the input web map id
         _createWebMap: function() {
+            
+            var customPopup = new Popup({
+            }, dojo.create("div"));
+            domClass.add(customPopup.domNode, "calcite");
+            
             //can be defined for the popup like modifying the highlight symbol, margin etc.
             arcgisUtils.createMap(this.config.webmap, "mapDiv", {
                 mapOptions: {
+                    infoWindow: customPopup
                     //Optionally define additional map config here for example you can 
                     //turn the slider off, display info windows, disable wraparound 180, slider position and more. 
                 },

@@ -163,8 +163,16 @@ html,body {
 	color:#999;
 }
 
+.toggle-grey:hover,.toggle-grey:active {
+	color:#333;
+}
+
 .toggle-grey-on {
 	color:#007ac2;
+}
+
+.toggle-grey-on:hover,.toggle-grey-on:active {
+	color:#333;
 }
 
 #title {
