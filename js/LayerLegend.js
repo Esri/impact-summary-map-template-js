@@ -62,6 +62,7 @@ function (
                 layer: "LL_Layer",
                 firstLayer: "LL_FirstLayer",
                 legend: "LL_Legend",
+                noLegend: "LL_NoLegend",
                 title: "LL_Title",
                 titleContainer: "LL_TitleContainer",
                 content: "LL_Content",
@@ -159,22 +160,39 @@ function (
                     var legendDiv = domConstruct.create("div", {
                         className: this._css.legend
                     });
-                    var defaultSymbol = null;
-                    if(layer.layerObject.renderer && layer.layerObject.renderer.defaultSymbol){
+                    var defaultSymbol;
+                    try{
                         defaultSymbol = layer.layerObject.renderer.defaultSymbol;
-                    }  
-                    var legend = new Legend({
-                        map: this.get("map"),
-                        layerInfos: [{
-                            title: layer.title,
-                            layer:layer.layerObject,
-                            defaultSymbol: defaultSymbol
-                        }]
-                    }, legendDiv);
-                    domConstruct.place(legendDiv, contentDiv, "first");
-                    legend.startup();
-                    // create click event
-                    this._titleEvent(titleDiv, layerDiv);
+                    }
+                    catch(error){
+                        try{
+                            defaultSymbol = layer.featureCollection.layers[0].layerObject.rendererer.defaultSymbol;
+                        }
+                        catch(e){
+                            defaultSymbol = null;
+                        }
+                    }
+                    var showLegend = true;
+                    if(layer.featureCollection && layer.featureCollection.hasOwnProperty('showLegend')){
+                        showLegend = layer.featureCollection.showLegend;
+                    }
+                    if(showLegend){
+                        var legend = new Legend({
+                            map: this.get("map"),
+                            layerInfos: [{
+                                title: layer.title,
+                                layer:layer.layerObject,
+                                defaultSymbol: defaultSymbol
+                            }]
+                        }, legendDiv);
+                        domConstruct.place(legendDiv, contentDiv, "first");
+                        legend.startup();
+                        // create click event
+                        this._titleEvent(titleDiv, layerDiv);
+                    }
+                    else{
+                        domClass.add(layerDiv, this._css.noLegend);
+                    }
                     // create click event
                     this._checkboxEvent(titleCheckbox, layerDiv);
                 }
