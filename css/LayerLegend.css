@@ -20,10 +20,6 @@
 	user-select:none;
 }
 
-.LayerLegend .LL_NoLegend .LL_Title {
-	cursor:default;
-}
-
 .LayerLegend .LL_FirstLayer .LL_Title {
 	border-top:1px solid #e0e0e0;
 }

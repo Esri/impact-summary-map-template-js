@@ -62,7 +62,6 @@ function (
                 layer: "LL_Layer",
                 firstLayer: "LL_FirstLayer",
                 legend: "LL_Legend",
-                noLegend: "LL_NoLegend",
                 title: "LL_Title",
                 titleContainer: "LL_TitleContainer",
                 content: "LL_Content",
@@ -160,6 +159,7 @@ function (
                     var legendDiv = domConstruct.create("div", {
                         className: this._css.legend
                     });
+                    domConstruct.place(legendDiv, contentDiv, "first");
                     var defaultSymbol;
                     try{
                         defaultSymbol = layer.layerObject.renderer.defaultSymbol;
@@ -185,14 +185,13 @@ function (
                                 defaultSymbol: defaultSymbol
                             }]
                         }, legendDiv);
-                        domConstruct.place(legendDiv, contentDiv, "first");
                         legend.startup();
-                        // create click event
-                        this._titleEvent(titleDiv, layerDiv);
                     }
                     else{
-                        domClass.add(layerDiv, this._css.noLegend);
+                        legendDiv.innerHTML = 'No Legend';
                     }
+                    // create click event
+                    this._titleEvent(titleDiv, layerDiv);
                     // create click event
                     this._checkboxEvent(titleCheckbox, layerDiv);
                 }
