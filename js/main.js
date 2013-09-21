@@ -323,7 +323,9 @@ function(
             for (var i = 0; i < layers.length; i++) {
                 var layer = layers[i];
                 if (layer.title.toLowerCase() === title.toLowerCase()) {
-                    return map.getLayer(layer.id);
+                    var mapLayer = map.getLayer(layer.id);
+                    mapLayer.layerIndex = i;
+                    return mapLayer;
                 }
             }
             return false;
@@ -433,7 +435,7 @@ function(
                     id: "selectedArea",
                     visible: this._impactLayer.visible
                 });
-                this.map.addLayer(this._selectedGraphics);
+                this.map.addLayer(this._selectedGraphics, (this._impactLayer.layerIndex + 1));
             }
             this._setValueRange();
             var q = new Query();

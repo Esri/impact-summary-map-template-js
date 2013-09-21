@@ -115,7 +115,7 @@ function (
                 for(var i = 0; i < layers.length; i++){
                     var layer = layers[i];
                     var firstLayer = '';
-                    if(i === 0){
+                    if(i === (layers.length - 1)){
                         firstLayer = ' ' + this._css.firstLayer + ' ' + this._css.selected;
                     }
                     var visible = '', checked = '';
@@ -127,7 +127,7 @@ function (
                     var layerDiv = domConstruct.create("div", {
                         className: this._css.layer + firstLayer + visible
                     });
-                    domConstruct.place(layerDiv, this._layersNode, "last");
+                    domConstruct.place(layerDiv, this._layersNode, "first");
                     // title of layer
                     var titleDiv = domConstruct.create("div", {
                         className: this._css.title,
