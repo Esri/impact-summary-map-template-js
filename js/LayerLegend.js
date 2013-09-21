@@ -15,7 +15,6 @@ define([
     "dojo/dom-class",
     "dojo/dom-style",
     "dojo/dom-construct",
-    "dojo/dom-attr",
     "esri/dijit/Legend",
     "dojo/_base/event"
 ],
@@ -28,13 +27,14 @@ function (
     on,
     query,
     dijitTemplate, i18n,
-    domClass, domStyle, domConstruct, domAttr,
+    domClass, domStyle, domConstruct,
     Legend,
     event
 ) {
     var Widget = declare([_WidgetBase, _OnDijitClickMixin, _TemplatedMixin, Evented], {
         declaredClass: "esri.dijit.LayerLegend",
         templateString: dijitTemplate,
+        // defaults
         options: {
             theme: "LayerLegend",
             map: null,
@@ -110,6 +110,7 @@ function (
         /* ---------------- */
         _createLegends: function(){
             var layers = this.get("layers");
+            this._nodes = [];
             if(layers && layers.length){
                 for(var i = 0; i < layers.length; i++){
                     var layer = layers[i];
@@ -141,7 +142,6 @@ function (
                     var titleCheckbox = domConstruct.create("span", {
                         className: this._css.titleCheckbox + checked
                     });
-                    domAttr.set(titleCheckbox, 'data-layer', i);
                     domConstruct.place(titleCheckbox, titleContainerDiv, "last");
                     // Title text
                     var titleText = domConstruct.create("span", {
@@ -160,6 +160,7 @@ function (
                         className: this._css.legend
                     });
                     domConstruct.place(legendDiv, contentDiv, "first");
+                    // determine default symbol
                     var defaultSymbol;
                     try{
                         defaultSymbol = layer.layerObject.renderer.defaultSymbol;
@@ -168,15 +169,17 @@ function (
                         try{
                             defaultSymbol = layer.featureCollection.layers[0].layerObject.rendererer.defaultSymbol;
                         }
-                        catch(e){
+                        catch(error2){
                             defaultSymbol = null;
                         }
                     }
+                    // whether to show legend or not
                     var showLegend = true;
                     if(layer.featureCollection && layer.featureCollection.hasOwnProperty('showLegend')){
                         showLegend = layer.featureCollection.showLegend;
                     }
                     if(showLegend){
+                        // create legend
                         var legend = new Legend({
                             map: this.get("map"),
                             layerInfos: [{
@@ -188,62 +191,118 @@ function (
                         legend.startup();
                     }
                     else{
-                        legendDiv.innerHTML = 'No Legend';
+                        // no legend to create
+                        legendDiv.innerHTML = this._i18n.LayerLegend.noLegend;
                     }
+                    // lets save all the nodes for events
+                    var nodesObj = {
+                        checkbox: titleCheckbox,
+                        title: titleDiv,
+                        titleContainer: titleContainerDiv,
+                        titleText: titleText,
+                        content: contentDiv,
+                        legend: legendDiv,
+                        layer: layerDiv
+                    };
+                    this._nodes.push(nodesObj);
                     // create click event
-                    this._titleEvent(titleDiv, layerDiv);
+                    this._titleEvent(i);
                     // create click event
-                    this._checkboxEvent(titleCheckbox, layerDiv);
+                    this._checkboxEvent(i);
                 }
+            }
+        },
+        _toggleVisible: function(index, visible){
+            // update checkbox and layer visibility classes
+            domClass.toggle(this._nodes[index].layer, this._css.visible, visible);
+            domClass.toggle(this._nodes[index].checkbox, this._css.checkboxCheck, visible);
+        },
+        _visibilityEvent: function(layer, index){
+            // layer visibility changes
+            on(layer, 'visibility-change', lang.hitch(this, function(evt){
+                // update checkbox and layer visibility classes
+                this._toggleVisible(index, evt.visible);
+            }));
+        },
+        _setLayerObjects: function(){
+            // this function gets all the layer objects for each layer and sublayers.
+            var layers = this.get("layers");
+            var layerObjects = [];
+            if(layers && layers.length){
+                // get all layers
+                for(var i = 0; i < layers.length; i++){
+                    var layer = layers[i];
+                    // layer object with layers/sublayers and visibility
+                    var obj = {
+                        layers: [],
+                        visibility: layer.visibility
+                    };
+                    // if it is a featurecollection with sublayers
+                    if(layer.featureCollection && layer.featureCollection.layers  && layer.featureCollection.layers.length){
+                        var sublayers = layer.featureCollection.layers;
+                        for(var j = 0; j < sublayers.length; j++){
+                            var sublayerObject = sublayers[j].layerObject;
+                            this._visibilityEvent(sublayerObject, i);
+                            obj.layers.push(sublayerObject);
+                        }
+                    }
+                    else{
+                        // 1 layer object
+                        var layerObject = layer.layerObject;
+                        this._visibilityEvent(layerObject, i);
+                        obj.layers.push(layerObject);
+                    }
+                    layerObjects.push(obj);
+                }
+                this.set("layerObjects", layerObjects);
             }
         },
         _toggleLayer: function(index){
-            var map = this.get("map");
-            var layers = this.get("layers");
-            var layer = layers[index];
-            var lyr;
-            if(layer){
-                if(layer.featureCollection && layer.featureCollection.layers){
-                    var sublayers = layer.featureCollection.layers;
-                    for(var i = 0; i < sublayers.length; i++){
-                        lyr = map.getLayer(sublayers[i].id);
-                        if(map && lyr){
-                            lyr.setVisibility(!lyr.visible);
-                        }
-                    }
-                }
-                else{
-                    lyr = map.getLayer(layer.id);
-                    if(map && lyr){
-                        lyr.setVisibility(!lyr.visible);
+            // all layers
+            var layerObjects = this.get("layerObjects");
+            if(layerObjects && layerObjects.length){
+                var layerObject = layerObjects[index];
+                // toggle visibility
+                layerObject.visibility = !layerObject.visibility;
+                var layers = layerObjects[index].layers;
+                // all layers/sublayers
+                if(layers && layers.length){
+                    for(var i = 0; i < layers.length; i++){
+                        var layer = layers[i];
+                        // toggle to new visibility
+                        layer.setVisibility(layerObject.visibility);
                     }
                 }
             }
+            this.set("layerObjects", layerObjects);
         },
-        _checkboxEvent: function(checkboxNode, layerNode){
-            on(checkboxNode, 'click', lang.hitch(this, function(evt){
-                domClass.toggle(layerNode, this._css.visible);
-                domClass.toggle(checkboxNode, this._css.checkboxCheck);
-                var layer = parseInt(domAttr.get(evt.currentTarget, 'data-layer') , 10);
-                this._toggleLayer(layer);
+        _checkboxEvent: function(index){
+            // when checkbox is clicked
+            on(this._nodes[index].checkbox, 'click', lang.hitch(this, function(evt){
+                // toggle layer visibility
+                this._toggleLayer(index);
                 event.stop(evt);
             }));
         },
-        _titleEvent: function(titleNode, layerNode){
-            on(titleNode, 'click', lang.hitch(this, function(){
-                if(!domClass.contains(layerNode, this._css.selected)){
+        _titleEvent: function(index){
+            // when a title of a layer has been clicked
+            on(this._nodes[index].title, 'click', lang.hitch(this, function(){
+                // title is not already selected
+                if(!domClass.contains(this._nodes[index].layer, this._css.selected)){
                     // remove all selected 
                     var nodes = query('.' + this._css.selected, this._layersNode);
                     for(var i = 0; i < nodes.length; i++){
                         domClass.remove(nodes[i], this._css.selected);   
                     }
                 }
-                domClass.toggle(layerNode, this._css.selected);
+                // toggle selected class
+                domClass.toggle(this._nodes[index].layer, this._css.selected);
             }));  
         },
         _init: function() {
             this._visible();
             this._createLegends();
+            this._setLayerObjects();
             this.set("loaded", true);
             this.emit("load", {});
         },
