@@ -2,7 +2,11 @@ define({
     "root": ({
         "widgets":{
             "ShareDialog":{
-                "title":"Share this map"
+                "title":"Share",
+                "heading":"Share this map",
+                "url":"Map URL",
+                "embed":"Embed Map",
+                "size":"Map size:"
             }
         }
     })

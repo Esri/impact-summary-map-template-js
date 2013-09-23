@@ -33,6 +33,8 @@ function (
         options: {
             theme: "AboutDialog",
             visible:true,
+            info: null,
+            sharinghost: "http://www.arcgis.com",
             dialog: null
         },
         // lifecycle: 1
@@ -46,6 +48,8 @@ function (
             this.set("theme", this.options.theme);
             this.set("visible", this.options.visible);
             this.set("dialog", this.options.dialog);
+            this.set("item", this.options.item);
+            this.set("sharinghost", this.options.sharinghost);
             // listeners
             this.watch("theme", this._updateThemeWatch);
             this.watch("visible", this._visible);
@@ -115,9 +119,30 @@ function (
             on(this.get("dialog"), 'hide', lang.hitch(this, function(){
                 domClass.remove(this._buttonNode, this._css.buttonSelected);
             }));
+            this._setDialogContent();
             this._visible();
             this.set("loaded", true);
             this.emit("load", {});
+        },
+        _setDialogContent: function(){
+            var item = this.get("item");
+            if(item){
+                this._titleNode.innerHTML = item.title;
+                this._descriptionNode.innerHTML = item.description;
+                var tags = item.tags;
+                this._tagsNode.innerHTML = '';
+                if(tags && tags.length){
+                    for(var i = 0; i < tags.length; i++){
+                        if(i !== 0){
+                            this._tagsNode.innerHTML += ', ';
+                        }
+                        this._tagsNode.innerHTML += tags[i];
+                    }
+                }
+                this._licenseInfoNode.innerHTML = item.licenseInfo;
+                this._infoNode.innerHTML = '(' + item.numViews + ' ' + i18n.widgets.AboutDialog.views + ', ' + item.numComments + ' ' + i18n.widgets.AboutDialog.comments + ')';
+                this._moreInfoNode.innerHTML = '<a target="_blank" href="' + this.get("sharinghost") + '/home/item.html?id=' + item.id + '">' + i18n.widgets.AboutDialog.itemInfo+ '</a>';
+            }
         },
         _updateThemeWatch: function(attr, oldVal, newVal) {
             if (this.get("loaded")) {

@@ -343,9 +343,6 @@ function(
             }
         },
         _init: function() {
-            
-            console.log(this.map);
-            
             var LB = new LocateButton({
                 map: this.map,
                 theme: "LocateButtonCalcite"
@@ -368,7 +365,8 @@ function(
             
             this._AboutDialog = new AboutDialog({
                 theme: "icon-right",
-                item: this.item
+                item: this.item,
+                sharinghost: this.config.sharinghost
             }, 'AboutDialog');
             this._AboutDialog.startup();
             
@@ -464,6 +462,9 @@ function(
                 this.layers = response.itemInfo.itemData.operationalLayers;
                 this._setTitle(response.itemInfo.item.title);
                 this.item = response.itemInfo.item;
+                
+                console.log(this);
+                
                 if (this.map.loaded) {
                     this._init();
                 } else {

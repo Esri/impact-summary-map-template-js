@@ -2,7 +2,10 @@ define({
     "root": ({
         "widgets":{
             "AboutDialog":{
-                "title":"About this map"
+                "title":"About",
+                "itemInfo":"Item information",
+                "views": "views",
+                "comments":"comments"
             }
         }
     })
