@@ -33,10 +33,7 @@ function (
         options: {
             theme: "AboutDialog",
             visible:true,
-            dialog: new Dialog({
-                title: i18n.widgets.AboutDialog.title,
-                style: "width: 300px"
-            })
+            dialog: null
         },
         // lifecycle: 1
         constructor: function(options, srcRefNode) {
@@ -107,6 +104,14 @@ function (
         /* Private Functions */
         /* ---------------- */
         _init: function() {
+            // dialog
+            if(!this.get("dialog")){
+                var dialog = new Dialog({
+                    title: i18n.widgets.AboutDialog.title,
+                    style: "width: 300px"
+                }, this._dialogNode);
+                this.set("dialog", dialog);
+            }
             on(this.get("dialog"), 'hide', lang.hitch(this, function(){
                 domClass.remove(this._buttonNode, this._css.buttonSelected);
             }));

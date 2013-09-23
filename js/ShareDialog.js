@@ -38,10 +38,7 @@ function (
             url: window.location.href,
             embedWidth: "100%",
             embedHeight: "500",
-            dialog: new Dialog({
-                title: i18n.widgets.ShareDialog.title,
-                style: "width: 300px"
-            })
+            dialog: null
         },
         // lifecycle: 1
         constructor: function(options, srcRefNode) {
@@ -52,7 +49,7 @@ function (
             this._i18n = i18n;
             // properties
             this.set("theme", this.options.theme);
-            this.set("url",this.options.url)
+            this.set("url",this.options.url);
             this.set("visible", this.options.visible);
             this.set("dialog", this.options.dialog);
             this.set("embedWidth", this.options.embedWidth);
@@ -70,10 +67,6 @@ function (
                 buttonSelected: "toggle-grey-on",
                 icon: "icon-share"
             };
-            this._embedNode = domConstruct.create('div', {
-                className: this._css.embed
-            });
-            this.get("dialog").setContent(this._embedNode);
         },
         // start widget. called by user
         startup: function() {
@@ -122,6 +115,14 @@ function (
         /* Private Functions */
         /* ---------------- */
         _init: function() {
+            // dialog
+            if(!this.get("dialog")){
+                var dialog = new Dialog({
+                    title: i18n.widgets.ShareDialog.title,
+                    style: "width: 300px"
+                }, this._dialogNode);
+                this.set("dialog", dialog);
+            }
             on(this.get("dialog"), 'hide', lang.hitch(this, function(){
                 domClass.remove(this._buttonNode, this._css.buttonSelected);
             }));

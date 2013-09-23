@@ -20,8 +20,6 @@ define([
     "application/Mustache",
     "dojo/text!views/panels.html",
     "dojo/text!views/renderer.html",
-    "dojo/text!views/share.html",
-    "dojo/text!views/about.html",
     "dojo/_base/event",
     "esri/graphic",
     "esri/layers/GraphicsLayer",
@@ -58,7 +56,7 @@ function(
     SimpleFillSymbol, SimpleLineSymbol,
     Color,
     Mustache,
-    panelsView, rendererView, shareView, aboutView,
+    panelsView, rendererView,
     event,
     Graphic, GraphicsLayer,
     BorderContainer, ContentPane,
@@ -369,7 +367,8 @@ function(
             BT.startup();
             
             this._AboutDialog = new AboutDialog({
-                theme: "icon-right"
+                theme: "icon-right",
+                item: this.item
             }, 'AboutDialog');
             this._AboutDialog.startup();
             
@@ -443,11 +442,10 @@ function(
         },
         //create a map based on the input web map id
         _createWebMap: function() {
-            
+            // popup dijit
             var customPopup = new Popup({
             }, domConstruct.create("div"));
             domClass.add(customPopup.domNode, "calcite");
-            
             //can be defined for the popup like modifying the highlight symbol, margin etc.
             arcgisUtils.createMap(this.config.webmap, "mapDiv", {
                 mapOptions: {
