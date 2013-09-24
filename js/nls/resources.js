@@ -8,7 +8,10 @@ define({root:
         impact: "Impact",
         summarize: "Summarize",
         share: "Share",
-        about: "About"
+        about: "About",
+        //share
+        embedMap: " Embed Map",
+        mapSize: " Map size:"
     }
 }),
 "fr":1

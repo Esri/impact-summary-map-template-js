@@ -1,0 +1,25 @@
+﻿
+@media screen and (max-device-width: 480px) and (orientation: portrait)
+{
+
+    .esriSimpleSlider, .geodata-container, #LocateButton, #HomeButton, #BasemapToggle, #title
+    {
+        display: none !important;
+    }
+
+    #cp_outer_left
+    {
+        width: 70% !important;
+        max-width: 280px;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        border: 0;
+        border-right: 1px solid #ddd;
+        background: #f8f8f8;
+        overflow: auto;
+        overflow-x: hidden;
+    }
+}
+
+
