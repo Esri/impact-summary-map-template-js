@@ -1,500 +1,435 @@
-html, body
-{
-    padding: 0;
-    margin: 0;
-    height: 100%;
-    width: 100%;
-    font-family: 'Lato' ,sans-serif;
+html,body {
+	padding:0;
+	margin:0;
+	height:100%;
+	width:100%;
+	font-family:'Lato',sans-serif;
 }
 
-#bc_inner, #bc_outer
-{
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    border: 0;
+#bc_inner,#bc_outer {
+	width:100%;
+	height:100%;
+	padding:0;
+	margin:0;
+	border:0;
 }
 
-#cp_inner_top
-{
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    border-bottom: 1px solid #ddd;
-    overflow: hidden;
-    z-index: 3;
+#cp_inner_top {
+	width:100%;
+	padding:0;
+	margin:0;
+	border:0;
+	overflow:hidden;
+	z-index:3;
+        background-color:transparent;
 }
 
-#cp_outer_left
-{
-    width: 280px;
-    max-width: 280px;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    border-right: 1px solid #ddd;
-    background: #f8f8f8;
-    overflow: auto;
-    overflow-x: hidden;
+#cp_outer_left {
+	width:280px;
+	max-width:280px;
+	height:100%;
+	padding:0;
+	margin:0;
+	border:0;
+	border-right:1px solid #ddd;
+	background:#f8f8f8;
+	overflow:auto;
+	overflow-x:hidden;
 }
 
-#cp_inner_center, #cp_outer_center
-{
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    border: 0;
+#cp_inner_center,#cp_outer_center {
+	width:100%;
+	height:100%;
+	padding:0;
+	margin:0;
+	border:0;
 }
 
-#mapDiv
-{
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    position: relative;
+#mapDiv {
+	padding:0;
+	margin:0;
+	width:100%;
+	height:100%;
+	position:relative;
 }
 
-#BasemapToggle
-{
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 35;
+#BasemapToggle {
+	position:absolute;
+	top:20px;
+	right:20px;
+	z-index:35;
 }
 
-#mapButtons
-{
-    position: absolute;
-    top: 92px;
-    left: 20px;
-    z-index: 35;
+#mapButtons {
+	position:absolute;
+	top:92px;
+	left:20px;
+	z-index:35;
 }
 
-#HomeButton
-{
-    margin-top: 6px;
+#HomeButton {
+	margin-top:6px;
 }
 
-.esriRtl label
-{
-    /*Example of a rule that will be applied if the app is viewed in a browser wtih a RTL locale like Hebrew or Arabic.*/
+.esriRtl label {
+/*Example of a rule that will be applied if the app is viewed in a browser wtih a RTL locale like Hebrew or Arabic.*/
 }
 
-#drawer_panels .panel
-{
-    display: none;
-    width: 100%;
+#drawer_panels .panel {
+	display:none;
+        width: 100%;
 }
 
-#drawer_panels .panel-selected
-{
-    display: block;
-    width: 100%;
+#drawer_panels .panel-selected {
+	display:block;
+        width: 100%;
 }
 
-#drawer_menu
-{
-    background-color: #007ac2;
-    font-size: 18px;
-    line-height: 18px;
-    text-align: center;
-    overflow: visible;
-    width: 100%;
+#drawer_menu {
+	background-color:#007ac2;
+	font-size:18px;
+	line-height:18px;
+	text-align:center;
+	overflow:visible;
+        width: 100%;
 }
 
-#drawer_menu .item
-{
-    width: 50%;
-    text-align: center;
-    color: #b9e0f7;
-    float: left;
-    cursor: pointer;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
+#drawer_menu .item {
+	width:50%;
+	text-align:center;
+	color:#b9e0f7;
+	float:left;
+	cursor:pointer;
+	-moz-user-select:none;
+	-webkit-user-select:none;
+	user-select:none;
 }
 
-#drawer_menu .item-container
-{
-    position: relative;
-    overflow: visible;
-    padding: 7px 0;
+#drawer_menu .item-container {
+	position:relative;
+	overflow:visible;
+	padding:7px 0;
 }
 
-#drawer_menu .item .title
-{
-    padding: 7px 0;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    width: 90%;
+#drawer_menu .item .title {
+	padding:7px 0;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	width:90%;
 }
 
-#drawer_menu .item-first .title
-{
-    border-right: 1px solid #5fa8d4;
+#drawer_menu .item-first .title {
+	border-right:1px solid #5fa8d4;
 }
 
-#drawer_menu .item-selected
-{
-    color: #fff;
-    cursor: default;
+#drawer_menu .item-selected {
+	color:#fff;
+	cursor:default;
 }
 
-#drawer_menu .arrow
-{
-    display: none;
+#drawer_menu .arrow {
+	display:none;
 }
 
-#drawer_menu .item-selected .arrow
-{
-    display: block;
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    z-index: 2;
-    height: 9px;
-    width: 100%;
-    background: url(../images/selected-arrow.png) no-repeat center bottom;
+#drawer_menu .item-selected .arrow {
+	display:block;
+	position:absolute;
+	bottom:-2px;
+	left:0;
+	z-index:2;
+	height:9px;
+	width:100%;
+	background:url(../images/selected-arrow.png) no-repeat center bottom;
 }
 
-.topBar
-{
-    background: #f8f8f8;
-    height: 34px;
+.topBar {
+	background:#f8f8f8;
+	height:34px;
+        border-bottom: 1px solid #ddd;
 }
 
-#title
-{
-    color: #007ac2;
-    padding: 6px 0;
-    line-height: 22px;
-    font-size: 18px;
+#title {
+	color:#007ac2;
+	padding:6px 0;
+	line-height:22px;
+	font-size:18px;
 }
 
-#hamburger_button
-{
-    float: left;
-    padding: 4px 0;
-    cursor: pointer;
-    height: 25px;
-    font-size: 25px;
-    line-height: 25px;
+#hamburger_button {
+	float:left;
+	padding:4px 0;
+	cursor:pointer;
+	height:25px;
+	font-size:25px;
+	line-height:25px;
 }
 
-.toggle-grey
-{
-    color: #999;
+.toggle-grey {
+	color:#999;
 }
 
-.toggle-grey:hover, .toggle-grey:active
-{
-    color: #333;
+.toggle-grey:hover,.toggle-grey:active {
+	color:#333;
 }
 
-.toggle-grey-on
-{
-    color: #007ac2;
+.toggle-grey-on {
+	color:#007ac2;
 }
 
-.toggle-grey-on:hover, .toggle-grey-on:active
-{
-    color: #333;
+.toggle-grey-on:hover,.toggle-grey-on:active {
+	color:#333;
 }
 
-#title
-{
-    float: left;
+#title {
+	float:left;
 }
 
-.icon-right
-{
-    float: right;
-    cursor: pointer;
-    height: 22px;
-    font-size: 18px;
-    padding: 6px;
-    line-height: 22px;
-    margin: 0;
+.icon-right {
+	float:right;
+	cursor:pointer;
+	height:22px;
+	font-size:18px;
+	padding:6px;
+	line-height:22px;
+	margin:0;
 }
 
-.menuList
-{
-    list-style: none;
-    padding: 0;
-    text-align: left;
-    margin: 0;
+.menuList {
+	list-style:none;
+	padding:0;
+	text-align:left;
+	margin:0;
 }
 
-#renderer_menu li
-{
-    line-height: 16px;
-    font-size: 16px;
-    margin: 0;
-    padding: 0;
-    border-top: 1px solid #e0e0e0;
-    background: #fff;
+#renderer_menu li {
+	line-height:16px;
+	font-size:16px;
+	margin:0;
+	padding:0;
+	border-top:1px solid #e0e0e0;
+	background:#fff;
 }
 
-#renderer_menu li.summarize
-{
-    border-bottom: 1px solid #e0e0e0;
+#renderer_menu li.summarize {
+	border-bottom:1px solid #e0e0e0;
 }
 
-#renderer_menu li .item-container
-{
-    border-left-style: solid;
-    border-left-width: 16px;
-    padding: 13px 9px;
-    margin: 0 0 0 1px;
-    background: #f8f8f8;
-    color: #555;
-    cursor: pointer;
+#renderer_menu li .item-container {
+	border-left-style:solid;
+	border-left-width:16px;
+	padding:13px 9px;
+	margin:0 0 0 1px;
+	background:#f8f8f8;
+	color:#555;
+	cursor:pointer;
 }
 
-#renderer_menu .summarize .item-container
-{
-    border-left-color: #007ac2;
+#renderer_menu .summarize .item-container {
+	border-left-color:#007ac2;
 }
 
-#renderer_menu .selected .item-container, #renderer_menu .selected .item-container:hover, #renderer_menu .selected .item-container:active
-{
-    cursor: default;
-    font-weight: 700;
-    background: #fff;
-    color: #000;
+#renderer_menu .selected .item-container,#renderer_menu .selected .item-container:hover,#renderer_menu .selected .item-container:active {
+	cursor:default;
+	font-weight:700;
+	background:#fff;
+	color:#000;
 }
 
-.geoData
-{
-    position: absolute;
-    z-index: 99;
-    bottom: 5px;
-    width: 100%;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-    display: none;
-    text-align: center;
+.geoData {
+	position:absolute;
+	z-index:99;
+	bottom:5px;
+	width:100%;
+	-moz-user-select:none;
+	-webkit-user-select:none;
+	user-select:none;
+	display:none;
+	text-align:center;
 }
 
-.geodata-container
-{
-    display: inline-block;
+.geodata-container {
+	display:inline-block;
 }
 
-.geoData table
-{
-    padding: 0;
-    margin: 0;
-    text-align: center;
-    border-collapse: collapse;
-    border: 0;
+.geoData table {
+	padding:0;
+	margin:0;
+	text-align:center;
+	border-collapse:collapse;
+	border:0;
 }
 
-.geoData tr td
-{
-    padding: 5px;
-    margin: 0;
-    text-align: left;
-    border: 0;
-    height: 90px;
-}
-.tblSlide tr td
-{
-    background-color: #fff !important;
-    padding: 0px 5px 0px 20px;
-    border-right: 1px solid #ccc;
-    border-collapse: collapse;
-}
-.geoData tr .last
-{
-    border-bottom: 0;
+.geoData tr td {
+	padding:5px;
+	margin:0;
+	text-align:left;
+	border:0;
+        height: 90px;
 }
 
-.geoData .panel
-{
-    text-align: center;
-    display: inline-block;
-    color: #fff;
-    float: left;
-    cursor: pointer;
+.tblSlide tr td {
+        background-color: #fff !important;
+        padding: 0px 5px 0px 20px;
+        border-right: 1px solid #ccc;
+        border-collapse: collapse;
 }
 
-.geoData .panel-expanded
-{
-    text-align: center;
-    display: inline-block;
-    color: gray;
-    padding: 0px;
-    margin: 10px;
-    display: none;
-    cursor: pointer;
-    border: 1px solid gray;
-    border-top: none;
+.geoData tr .last {
+	border-bottom:0;
 }
 
-.population
-{
-    border-bottom: 3px solid #da4d1e !important;
-    border-bottom: 3px solid rgba(218,77,30,0.80) !important;
-}
-.households
-{
-    border-bottom: 3px solid #004575 !important;
-    border-bottom: 3px solid rgba(0,69,117,0.80) !important;
-}
-.critical-infrastructure
-{
-    border-bottom: 3px solid #35ac46;
-    border-bottom: 3px solid rgba(42,116,51,0.80) !important;
-}
-.businesses
-{
-    border-bottom: 3px solid #6b1978 !important;
-    border-bottom: 3px solid rgba(107,25,120,0.80) !important;
-}
-.geoData .count, .tblSlide .count
-{
-    font-size: 34px;
-    margin: 0;
-    text-align: left;
-}
-.geoData .panel .count
-{
-    padding: 15px 25px;
-    text-align:center;
-}
-.tblSlide .count
-{
-    margin-top: 5px;
-}
-.geoData .panel .title
-{
-    margin: 0;
-    padding: 3px 35px;
-    font-size: 14px;
-    font-weight: normal;
+.geoData .panel {
+	text-align:center;
+        display: inline-block;
+        color: #fff;
+        float: left;
+        cursor: pointer;
 }
 
-.tblSlide .count, .tblSlide .title
-{
-    background-color: #fff !important;
-}
-.geoData .population .count
-{
-    background-color: #f36f20;
-    background-color: rgba(243,111,32,0.80);
-}
-
-.geoData .population .title, .population .divHeaderTitle
-{
-    background-color: #da4d1e;
-    background-color: rgba(218,77,30,0.80);
+.geoData .panel-expanded {
+	text-align:center;
+	display:inline-block;
+        color: gray;
+        padding: 0px;
+	margin:10px;
+	display:none;
+	cursor:pointer;
+    	border: 1px solid gray;
+    	border-top: none;
 }
 
-.geoData .population:hover .count
-{
-    background-color: #f36f20;
-    background-color: rgba(243,111,32,0.70);
+.population {
+    	border-bottom: 3px solid #da4d1e !important;
+    	border-bottom: 3px solid rgba(218,77,30,0.80) !important;
 }
 
-.geoData .population:hover .title
-{
-    background-color: #da4d1e;
-    background-color: rgba(218,77,30,0.70);
+.households {
+    	border-bottom: 3px solid #004575 !important;
+    	border-bottom: 3px solid rgba(0,69,117,0.80) !important;
 }
 
-.geoData .households .count
-{
-    background-color: #007ac2;
-    background-color: rgba(0,122,194,0.80);
+.critical-infrastructure {
+    	border-bottom: 3px solid #35ac46;
+    	border-bottom: 3px solid rgba(42,116,51,0.80) !important;
 }
 
-.geoData .households .title, .households .divHeaderTitle
-{
-    background-color: #004575;
-    background-color: rgba(0,69,117,0.80);
+.businesses {
+    	border-bottom: 3px solid #6b1978 !important;
+    	border-bottom: 3px solid rgba(107,25,120,0.80) !important;
+}
+.geoData .count, .tblSlide .count {
+	font-size:34px;
+	margin:0;
+    	text-align: left;
+}
+.geoData .panel .count {
+	padding:15px 25px;
+    	text-align: center;
+}
+.tblSlide .count {
+    	margin-top: 5px;
+}
+.geoData .panel .title {
+    	margin: 0;
+    	padding: 3px 35px;
+    	font-size: 14px;
+    	font-weight: normal;
 }
 
-.geoData .households:hover .count
-{
-    background-color: #007ac2;
-    background-color: rgba(0,122,194,0.70);
+.tblSlide .count, .tblSlide .title {
+    	background-color: #fff !important;
+}
+.geoData .population .count {
+	background-color:#f36f20;
+	background-color:rgba(243,111,32,0.80);
 }
 
-.geoData .households:hover .title
-{
-    background-color: #004575;
-    background-color: rgba(0,69,117,0.70);
+.geoData .population .title, .population .divHeaderTitle {
+	background-color:#da4d1e;
+	background-color:rgba(218,77,30,0.80);
+}
+
+.geoData .population:hover .count {
+	background-color:#f36f20;
+	background-color:rgba(243,111,32,0.70);
+}
+
+.geoData .population:hover .title {
+	background-color:#da4d1e;
+	background-color:rgba(218,77,30,0.70);
+}
+
+.geoData .households .count {
+	background-color:#007ac2;
+	background-color:rgba(0,122,194,0.80);
+}
+
+.geoData .households .title, .households .divHeaderTitle {
+	background-color:#004575;
+	background-color:rgba(0,69,117,0.80);
+}
+
+.geoData .households:hover .count {
+	background-color:#007ac2;
+	background-color:rgba(0,122,194,0.70);
+}
+
+.geoData .households:hover .title {
+	background-color:#004575;
+	background-color:rgba(0,69,117,0.70);
 }
 
 
-.geoData .critical-infrastructure .count
-{
-    background-color: #35ac46;
-    background-color: rgba(53,172,70,0.80);
+.geoData .critical-infrastructure .count {
+	background-color:#35ac46;
+	background-color:rgba(53,172,70,0.80);
 }
 
-.geoData .critical-infrastructure .title, .critical-infrastructure .divHeaderTitle
-{
-    background-color: #2a7433;
-    background-color: rgba(42,116,51,0.80);
+.geoData .critical-infrastructure .title, .critical-infrastructure .divHeaderTitle {
+	background-color:#2a7433;
+	background-color:rgba(42,116,51,0.80);
 }
 
-.geoData .critical-infrastructure:hover .count
-{
-    background-color: #35ac46;
-    background-color: rgba(53,172,70,0.70);
+.geoData .critical-infrastructure:hover .count {
+	background-color:#35ac46;
+	background-color:rgba(53,172,70,0.70);
 }
 
-.geoData .critical-infrastructure:hover .title
-{
-    background-color: #2a7433;
-    background-color: rgba(42,116,51,0.70);
+.geoData .critical-infrastructure:hover .title {
+	background-color:#2a7433;
+	background-color:rgba(42,116,51,0.70);
 }
 
-.geoData .businesses .count
-{
-    background-color: #8f499c;
-    background-color: rgba(143,73,156,0.80);
+.geoData .businesses .count {
+	background-color:#8f499c;
+	background-color:rgba(143,73,156,0.80);
 }
 
-.geoData .businesses .title, .businesses .divHeaderTitle
-{
-    background-color: #6b1978;
-    background-color: rgba(107,25,120,0.80);
+.geoData .businesses .title, .businesses .divHeaderTitle {
+	background-color:#6b1978;
+	background-color:rgba(107,25,120,0.80);
 }
 
-.geoData .businesses:hover .count
-{
-    background-color: #8f499c;
-    background-color: rgba(143,73,156,0.70);
+.geoData .businesses:hover .count {
+	background-color:#8f499c;
+	background-color:rgba(143,73,156,0.70);
 }
 
-.geoData .businesses:hover .title
-{
-    background-color: #6b1978;
-    background-color: rgba(107,25,120,0.70);
+.geoData .businesses:hover .title {
+	background-color:#6b1978;
+	background-color:rgba(107,25,120,0.70);
 }
 
-.clear
-{
-    clear: both;
+.clear {
+	clear:both;
 }
-.divHeader
-{
+.divHeader {
     height: 26px;
     width: 100%;
-      border-bottom: 1px solid gray;
+    border-bottom: 1px solid gray;
 }
-.divHeaderTitle
-{
+.divHeaderTitle {
     color: #fff;
     float: left;
     height: 25px;
@@ -504,8 +439,7 @@ html, body
     border-left: none;
     border-collapse: collapse;
 }
-.divHeaderClose
-{
+.divHeaderClose {
     float: right;
     height: 25px;
     border: 1px solid gray;
@@ -516,8 +450,7 @@ html, body
     font-size: 20px;
     background-color: #fff;
 }
-.tblSlide .title
-{
+.tblSlide .title {
     margin: 0;
     padding: 2px 0px;
     font-size: 14px;

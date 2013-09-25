@@ -3,6 +3,11 @@
     width: 100%;
     height: 100%;
 }
+.buttonCon
+{
+    margin: 0 0 0 10px;
+    float: left;
+}
 .tblGeoDataList
 {
     text-align: center;
@@ -172,7 +177,7 @@
 .divSliderContent
 {
     height: 100px;
-    width: 500px ;/*376px;*/
+    width: 500px; /*376px;*/
     background-color: transparent;
     position: relative;
     overflow: hidden;
@@ -189,8 +194,26 @@
 
 .tblSlide tr td
 {
- /*     width: 130px !important;     height: 100px;     padding: 5px 5px !important;     margin: 15px !important;*/
+    /*     width: 130px !important;     height: 100px;     padding: 5px 5px !important;     margin: 15px !important;*/
 }
 .tblSlide
 {
-    width:100%;}
+    width: 100%;
+}
+
+.esriGeocoderResults
+{
+    position: relative !important;
+}
+
+.rightHeader
+{
+    width: 100%;
+}
+.topMenuRight
+{
+    position: relative;
+    top: 0;
+    left: 0;
+    float: right;
+}

@@ -80,7 +80,7 @@ function (
         /* Public Functions */
         /* ---------------- */
         show: function(){
-            this.set("visible", true);  
+            this.set("visible", true);
         },
         hide: function(){
             this.set("visible", false);
@@ -112,7 +112,7 @@ function (
             if(!this.get("dialog")){
                 var dialog = new Dialog({
                     title: i18n.widgets.AboutDialog.title,
-                    style: "width: 300px"
+                    style: "max-width: 400px"
                 }, this._dialogNode);
                 this.set("dialog", dialog);
             }

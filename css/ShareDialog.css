@@ -1,0 +1,21 @@
+.dijitDialog,.dijitDialogTitle
+{
+    color:Gray !important;
+}
+
+.dijitDialogTitleBar
+{
+    background-color:rgb(255,255,255) !important;
+}
+
+.dijitDialogCloseIcon
+{
+    background-image:none !important;
+    border:none !important;
+
+}
+
+.dijitDialogPaneContent
+{
+    border:none !important;
+}

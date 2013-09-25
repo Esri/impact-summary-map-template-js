@@ -119,7 +119,7 @@ function (
             if(!this.get("dialog")){
                 var dialog = new Dialog({
                     title: i18n.widgets.ShareDialog.title,
-                    style: "width: 300px"
+                    style: "max-width: 300px"
                 }, this._dialogNode);
                 this.set("dialog", dialog);
             }

@@ -31,6 +31,13 @@ function (
         _createSlider: function (slider) {
 
             var outerDiv = domConstruct.create('div', { "id": "slider" + slider.id, "class": "divSliderContainer" }, null);
+            outerDiv.ondblclick = function (evt) {
+                if (evt.stopPropagation) {
+                    evt.stopPropagation();   
+                } else {
+                    evt.cancelBubble = true; 
+                }
+            }
             var innerDiv = domConstruct.create('div', { "class": "divInnerSliderContainer" }, outerDiv);
             var tblSlider = domConstruct.create('table', {}, innerDiv);
             var trSlider = domConstruct.create('tr', {}, tblSlider);

@@ -1,11 +1,77 @@
 ﻿
-@media screen and (max-device-width: 480px) and (orientation: portrait)
+@media screen and (max-width: 480px)
 {
-
-    .esriSimpleSlider, .geodata-container, #LocateButton, #HomeButton, #BasemapToggle, #title
+    .esriSimpleSlider, #LocateButton, #HomeButton, #BasemapToggle, #title
     {
         display: none !important;
     }
+
+    .geoData .panel .count
+    {
+        padding: 15px 5px !important;
+        text-align: center;
+    }
+    .tblSlide .count
+    {
+        margin-top: 5px !important;
+    }
+    .geoData .panel .title
+    {
+        margin: 0;
+        padding: 3px 5px important;
+        font-size: 14px;
+        font-weight: normal;
+    }
+    .divSliderContent
+    {
+        width: 375px !important;
+    }
+}
+
+@media screen and (max-width: 320px)
+{
+    .divSliderContent
+    {
+        width: 250px !important;
+    }
+}
+@media screen and (max-device-width: 480px) and (orientation: landscape)
+{
+    .esriSimpleSlider, #LocateButton, #HomeButton, #BasemapToggle, #title
+    {
+        display: none !important;
+    }
+
+    .divSliderContent
+    {
+        width: 375px !important;
+    }
+    .geoData .panel .count
+    {
+        padding: 15px 5px !important;
+        text-align: center;
+    }
+    .tblSlide .count
+    {
+        margin-top: 5px !important;
+    }
+    .geoData .panel .title
+    {
+        margin: 0;
+        padding: 3px 5px important;
+        font-size: 14px;
+        font-weight: normal;
+    }
+
+}
+@media screen and (max-device-width: 480px) and (orientation: portrait)
+{
+
+    .esriSimpleSlider, #LocateButton, #HomeButton, #BasemapToggle, #title
+    {
+        display: none !important;
+    }
+
 
     #cp_outer_left
     {
@@ -20,6 +86,23 @@
         overflow: auto;
         overflow-x: hidden;
     }
+    .divSliderContent
+    {
+        width: 250px !important;
+    }
+    .geoData .panel .count
+    {
+        padding: 15px 5px !important;
+        text-align: center;
+    }
+    .geoData .panel .title
+    {
+        margin: 0;
+        padding: 3px 5px !important;
+        font-size: 14px;
+        font-weight: normal;
+    }
 }
+
 
 
