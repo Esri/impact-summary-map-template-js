@@ -269,10 +269,10 @@ html,body {
 }
 
 .tblSlide tr td {
-        background-color: #fff !important;
-        padding: 0px 5px 0px 20px;
-        border-right: 1px solid #ccc;
-        border-collapse: collapse;
+    	background-color: #fff !important;
+    	padding: 0px 5px 0px 20px;
+    	border-right: 1px solid #ccc;
+    	border-collapse: collapse;
 }
 
 .geoData tr .last {
@@ -281,40 +281,41 @@ html,body {
 
 .geoData .panel {
 	text-align:center;
-        display: inline-block;
-        color: #fff;
-        float: left;
-        cursor: pointer;
+    	display: inline-block;
+	float:left;
+	color:#fff;
+	cursor:pointer;
 }
 
 .geoData .panel-expanded {
 	text-align:center;
 	display:inline-block;
-        color: gray;
-        padding: 0px;
-	margin:10px;
+    	color: gray;
+    	padding: 0px;
+	margin:10px 0px;
 	display:none;
 	cursor:pointer;
     	border: 1px solid gray;
     	border-top: none;
+    	border-bottom: none;
 }
 
-.population {
+.population .tblSlideContainer {
     	border-bottom: 3px solid #da4d1e !important;
     	border-bottom: 3px solid rgba(218,77,30,0.80) !important;
 }
 
-.households {
+.households .tblSlideContainer {
     	border-bottom: 3px solid #004575 !important;
     	border-bottom: 3px solid rgba(0,69,117,0.80) !important;
 }
 
-.critical-infrastructure {
+.critical-infrastructure .tblSlideContainer{
     	border-bottom: 3px solid #35ac46;
     	border-bottom: 3px solid rgba(42,116,51,0.80) !important;
 }
 
-.businesses {
+.businesses .tblSlideContainer{
     	border-bottom: 3px solid #6b1978 !important;
     	border-bottom: 3px solid rgba(107,25,120,0.80) !important;
 }
@@ -342,121 +343,128 @@ html,body {
 }
 .geoData .population .count {
 	background-color:#f36f20;
-	background-color:rgba(243,111,32,0.80);
+	background:rgba(243,111,32,0.80);
 }
 
 .geoData .population .title, .population .divHeaderTitle {
 	background-color:#da4d1e;
-	background-color:rgba(218,77,30,0.80);
+	background:rgba(218,77,30,0.80);
 }
 
 .geoData .population:hover .count {
 	background-color:#f36f20;
-	background-color:rgba(243,111,32,0.70);
+	background:rgba(243,111,32,0.70);
 }
 
 .geoData .population:hover .title {
 	background-color:#da4d1e;
-	background-color:rgba(218,77,30,0.70);
+	background:rgba(218,77,30,0.70);
 }
 
 .geoData .households .count {
 	background-color:#007ac2;
-	background-color:rgba(0,122,194,0.80);
+	background:rgba(0,122,194,0.80);
 }
 
 .geoData .households .title, .households .divHeaderTitle {
 	background-color:#004575;
-	background-color:rgba(0,69,117,0.80);
+	background:rgba(0,69,117,0.80);
 }
 
 .geoData .households:hover .count {
 	background-color:#007ac2;
-	background-color:rgba(0,122,194,0.70);
+	background:rgba(0,122,194,0.70);
 }
 
 .geoData .households:hover .title {
 	background-color:#004575;
-	background-color:rgba(0,69,117,0.70);
+	background:rgba(0,69,117,0.70);
 }
 
 
 .geoData .critical-infrastructure .count {
 	background-color:#35ac46;
-	background-color:rgba(53,172,70,0.80);
+	background:rgba(53,172,70,0.80);
 }
 
 .geoData .critical-infrastructure .title, .critical-infrastructure .divHeaderTitle {
 	background-color:#2a7433;
-	background-color:rgba(42,116,51,0.80);
+	background:rgba(42,116,51,0.80);
 }
 
 .geoData .critical-infrastructure:hover .count {
 	background-color:#35ac46;
-	background-color:rgba(53,172,70,0.70);
+	background:rgba(53,172,70,0.70);
 }
 
 .geoData .critical-infrastructure:hover .title {
 	background-color:#2a7433;
-	background-color:rgba(42,116,51,0.70);
+	background:rgba(42,116,51,0.70);
 }
 
 .geoData .businesses .count {
 	background-color:#8f499c;
-	background-color:rgba(143,73,156,0.80);
+	background:rgba(143,73,156,0.80);
 }
 
 .geoData .businesses .title, .businesses .divHeaderTitle {
 	background-color:#6b1978;
-	background-color:rgba(107,25,120,0.80);
+	background:rgba(107,25,120,0.80);
 }
 
 .geoData .businesses:hover .count {
 	background-color:#8f499c;
-	background-color:rgba(143,73,156,0.70);
+	background:rgba(143,73,156,0.70);
 }
 
 .geoData .businesses:hover .title {
 	background-color:#6b1978;
-	background-color:rgba(107,25,120,0.70);
+	background:rgba(107,25,120,0.70);
 }
 
 .clear {
 	clear:both;
 }
 .divHeader {
-    height: 26px;
-    width: 100%;
-    border-bottom: 1px solid gray;
+    	height: 26px;
+    	width: 100%;
+    	border-bottom: 1px solid gray;
 }
 .divHeaderTitle {
-    color: #fff;
-    float: left;
-    height: 25px;
-    padding: 0px 5px;
-    border: 1px solid gray;
-    border-bottom: none;
-    border-left: none;
-    border-collapse: collapse;
+    	color: #fff;
+    	float: left;
+    	height: 25px;
+    	padding: 0px 5px;
+    	border: 1px solid gray;
+    	border-bottom: none;
+    	border-left: none;
+    	border-collapse: collapse;
 }
 .divHeaderClose {
-    float: right;
-    height: 25px;
-    border: 1px solid gray;
-    border-bottom: 1px solid #fff !important;
-    border-right: none;
-    border-collapse: collapse;
-    padding: 0px 5px;
-    font-size: 20px;
-    background-color: #fff;
+    	float: right;
+    	height: 25px;
+    	border: 1px solid gray;
+    	border-bottom: 1px solid #fff !important;
+    	border-right: none;
+    	border-collapse: collapse;
+    	padding: 0px 5px;
+    	font-size: 20px;
+    	background-color: #fff;
 }
 .tblSlide .title {
-    margin: 0;
-    padding: 2px 0px;
-    font-size: 14px;
-    font-weight: normal;
-    width: 100px;
-    height: 30px;
-    word-break: break-word;
-    overflow: hidden;
+    	margin: 0;
+    	padding: 2px 0px;
+    	font-size: 14px;
+    	font-weight: normal;
+    	width: 100px;
+    	height: 30px;
+    	word-break: break-word;
+    	overflow: hidden;
+}
+
+.tblSlideContainer
+{
+    	background-color: #fff;
+    	height: 108px;
+    	width:100%;
 }

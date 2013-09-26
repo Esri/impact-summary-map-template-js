@@ -1,21 +1,31 @@
-.dijitDialog,.dijitDialogTitle
-{
-    color:Gray !important;
+.dijitDialog,.dijitDialogTitle {
+	color:Gray!important;
 }
 
-.dijitDialogTitleBar
-{
-    background-color:rgb(255,255,255) !important;
+.dijitDialogTitleBar {
+	background-color:#fff!important;
 }
 
-.dijitDialogCloseIcon
-{
-    background-image:none !important;
-    border:none !important;
-
+.dijitDialogCloseIcon {
+	background-image:none!important;
+	border:none!important;
 }
 
-.dijitDialogPaneContent
-{
-    border:none !important;
+.dijitDialogPaneContent {
+	border:none!important;
+}
+
+.facebook-icon,.twitter-icon,.gmail-icon,.email-icon {
+	cursor:pointer;
+	float:left;
+	margin:20px 30px 0 0;
+}
+
+.iconContainer {
+	height:40px;
+	margin:10px 0 20px;
+}
+
+.shareDialogText {
+	margin:10px 0;
 }

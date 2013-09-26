@@ -1,5 +1,4 @@
-﻿
-.locateBox
+﻿.locateBox
 {
     display: block;
     float: right;
@@ -29,7 +28,8 @@
 }
 
 .esriGeocoderIcon
-{
+{  
+    cursor:pointer;
     float: left;
     outline: 0;
     display: block;
@@ -37,11 +37,6 @@
     margin: 3px 0 3px 6px;
 }
 
-.dj_rtl .esriGeocoderIcon
-{
-    float: right;
-    margin: 3px 6px 3px 0;
-}
 
 .esriGeocoder .esriGeocoderClearFloat
 {
@@ -59,15 +54,7 @@
     width: 100%;
     margin: 0;
     border: 1px solid #ccc;
-    background: #f6f6f6;
-    background: url(data:image/svg+xml;     base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y2ZjZmNiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZWZlZmUiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-    background: -moz-linear-gradient(top,  #f6f6f6 0%, #fefefe 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f6f6f6), color-stop(100%,#fefefe));
-    background: -webkit-linear-gradient(top,  #f6f6f6 0%,#fefefe 100%);
-    background: -o-linear-gradient(top,  #f6f6f6 0%,#fefefe 100%);
-    background: -ms-linear-gradient(top,  #f6f6f6 0%,#fefefe 100%);
-    background: linear-gradient(to bottom,  #f6f6f6 0%,#fefefe 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f6f6', endColorstr='#fefefe',GradientType=0 );
+     background-color:#fff;
 }
 
 .esriGeocoderActive, .esriGeocoderMenuActive
@@ -98,24 +85,9 @@
     width: 113px;
 }
 
-
-
 .esriGeocoder input:focus
 {
     color: #333;
-}
-
-.esriGeocoder .esriGeocoderSearch
-{
-    cursor: pointer;
-    margin-left: 6px;
-    background: url(../images/ui/uiSprite.png) no-repeat -272px 0px;
-}
-
-
-.esriGeocoder .esriGeocoderSearch:hover, .esriGeocoder .esriGeocoderSearch:focus
-{
-    opacity: .75;
 }
 
 .esriGeocoder .esriGeocoderReset
@@ -123,23 +95,6 @@
     margin: 3px 6px 3px 0;
     float: right;
     display: none;
-}
-
-.esriGeocoderHasValue .esriGeocoderReset
-{
-    cursor: pointer;
-    display: block;
-    background: url(../images/ui/uiSprite.png) no-repeat -32px 0px;
-}
-
-.esriGeocoderLoading .esriGeocoderReset
-{
-    background: url(../images/ui/ajax-loader.gif) no-repeat center center;
-}
-
-.esriGeocoder .esriGeocoderReset:hover, .esriGeocoder .esriGeocoderReset:focus
-{
-    opacity: .75;
 }
 
 .esriGeocoder .esriGeocoderMenuArrow
@@ -196,17 +151,6 @@
     color: #fff;
 }
 
-.esriGeocoderResultLast
-{
-    -webkit-border-radius: 0 0 2px 2px;
-    border-radius: 0 0 2px 2px;
-}
-
-.esriGeocoderResult .esriGeocoderResultPartial
-{
-    font-weight: 700;
-}
-
 .esriGeocoderMenu
 {
     display: none;
@@ -233,24 +177,6 @@
     background: #666;
     color: #fff;
     font-weight: 700;
-}
-
-.esriGeocoderMenu .esriGeocoderMenuClose
-{
-    display: block;
-    float: right;
-    width: 16px;
-    height: 16px;
-    background: url(../images/modernGrey.png) no-repeat -64px 0;
-    cursor: pointer;
-    outline: 0;
-}
-
-
-
-.esriGeocoderMenu .esriGeocoderMenuClose:hover, .esriGeocoderMenu .esriGeocoderMenuClose:focus
-{
-    opacity: .75;
 }
 
 .esriGeocoderMenu .esriGeocoderSelectedCheck

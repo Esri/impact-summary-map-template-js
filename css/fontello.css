@@ -19,7 +19,7 @@
 }
 */
 
-[class^="icon-"]:before, [class*=" icon-"]:before, .leftArrow, .rightArrow, .dijitDialogCloseIcon,.esriGeocoderSearch {
+[class^="icon-"]:before, [class*=" icon-"]:before, .leftArrow, .rightArrow, .dijitDialogCloseIcon,.esriGeocoderSearch,.facebook-icon,.twitter-icon,.gmail-icon,.email-icon {
   font-family: "fontello";
   font-style: normal;
   font-weight: normal;
@@ -42,6 +42,7 @@
   /* Animation center compensation - margins should be symmetric */
   /* remove if not needed */
   margin-left: .2em;
+ 
   /* you can be more comfortable with increased icons size */
   /* font-size: 120%; */
  
@@ -53,7 +54,7 @@
 {
     content: '\e808';
 }
- 
+
 .icon-home-1:before { content: '\e808'; } /* '' */
 .icon-up-dir:before { content: '\e811'; } /* '' */
 .icon-right-dir-1:before { content: '\e807'; } /* '' */
@@ -95,3 +96,32 @@
 {
     content: '\e800';
 }
+.facebook-icon:before
+{
+     color:rgb(60,90,153);
+     font-size:2em;
+     content: '\e80e';
+}
+
+.twitter-icon:before
+{
+     color :rgb(44,173,238);
+     font-size:2em;
+     content: '\e818';
+}
+
+.gmail-icon:before
+{
+     color:rgb(210,58,48);
+     font-size:2em;
+     content: '\e819';
+}
+
+.email-icon:before
+{
+     color:rgb(242,126,28);
+     font-size:2em;
+     content: '\e802';
+}
+
+

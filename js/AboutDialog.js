@@ -58,7 +58,9 @@ function (
                 container: "buttonContainer",
                 button: "toggle-grey",
                 buttonSelected: "toggle-grey-on",
-                icon: "icon-info-circled-1"
+                icon: "icon-info-circled-1",
+                aboutDialogHeader: "aboutDialogHeader",
+                licenseInfoNode: "licenseInfoNode"
             };
         },
         // start widget. called by user
@@ -80,7 +82,7 @@ function (
         /* Public Functions */
         /* ---------------- */
         show: function(){
-            this.set("visible", true);
+            this.set("visible", true);  
         },
         hide: function(){
             this.set("visible", false);
@@ -112,7 +114,7 @@ function (
             if(!this.get("dialog")){
                 var dialog = new Dialog({
                     title: i18n.widgets.AboutDialog.title,
-                    style: "max-width: 400px"
+                    style: "max-width: 450px"
                 }, this._dialogNode);
                 this.set("dialog", dialog);
             }

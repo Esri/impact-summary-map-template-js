@@ -6,7 +6,8 @@
     "dojo/on",
     "dojo/query",
     "dojo/dom-class",
-    "dojo/dom-construct"
+    "dojo/dom-construct",
+    "dojo/dom-geometry"
 ],
 function (
      Evented,
@@ -16,7 +17,8 @@ function (
      on,
      query,
      domClass,
-     domConstruct
+     domConstruct,
+     domGeom
 ) {
     var Widget = declare(null, {
 
@@ -33,9 +35,9 @@ function (
             var outerDiv = domConstruct.create('div', { "id": "slider" + slider.id, "class": "divSliderContainer" }, null);
             outerDiv.ondblclick = function (evt) {
                 if (evt.stopPropagation) {
-                    evt.stopPropagation();   
+                    evt.stopPropagation();
                 } else {
-                    evt.cancelBubble = true; 
+                    evt.cancelBubble = true;
                 }
             }
             var innerDiv = domConstruct.create('div', { "class": "divInnerSliderContainer" }, outerDiv);
@@ -47,7 +49,7 @@ function (
 
             var tdSlider = domConstruct.create('td', {}, trSlider);
             var divSlider = domConstruct.create('div', { "id": "divSlider" + slider.id, "class": "divSliderContent" }, tdSlider);
-            var divSliderContent = domConstruct.create('div', { "class": "carouselscroll" }, divSlider);
+            var divSliderContent = domConstruct.create('div', { "class": "carouselscroll slidePanel" }, divSlider);
             var divSliderHolder = domConstruct.create('div', {}, divSliderContent);
 
             divSliderHolder.appendChild(this.sliderContent);
@@ -69,15 +71,16 @@ function (
 
         //function to move slider on right side
         _slideRight: function (slider) {
+
+            var tdWidth = (query('#' + slider + ' .divSliderContent')[0].offsetWidth / 4) + 1;
             var difference = query('#' + slider + ' .divSliderContent')[0].offsetWidth - query('#' + slider + ' .carouselscroll')[0].offsetWidth;
             if (!domClass.contains(query('#' + slider + ' .rightArrow')[0], "disableArrow")) {
                 if (this.newLeft >= difference) {
                     if (domClass.contains(query('#' + slider + ' .leftArrow')[0], "disableArrow")) {
                         domClass.remove(query('#' + slider + ' .leftArrow')[0], "disableArrow");
                     }
-                    this.newLeft = this.newLeft - 126;
+                    this.newLeft = this.newLeft - tdWidth;
                     query('#' + slider + ' .carouselscroll')[0].style.left = this.newLeft + "px";
-                    domClass.add(query('#' + slider + ' .carouselscroll'), "slidePanel");
 
                     if ((this.newLeft <= (difference + 5))) {
                         domClass.add(query('#' + slider + ' .rightArrow')[0], "disableArrow");
@@ -94,17 +97,16 @@ function (
 
         //function to move slider on left side
         _slideLeft: function (slider) {
+            var tdWidth = (query('#' + slider + ' .divSliderContent')[0].offsetWidth / 4) + 1;
             var difference = query('#' + slider + ' .divSliderContent')[0].offsetWidth - query('#' + slider + ' .carouselscroll')[0].offsetWidth;
             if (this.newLeft < 0) {
-                if (this.newLeft > (-126)) {
+                if (this.newLeft > (-tdWidth)) {
                     this.newLeft = 0;
                 }
                 else {
-                    this.newLeft = this.newLeft + 126;
+                    this.newLeft = this.newLeft + tdWidth;
                 }
                 query('#' + slider + ' .carouselscroll')[0].style.left = this.newLeft + "px";
-                domClass.add(query('#' + slider + ' .carouselscroll')[0], "slidePanel");
-
                 if (domClass.contains(query('#' + slider + ' .rightArrow')[0], "disableArrow")) {
                     if (this.newLeft >= difference) {
                         domClass.remove(query('#' + slider + ' .rightArrow')[0], "disableArrow");

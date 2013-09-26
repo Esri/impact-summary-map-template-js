@@ -52,8 +52,8 @@ function (
             this.set("url",this.options.url);
             this.set("visible", this.options.visible);
             this.set("dialog", this.options.dialog);
-            this.set("embedWidth", this.options.embedWidth);
-            this.set("embedHeight", this.options.embedHeight);
+            this.set("embedWidth", this.options.config.embedMapSize[0].width);
+            this.set("embedHeight", this.options.config.embedMapSize[0].height);
             // listeners
             this.watch("theme", this._updateThemeWatch);
             this.watch("url", this._updateUrlWatch);
@@ -65,7 +65,12 @@ function (
                 embed: "embedPage",
                 button: "toggle-grey",
                 buttonSelected: "toggle-grey-on",
-                icon: "icon-share"
+                icon: "icon-share",
+                facebookIcon: "facebook-icon",
+                twitterIcon: "twitter-icon",
+                gmailIcon: "gmail-icon",
+                emailIcon: "email-icon",
+                shareDialogText: "shareDialogText"
             };
         },
         // start widget. called by user
@@ -130,6 +135,14 @@ function (
             this._updateUrlWatch();
             this.set("loaded", true);
             this.emit("load", {});
+            on(this._comboBoxNode, "change", lang.hitch(this, function (evt) {
+                this.set("embedWidth", this.config.embedMapSize[evt.currentTarget.value].width);
+                this.set("embedHeight", this.config.embedMapSize[evt.currentTarget.value].height);
+                this._updateUrlWatch();
+            }));
+            for (i in this.config.embedMapSize) {
+                this._comboBoxNode.options[this._comboBoxNode.options.length] = new Option(this.config.embedMapSize[i].width + " X " + this.config.embedMapSize[i].height, i);
+            }
         },
         _updateUrlWatch: function(){            
             var es = '<iframe width="' + this.get("embedWidth") + '" height="' + this.get("embedHeight") + '" src="' + this.get("url") + '" frameborder="0" scrolling="no"></iframe>';

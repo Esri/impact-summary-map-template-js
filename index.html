@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <!--Define the versions of IE that will be used to render the page. See Microsoft documentation for details. Optional.-->
     <meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10">
-    <meta name="viewport" content="width=device-width; initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!--Use protocol relative urls that way if the browser is viewing the page via HTTPS the js/css file will be requested using the HTTPS protocol-->
     <link rel="stylesheet" href="//js.arcgis.com/3.7/js/dojo/dijit/themes/claro/claro.css">
 	<link rel="stylesheet" type="text/css" href="//js.arcgis.com/3.7/js/esri/css/esri.css">
@@ -24,8 +24,7 @@
     <link href="css/AboutDialog.css" rel="stylesheet" type="text/css" />
     <link href="css/mediaQuery.css" rel="stylesheet" type="text/css" />
 	<!--[if IE 7]><link rel="stylesheet" href="css/fontello-ie7.css"><![endif]-->
-    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet'
-        type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
 </head>
 <body class="claro">
    <!--The ArcGIS API for JavaScript provides bidirectional support.  When viewing the application in an right to left (rtl) language like Hebrew and Arabic the map needs to remain in left-to-right (ltr) mode. Specify this by setting the dir attribute on the div to ltr. --> 
@@ -94,23 +93,23 @@
     <script type="text/javascript">
     var package_path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
     var dojoConfig = {
-    	//The location.pathname.replace() logic below may look confusing but all its doing is
+    	//The location.pathname.replace() logic below may look confusing but all its doing is 
     	// enabling us to load the api from a CDN and load local modules from the correct location.
         packages:[
         { 
             name: "application",
-            location: package_path + '/js'
-        },
-        {
-            name: "modules",
-            location: package_path + '/js'
+            location: package_path + '/js' 
          },
-         {
+         { 
+            name: "modules",
+            location: package_path + '/js' 
+         },
+         { 
             name: "views",
-            location: package_path + '/views'
+            location: package_path + '/views' 
          },{
             name: "config",
-            location: package_path + '/config'
+            location: package_path + '/config'                     
          }
         ]
     };
@@ -127,20 +126,20 @@
     		Main,
     		Template
     	){
-    	    //create the template. This will take care of all the logic required for template applciations
-    	    //If you need localization set the supportsLocalization value to true to get the localized strings
-    	    //from the javascript/nls/resource files.
+            //create the template. This will take care of all the logic required for template applciations 
+            //If you need localization set the supportsLocalization value to true to get the localized strings 
+            //from the javascript/nls/resource files. 
             //Note that we've included a placeholder nls folder and a resource file with one error string
-    	    //to show how to setup the strings file.
+            //to show how to setup the strings file. 
             var supportsLocalization = true; //defaults to false
             var myTemplate = new Template(supportsLocalization);
             on(myTemplate, "ready", function(config){
-    	        //The config object contains the following properties: helper services, (optionally)
-    	        //i18n, appid, webmap and any custom values defined by the applcation.
-    	        //In this example we have one called theme.
-    	        Main(config);
-    	    });
+                //The config object contains the following properties: helper services, (optionally) 
+                //i18n, appid, webmap and any custom values defined by the applcation. 
+                //In this example we have one called theme. 
+                Main(config);
+            });
     	});
-    </script>
+    </script> 	
 </body>
 </html>
