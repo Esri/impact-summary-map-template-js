@@ -41,7 +41,7 @@ define([
     "modules/Slider",
     "esri/dijit/Popup"
 ],
-function (
+function(
     ready,
     declare,
     lang,
@@ -78,30 +78,30 @@ function (
 ) {
     return declare("", null, {
         config: {},
-        constructor: function (config) {
+        constructor: function(config) {
             this._containers();
             //config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
             // any url parameters and any application specific configuration information.
             this.config = config;
             this._cssStyles();
-            ready(lang.hitch(this, function () {
+            ready(lang.hitch(this, function() {
                 this._setLanguageStrings();
                 this._createWebMap();
             }));
         },
-        _setLanguageStrings: function () {
+        _setLanguageStrings: function(){
             var node;
             node = dom.byId('legend_name');
-            if (node) {
+            if(node){
                 node.innerHTML = this.config.i18n.general.legend;
             }
             node = dom.byId('impact_name');
-            if (node) {
+            if(node){
                 node.innerHTML = this.config.impact_layer || this.config.i18n.general.impact;
             }
         },
-        _cssStyles: function () {
+        _cssStyles: function(){
             this.css = {
                 toggleBlue: 'toggle-grey',
                 toggleBlueOn: 'toggle-grey-on',
@@ -119,9 +119,9 @@ function (
                 statsPanelSelected: 'panel-expanded'
             };
         },
-        _containers: function () {
+        _containers: function() {
             // outer container
-            this._bc_outer = new BorderContainer({ gutters: false }, dom.byId('bc_outer'));
+            this._bc_outer = new BorderContainer({gutters:false}, dom.byId('bc_outer'));
             // center panel
             var cp_outer_center = new ContentPane({
                 region: "center"
@@ -134,7 +134,7 @@ function (
             this._bc_outer.addChild(cp_outer_left);
             this._bc_outer.startup();
             // inner countainer
-            this._bc_inner = new BorderContainer({ gutters: false }, dom.byId('bc_inner'));
+            this._bc_inner = new BorderContainer({gutters:false}, dom.byId('bc_inner'));
             // top panel
             var cp_inner_top = new ContentPane({
                 region: "top"
@@ -148,7 +148,7 @@ function (
             this._bc_inner.startup();
             this._bc_outer.layout();
             this._bc_inner.layout();
-            on(dom.byId('hamburger_button'), 'click', lang.hitch(this, function (evt) {
+            on(dom.byId('hamburger_button'), 'click', lang.hitch(this, function(evt) {
                 this._toggleDrawer();
                 domClass.toggle(evt.currentTarget, this.css.toggleBlueOn);
             }));
@@ -156,71 +156,71 @@ function (
             this._drawerWidth = domGeom.getContentBox(this._drawer).w;
             this._drawerMenu();
         },
-        _showDrawerPanel: function (buttonNode) {
-            var menus = query('.' + this.css.menuItemSelected, dom.byId('drawer_menu'));
+        _showDrawerPanel: function(buttonNode){
+            var menus = query('.' +  this.css.menuItemSelected, dom.byId('drawer_menu'));
             var panels = query('.' + this.css.menuPanelSelected, dom.byId('drawer_panels'));
             var i;
-            for (i = 0; i < menus.length; i++) {
+            for(i = 0; i < menus.length; i++){
                 domClass.remove(menus[i], this.css.menuItemSelected);
             }
-            for (i = 0; i < panels.length; i++) {
+            for(i = 0; i < panels.length; i++){
                 domClass.remove(panels[i], this.css.menuPanelSelected);
             }
             var menu = domAttr.get(buttonNode, 'data-menu');
             domClass.add(buttonNode, this.css.menuItemSelected);
             domClass.add(menu, this.css.menuPanelSelected);
         },
-        _drawerMenu: function () {
+        _drawerMenu: function(){
             var menus = query('.item', dom.byId('drawer_menu'));
-            on(menus, 'click', lang.hitch(this, function (evt) {
+            on(menus, 'click', lang.hitch(this, function(evt) {
                 this._showDrawerPanel(evt.currentTarget);
             }));
         },
-        _setTitle: function (title) {
+        _setTitle: function(title){
             var node = dom.byId('title');
-            if (node) {
+            if(node){
                 node.innerHTML = title;
             }
             window.document.title = title;
         },
-        _toggleDrawer: function () {
-            if (domStyle.get(this._drawer, 'display') === 'block') {
+        _toggleDrawer: function(){
+            if(domStyle.get(this._drawer, 'display') === 'block'){
                 fx.animateProperty({
-                    node: this._drawer,
+                    node:this._drawer,
                     properties: {
-                        width: { start: this._drawerWidth, end: 0 }
+                        width: { start:this._drawerWidth, end: 0 }
                     },
                     duration: 250,
                     easing: easing.expoOut,
-                    onAnimate: lang.hitch(this, function () {
+                    onAnimate: lang.hitch(this, function(){
                         this._bc_outer.layout();
                     }),
-                    onEnd: lang.hitch(this, function () {
+                    onEnd: lang.hitch(this, function(){
                         domStyle.set(this._drawer, 'display', 'none');
                         this._bc_outer.layout();
                     })
                 }).play();
             }
-            else {
+            else{
                 domStyle.set(this._drawer, 'display', 'block');
                 fx.animateProperty({
-                    node: this._drawer,
+                    node:this._drawer,
                     properties: {
-                        width: { start: 0, end: this._drawerWidth }
+                        width: { start:0, end: this._drawerWidth }
                     },
                     duration: 250,
                     easing: easing.expoOut,
-                    onAnimate: lang.hitch(this, function () {
+                    onAnimate: lang.hitch(this, function(){
                         this._bc_outer.layout();
                     }),
-                    onEnd: lang.hitch(this, function () {
+                    onEnd: lang.hitch(this, function(){
                         this._bc_outer.layout();
                     })
                 }).play();
             }
         },
         _toggleSlider: function (domSlider) {
-            var height = 200;
+            var height = 178;
             var cont = query('.geodata-container')[0];
             var divCount = query('.panel .count');
             if (domStyle.get(domSlider, 'display') === 'block') {
@@ -238,16 +238,17 @@ function (
                         array.forEach(divCount, function (elementCount) {
                             domStyle.set(elementCount, 'display', 'block');
                         });
+                        domStyle.set(cont, 'height', 'auto');
                         fx.animateProperty({
                             node: cont,
                             properties: {
-                                height: { start: 0, end: height }
+                                height: { start: 0, end: domGeom.getMarginBox(cont).h }
                             },
                             duration: 400,
                             easing: easing.expoOut
 
                         }).play();
-                    })
+                   })
                 }).play();
             }
             else {
@@ -296,8 +297,8 @@ function (
                         }
                     }
                 }
-                sum.numFormat = function () {
-                    return function (text, render) {
+                sum.numFormat = function() {
+                    return function(text, render) {
                         return number.format(parseInt(render(text), 10));
                     };
                 };
@@ -323,8 +324,7 @@ function (
                     this._hideExpanded(evt.currentTarget);
 
                 }));
-
-                this._expandedClick = on(query('.' + this.css.statsPanelSelected, this.dataNode), 'click', lang.hitch(this, function (evt) {
+		this._expandedClick = on(query('.' + this.css.statsPanelSelected, this.dataNode), 'click', lang.hitch(this, function (evt) {
                     event.stop(evt);
                     evt.cancelBubble = true;
                 }));
@@ -342,15 +342,13 @@ function (
                 domStyle.set(this.dataNode, 'display', 'none');
             }
             var slider = query('.panel-expanded .tblSlideContainer');
+	    array.forEach(slider, function (node) {
+	    var sliderContentInfo = query('.tblSlide', node)[0];
 
-            array.forEach(slider, function (node) {
-
-                var sliderContentInfo = query('.tblSlide', node)[0];
-                var childNode = query('td', sliderContentInfo).length;
+	    var childNode = query('td', sliderContentInfo).length;
                 if (childNode > 4) {
                     if (sliderContentInfo) {
                         var objSlider = new Slider({ sliderContent: sliderContentInfo, sliderParent: node });
-
                     }
                 }
             });
@@ -366,7 +364,7 @@ function (
 
         },
         // get layer of impact area by layer title
-        getLayerByTitle: function (map, layers, title) {
+        getLayerByTitle: function(map, layers, title) {
             for (var i = 0; i < layers.length; i++) {
                 var layer = layers[i];
                 if (layer.title.toLowerCase() === title.toLowerCase()) {
@@ -377,11 +375,11 @@ function (
             }
             return false;
         },
-        _setValueRange: function () {
+        _setValueRange: function() {
             this._multiple = false;
             var renderer = this._impactLayer.renderer;
             this._attributeField = renderer.attributeField || this.config.impact_field;
-            if (renderer) {
+            if(renderer){
                 var infos = renderer.infos;
                 if (infos && infos.length) {
                     // multiple polygon impact
@@ -396,16 +394,16 @@ function (
                     if (output) {
                         dom.byId('renderer_menu').innerHTML = output;
                         domStyle.set(dom.byId('renderer_menu'), 'display', 'block');
-                        this._summarizeClick = on(dom.byId('summarize'), 'click', lang.hitch(this, function (evt) {
+                        this._summarizeClick = on(dom.byId('summarize'), 'click', lang.hitch(this, function(evt) {
                             this._clearSelected();
                             domClass.add(evt.currentTarget, this.css.rendererSelected);
                             var q = new Query();
                             q.where = '1 = 1';
-                            this._impactLayer.queryFeatures(q, lang.hitch(this, function (fs) {
+                            this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
                                 this._displayStats(fs.features);
                             }));
                         }));
-                        on(query('.' + this.css.rendererMenuItem, dom.byId('renderer_menu')), 'click', lang.hitch(this, function (evt) {
+                        on(query('.'  + this.css.rendererMenuItem, dom.byId('renderer_menu')), 'click', lang.hitch(this, function(evt) {
                             this._clearSelected();
                             var value = domAttr.get(evt.currentTarget, 'data-value');
                             domClass.add(evt.currentTarget, this.css.rendererSelected);
@@ -415,7 +413,7 @@ function (
                             } else {
                                 q.where = this._attributeField + ' = ' + value;
                             }
-                            this._impactLayer.queryFeatures(q, lang.hitch(this, function (fs) {
+                            this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
                                 this._displayStats(fs.features);
                             }));
                         }));
@@ -423,14 +421,14 @@ function (
                 }
             }
         },
-        _selectEvent: function (evt) {
+        _selectEvent: function(evt) {
             if (evt.graphic) {
                 this._clearSelected();
                 this._displayStats([evt.graphic]);
                 event.stop(evt);
             }
         },
-        _init: function () {
+        _init: function() {
             var LB = new LocateButton({
                 map: this.map,
                 theme: "LocateButtonCalcite"
@@ -460,7 +458,8 @@ function (
 
             this._ShareDialog = new ShareDialog({
                 theme: "icon-right",
-                config: this.config
+                config: this.config,
+                map: this.map
             }, 'ShareDialog');
             this._ShareDialog.startup();
 
@@ -478,9 +477,9 @@ function (
             geocoder.startup();
             /* Start temporary until after JSAPI 3.8 is released */
             var layers = this.map.getLayersVisibleAtScale(this.map.getScale());
-            on.once(this.map, 'basemap-change', lang.hitch(this, function () {
-                for (var i = 0; i < layers.length; i++) {
-                    if (layers[i]._basemapGalleryLayerType) {
+            on.once(this.map, 'basemap-change', lang.hitch(this, function(){
+                for(var i = 0; i < layers.length; i++){
+                    if(layers[i]._basemapGalleryLayerType){
                         var layer = this.map.getLayer(layers[i].id);
                         this.map.removeLayer(layer);
                     }
@@ -493,7 +492,7 @@ function (
             }), this.map._layersDiv, 'first');
             // get layer by id
             this._impactLayer = this.getLayerByTitle(this.map, this.layers, this.config.impact_layer);
-            if (this._impactLayer) {
+            if(this._impactLayer){
                 this._selectedGraphics = new GraphicsLayer({
                     id: "selectedArea",
                     visible: this._impactLayer.visible
@@ -503,28 +502,28 @@ function (
             this._setValueRange();
             var q = new Query();
             q.where = '1=1';
-            if (this._multiple) {
+            if(this._multiple){
                 //q.where = '"' + this._attributeField + '" = (SELECT MAX("' + this._attributeField + '") FROM ' + this._impactLayer.id + ')';
                 //console.log(q.where);
                 // FIELD" = (SELECT MAX("FIELD") FROM layer)
                 q.orderByFields = [this._attributeField + ' DESC'];
             }
-            this._impactLayer.queryFeatures(q, lang.hitch(this, function (fs) {
+            this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
                 if (fs.features.length) {
                     this._displayStats([fs.features[0]]);
                 }
             }));
-            on(this._selectedGraphics, 'click', lang.hitch(this, function (evt) {
+            on(this._selectedGraphics, 'click', lang.hitch(this, function(evt) {
                 this._selectEvent(evt);
             }));
-            on(this._impactLayer, 'click', lang.hitch(this, function (evt) {
+            on(this._impactLayer, 'click', lang.hitch(this, function(evt) {
                 this._selectEvent(evt);
             }));
-            on(this._impactLayer, 'visibility-change', lang.hitch(this, function (evt) {
+            on(this._impactLayer, 'visibility-change', lang.hitch(this, function(evt) {
                 this._selectedGraphics.setVisibility(evt.visible);
             }));
         },
-        _clearSelected: function () {
+        _clearSelected: function() {
             var items = query('.' + this.css.rendererSelected, dom.byId('renderer_menu'));
             var i;
             if (items && items.length) {
@@ -534,7 +533,7 @@ function (
             }
         },
         //create a map based on the input web map id
-        _createWebMap: function () {
+        _createWebMap: function() {
             // popup dijit
             var customPopup = new Popup({
             }, domConstruct.create("div"));
@@ -547,7 +546,7 @@ function (
                     //turn the slider off, display info windows, disable wraparound 180, slider position and more.
                 },
                 bingMapsKey: this.config.bingmapskey
-            }).then(lang.hitch(this, function (response) {
+            }).then(lang.hitch(this, function(response) {
                 //Once the map is created we get access to the response which provides important info
                 //such as the map, operational layers, popup info and more. This object will also contain
                 //any custom options you defined for the template. In this example that is the 'theme' property.
@@ -563,11 +562,11 @@ function (
                 if (this.map.loaded) {
                     this._init();
                 } else {
-                    on(this.map, 'load', lang.hitch(this, function () {
+                    on(this.map, 'load', lang.hitch(this, function() {
                         this._init();
                     }));
                 }
-            }), lang.hitch(this, function (error) {
+            }), lang.hitch(this, function(error) {
                 //an error occurred - notify the user. In this example we pull the string from the
                 //resource.js file located in the nls folder because we've set the application up
                 //for localization. If you don't need to support mulitple languages you can hardcode the

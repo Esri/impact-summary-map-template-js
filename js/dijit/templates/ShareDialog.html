@@ -5,22 +5,21 @@
     <div data-dojo-attach-point="_dialogNode" class="dialogNode">
         <div >${_i18n.widgets.ShareDialog.heading}</div>
         <div class="iconContainer">
-        <div class="${_css.facebookIcon}" data-dojo-attach-point="facebook"></div>
-        <div class="${_css.twitterIcon}"></div>
-        <div class="${_css.gmailIcon}"></div>
-        <div class="${_css.emailIcon}"></div>
+            <div class="${_css.facebookIcon}" data-dojo-attach-point="_facebookButton"></div>
+            <div class="${_css.twitterIcon}" data-dojo-attach-point="_twitterButton"></div>
+            <div class="${_css.gplusIcon}" data-dojo-attach-point="_gpulsButton"></div>
+            <div class="${_css.emailIcon}" data-dojo-attach-point="_emailButton"></div>
         </div>
         <div class="${_css.shareDialogText}">${_i18n.widgets.ShareDialog.url}</div>
         <div>
-        <input id="ltb"  data-dojo-type="dijit/form/TextBox" />
+            <input class="${_css.shareMapURL}"  type="text"  data-dojo-attach-point="_shareMapUrlText" readonly/>
         </div>
         <div class="${_css.shareDialogText}">${_i18n.widgets.ShareDialog.embed}</div>
         <div  class="${_css.embed}">
-        <textarea data-dojo-attach-point="_embedNode" rows="5" cols="30"></textarea>
+            <textarea data-dojo-attach-point="_embedNode" rows="5" cols="30"></textarea>
         </div>
         <div class="${_css.shareDialogText}">${_i18n.widgets.ShareDialog.size}
             <select   data-dojo-attach-point="_comboBoxNode">
-
             </select>
         </div>
     </div>

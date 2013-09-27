@@ -21,7 +21,7 @@ html,body {
 	border:0;
 	overflow:hidden;
 	z-index:3;
-        background-color:transparent;
+    background-color:transparent;
 }
 
 #cp_outer_left {
@@ -77,12 +77,12 @@ html,body {
 
 #drawer_panels .panel {
 	display:none;
-        width: 100%;
+    width: 100%;
 }
 
 #drawer_panels .panel-selected {
 	display:block;
-        width: 100%;
+ 	width: 100%;
 }
 
 #drawer_menu {
@@ -91,7 +91,7 @@ html,body {
 	line-height:18px;
 	text-align:center;
 	overflow:visible;
-        width: 100%;
+	width: 100%;
 }
 
 #drawer_menu .item {
@@ -146,7 +146,7 @@ html,body {
 .topBar {
 	background:#f8f8f8;
 	height:34px;
-        border-bottom: 1px solid #ddd;
+  	border-bottom: 1px solid #ddd;
 }
 
 #title {
@@ -256,6 +256,7 @@ html,body {
 	padding:0;
 	margin:0;
 	text-align:center;
+	display:block;
 	border-collapse:collapse;
 	border:0;
 }
@@ -265,14 +266,14 @@ html,body {
 	margin:0;
 	text-align:left;
 	border:0;
-        height: 90px;
+    height: 90px;
 }
 
 .tblSlide tr td {
-    	background-color: #fff !important;
-    	padding: 0px 5px 0px 20px;
-    	border-right: 1px solid #ccc;
-    	border-collapse: collapse;
+   	background-color: #fff !important;
+  	padding: 0px 5px 0px 20px;
+   	border-right: 1px solid #ccc;
+  	border-collapse: collapse;
 }
 
 .geoData tr .last {
@@ -281,7 +282,7 @@ html,body {
 
 .geoData .panel {
 	text-align:center;
-    	display: inline-block;
+    display: inline-block;
 	float:left;
 	color:#fff;
 	cursor:pointer;
@@ -290,56 +291,56 @@ html,body {
 .geoData .panel-expanded {
 	text-align:center;
 	display:inline-block;
-    	color: gray;
-    	padding: 0px;
-	margin:10px 0px;
+    color: gray;
+    padding: 0px;
+	margin:5px 0px;
 	display:none;
 	cursor:pointer;
-    	border: 1px solid gray;
-    	border-top: none;
-    	border-bottom: none;
+    border: 1px solid gray;
+   	border-top: none;
+    border-bottom: none;
 }
 
 .population .tblSlideContainer {
-    	border-bottom: 3px solid #da4d1e !important;
-    	border-bottom: 3px solid rgba(218,77,30,0.80) !important;
+   	border-bottom: 3px solid #da4d1e !important;
+   	border-bottom: 3px solid rgba(218,77,30,0.80) !important;
 }
 
 .households .tblSlideContainer {
-    	border-bottom: 3px solid #004575 !important;
-    	border-bottom: 3px solid rgba(0,69,117,0.80) !important;
+   	border-bottom: 3px solid #004575 !important;
+   	border-bottom: 3px solid rgba(0,69,117,0.80) !important;
 }
 
 .critical-infrastructure .tblSlideContainer{
-    	border-bottom: 3px solid #35ac46;
-    	border-bottom: 3px solid rgba(42,116,51,0.80) !important;
+   	border-bottom: 3px solid #35ac46;
+   	border-bottom: 3px solid rgba(42,116,51,0.80) !important;
 }
 
 .businesses .tblSlideContainer{
-    	border-bottom: 3px solid #6b1978 !important;
-    	border-bottom: 3px solid rgba(107,25,120,0.80) !important;
+   	border-bottom: 3px solid #6b1978 !important;
+   	border-bottom: 3px solid rgba(107,25,120,0.80) !important;
 }
 .geoData .count, .tblSlide .count {
-	font-size:34px;
+	font-size:32px;
 	margin:0;
-    	text-align: left;
+    text-align: left;
 }
 .geoData .panel .count {
-	padding:15px 25px;
-    	text-align: center;
+     padding:15px 5px;
+     text-align: center;
 }
 .tblSlide .count {
-    	margin-top: 5px;
+     margin-top: 5px;
 }
 .geoData .panel .title {
-    	margin: 0;
-    	padding: 3px 35px;
-    	font-size: 14px;
-    	font-weight: normal;
+   	margin: 0;
+   	padding: 3px 30px;
+    font-size: 14px;
+   	font-weight: normal;
 }
 
 .tblSlide .count, .tblSlide .title {
-    	background-color: #fff !important;
+   	background-color: #fff !important;
 }
 .geoData .population .count {
 	background-color:#f36f20;
@@ -425,46 +426,150 @@ html,body {
 .clear {
 	clear:both;
 }
+
 .divHeader {
-    	height: 26px;
-    	width: 100%;
-    	border-bottom: 1px solid gray;
-}
-.divHeaderTitle {
-    	color: #fff;
-    	float: left;
-    	height: 25px;
-    	padding: 0px 5px;
-    	border: 1px solid gray;
-    	border-bottom: none;
-    	border-left: none;
-    	border-collapse: collapse;
-}
-.divHeaderClose {
-    	float: right;
-    	height: 25px;
-    	border: 1px solid gray;
-    	border-bottom: 1px solid #fff !important;
-    	border-right: none;
-    	border-collapse: collapse;
-    	padding: 0px 5px;
-    	font-size: 20px;
-    	background-color: #fff;
-}
-.tblSlide .title {
-    	margin: 0;
-    	padding: 2px 0px;
-    	font-size: 14px;
-    	font-weight: normal;
-    	width: 100px;
-    	height: 30px;
-    	word-break: break-word;
-    	overflow: hidden;
+    height: 26px;
+    width: 100%;
+    border-bottom: 1px solid gray;
 }
 
-.tblSlideContainer
+.divHeaderTitle {
+    color: #fff;
+    float: left;
+    height: 25px;
+    padding: 0px 5px;
+    border: 1px solid gray;
+    border-bottom: none;
+    border-left: none;
+    border-collapse: collapse;
+}
+
+.divHeaderClose {
+    float: right;
+    height: 25px;
+    border: 1px solid gray;
+    border-bottom: 1px solid #fff !important;
+    border-right: none;
+    border-collapse: collapse;
+    padding: 0px 5px;
+    font-size: 20px;
+    background-color: #fff;
+}
+
+.tblSlide .title {
+    margin: 0;
+    padding: 2px 0px;
+    font-size: 14px;
+    font-weight: normal;
+    width: 100px;
+    height: 30px;
+    word-break: break-word;
+    overflow: hidden;
+}
+
+.tblSlideContainer {
+    background-color: #fff;
+    height: 108px;
+    width:100%;
+}
+/*---------------------------------------------------------------------------*/
+/*style for impact polygon slider*/
+.leftArrow
 {
-    	background-color: #fff;
-    	height: 108px;
-    	width:100%;
+    position: absolute;
+    top: 34px;
+    left: -2px;
+    font-size: 40px;
+    width: 30px;
+    height:30px;
+    line-height: 30px;
+    cursor: pointer;
+    color: rgb(221, 220, 220);
+}
+
+.disableArrow {
+    color: #ccc;
+    display: none;
+    cursor: default !important;
+}
+
+.rightArrow {
+    color: rgb(221, 220, 220);
+    position: absolute;
+    top: 34px;
+    right: -4px;
+    width: 30px;
+    line-height: 30px;
+    height: 30px;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.slidePanel {
+    transition-property: left;
+    transition-duration: 1s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+    -webkit-transition-property: left;
+    -webkit-transition-duration: 1s;
+    -webkit-transition-timing-function: linear;
+    -webkit-transition-delay: 0s;
+}
+
+.divSliderContainer
+{
+    top: 90px;
+    left: 60px;
+    z-index: 1002;
+    background-color: #fff;
+}
+
+.divInnerSliderContainer {
+    bottom: 0px;
+    height: 100%;
+    width: 100%;
+    z-index: 1005;
+    position: relative;
+    background: transparent;
+    text-align: center;
+}
+
+.carouselscroll {
+    float: left;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    vertical-align: middle;
+}
+
+.divSliderContent {
+    height: 100%;
+    width: 500px;
+    background-color: transparent;
+    position: relative;
+    overflow: hidden;
+    float: left;
+}
+.carouselOfficescroll {
+    float: left;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    vertical-align: middle;
+}
+
+.tblSlide {
+    width: 100%;
+    height: 100%;
+}
+
+.esriGeocoderResults {
+    position: relative !important;
+}
+
+.topMenuRight {
+    position: relative;
+    top: 0;
+    left: 0;
+    float: right;
 }

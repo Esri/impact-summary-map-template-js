@@ -19,33 +19,33 @@
 }
 */
 
-[class^="icon-"]:before, [class*=" icon-"]:before, .leftArrow, .rightArrow, .dijitDialogCloseIcon,.esriGeocoderSearch,.facebook-icon,.twitter-icon,.gmail-icon,.email-icon {
+[class^="icon-"]:before, [class*=" icon-"]:before, .leftArrow, .rightArrow, .dijitDialogCloseIcon,.esriGeocoderSearch {
   font-family: "fontello";
   font-style: normal;
   font-weight: normal;
   speak: none;
- 
+
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
   margin-right: .2em;
   text-align: center;
   /* opacity: .8; */
- 
+
   /* For safety - reset parent styles, that can break glyph codes*/
   font-variant: normal;
   text-transform: none;
-     
+
   /* fix buttons height, for twitter bootstrap */
   line-height: 1em;
- 
+
   /* Animation center compensation - margins should be symmetric */
   /* remove if not needed */
   margin-left: .2em;
- 
+
   /* you can be more comfortable with increased icons size */
   /* font-size: 120%; */
- 
+
   /* Uncomment for 3D effect */
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
@@ -96,32 +96,3 @@
 {
     content: '\e800';
 }
-.facebook-icon:before
-{
-     color:rgb(60,90,153);
-     font-size:2em;
-     content: '\e80e';
-}
-
-.twitter-icon:before
-{
-     color :rgb(44,173,238);
-     font-size:2em;
-     content: '\e818';
-}
-
-.gmail-icon:before
-{
-     color:rgb(210,58,48);
-     font-size:2em;
-     content: '\e819';
-}
-
-.email-icon:before
-{
-     color:rgb(242,126,28);
-     font-size:2em;
-     content: '\e802';
-}
-
-

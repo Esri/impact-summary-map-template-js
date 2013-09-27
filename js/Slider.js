@@ -6,8 +6,8 @@
     "dojo/on",
     "dojo/query",
     "dojo/dom-class",
-    "dojo/dom-construct",
-    "dojo/dom-geometry"
+    "dojo/dom-style",
+    "dojo/dom-construct"
 ],
 function (
      Evented,
@@ -17,9 +17,9 @@ function (
      on,
      query,
      domClass,
-     domConstruct,
-     domGeom
-) {
+     domStyle,
+     domConstruct
+){
     var Widget = declare(null, {
 
         constructor: function (options) {
@@ -31,57 +31,58 @@ function (
 
         //function to create slider based on content
         _createSlider: function (slider) {
-
-            var outerDiv = domConstruct.create('div', { "id": "slider" + slider.id, "class": "divSliderContainer" }, null);
-            outerDiv.ondblclick = function (evt) {
+            var sliderOuterContainer, sliderInnerContainer, sliderTable, sliderRow, sliderTdLeftArrow, sliderTdRightArrow, sliderDivLeftArrow, sliderSpanLeftArrow, sliderColumn, sliderDiv, sliderContentDiv,
+                sliderContentHolder, sliderDivRightArrow;
+            sliderOuterContainer = domConstruct.create('div', { "id": "slider" + slider.id, "class": "divSliderContainer" }, null);
+            sliderOuterContainer.ondblclick = function (evt) {
                 if (evt.stopPropagation) {
                     evt.stopPropagation();
                 } else {
                     evt.cancelBubble = true;
                 }
-            }
-            var innerDiv = domConstruct.create('div', { "class": "divInnerSliderContainer" }, outerDiv);
-            var tblSlider = domConstruct.create('table', {}, innerDiv);
-            var trSlider = domConstruct.create('tr', {}, tblSlider);
-            var tdLeft = domConstruct.create('td', { "align": "left", "style": "width: 30px;" }, trSlider);
-            var divLeft = domConstruct.create('div', { "id": slider.id + "leftArrow" }, tdLeft);
-            var spanLeft = domConstruct.create('span', { "class": "leftArrow disableArrow" }, divLeft);
+            };
+            sliderInnerContainer = domConstruct.create('div', { "class": "divInnerSliderContainer" }, sliderOuterContainer);
+            sliderTable = domConstruct.create('table', {}, sliderInnerContainer);
+            sliderRow = domConstruct.create('tr', {}, sliderTable);
+            sliderTdLeftArrow = domConstruct.create('td', { "align": "left", "style": "width: 30px;" }, sliderRow);
+            sliderDivLeftArrow = domConstruct.create('div', { "id": slider.id + "leftArrow" }, sliderTdLeftArrow);
+            sliderSpanLeftArrow = domConstruct.create('span', { "class": "leftArrow disableArrow" }, sliderDivLeftArrow);
 
-            var tdSlider = domConstruct.create('td', {}, trSlider);
-            var divSlider = domConstruct.create('div', { "id": "divSlider" + slider.id, "class": "divSliderContent" }, tdSlider);
-            var divSliderContent = domConstruct.create('div', { "class": "carouselscroll slidePanel" }, divSlider);
-            var divSliderHolder = domConstruct.create('div', {}, divSliderContent);
+            sliderColumn = domConstruct.create('td', {}, sliderRow);
+            sliderDiv = domConstruct.create('div', { "id": "divSlider" + slider.id, "class": "divSliderContent" }, sliderColumn);
+            sliderContentDiv = domConstruct.create('div', { "class": "carouselscroll slidePanel" }, sliderDiv);
+            sliderContentHolder = domConstruct.create('div', {}, sliderContentDiv);
 
-            divSliderHolder.appendChild(this.sliderContent);
+            sliderContentHolder.appendChild(this.sliderContent);
 
-            var tdRight = domConstruct.create('td', { "align": "left", "style": "width: 30px;" }, trSlider);
-            var divRight = domConstruct.create('div', { "id": slider.id + "rightArrow" }, tdRight);
-            var spanLeft = domConstruct.create('span', { "class": "rightArrow" }, divRight);
+            sliderTdRightArrow = domConstruct.create('td', { "align": "left", "style": "width: 30px;" }, sliderRow);
+            sliderDivRightArrow = domConstruct.create('div', { "id": slider.id + "rightArrow" }, sliderTdRightArrow);
+            sliderSpanLeftArrow = domConstruct.create('span', { "class": "rightArrow" }, sliderDivRightArrow);
 
-            this.sliderParent.appendChild(outerDiv);
-            on(divRight, 'click', lang.hitch(this, function () {
-                this._slideRight(outerDiv.id);
+            this.sliderParent.appendChild(sliderOuterContainer);
+            on(sliderDivRightArrow, 'click', lang.hitch(this, function () {
+                this._slideRight(sliderOuterContainer.id);
             }));
-            on(divLeft, 'click', lang.hitch(this, function () {
-                this._slideLeft(outerDiv.id);
+            on(sliderDivLeftArrow, 'click', lang.hitch(this, function () {
+                this._slideLeft(sliderOuterContainer.id);
             }));
-
-
         },
 
         //function to move slider on right side
         _slideRight: function (slider) {
+            var tdWidth, difference, carousel, sliderContent;
+            carousel = query('#' + slider + ' .carouselscroll')[0];
+            sliderContent = query('#' + slider + ' .divSliderContent')[0];
 
-            var tdWidth = (query('#' + slider + ' .divSliderContent')[0].offsetWidth / 4) + 1;
-            var difference = query('#' + slider + ' .divSliderContent')[0].offsetWidth - query('#' + slider + ' .carouselscroll')[0].offsetWidth;
+            tdWidth = (sliderContent.offsetWidth / 4) + 1;
+            difference = sliderContent.offsetWidth - carousel.offsetWidth;
             if (!domClass.contains(query('#' + slider + ' .rightArrow')[0], "disableArrow")) {
                 if (this.newLeft >= difference) {
                     if (domClass.contains(query('#' + slider + ' .leftArrow')[0], "disableArrow")) {
                         domClass.remove(query('#' + slider + ' .leftArrow')[0], "disableArrow");
                     }
                     this.newLeft = this.newLeft - tdWidth;
-                    query('#' + slider + ' .carouselscroll')[0].style.left = this.newLeft + "px";
-
+                    domStyle.set(carousel, 'left', this.newLeft + "px");
                     if ((this.newLeft <= (difference + 5))) {
                         domClass.add(query('#' + slider + ' .rightArrow')[0], "disableArrow");
                     }
@@ -97,8 +98,11 @@ function (
 
         //function to move slider on left side
         _slideLeft: function (slider) {
-            var tdWidth = (query('#' + slider + ' .divSliderContent')[0].offsetWidth / 4) + 1;
-            var difference = query('#' + slider + ' .divSliderContent')[0].offsetWidth - query('#' + slider + ' .carouselscroll')[0].offsetWidth;
+            var tdWidth, difference, carousel, sliderContent;
+            carousel = query('#' + slider + ' .carouselscroll')[0];
+            sliderContent = query('#' + slider + ' .divSliderContent')[0];
+            tdWidth = (sliderContent/ 4) + 1;
+            difference = sliderContent.offsetWidth - carousel.offsetWidth;
             if (this.newLeft < 0) {
                 if (this.newLeft > (-tdWidth)) {
                     this.newLeft = 0;
@@ -106,7 +110,7 @@ function (
                 else {
                     this.newLeft = this.newLeft + tdWidth;
                 }
-                query('#' + slider + ' .carouselscroll')[0].style.left = this.newLeft + "px";
+                domStyle.set(carousel,'left', this.newLeft+"px");
                 if (domClass.contains(query('#' + slider + ' .rightArrow')[0], "disableArrow")) {
                     if (this.newLeft >= difference) {
                         domClass.remove(query('#' + slider + ' .rightArrow')[0], "disableArrow");
@@ -117,7 +121,6 @@ function (
                 }
             }
         }
-
     });
     return Widget;
 });

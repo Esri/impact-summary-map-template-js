@@ -15,6 +15,7 @@ define([
     "dojo/dom-style",
     "dojo/dom-construct",
     "dojox/html/entities",
+    "esri/urlUtils",
     "dijit/Dialog"
 ],
 function (
@@ -27,6 +28,7 @@ function (
     dijitTemplate, i18n,
     domClass, domStyle, domConstruct,
     entities,
+    urlUtils,
     Dialog
 ) {
     var Widget = declare([_WidgetBase, _OnDijitClickMixin, _TemplatedMixin, Evented], {
@@ -66,11 +68,12 @@ function (
                 button: "toggle-grey",
                 buttonSelected: "toggle-grey-on",
                 icon: "icon-share",
-                facebookIcon: "facebook-icon",
-                twitterIcon: "twitter-icon",
-                gmailIcon: "gmail-icon",
-                emailIcon: "email-icon",
-                shareDialogText: "shareDialogText"
+                facebookIcon: "icon-facebook-squared-1 shareDialogIconClass",
+                twitterIcon: "icon-twitter-1 shareDialogIconClass",
+                gplusIcon: "icon-gplus shareDialogIconClass",
+                emailIcon: "icon-mail shareDialogIconClass",
+                shareDialogText: "shareDialogText",
+                shareMapURL: "shareMapURL"
             };
         },
         // start widget. called by user
@@ -101,6 +104,7 @@ function (
             domClass.add(this._buttonNode, this._css.buttonSelected);
             this.get("dialog").show();
             this.emit("open", {});
+            this._shareLink();
         },
         close: function(){
             this.get("dialog").hide();
@@ -135,6 +139,12 @@ function (
             this._updateUrlWatch();
             this.set("loaded", true);
             this.emit("load", {});
+            this.config.extent = [this.map.extent.xmin, this.map.extent.ymin, this.map.extent.xmax, this.map.extent.ymax];
+            this._setSharing();
+            this.map.on("extent-change", lang.hitch(this, function (evt) {
+                this.config.extent = [evt.extent.xmin, evt.extent.ymin, evt.extent.xmax, evt.extent.ymax];
+                this._setSharing();
+            }));
             on(this._comboBoxNode, "change", lang.hitch(this, function (evt) {
                 this.set("embedWidth", this.config.embedMapSize[evt.currentTarget.value].width);
                 this.set("embedHeight", this.config.embedMapSize[evt.currentTarget.value].height);
@@ -143,11 +153,79 @@ function (
             for (i in this.config.embedMapSize) {
                 this._comboBoxNode.options[this._comboBoxNode.options.length] = new Option(this.config.embedMapSize[i].width + " X " + this.config.embedMapSize[i].height, i);
             }
+
+            on(this._facebookButton, "click", lang.hitch(this, function (evt) {
+                this._configureShareLink(this.config.facebookURL);
+            }));
+
+            on(this._twitterButton, "click", lang.hitch(this, function (evt) {
+                this._configureShareLink(this.config.twitterURL);
+            }));
+
+            on(this._gpulsButton, "click", lang.hitch(this, function (evt) {
+                this._configureShareLink(this.config.googlePlusURL);
+            }));
+
+            on(this._emailButton, "click", lang.hitch(this, function (evt) {
+                this._configureShareLink(this.config.emailURL, true);
+            }));
         },
         _updateUrlWatch: function(){            
             var es = '<iframe width="' + this.get("embedWidth") + '" height="' + this.get("embedHeight") + '" src="' + this.get("url") + '" frameborder="0" scrolling="no"></iframe>';
             this.set("embed", es);
             this._embedNode.innerHTML = entities.encode(es);
+        },
+        _setSharing: function () {
+            var urlParams = ['webmap', 'basemap', 'extent', 'layers'];
+            if (urlParams) {
+                this.config.shareParams = '';
+                for (var i = 0; i < urlParams.length; i++) {
+                    if (this.config.hasOwnProperty(urlParams[i]) && (this.config[urlParams[i]].toString() !== '') || typeof (this.config[urlParams[i]]) === 'object') {
+                        if (i === 0) {
+                            this.config.shareParams = '?';
+                        } else {
+                            this.config.shareParams += '&';
+                        }
+                        this.config.shareParams += urlParams[i] + '=' + this.config[urlParams[i]].toString();
+                    }
+                }
+                this.config.shareURL = document.location.href + '/' + this.config.shareParams;
+                this.set("url", this.config.shareURL);
+                this._shareMapUrlText.value = this.config.shareURL;
+            }
+        },
+
+        _shareLink: function () {
+            var _self = this, tinyResponse, url;
+            url = dojo.string.substitute(this.config.TinyURLServiceURL, [encodeURIComponent(this.config.shareURL)]);
+            dojo.io.script.get({
+                url: url,
+                callbackParamName: "callback",
+                load: function (data) {
+                    tinyResponse = data;
+                    _self.tinyUrl = data;
+                    var attr = _self.config.TinyURLResponseAttribute.split(".");
+                    for (var x = 0; x < attr.length; x++) {
+                        _self.tinyUrl = _self.tinyUrl[attr[x]];
+                    }
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            });
+        },
+        _configureShareLink: function (Link, isMail) {
+            if (this.tinyUrl) {
+                var fullLink, w = 650, h = 400, left, top;
+                left = (screen.width / 2) - (w / 2);
+                top = (screen.height / 2) - (h / 2);
+                fullLink = Link + this.tinyUrl;
+                if (isMail) {
+                    parent.location = fullLink;
+                } else {
+                    window.open(fullLink, 'share', 'width=' + w + ',height=' + h + ',top=' + top + ',left=' + left, true);
+                }
+            }
         },
         _updateThemeWatch: function(attr, oldVal, newVal) {
             if (this.get("loaded")) {
