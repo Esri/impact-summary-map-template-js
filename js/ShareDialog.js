@@ -16,6 +16,7 @@ define([
     "dojo/dom-construct",
     "dojox/html/entities",
     "esri/urlUtils",
+    "esri/geometry/Extent",
     "dijit/Dialog"
 ],
 function (
@@ -29,6 +30,7 @@ function (
     domClass, domStyle, domConstruct,
     entities,
     urlUtils,
+    Extent,
     Dialog
 ) {
     var Widget = declare([_WidgetBase, _OnDijitClickMixin, _TemplatedMixin, Evented], {
@@ -140,6 +142,7 @@ function (
             this.set("loaded", true);
             this.emit("load", {});
             this.config.extent = [this.map.extent.xmin, this.map.extent.ymin, this.map.extent.xmax, this.map.extent.ymax];
+            this._configUrlParams();
             this._setSharing();
             this.map.on("extent-change", lang.hitch(this, function (evt) {
                 this.config.extent = [evt.extent.xmin, evt.extent.ymin, evt.extent.xmax, evt.extent.ymax];
@@ -189,7 +192,7 @@ function (
                         this.config.shareParams += urlParams[i] + '=' + this.config[urlParams[i]].toString();
                     }
                 }
-                this.config.shareURL = document.location.href + '/' + this.config.shareParams;
+                this.config.shareURL = document.location.href + this.config.shareParams;
                 this.set("url", this.config.shareURL);
                 this._shareMapUrlText.value = this.config.shareURL;
             }
@@ -227,7 +230,45 @@ function (
                 }
             }
         },
-        _updateThemeWatch: function(attr, oldVal, newVal) {
+
+        _getUrlObject: function () {
+            var params = urlUtils.urlToObject(document.location.href);
+            // make sure it's an object
+            params.query = params.query || {};
+            return params;
+        },
+        _configUrlParams: function () {
+            var params, startExtent, splitExtent;
+            params = this._getUrlObject();
+            params.query = this.extractUrlParams(params.query);
+            if (params.query.extent) {
+                splitExtent = params.query.extent.split(',');
+                // Loaded from URL
+                startExtent = new Extent({
+                    xmin: parseFloat(splitExtent[0]),
+                    ymin: parseFloat(splitExtent[1]),
+                    xmax: parseFloat(splitExtent[2]),
+                    ymax: parseFloat(splitExtent[3]),
+                    spatialReference: this.map.extent.spatialReference
+                });
+                this.map.setExtent(startExtent);
+            }
+        },
+
+        extractUrlParams: function (obj) {
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    if (typeof obj[key] === 'string' && (obj[key].toLowerCase() === 'false' || obj[key].toLowerCase() === 'null' || obj[key].toLowerCase() === 'undefined')) {
+                        obj[key] = false;
+                    } else if (typeof obj[key] === 'string' && obj[key].toLowerCase() === 'true') {
+                        obj[key] = true;
+                    }
+                }
+            }
+            return obj;
+        },
+
+        _updateThemeWatch: function (attr, oldVal, newVal) {
             if (this.get("loaded")) {
                 domClass.remove(this.domNode, oldVal);
                 domClass.add(this.domNode, newVal);
