@@ -75,7 +75,10 @@ function (
                 gplusIcon: "icon-gplus shareDialogIconClass",
                 emailIcon: "icon-mail shareDialogIconClass",
                 shareDialogText: "shareDialogText",
-                shareMapURL: "shareMapURL"
+                shareMapURL: "shareMapURL",
+                iconContainer: "iconContainer",
+                embedMapSizeDropDown: "embedMapSizeDropDown",
+                shareDialogContent: "shareDialogContent"
             };
         },
         // start widget. called by user
@@ -130,7 +133,7 @@ function (
             if(!this.get("dialog")){
                 var dialog = new Dialog({
                     title: i18n.widgets.ShareDialog.title,
-                    style: "max-width: 300px"
+                    style: "max-width: 320px"
                 }, this._dialogNode);
                 this.set("dialog", dialog);
             }
@@ -154,7 +157,7 @@ function (
                 this._updateUrlWatch();
             }));
             for (i in this.config.embedMapSize) {
-                this._comboBoxNode.options[this._comboBoxNode.options.length] = new Option(this.config.embedMapSize[i].width + " X " + this.config.embedMapSize[i].height, i);
+                this._comboBoxNode.options[this._comboBoxNode.options.length] = new Option(this.config.embedMapSize[i].width + " x " + this.config.embedMapSize[i].height, i);
             }
 
             on(this._facebookButton, "click", lang.hitch(this, function (evt) {
@@ -184,11 +187,7 @@ function (
                 this.config.shareParams = '';
                 for (var i = 0; i < urlParams.length; i++) {
                     if (this.config.hasOwnProperty(urlParams[i]) && (this.config[urlParams[i]].toString() !== '') || typeof (this.config[urlParams[i]]) === 'object') {
-                        if (i === 0) {
-                            this.config.shareParams = '?';
-                        } else {
-                            this.config.shareParams += '&';
-                        }
+                        this.config.shareParams += i=== 0 ? '?' : '&';
                         this.config.shareParams += urlParams[i] + '=' + this.config[urlParams[i]].toString();
                     }
                 }
@@ -219,15 +218,9 @@ function (
         },
         _configureShareLink: function (Link, isMail) {
             if (this.tinyUrl) {
-                var fullLink, w = 650, h = 400, left, top;
-                left = (screen.width / 2) - (w / 2);
-                top = (screen.height / 2) - (h / 2);
+                var fullLink;
                 fullLink = Link + this.tinyUrl;
-                if (isMail) {
-                    parent.location = fullLink;
-                } else {
-                    window.open(fullLink, 'share', 'width=' + w + ',height=' + h + ',top=' + top + ',left=' + left, true);
-                }
+                isMail ? parent.location = fullLink : window.open(fullLink, 'share', true);
             }
         },
 
@@ -240,7 +233,7 @@ function (
         _configUrlParams: function () {
             var params, startExtent, splitExtent;
             params = this._getUrlObject();
-            params.query = this.extractUrlParams(params.query);
+            params.query = this._extractUrlParams(params.query);
             if (params.query.extent) {
                 splitExtent = params.query.extent.split(',');
                 // Loaded from URL
@@ -255,7 +248,7 @@ function (
             }
         },
 
-        extractUrlParams: function (obj) {
+        _extractUrlParams: function (obj) {
             for (var key in obj) {
                 if (obj.hasOwnProperty(key)) {
                     if (typeof obj[key] === 'string' && (obj[key].toLowerCase() === 'false' || obj[key].toLowerCase() === 'null' || obj[key].toLowerCase() === 'undefined')) {

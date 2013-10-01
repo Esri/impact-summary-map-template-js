@@ -17,12 +17,14 @@ define([], function() {
         "impact_layer": "Impact Area",
         "impact_field": "GRID_CODE", // overwritten by renderer info
         "sum_variables":['TOTPOP_CY', 'TOTHH_CY', 'CIKR_Total', 'BUS_Total', 'POP15_CY', 'POP65U_CY', 'OWNER_CY', 'RENTER_CY', 'CIKR_AMTwr', 'CIKR_BrTn', 'CIKR_Dam', 'CIKR_Edu', 'CIKR_ECC', 'CIKR_FMTwr', 'CIKR_FrSta', 'CIKR_Hzmt', 'CIKR_HCF', 'CIKR_PkIco', 'CIKR_Pol', 'CIKR_Port', 'CIKR_Rsrvr', 'CIKR_WWF', 'CIKR_Pwr', 'BUS_Banks', 'BUS_Hsptl', 'BUS_GrcStr', 'BUS_PnTSvc', 'BUS_Safety', 'BUS_Util', 'BUS_BldSpl', 'BUS_GasStn', 'BUS_DptStr', 'BUS_Ldging', 'BUS_Other'],
-        "theme": "blue", 
+        "theme": "blue",
         "embedMapSize": [{ "width": "100%", "height": "500px" },
                          { "width": "100%", "height": "400px" },
-                         { "width": "100%", "height": "300px"}],
+                         { "width": "100%", "height": "300px" },
+                         { "width": "800px", "height":"640px" },
+                         { "width": "640px", "height": "480px"}],
         "bingmapskey": "", //Enter the url to your organizations bing maps key if you want to use bing basemaps
-        "sharinghost": location.protocol + "//" + "www.arcgis.com" ,//Defaults to arcgis.com. Set this value to your portal or organization host name. 
+        "sharinghost": location.protocol + "//" + "www.arcgis.com" ,//Defaults to arcgis.com. Set this value to your portal or organization host name.
         "facebookURL": "http://www.facebook.com/sharer.php?u=",
         "twitterURL": "http://mobile.twitter.com/compose/tweet?status=",
         "emailURL": "mailto:%20?subject=Check%20out%20this%20map!&body=",

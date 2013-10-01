@@ -3,8 +3,9 @@
         <div class="${_css.icon}"></div>
     </div>
     <div data-dojo-attach-point="_dialogNode" class="dialogNode">
+    <div class="${_css.shareDialogContent}">
         <div >${_i18n.widgets.ShareDialog.heading}</div>
-        <div class="iconContainer">
+        <div class="${_css.iconContainer}">
             <div class="${_css.facebookIcon}" data-dojo-attach-point="_facebookButton"></div>
             <div class="${_css.twitterIcon}" data-dojo-attach-point="_twitterButton"></div>
             <div class="${_css.gplusIcon}" data-dojo-attach-point="_gpulsButton"></div>
@@ -16,11 +17,13 @@
         </div>
         <div class="${_css.shareDialogText}">${_i18n.widgets.ShareDialog.embed}</div>
         <div  class="${_css.embed}">
-            <textarea data-dojo-attach-point="_embedNode" rows="5" cols="30"></textarea>
+            <textarea data-dojo-attach-point="_embedNode" rows="5" cols="33" readonly></textarea>
         </div>
-        <div class="${_css.shareDialogText}">${_i18n.widgets.ShareDialog.size}
-            <select   data-dojo-attach-point="_comboBoxNode">
+        <div class="${_css.shareDialogText}">${_i18n.widgets.ShareDialog.size}</div>
+        <div class="${_css.embedMapSizeDropDown}">
+            <select  data-dojo-attach-point="_comboBoxNode">
             </select>
+        </div>
         </div>
     </div>
 </div>

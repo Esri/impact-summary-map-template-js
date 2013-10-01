@@ -22,6 +22,7 @@
 
 .shareDialogText {
 	 margin:10px 0 10px 0;
+	 float:left;
 }
 
 .shareDialogIconClass {
@@ -32,7 +33,17 @@
     	 margin: 0px 5px 0px 0px;
 }
 
-.shareMapURL
-{
-    	 width:250px;
+.shareMapURL {
+	 width:280px;
+	 height:25px;
+}
+
+.embedMapSizeDropDown {
+    	 margin: 10px 0 10px 5px;
+    	 padding:0 5px 0 0;
+    	 float:left;
+}
+
+.shareDialogContent {
+    	 height:330px;
 }

@@ -1,7 +1,7 @@
 <div class="geodata-container">
     <div class="panel-expanded population" data-type="population">
         <div class="divHeader">
-            <span class="bgColor divHeaderTitle">Population Age</span><span class="divHeaderClose icon-cancel-1"></span>
+            <span class="bgColor divHeaderTitle">Population Age {{#numFormat}}{{TOTPOP_CY}}{{/numFormat}}</span><span class="divHeaderClose icon-cancel-1" title="close"></span>
         </div>
         <div class="tblSlideContainer">
             <table id="population" class="tblSlide">
@@ -25,7 +25,7 @@
     </div>
     <div class="panel-expanded households" data-type="households">
         <div class="divHeader">
-            <span class="bgColor divHeaderTitle">Household</span><span class="divHeaderClose icon-cancel-1"></span>
+            <span class="bgColor divHeaderTitle">Household {{#numFormat}}{{TOTHH_CY}}{{/numFormat}}</span><span class="divHeaderClose icon-cancel-1"title="close"></span>
         </div>
         <div class="tblSlideContainer">
             <table id="households" class="tblSlide">
@@ -52,7 +52,7 @@
     </div>
     <div class="panel-expanded critical-infrastructure" data-type="critical_infrastructure">
         <div class="divHeader">
-            <span class="bgColor divHeaderTitle">Population Age</span><span class="divHeaderClose icon-cancel-1"></span>
+            <span class="bgColor divHeaderTitle">Critical-infrastructure {{#numFormat}}{{CIKR_Total}}{{/numFormat}}</span><span class="divHeaderClose icon-cancel-1"title="close"></span>
         </div>
         <div class="tblSlideContainer">
             <table id="infrastruct" class="tblSlide">
@@ -198,8 +198,8 @@
     </div>
     <div class="panel-expanded businesses" data-type="businesses">
         <div class="divHeader">
-            <span class="bgColor divHeaderTitle">businesses {{#numFormat}}{{BUS_Total}}{{/numFormat}}</span><span
-                                                                                                                class="divHeaderClose icon-cancel-1"></span>
+            <span class="bgColor divHeaderTitle">Businesses {{#numFormat}}{{BUS_Total}}{{/numFormat}}</span>
+            <span class="divHeaderClose icon-cancel-1"title="close"></span>
         </div>
         {{#BUS_Banks}}
         <div class="tblSlideContainer">

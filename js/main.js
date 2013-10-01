@@ -15,6 +15,7 @@ define([
     "esri/layers/FeatureLayer",
     "dojo/dom-class",
     "dojo/query",
+    "dojo/aspect",
     "esri/symbols/SimpleFillSymbol",
     "esri/symbols/SimpleLineSymbol",
     "dojo/_base/Color",
@@ -58,6 +59,7 @@ function(
     FeatureLayer,
     domClass,
     query,
+    aspect,
     SimpleFillSymbol, SimpleLineSymbol,
     Color,
     Mustache,
@@ -248,7 +250,7 @@ function(
                             easing: easing.expoOut
 
                         }).play();
-                   })
+                    })
                 }).play();
             }
             else {
@@ -304,8 +306,28 @@ function(
                 };
                 var output = Mustache.render(panelsView, sum);
                 this.dataNode.innerHTML = output;
+                var objSlider;
                 domStyle.set(this.dataNode, 'display', 'block');
                 var divCount = query('.panel .count');
+
+                var sliderResizeHandler = null;
+                var slider = query('.panel-expanded .tblSlideContainer');
+                array.forEach(slider, function (node) {
+                    var sliderContentInfo = query('.tblSlide', node)[0];
+                    var childNode = query('td', sliderContentInfo).length;
+                    if (childNode > 4) {
+                        if (sliderContentInfo) {
+                            objSlider = new Slider({ sliderContent: sliderContentInfo, sliderParent: node });
+                            if (!sliderResizeHandler) {
+                                sliderResizeHandler = on(window, 'resize', lang.hitch(this, function () {
+                                    array.forEach(query('.divSliderContainer'), lang.hitch(this, function (sliderNode) {
+                                        objSlider._resizeSlider(sliderNode.id);
+                                    }));
+                                }));
+                            }
+                        }
+                    }
+                });
                 this._panelClick = on(query('.panel', this.dataNode), 'click', lang.hitch(this, function (evt) {
                     if (evt.stopPropagation) {
                         evt.stopPropagation();   // W3C model
@@ -314,6 +336,9 @@ function(
                     }
                     var type = domAttr.get(evt.currentTarget, 'data-type');
                     this._showExpanded(type);
+                    array.forEach(query('.divSliderContainer'), lang.hitch(this, function (sliderNode) {
+                        objSlider._resizeSlider(sliderNode.id);
+                    }));
                 }));
                 this._expandedClick = on(query('.' + this.css.statsPanelSelected + ' .divHeaderClose', this.dataNode), 'click', lang.hitch(this, function (evt) {
                     if (evt.stopPropagation) {
@@ -324,7 +349,7 @@ function(
                     this._hideExpanded(evt.currentTarget);
 
                 }));
-		this._expandedClick = on(query('.' + this.css.statsPanelSelected, this.dataNode), 'click', lang.hitch(this, function (evt) {
+                this._expandedClick = on(query('.' + this.css.statsPanelSelected, this.dataNode), 'click', lang.hitch(this, function (evt) {
                     event.stop(evt);
                     evt.cancelBubble = true;
                 }));
@@ -341,17 +366,7 @@ function(
             } else {
                 domStyle.set(this.dataNode, 'display', 'none');
             }
-            var slider = query('.panel-expanded .tblSlideContainer');
-	    array.forEach(slider, function (node) {
-	    var sliderContentInfo = query('.tblSlide', node)[0];
 
-	    var childNode = query('td', sliderContentInfo).length;
-                if (childNode > 4) {
-                    if (sliderContentInfo) {
-                        var objSlider = new Slider({ sliderContent: sliderContentInfo, sliderParent: node });
-                    }
-                }
-            });
         },
         _hideExpanded: function (element) {
             var domSlider = element.parentElement.parentElement;
@@ -418,6 +433,11 @@ function(
                             }));
                         }));
                     }
+                }
+                else {
+                    domStyle.set(dom.byId("imapct_content"), "display", "none");
+                    domStyle.set(dom.byId("legend_content"), { "width": "100%" });
+                    domStyle.set(dom.byId("legend_name"), "border-right", "none");
                 }
             }
         },

@@ -21,7 +21,7 @@ html,body {
 	border:0;
 	overflow:hidden;
 	z-index:3;
-    	background-color:transparent;
+	background-color:transparent;
 }
 
 #cp_outer_left {
@@ -77,12 +77,12 @@ html,body {
 
 #drawer_panels .panel {
 	display:none;
-    	width: 100%;
+	width: 100%;
 }
 
 #drawer_panels .panel-selected {
 	display:block;
- 	width: 100%;
+	width: 100%;
 }
 
 #drawer_menu {
@@ -146,7 +146,7 @@ html,body {
 .topBar {
 	background:#f8f8f8;
 	height:34px;
-  	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
 }
 
 #title {
@@ -282,7 +282,7 @@ html,body {
 
 .geoData .panel {
 	text-align:center;
-        display: inline-block;
+	display:inline-block;
 	float:left;
 	color:#fff;
 	cursor:pointer;
@@ -291,14 +291,13 @@ html,body {
 .geoData .panel-expanded {
 	text-align:center;
 	display:inline-block;
-        color: gray;
-    	padding: 0px;
+	color: gray;
+        padding: 0px;
 	margin:5px 0px;
 	display:none;
-	cursor:pointer;
    	border: 1px solid gray;
    	border-top: none;
-    	border-bottom: none;
+        border-bottom: none;
 }
 
 .population .tblSlideContainer {
@@ -321,9 +320,9 @@ html,body {
    	border-bottom: 3px solid rgba(107,25,120,0.80) !important;
 }
 .geoData .count, .tblSlide .count {
-	font-size:32px;
+	    font-size:32px;
 	margin:0;
-    	text-align: left;
+        text-align: left;
 }
 .geoData .panel .count {
      	padding:15px 5px;
@@ -333,9 +332,9 @@ html,body {
      	margin-top: 5px;
 }
 .geoData .panel .title {
-   	margin: 0;
+	margin: 0;
    	padding: 3px 30px;
-    	font-size: 14px;
+        font-size: 14px;
    	font-weight: normal;
 }
 
@@ -446,14 +445,15 @@ html,body {
 
 .divHeaderClose {
     	float: right;
-   	height: 25px;
-   	border: 1px solid gray;
+    	height: 25px;
+    	border: 1px solid gray;
    	border-bottom: 1px solid #fff !important;
    	border-right: none;
    	border-collapse: collapse;
    	padding: 0px 5px;
     	font-size: 20px;
    	background-color: #fff;
+        cursor: pointer;
 }
 
 .tblSlide .title {
@@ -589,5 +589,6 @@ html,body {
     	-webkit-border-radius: 7px;
     	-moz-border-radius: 7px;
     	margin: 0px 3px;
+    	cursor:pointer;
 }
 
