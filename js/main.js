@@ -395,7 +395,7 @@ function(
             
             this.dataNode = domConstruct.place(domConstruct.create('div', {
                 className: this.css.stats
-            }), this.map._layersDiv, 'first');
+            }), dom.byId('mapDiv'), 'first');
             // get layer by id
             this._impactLayer = this.getLayerByTitle(this.map, this.layers, this.config.impact_layer);
             if(this._impactLayer){
