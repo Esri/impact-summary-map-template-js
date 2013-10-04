@@ -60,7 +60,10 @@ function (
                 buttonSelected: "toggle-grey-on",
                 icon: "icon-info-circled-1",
                 aboutDialogHeader: "aboutDialogHeader",
-                licenseInfoNode: "licenseInfoNode"
+                licenseInfoNode: "licenseInfoNode",
+                aboutDialogContent: "aboutDialogContent",
+                nodeDescription: "nodeDescription",
+                headerNodeDescription: "headerNodeDescription"
             };
         },
         // start widget. called by user
@@ -114,7 +117,7 @@ function (
             if(!this.get("dialog")){
                 var dialog = new Dialog({
                     title: i18n.widgets.AboutDialog.title,
-                    style: "max-width: 450px"
+                    style: "max-width: 550px;"
                 }, this._dialogNode);
                 this.set("dialog", dialog);
             }

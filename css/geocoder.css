@@ -1,34 +1,29 @@
-﻿.locateBox
-{
-   	display: block;
+﻿.locateBox {
+	display:block;
     	float: right;
     	padding: 5px;
 }
-.esriGeocoderContainer *
-{
+.esriGeocoderContainer * {
     	-moz-box-sizing: content-box;
     	-webkit-box-sizing: content-box;
     	box-sizing: content-box;
 }
 
-.esriGeocoderContainer
-{
+.esriGeocoderContainer {
     	width: 192px;
     	font-size: 12px;
     	line-height: 16px;
     	font-family: Arial, Helvetica, sans-serif;
 }
 
-.esriGeocoderContainer ul
-{
+.esriGeocoderContainer ul {
     	margin: 0;
     	padding: 0;
     	list-style: none;
     	display: block;
 }
 
-.esriGeocoderIcon
-{  
+.esriGeocoderIcon {
     	cursor:pointer;
     	float: left;
     	outline: 0;
@@ -38,8 +33,7 @@
 }
 
 
-.esriGeocoder .esriGeocoderClearFloat
-{
+.esriGeocoder .esriGeocoderClearFloat {
     	clear: both;
     	display: block;
     	overflow: hidden;
@@ -48,8 +42,7 @@
     	height: 0;
 }
 
-.esriGeocoder
-{
+.esriGeocoder {
     	display: block;
     	width: 100%;
     	margin: 0;
@@ -57,13 +50,11 @@
      	background-color:#fff;
 }
 
-.esriGeocoderActive, .esriGeocoderMenuActive
-{
+.esriGeocoderActive, .esriGeocoderMenuActive {
     	border-bottom: 0;
 }
 
-.esriGeocoder input
-{
+.esriGeocoder input {
     	outline: 0;
     	display: block;
     	border: 0;
@@ -80,37 +71,31 @@
     	width: 135px;
 }
 
-.esriGeocoderMultiple input
-{
+.esriGeocoderMultiple input {
    	width: 113px;
 }
 
-.esriGeocoder input:focus
-{
+.esriGeocoder input:focus {
     	color: #333;
 }
 
-.esriGeocoder .esriGeocoderReset
-{
+.esriGeocoder .esriGeocoderReset {
     	margin: 3px 6px 3px 0;
     	float: right;
     	display: none;
 }
 
-.esriGeocoder .esriGeocoderMenuArrow
-{
+.esriGeocoder .esriGeocoderMenuArrow {
     	display: none;
     	cursor: pointer;
     	background: #ddd;
 }
 
-.esriGeocoderMultiple .esriGeocoderMenuArrow
-{
+.esriGeocoderMultiple .esriGeocoderMenuArrow {
     	display: block;
 }
 
-.esriGeocoder .esriGeocoderMenuArrow:hover, .esriGeocoder .esriGeocoderMenuArrow:focus
-{
+.esriGeocoder .esriGeocoderMenuArrow:hover, .esriGeocoder .esriGeocoderMenuArrow:focus {
     	opacity: .75;
 }
 
@@ -131,8 +116,7 @@
    	border-radius: 0 0 2px 2px;
 }
 
-.esriGeocoderResult
-{
+.esriGeocoderResult {
     	width: 94%;
     	padding: 6px;
     	display: block;
@@ -145,14 +129,12 @@
     	margin-left: -1px;
 }
 
-.esriGeocoderResult:hover, .esriGeocoderResultEven:focus, .esriGeocoderResultOdd:focus
-{
+.esriGeocoderResult:hover, .esriGeocoderResultEven:focus, .esriGeocoderResultOdd:focus {
     	background-color: #007ac2;
     	color: #fff;
 }
 
-.esriGeocoderMenu
-{
+.esriGeocoderMenu {
     	display: none;
     	width: 100%;
     	z-index: 99;
@@ -169,8 +151,7 @@
 }
 
 
-.esriGeocoderMenu .esriGeocoderMenuHeader
-{
+.esriGeocoderMenu .esriGeocoderMenuHeader {
     	padding: 6px;
     	margin: 0;
     	display: block;
@@ -179,8 +160,7 @@
     	font-weight: 700;
 }
 
-.esriGeocoderMenu .esriGeocoderSelectedCheck
-{
+.esriGeocoderMenu .esriGeocoderSelectedCheck {
     	width: 16px;
     	height: 16px;
     	display: block;
@@ -188,19 +168,17 @@
     	margin: 0 0 0 6px;
 }
 
-.esriGeocoderMenu .esriGeocoderSelected .esriGeocoderSelectedCheck
-{
+.esriGeocoderMenu .esriGeocoderSelected .esriGeocoderSelectedCheck {
     	background: #ddd;
 }
 
 /*added font icon .............*/
 
-.esriGeocoder .esriGeocoderSearch, .esriGeocoderReset
-{
+.esriGeocoder .esriGeocoderSearch, .esriGeocoderReset {
     	font-size: 17px !important;
     	color: #999 !important;
 }
-.esriGeocoderSearch
-{
+.esriGeocoderSearch {
     	float: right !important;
 }
+

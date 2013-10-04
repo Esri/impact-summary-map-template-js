@@ -4,22 +4,22 @@
     </div>
     <div data-dojo-attach-point="_dialogNode" class="dialogNode">
     <div class="${_css.shareDialogContent}">
-        <div >${_i18n.widgets.ShareDialog.heading}</div>
+        <div  class="${_css.shareDialogSubHeader}">${_i18n.widgets.ShareDialog.heading}</div>
         <div class="${_css.iconContainer}">
-            <div class="${_css.facebookIcon}" data-dojo-attach-point="_facebookButton"></div>
-            <div class="${_css.twitterIcon}" data-dojo-attach-point="_twitterButton"></div>
-            <div class="${_css.gplusIcon}" data-dojo-attach-point="_gpulsButton"></div>
-            <div class="${_css.emailIcon}" data-dojo-attach-point="_emailButton"></div>
+            <div class="${_css.facebookIcon}" data-dojo-attach-point="_facebookButton" title="${_i18n.widgets.ShareDialog.facebookTooltip}"></div>
+            <div class="${_css.twitterIcon}" data-dojo-attach-point="_twitterButton" title="${_i18n.widgets.ShareDialog.twitterTooltip}"></div>
+            <div class="${_css.gplusIcon}" data-dojo-attach-point="_gpulsButton" title="${_i18n.widgets.ShareDialog.gplusTooltip}"></div>
+            <div class="${_css.emailIcon}" data-dojo-attach-point="_emailButton" title="${_i18n.widgets.ShareDialog.emailTooltip}"></div>
         </div>
-        <div class="${_css.shareDialogText}">${_i18n.widgets.ShareDialog.url}</div>
+        <div class="${_css.shareDialogSubHeader}">${_i18n.widgets.ShareDialog.url}</div>
         <div>
             <input class="${_css.shareMapURL}"  type="text"  data-dojo-attach-point="_shareMapUrlText" readonly/>
         </div>
-        <div class="${_css.shareDialogText}">${_i18n.widgets.ShareDialog.embed}</div>
+        <div class="${_css.shareDialogSubHeader}">${_i18n.widgets.ShareDialog.embed}</div>
         <div  class="${_css.embed}">
-            <textarea data-dojo-attach-point="_embedNode" rows="5" cols="33" readonly></textarea>
+            <textarea data-dojo-attach-point="_embedNode" rows="5" cols="33" readonly class="${_css.shareDialogTextarea}"></textarea>
         </div>
-        <div class="${_css.shareDialogText}">${_i18n.widgets.ShareDialog.size}</div>
+        <div class="${_css.mapSizeLabel}">${_i18n.widgets.ShareDialog.size}</div>
         <div class="${_css.embedMapSizeDropDown}">
             <select  data-dojo-attach-point="_comboBoxNode">
             </select>

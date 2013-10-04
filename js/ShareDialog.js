@@ -40,8 +40,6 @@ function (
             theme: "ShareDialog",
             visible:true,
             url: window.location.href,
-            embedWidth: "100%",
-            embedHeight: "500",
             dialog: null
         },
         // lifecycle: 1
@@ -74,11 +72,13 @@ function (
                 twitterIcon: "icon-twitter-1 shareDialogIconClass",
                 gplusIcon: "icon-gplus shareDialogIconClass",
                 emailIcon: "icon-mail shareDialogIconClass",
-                shareDialogText: "shareDialogText",
+                mapSizeLabel: "mapSizeLabel",
                 shareMapURL: "shareMapURL",
                 iconContainer: "iconContainer",
                 embedMapSizeDropDown: "embedMapSizeDropDown",
-                shareDialogContent: "shareDialogContent"
+                shareDialogContent: "shareDialogContent",
+                shareDialogSubHeader: "shareDialogSubHeader",
+                shareDialogTextarea: "shareDialogTextarea"
             };
         },
         // start widget. called by user
@@ -133,7 +133,7 @@ function (
             if(!this.get("dialog")){
                 var dialog = new Dialog({
                     title: i18n.widgets.ShareDialog.title,
-                    style: "max-width: 320px"
+                    style: "max-width:550px;"
                 }, this._dialogNode);
                 this.set("dialog", dialog);
             }
@@ -145,12 +145,7 @@ function (
             this.set("loaded", true);
             this.emit("load", {});
             this.config.extent = [this.map.extent.xmin, this.map.extent.ymin, this.map.extent.xmax, this.map.extent.ymax];
-            this._configUrlParams();
-            this._setSharing();
-            this.map.on("extent-change", lang.hitch(this, function (evt) {
-                this.config.extent = [evt.extent.xmin, evt.extent.ymin, evt.extent.xmax, evt.extent.ymax];
-                this._setSharing();
-            }));
+            this._shareMapUrlText.value = this.get("url");
             on(this._comboBoxNode, "change", lang.hitch(this, function (evt) {
                 this.set("embedWidth", this.config.embedMapSize[evt.currentTarget.value].width);
                 this.set("embedHeight", this.config.embedMapSize[evt.currentTarget.value].height);
@@ -181,21 +176,6 @@ function (
             this.set("embed", es);
             this._embedNode.innerHTML = entities.encode(es);
         },
-        _setSharing: function () {
-            var urlParams = ['webmap', 'basemap', 'extent', 'layers'];
-            if (urlParams) {
-                this.config.shareParams = '';
-                for (var i = 0; i < urlParams.length; i++) {
-                    if (this.config.hasOwnProperty(urlParams[i]) && (this.config[urlParams[i]].toString() !== '') || typeof (this.config[urlParams[i]]) === 'object') {
-                        this.config.shareParams += i=== 0 ? '?' : '&';
-                        this.config.shareParams += urlParams[i] + '=' + this.config[urlParams[i]].toString();
-                    }
-                }
-                this.config.shareURL = document.location.href + this.config.shareParams;
-                this.set("url", this.config.shareURL);
-                this._shareMapUrlText.value = this.config.shareURL;
-            }
-        },
 
         _shareLink: function () {
             var _self = this, tinyResponse, url;
@@ -217,48 +197,10 @@ function (
             });
         },
         _configureShareLink: function (Link, isMail) {
-            if (this.tinyUrl) {
-                var fullLink;
-                fullLink = Link + this.tinyUrl;
-                isMail ? parent.location = fullLink : window.open(fullLink, 'share', true);
-            }
-        },
+            var fullLink;
+            fullLink = Link + (this.tinyUrl ? this.tinyUrl : this.get("url"));
+            isMail ? parent.location = fullLink : window.open(fullLink, 'share', true);
 
-        _getUrlObject: function () {
-            var params = urlUtils.urlToObject(document.location.href);
-            // make sure it's an object
-            params.query = params.query || {};
-            return params;
-        },
-        _configUrlParams: function () {
-            var params, startExtent, splitExtent;
-            params = this._getUrlObject();
-            params.query = this._extractUrlParams(params.query);
-            if (params.query.extent) {
-                splitExtent = params.query.extent.split(',');
-                // Loaded from URL
-                startExtent = new Extent({
-                    xmin: parseFloat(splitExtent[0]),
-                    ymin: parseFloat(splitExtent[1]),
-                    xmax: parseFloat(splitExtent[2]),
-                    ymax: parseFloat(splitExtent[3]),
-                    spatialReference: this.map.extent.spatialReference
-                });
-                this.map.setExtent(startExtent);
-            }
-        },
-
-        _extractUrlParams: function (obj) {
-            for (var key in obj) {
-                if (obj.hasOwnProperty(key)) {
-                    if (typeof obj[key] === 'string' && (obj[key].toLowerCase() === 'false' || obj[key].toLowerCase() === 'null' || obj[key].toLowerCase() === 'undefined')) {
-                        obj[key] = false;
-                    } else if (typeof obj[key] === 'string' && obj[key].toLowerCase() === 'true') {
-                        obj[key] = true;
-                    }
-                }
-            }
-            return obj;
         },
 
         _updateThemeWatch: function (attr, oldVal, newVal) {

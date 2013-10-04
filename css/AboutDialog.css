@@ -1,9 +1,27 @@
 .aboutDialogHeader
 {
-    	font-weight:bold;
+        font-weight: bold;
+    	margin: 10px 0 10px 0;
 }
 
 .licenseInfoNode
 {
-    	font-size:small;
+    	font-size: small;
+}
+
+.aboutDialogContent
+{
+    	margin: 10px 0 0 15px;
+    	max-height:400px;
+}
+
+.nodeDescription
+{
+    	margin:10px 0 10px 0;
+}
+
+.headerNodeDescription
+{
+	margin:10px 0 10px 0;
+	font-weight:bold;
 }

@@ -91,6 +91,10 @@ function(
                 this._setLanguageStrings();
                 this._createWebMap();
             }));
+
+            aspect.after(this, "_init", lang.hitch(this, function () {
+                this._hideLoadingIndicator();
+            }));
         },
         _setLanguageStrings: function(){
             var node;
@@ -366,7 +370,6 @@ function(
             } else {
                 domStyle.set(this.dataNode, 'display', 'none');
             }
-
         },
         _hideExpanded: function (element) {
             var domSlider = element.parentElement.parentElement;
@@ -393,8 +396,8 @@ function(
         _setValueRange: function() {
             this._multiple = false;
             var renderer = this._impactLayer.renderer;
-            this._attributeField = renderer.attributeField || this.config.impact_field;
-            if(renderer){
+            this._attributeField = renderer ? renderer.attributeField : this.config.impact_field;
+            if (renderer) {
                 var infos = renderer.infos;
                 if (infos && infos.length) {
                     // multiple polygon impact
@@ -435,11 +438,18 @@ function(
                     }
                 }
                 else {
-                    domStyle.set(dom.byId("imapct_content"), "display", "none");
-                    domStyle.set(dom.byId("legend_content"), { "width": "100%" });
-                    domStyle.set(dom.byId("legend_name"), "border-right", "none");
+                    this._hideImapctArea();
                 }
             }
+            else {
+                this._hideImapctArea();
+            }
+        },
+
+        _hideImapctArea: function () {
+            domStyle.set(dom.byId("imapct_content"), "display", "none");
+            domStyle.set(dom.byId("legend_content"), { "width": "100%" });
+            domStyle.set(dom.byId("legend_name"), "border-right", "none");
         },
         _selectEvent: function(evt) {
             if (evt.graphic) {
@@ -528,20 +538,22 @@ function(
                 // FIELD" = (SELECT MAX("FIELD") FROM layer)
                 q.orderByFields = [this._attributeField + ' DESC'];
             }
-            this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
-                if (fs.features.length) {
-                    this._displayStats([fs.features[0]]);
-                }
-            }));
-            on(this._selectedGraphics, 'click', lang.hitch(this, function(evt) {
-                this._selectEvent(evt);
-            }));
-            on(this._impactLayer, 'click', lang.hitch(this, function(evt) {
-                this._selectEvent(evt);
-            }));
-            on(this._impactLayer, 'visibility-change', lang.hitch(this, function(evt) {
-                this._selectedGraphics.setVisibility(evt.visible);
-            }));
+            if (this._impactLayer) {
+                this._impactLayer.queryFeatures(q, lang.hitch(this, function (fs) {
+                    if (fs.features.length) {
+                        this._displayStats([fs.features[0]]);
+                    }
+                }));
+                on(this._selectedGraphics, 'click', lang.hitch(this, function (evt) {
+                    this._selectEvent(evt);
+                }));
+                on(this._impactLayer, 'click', lang.hitch(this, function (evt) {
+                    this._selectEvent(evt);
+                }));
+                on(this._impactLayer, 'visibility-change', lang.hitch(this, function (evt) {
+                    this._selectedGraphics.setVisibility(evt.visible);
+                }));
+            }
         },
         _clearSelected: function() {
             var items = query('.' + this.css.rendererSelected, dom.byId('renderer_menu'));
@@ -552,6 +564,11 @@ function(
                 }
             }
         },
+
+        _hideLoadingIndicator: function () {
+            domStyle.set(dom.byId("loadingIndicatorDiv"), "display", "none");
+        },
+
         //create a map based on the input web map id
         _createWebMap: function() {
             // popup dijit

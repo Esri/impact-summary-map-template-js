@@ -3,11 +3,13 @@
         <div class="${_css.icon}"></div>
     </div>
     <div data-dojo-attach-point="_dialogNode">
-        <div data-dojo-attach-point="_titleNode" class="${_css.aboutDialogHeader}"></div>
-        <div data-dojo-attach-point="_descriptionNode"></div>
-        <div data-dojo-attach-point="_tagsNode"></div>
+    <div class="${_css.aboutDialogContent}">
+        <div data-dojo-attach-point="_titleNode" class="${_css.headerNodeDescription}"></div>
+        <div data-dojo-attach-point="_descriptionNode" class="${_css.nodeDescription}"></div>
+        <div data-dojo-attach-point="_tagsNode" class="${_css.headerNodeDescription}" style=" font-weight:bold;"></div>
         <div data-dojo-attach-point="_licenseInfoNode" class="${_css.licenseInfoNode}"></div>
-        <div data-dojo-attach-point="_infoNode"></div>
-        <div data-dojo-attach-point="_moreInfoNode"></div>
+        <div data-dojo-attach-point="_infoNode" class="${_css.nodeDescription}"></div>
+        <div data-dojo-attach-point="_moreInfoNode" class="${_css.nodeDescription}"></div>
+    </div>
     </div>
 </div>
