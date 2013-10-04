@@ -223,6 +223,10 @@ html,body {
 	background:#f8f8f8;
 	color:#555;
 	cursor:pointer;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	width:245px;
 }
 
 #renderer_menu .summarize .item-container {

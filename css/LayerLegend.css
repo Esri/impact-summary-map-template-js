@@ -2,12 +2,22 @@
 	width:280px;
 }
 
-.LayerLegend .esriLegendServiceLabel,.LayerLegend .esriLegendLayerLabel {
+.LayerLegend .esriLegendServiceLabel {
 	display:none;
 }
 
+.LayerLegend .esriLegendLayerLabel{
+    margin:0;
+    padding: 0;
+}
+
+.LayerLegend .esriLegendLayer{
+    padding:0;
+    margin:0 0 5px 0;
+}
+
 .LayerLegend .esriLegendService {
-	padding-bottom:0;
+	padding:0;
 }
 
 .LayerLegend .LL_Title {
