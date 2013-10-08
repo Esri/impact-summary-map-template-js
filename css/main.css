@@ -21,7 +21,7 @@ html,body {
 	border:0;
 	overflow:hidden;
 	z-index:3;
-	background-color:transparent;
+    	background-color: transparent;
 }
 
 #cp_outer_left {
@@ -165,8 +165,8 @@ html,body {
 	line-height:25px;
 }
 
-.toggle-grey {
-	color:#999;
+.toggle-grey, .toggleSearch {
+        color: #999;
 }
 
 .toggle-grey:hover,.toggle-grey:active {
@@ -174,7 +174,7 @@ html,body {
 }
 
 .toggle-grey-on {
-	color:#007ac2;
+        color: #007ac2 !important;
 }
 
 .toggle-grey-on:hover,.toggle-grey-on:active {
@@ -223,6 +223,10 @@ html,body {
 	background:#f8f8f8;
 	color:#555;
 	cursor:pointer;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	width:245px;
 }
 
 #renderer_menu .summarize .item-container {
@@ -239,7 +243,7 @@ html,body {
 .geoData {
 	position:absolute;
 	z-index:99;
-	bottom:5px;
+   	bottom: 20px;
 	width:100%;
 	-moz-user-select:none;
 	-webkit-user-select:none;
@@ -261,10 +265,10 @@ html,body {
 }
 
 .geoData tr td {
-	padding:5px;
-	margin:0;
-	text-align:left;
-	border:0;
+    	padding: 5px;
+    	margin: 0;
+    	text-align: left;
+    	border: 0;
         height: 100px;
 }
 
@@ -282,22 +286,22 @@ html,body {
 
 .geoData .panel {
 	text-align:center;
-	display:inline-block;
+	display: inline-block;
 	float:left;
 	color:#fff;
 	cursor:pointer;
 }
 
 .geoData .panel-expanded {
-	text-align:center;
-	display:inline-block;
+	text-align: center;
 	color: gray;
         padding: 0px;
-	margin:5px 0px;
-	display:none;
+    	margin: 5px 0px;
    	border: 1px solid gray;
    	border-top: none;
         border-bottom: none;
+    	bottom: 15px;
+    	height: 115px;
 }
 
 .population .tblSlideContainer {
@@ -310,124 +314,128 @@ html,body {
    	border-bottom: 3px solid rgba(0,69,117,0.80) !important;
 }
 
-.critical-infrastructure .tblSlideContainer{
+.critical-infrastructure .tblSlideContainer {
    	border-bottom: 3px solid #35ac46;
    	border-bottom: 3px solid rgba(42,116,51,0.80) !important;
 }
 
-.businesses .tblSlideContainer{
+.businesses .tblSlideContainer {
    	border-bottom: 3px solid #6b1978 !important;
    	border-bottom: 3px solid rgba(107,25,120,0.80) !important;
 }
-.geoData .count, .tblSlide .count {
-	    font-size:32px;
+.geoData .count {
+        font-size: 32px;
 	margin:0;
         text-align: left;
 }
 .geoData .panel .count {
-     	padding:15px 5px;
+        font-size: 25px;
+        padding: 15px 5px;
      	text-align: center;
 }
 .tblSlide .count {
+        font-size: 27px;
      	margin-top: 5px;
+        display: block;
 }
 .geoData .panel .title {
 	margin: 0;
-   	padding: 3px 30px;
+        padding: 3px 22px;
         font-size: 14px;
    	font-weight: normal;
 }
 
-.tblSlide .count, .tblSlide .title {
-   	background-color: #fff !important;
-}
 .geoData .population .count {
-	background-color:#f36f20;
-	background:rgba(243,111,32,0.80);
+        background-color: #f36f20;
+        background: rgba(243,111,32,0.80);
 }
 
-.geoData .population .title,.population .bgColor {
-	background-color:#da4d1e;
-	background:rgba(218,77,30,0.80);
+.geoData .population .title, .population .bgColor {
+        background-color: #da4d1e;
+        background: rgba(218,77,30,0.80);
 }
 
 .geoData .population:hover .count {
-	background-color:#f36f20;
-	background:rgba(243,111,32,0.70);
+        background-color: #f36f20;
+        background: rgba(243,111,32,0.70);
 }
 
 .geoData .population:hover .title {
-	background-color:#da4d1e;
-	background:rgba(218,77,30,0.70);
+        background-color: #da4d1e;
+        background: rgba(218,77,30,0.70);
 }
 
 .geoData .households .count {
-	background-color:#007ac2;
-	background:rgba(0,122,194,0.80);
+        background-color: #007ac2;
+        background: rgba(0,122,194,0.80);
 }
 
-.geoData .households .title,.households .bgColor{
-	background-color:#004575;
-	background:rgba(0,69,117,0.80);
+.geoData .households .title, .households .bgColor {
+        background-color: #004575;
+        background: rgba(0,69,117,0.80);
 }
 
 .geoData .households:hover .count {
-	background-color:#007ac2;
-	background:rgba(0,122,194,0.70);
+        background-color: #007ac2;
+        background: rgba(0,122,194,0.70);
 }
 
 .geoData .households:hover .title {
-	background-color:#004575;
-	background:rgba(0,69,117,0.70);
+        background-color: #004575;
+        background: rgba(0,69,117,0.70);
 }
 
 
 .geoData .critical-infrastructure .count {
-	background-color:#35ac46;
-	background:rgba(53,172,70,0.80);
+        background-color: #35ac46;
+        background: rgba(53,172,70,0.80);
 }
 
-.geoData .critical-infrastructure .title, .critical-infrastructure .bgColor{
-	background-color:#2a7433;
-	background:rgba(42,116,51,0.80);
+.geoData .critical-infrastructure .title, .critical-infrastructure .bgColor {
+        background-color: #2a7433;
+        background: rgba(42,116,51,0.80);
 }
 
 .geoData .critical-infrastructure:hover .count {
-	background-color:#35ac46;
-	background:rgba(53,172,70,0.70);
+        background-color: #35ac46;
+        background: rgba(53,172,70,0.70);
 }
 
 .geoData .critical-infrastructure:hover .title {
-	background-color:#2a7433;
-	background:rgba(42,116,51,0.70);
+        background-color: #2a7433;
+        background: rgba(42,116,51,0.70);
 }
 
 .geoData .businesses .count {
-	background-color:#8f499c;
-	background:rgba(143,73,156,0.80);
+        background-color: #8f499c;
+        background: rgba(143,73,156,0.80);
 }
 
-.geoData .businesses .title,.businesses .bgColor {
-	background-color:#6b1978;
-	background:rgba(107,25,120,0.80);
+.geoData .businesses .title, .businesses .bgColor {
+        background-color: #6b1978;
+        background: rgba(107,25,120,0.80);
 }
 
 .geoData .businesses:hover .count {
-	background-color:#8f499c;
-	background:rgba(143,73,156,0.70);
+        background-color: #8f499c;
+        background: rgba(143,73,156,0.70);
 }
 
 .geoData .businesses:hover .title {
-	background-color:#6b1978;
-	background:rgba(107,25,120,0.70);
+        background-color: #6b1978;
+        background: rgba(107,25,120,0.70);
 }
 
 .clear {
-	clear:both;
+        clear: both;
+}
+.geoPanel {
+        height: auto;
+        display: inline-block;
 }
 
 .divHeader {
-   	height: 26px;
+        height: 21px;
     	width: 100%;
     	border-bottom: 1px solid gray;
 }
@@ -435,17 +443,18 @@ html,body {
 .divHeaderTitle {
     	color: #fff;
     	float: left;
-    	height: 25px;
+    	height: 20px;
     	padding: 0px 5px;
     	border: 1px solid gray;
     	border-bottom: none;
     	border-left: none;
     	border-collapse: collapse;
+	font-size: 14px;
 }
 
 .divHeaderClose {
     	float: right;
-    	height: 25px;
+        height: 20px;
     	border: 1px solid gray;
    	border-bottom: 1px solid #fff !important;
    	border-right: none;
@@ -457,28 +466,24 @@ html,body {
 }
 
 .tblSlide .title {
-    	margin: 0;
     	padding: 2px 0px;
-    	font-size: 14px;
+        font-size: 13px;
     	font-weight: normal;
     	width: 100px;
-    	height: 30px;
     	word-break: break-word;
     	overflow: hidden;
 }
 
 .tblSlideContainer {
     	background-color: #fff;
-    	width:100%;
-    	height:110px;
+        width: 100%;
+        height: 89px;
 }
 /*---------------------------------------------------------------------------*/
 /*style for impact polygon slider*/
-.leftArrow
-{
+.leftArrow, .rightArrow {
     	position: absolute;
-    	top: 34px;
-    	left: -2px;
+        top: 24px;
     	font-size: 40px;
     	width: 30px;
     	height:30px;
@@ -492,32 +497,25 @@ html,body {
     	display: none !important;
     	cursor: default !important;
 }
-
+.leftArrow {
+        left: -5px;
+}
 .rightArrow {
-    	color: rgb(221, 220, 220);
-    	position: absolute;
-    	top: 34px;
-    	right: -4px;
-    	width: 30px;
-    	line-height: 30px;
-    	height: 30px;
-    	font-size: 40px;
-    	cursor: pointer;
+        right: -5px;
 }
 
 .slidePanel {
     	transition-property: left;
-    	transition-duration: 1s;
+        transition-duration: .2s;
     	transition-timing-function: ease;
     	transition-delay: 0s;
     	-webkit-transition-property: left;
-    	-webkit-transition-duration: 1s;
+        -webkit-transition-duration: .2s;
     	-webkit-transition-timing-function: linear;
     	-webkit-transition-delay: 0s;
 }
 
-.divSliderContainer
-{
+.divSliderContainer {
     	z-index: 1002;
     	background-color: #fff;
 }
@@ -533,32 +531,14 @@ html,body {
 }
 
 .carouselscroll {
-    	float: left;
-    	height: 100%;
+        height:70px;
     	position: absolute;
     	left: 0px;
     	bottom: 5px;
     	vertical-align: middle;
 }
-
-.divSliderContent {
-    	height: 100%;
-    	width: 500px;
-    	background-color: transparent;
-    	position: relative;
-    	overflow: hidden;
-    	float: left;
-}
-.carouselOfficescroll {
-    	float: left;
-    	height: 100%;
-    	position: absolute;
-    	left: 0px;
-    	vertical-align: middle;
-}
-
 .tblSlide {
-    	width: 100%;
+        display: inline-block;
     	height: 100%;
 }
 
@@ -572,12 +552,14 @@ html,body {
     	left: 0;
     	float: right;
 }
+
 .divPagination {
     	width: 100%;
-    	position: absolute;
-    	bottom: 0px;
+        position: relative;
+        bottom: 2px;
     	text-align: center;
 }
+
 .paginationDot {
     	color: red;
     	display: inline-block !important;
@@ -592,22 +574,78 @@ html,body {
     	cursor:pointer;
 }
 
+.tblSlide div {
+        float: left;
+        height: 75px;
+        width: 150px;
+        border-right: 1px solid #ccc;
+}
+
+.divLeft {
+    	float: left;
+}
+
+.divRight {
+        float: right;
+}
+
+.divSliderContent {
+        width: 450px;
+        overflow: hidden;
+        float: left;
+        height: 100%;
+        position: relative;
+}
+.divLeft, .divRight {
+        width: 40px;
+        height: 90px;
+}
+.carousel {
+        overflow: hidden;
+        position: relative;
+        height: 70px;
+}
+.tblSlide .count, .tblSlide .title {
+        background-color: #fff !important;
+        display: block;
+        text-align: left;
+        margin-left: 40px;
+}
+
 /*****************************************************/
 /* style for loading indicator */
 
-.loadingIndicatorDiv
-{
-    height: 100%;
-    width: 100%;
-    display: block;
-    z-index: 99999;
-    position: absolute;
-    bottom: 0px;
-    top: 0px;
-    left: 0px;
-    background: rgb(238,238,238);
-    background-position: center center;
-    background-image: url('../images/ajax-loader.gif');
-    background-repeat: no-repeat;
+.loadingIndicatorDiv {
+        height: 100%;
+        width: 100%;
+        display: block;
+        z-index: 99999;
+        position: absolute;
+        bottom: 0px;
+        top: 0px;
+        left: 0px;
+        background: rgb(238,238,238);
+        background-position: center center;
+        background-image: url('../images/ajax-loader.gif');
+        background-repeat: no-repeat;
 }
 /*End of style for loading indicator */
+#mobileGeocoderIcon {
+        display: none;
+}
+
+.mobileLocateBoxHidden {
+        display: none;
+}
+
+
+.mobileLocateBox {
+        position: absolute;
+        z-index: 99999;
+        top: 5px;
+        right: 5px;
+}
+
+.esriGeocoder {
+        right: 0px;
+}

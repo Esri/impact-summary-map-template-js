@@ -8,13 +8,15 @@ define([
     "dijit/_OnDijitClickMixin",
     "dijit/_TemplatedMixin",
     "dojo/on",
-    // load template
+    "dojo/string",
+     // load template
     "dojo/text!modules/dijit/templates/ShareDialog.html",
     "dojo/i18n!modules/nls/ShareDialog",
     "dojo/dom-class",
     "dojo/dom-style",
     "dojo/dom-construct",
     "dojox/html/entities",
+    "esri",
     "esri/urlUtils",
     "esri/geometry/Extent",
     "dijit/Dialog"
@@ -26,9 +28,11 @@ function (
     has, esriNS,
     _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
     on,
+    string,
     dijitTemplate, i18n,
     domClass, domStyle, domConstruct,
     entities,
+    esri,
     urlUtils,
     Extent,
     Dialog
@@ -179,8 +183,8 @@ function (
 
         _shareLink: function () {
             var _self = this, tinyResponse, url;
-            url = dojo.string.substitute(this.config.TinyURLServiceURL, [encodeURIComponent(this.config.shareURL)]);
-            dojo.io.script.get({
+            url = string.substitute(this.config.TinyURLServiceURL, [encodeURIComponent(this.get("url"))]);
+            esri.request({
                 url: url,
                 callbackParamName: "callback",
                 load: function (data) {
@@ -189,6 +193,10 @@ function (
                     var attr = _self.config.TinyURLResponseAttribute.split(".");
                     for (var x = 0; x < attr.length; x++) {
                         _self.tinyUrl = _self.tinyUrl[attr[x]];
+                    }
+
+                    if (_self.tinyUrl) {
+                        _self._shareMapUrlText.value = _self.tinyUrl;
                     }
                 },
                 error: function (error) {

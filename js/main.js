@@ -1,5 +1,5 @@
 define([
-    "dojo/ready",
+    "dojo/ready", 
     "dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/_base/array",
@@ -40,7 +40,8 @@ define([
     "esri/dijit/Geocoder",
     "dijit/Dialog",
     "modules/Slider",
-    "esri/dijit/Popup"
+    "esri/dijit/Popup",
+        "dojo/fx"
 ],
 function(
     ready,
@@ -76,7 +77,8 @@ function(
     Geocoder,
     Dialog,
     Slider,
-    Popup
+    Popup,
+    coreFx
 ) {
     return declare("", null, {
         config: {},
@@ -84,7 +86,7 @@ function(
             this._containers();
             //config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
-            // any url parameters and any application specific configuration information.
+            // any url parameters and any application specific configuration information. 
             this.config = config;
             this._cssStyles();
             ready(lang.hitch(this, function() {
@@ -201,14 +203,18 @@ function(
                     onAnimate: lang.hitch(this, function(){
                         this._bc_outer.layout();
                     }),
-                    onEnd: lang.hitch(this, function(){
-                        domStyle.set(this._drawer, 'display', 'none');
+                    onEnd: lang.hitch(this,function () {
+                        domStyle.set(this._drawer,'display','none');
                         this._bc_outer.layout();
                     })
                 }).play();
+                domStyle.set(query(".geodata-container")[0],'display','inline-block');
             }
-            else{
-                domStyle.set(this._drawer, 'display', 'block');
+            else {
+                domStyle.set(this._drawer,'display','block');
+                if(window.innerWidth<850) {
+                    domStyle.set(query(".geodata-container")[0],'display','none');
+                }
                 fx.animateProperty({
                     node:this._drawer,
                     properties: {
@@ -225,59 +231,25 @@ function(
                 }).play();
             }
         },
-        _toggleSlider: function (domSlider) {
-            var height = 178;
-            var cont = query('.geodata-container')[0];
-            var divCount = query('.panel .count');
-            if (domStyle.get(domSlider, 'display') === 'block') {
-                fx.animateProperty({
-                    node: cont,
-                    properties: {
-                        height: { start: height, end: 0 }
-                    },
-                    duration: 100,
-                    easing: easing.expoOut,
-                    onAnimate: lang.hitch(this, function () {
-                    }),
-                    onEnd: lang.hitch(this, function () {
-                        domStyle.set(domSlider, 'display', 'none');
-                        array.forEach(divCount, function (elementCount) {
-                            domStyle.set(elementCount, 'display', 'block');
-                        });
-                        domStyle.set(cont, 'height', 'auto');
-                        fx.animateProperty({
-                            node: cont,
-                            properties: {
-                                height: { start: 0, end: domGeom.getMarginBox(cont).h }
-                            },
-                            duration: 400,
-                            easing: easing.expoOut
 
-                        }).play();
-                    })
-                }).play();
-            }
-            else {
-                domStyle.set(domSlider, 'display', 'block');
-                fx.animateProperty({
-                    node: cont,
-                    properties: {
-                        height: { start: 0, end: height }
-                    },
-                    duration: 450,
-                    easing: easing.expoOut,
-                    onAnimate: lang.hitch(this, function () {
-                        array.forEach(divCount, function (elementCount) {
-                            domStyle.set(elementCount, 'display', 'none');
-                        });
-                    }),
-                    onEnd: lang.hitch(this, function () {
+        _displayContainer: function (node, duration) {
+            coreFx.wipeIn({
+                node: node,
+                duration: duration,
+                easing: easing.expoOut
+            }).play();
 
-                    })
-                }).play();
-            }
         },
-        _displayStats: function (features) {
+        _hideContainer: function (node, duration) {
+            coreFx.wipeOut({
+                node: node,
+                duration: duration,
+                easing: easing.expoOut
+            }).play();
+
+        },
+        _displayStats: function(features) {
+	    var _self=this;
             if (features && features.length) {
                 var variables = this.config.sum_variables;
                 var sum = {}, i;
@@ -308,47 +280,62 @@ function(
                         return number.format(parseInt(render(text), 10));
                     };
                 };
+                domStyle.set(this.dataNode, 'display', 'block');
                 var output = Mustache.render(panelsView, sum);
                 this.dataNode.innerHTML = output;
-                var objSlider;
-                domStyle.set(this.dataNode, 'display', 'block');
-                var divCount = query('.panel .count');
-
-                var sliderResizeHandler = null;
-                var slider = query('.panel-expanded .tblSlideContainer');
+                array.forEach(query('.panel-expanded'), function (node) {
+                    domStyle.set(node, 'display', 'none');
+                });
+                //Create Slider for Geo data panels 
+                var slider, objSlider, childNode, sliderWidth, divGeoPanel;
+                var sliderResizeHandler = null; //resize handler
+                slider = query('.panel-expanded .tblSlideContainer');
                 array.forEach(slider, function (node) {
-                    var sliderContentInfo = query('.tblSlide', node)[0];
-                    var childNode = query('td', sliderContentInfo).length;
-                    if (childNode > 4) {
-                        if (sliderContentInfo) {
-                            objSlider = new Slider({ sliderContent: sliderContentInfo, sliderParent: node });
-                            if (!sliderResizeHandler) {
-                                sliderResizeHandler = on(window, 'resize', lang.hitch(this, function () {
-                                    array.forEach(query('.divSliderContainer'), lang.hitch(this, function (sliderNode) {
-                                        objSlider._resizeSlider(sliderNode.id);
-                                    }));
-                                }));
-                            }
+                    divGeoPanel = query('.tblSlide', node)[0];
+                    childNode = query('div', divGeoPanel).length;
+                    if (childNode > 3) {
+                        if (divGeoPanel) {
+                            objSlider = new Slider({ sliderContent: divGeoPanel, sliderParent: node });
                         }
+                    } else {
+                        sliderWidth = (domStyle.get(divGeoPanel.children[0], 'width') + 1) * divGeoPanel.childElementCount;
+                        domStyle.set(divGeoPanel, 'width', sliderWidth + 'px');
                     }
+                    if (!sliderResizeHandler) {
+                        //set slider position on window resize
+                        sliderResizeHandler = on(window, 'resize', lang.hitch(this, function () {
+                            array.forEach(slider, lang.hitch(this, function (sliderNode) {
+                                var divSlider = query('.divSliderContainer', sliderNode)[0];
+                                if (divSlider) {
+                                    objSlider._resizeSlider(divSlider.id);
+                                } else {
+                                    divGeoPanel=query('.tblSlide',sliderNode)[0];
+                                    if(divGeoPanel) {
+                                        sliderWidth=(domStyle.get(divGeoPanel.children[0],'width')+1)*divGeoPanel.childElementCount;
+                                        domStyle.set(divGeoPanel,'width',sliderWidth+'px');
+                                    }
+                                }
+                                _self._setLeftPanelVisibility();
+                            }));
+                        }));
+                    }
+                    domStyle.set(divGeoPanel.lastElementChild, "border", "none");
                 });
                 this._panelClick = on(query('.panel', this.dataNode), 'click', lang.hitch(this, function (evt) {
                     if (evt.stopPropagation) {
-                        evt.stopPropagation();   // W3C model
+                        evt.stopPropagation();
                     } else {
-                        evt.cancelBubble = true; // IE model
+                        evt.cancelBubble = true;
                     }
                     var type = domAttr.get(evt.currentTarget, 'data-type');
-                    this._showExpanded(type);
-                    array.forEach(query('.divSliderContainer'), lang.hitch(this, function (sliderNode) {
-                        objSlider._resizeSlider(sliderNode.id);
-                    }));
+                    this._showExpanded(type, objSlider);
+
                 }));
                 this._expandedClick = on(query('.' + this.css.statsPanelSelected + ' .divHeaderClose', this.dataNode), 'click', lang.hitch(this, function (evt) {
                     if (evt.stopPropagation) {
-                        evt.stopPropagation();   // W3C model
+                        evt.stopPropagation();
                     } else {
-                        evt.cancelBubble = true; // IE model
+                        evt.cancelBubble = true;
                     }
                     this._hideExpanded(evt.currentTarget);
 
@@ -371,15 +358,44 @@ function(
                 domStyle.set(this.dataNode, 'display', 'none');
             }
         },
+        _setLeftPanelVisibility: function () {
+            if(window.innerWidth<850) {
+                domStyle.set(this._drawer,'display','none');
+                if(domClass.contains(dom.byId('hamburger_button'),this.css.toggleBlueOn)) {
+                    domClass.remove(dom.byId('hamburger_button'),this.css.toggleBlueOn);
+                }
+            } else {
+                domStyle.set(this._drawer,'display','block');
+            }
+            if(query(".geodata-container")[0]) {
+                domStyle.set(query(".geodata-container")[0],'display','inline-block');
+            }
+            this._bc_outer.layout();
+        },
         _hideExpanded: function (element) {
             var domSlider = element.parentElement.parentElement;
-            this._toggleSlider(domSlider);
+            var cont = query('.geoPanel')[0];
+            var divCount = query('.panel .count');
+            this._hideContainer(domSlider, 100);
+            domStyle.set(cont, 'display', 'none');
+            array.forEach(divCount, function (elementCount) {
+                domStyle.set(elementCount, 'display', 'block');
+            });
+            this._displayContainer(cont, 100);
+
         },
-        _showExpanded: function (type) {
+        _showExpanded: function (type, objSlider) {
             query('.' + this.css.statsPanelSelected, this.dataNode).style('display', 'none');
             var domSlider = query('.' + this.css.statsPanelSelected + '[data-type="' + type + '"]', this.dataNode)[0];
-            this._toggleSlider(domSlider);
-
+            this._displayContainer(domSlider, 250);
+            var divCount = query('.panel .count');
+            array.forEach(divCount, function (elementCount) {
+                domStyle.set(elementCount, 'display', 'none');
+            });
+            var slider = query('.divSliderContainer', domSlider)[0];
+            if (slider) {
+                objSlider._resizeSlider(slider.id);
+            }
         },
         // get layer of impact area by layer title
         getLayerByTitle: function(map, layers, title) {
@@ -499,12 +515,28 @@ function(
             }, "LayerLegend");
             LL.startup();
 
-            var geocoder = new Geocoder({
+                        var geocoder = new Geocoder({
+                            map: this.map,
+                            theme: 'calite',
+                            autoComplete: true
+                        }, dom.byId("geocoderSearch"));
+                        geocoder.startup();
+
+            var geocoder1 = new Geocoder({
                 map: this.map,
                 theme: 'calite',
                 autoComplete: true
-            }, dom.byId("geocoderSearch"));
-            geocoder.startup();
+            }, dom.byId("geocoderMobile"));
+            geocoder1.startup();
+            dom.byId("mobileGeocoderIcon").onclick=function () {
+                if(domClass.contains(dom.byId("mobileSearch"),"mobileLocateBoxHidden")) {
+                    domClass.replace(dom.byId("mobileSearch"),"mobileLocateBox","mobileLocateBoxHidden");
+                    domClass.replace(dom.byId("mobileGeocoderIcon"),"toggle-grey-on","toggleSearch");
+                } else {
+                    domClass.replace(dom.byId("mobileSearch"),"mobileLocateBoxHidden","mobileLocateBox");
+                    domClass.replace(dom.byId("mobileGeocoderIcon"),"toggleSearch","toggle-grey-on");
+                }
+            };
             /* Start temporary until after JSAPI 3.8 is released */
             var layers = this.map.getLayersVisibleAtScale(this.map.getScale());
             on.once(this.map, 'basemap-change', lang.hitch(this, function(){
@@ -536,7 +568,7 @@ function(
                 //q.where = '"' + this._attributeField + '" = (SELECT MAX("' + this._attributeField + '") FROM ' + this._impactLayer.id + ')';
                 //console.log(q.where);
                 // FIELD" = (SELECT MAX("FIELD") FROM layer)
-                q.orderByFields = [this._attributeField + ' DESC'];
+                q.orderByFields = [this._attributeField + ' DESC'];   
             }
             if (this._impactLayer) {
                 this._impactLayer.queryFeatures(q, lang.hitch(this, function (fs) {
@@ -554,6 +586,7 @@ function(
                     this._selectedGraphics.setVisibility(evt.visible);
                 }));
             }
+            this._setLeftPanelVisibility();
         },
         _clearSelected: function() {
             var items = query('.' + this.css.rendererSelected, dom.byId('renderer_menu'));
@@ -579,15 +612,15 @@ function(
             arcgisUtils.createMap(this.config.webmap, "mapDiv", {
                 mapOptions: {
                     infoWindow: customPopup
-                    //Optionally define additional map config here for example you can
-                    //turn the slider off, display info windows, disable wraparound 180, slider position and more.
+                    //Optionally define additional map config here for example you can 
+                    //turn the slider off, display info windows, disable wraparound 180, slider position and more. 
                 },
                 bingMapsKey: this.config.bingmapskey
             }).then(lang.hitch(this, function(response) {
-                //Once the map is created we get access to the response which provides important info
+                //Once the map is created we get access to the response which provides important info 
                 //such as the map, operational layers, popup info and more. This object will also contain
                 //any custom options you defined for the template. In this example that is the 'theme' property.
-                //Here' we'll use it to update the application to match the specified color theme.
+                //Here' we'll use it to update the application to match the specified color theme.  
                 //console.log(this.config);
                 this.map = response.map;
                 this.layers = response.itemInfo.itemData.operationalLayers;
@@ -604,10 +637,10 @@ function(
                     }));
                 }
             }), lang.hitch(this, function(error) {
-                //an error occurred - notify the user. In this example we pull the string from the
-                //resource.js file located in the nls folder because we've set the application up
-                //for localization. If you don't need to support mulitple languages you can hardcode the
-                //strings here and comment out the call in index.html to get the localization strings.
+                //an error occurred - notify the user. In this example we pull the string from the 
+                //resource.js file located in the nls folder because we've set the application up 
+                //for localization. If you don't need to support mulitple languages you can hardcode the 
+                //strings here and comment out the call in index.html to get the localization strings. 
                 if (this.config && this.config.i18n) {
                     alert(this.config.i18n.map.error + ": " + error.message);
                 } else {

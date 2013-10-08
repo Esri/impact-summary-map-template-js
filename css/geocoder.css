@@ -1,7 +1,6 @@
 ﻿.locateBox {
-	display:block;
-    	float: right;
-    	padding: 5px;
+        float: right;
+        padding: 5px;
 }
 .esriGeocoderContainer * {
     	-moz-box-sizing: content-box;
@@ -99,21 +98,20 @@
     	opacity: .75;
 }
 
-.esriGeocoderResults
-{
-    	display: none;
-    	z-index: 99;
-    	width: 100%;
-    	position: absolute;
-    	left: 0;
-    	top: 100%;
-    	margin: -1px 0 0;
-    	border: 1px solid #ccc;
-    	border-top: 0;
-    	padding: 0;
-    	background: #fff;
-   	-webkit-border-radius: 0 0 2px 2px;
-   	border-radius: 0 0 2px 2px;
+.esriGeocoderResults {
+        display: none;
+        z-index: 99;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 100%;
+        margin: -1px 0 0;
+        border: 1px solid #ccc;
+        border-top: 0;
+        padding: 0;
+        background: #fff;
+        -webkit-border-radius: 0 0 2px 2px;
+        border-radius: 0 0 2px 2px;
 }
 
 .esriGeocoderResult {

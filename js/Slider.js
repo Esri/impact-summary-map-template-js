@@ -39,28 +39,28 @@ function (
 
         //function to create slider based on content
         _createSlider: function () {
-            var sliderOuterContainer, sliderInnerContainer, sliderTable, sliderRow, sliderTdLeftArrow, sliderTdRightArrow, sliderDivLeftArrow, sliderSpanLeftArrow, sliderColumn, sliderDiv, sliderContentDiv,
-                sliderContentHolder, sliderDivRightArrow, sliderPaginationHolder, pageCount;
+            var sliderOuterContainer, sliderInnerContainer, sliderLeftArrowHolder, sliderRightArrowHolder, sliderDivLeftArrow, sliderDiv, sliderContentDiv,
+                sliderDivRightArrow, sliderPaginationHolder, pageCount;
             sliderOuterContainer = domConstruct.create('div', { "id": "slider" + this.domNode.id, "class": "divSliderContainer" }, null);
-            sliderOuterContainer.ondblclick = function (evt) {
-                evt.stopPropagation ? evt.stopPropagation() : evt.cancelBubble = true;
-            };
+            query(".geoData")[0].ondblclick = lang.hitch(this, function (event) {
+                this._stopEvent(event);
+            });
+
+            query(".geoData")[0].onmousedown = lang.hitch(this, function (event) {
+                this._stopEvent(event);
+            });
             sliderInnerContainer = domConstruct.create('div', { "class": "divInnerSliderContainer" }, sliderOuterContainer);
-            sliderTable = domConstruct.create('table', {}, sliderInnerContainer);
-            sliderRow = domConstruct.create('tr', {}, sliderTable);
-            sliderTdLeftArrow = domConstruct.create('td', { "align": "left", "style": "width: 30px;" }, sliderRow);
-            sliderDivLeftArrow = domConstruct.create('div', { "id": this.domNode.id + "leftArrow", "title": i18n.widgets.Slider.previous }, sliderTdLeftArrow);
-            sliderSpanLeftArrow = domConstruct.create('span', { "class": "leftArrow disableArrow" }, sliderDivLeftArrow);
+            sliderLeftArrowHolder = domConstruct.create('div', { "class": "divLeft" }, sliderInnerContainer);
+            sliderDiv = domConstruct.create('div', { "id": "divSlider" + this.domNode.id, "class": "divSliderContent" }, sliderInnerContainer);
+            sliderContentDiv = domConstruct.create('div', { "class": "carousel slidePanel" }, null);
+            sliderDiv.appendChild(sliderContentDiv);
+            sliderContentDiv.appendChild(this.domNode);
+            sliderRightArrowHolder = domConstruct.create('div', { "class": "divRight" }, sliderInnerContainer);
+            sliderDivLeftArrow = domConstruct.create('div', { "id": this.domNode.id + "leftArrow", "class": "leftArrow disableArrow", "title": i18n.widgets.Slider.previous }, sliderLeftArrowHolder);
 
-            sliderColumn = domConstruct.create('td', {}, sliderRow);
-            sliderDiv = domConstruct.create('div', { "id": "divSlider" + this.domNode.id, "class": "divSliderContent" }, sliderColumn);
-            sliderContentDiv = domConstruct.create('div', { "class": "carouselscroll slidePanel" }, sliderDiv);
-            sliderContentHolder = domConstruct.create('div', {}, sliderContentDiv);
-
-            sliderContentHolder.appendChild(this.domNode);
             sliderPaginationHolder = domConstruct.create('div', { "class": "divPagination" }, null);
             sliderDiv.appendChild(sliderPaginationHolder);
-            pageCount = Math.ceil(query('td', this.domNode).length / 4);
+            pageCount = Math.ceil(this.domNode.childElementCount / 3);
             for (var i = 0; i < pageCount; i++) {
                 var spanPaginationDot = domConstruct.create("span", { "class": "paginationDot" }, null);
                 domAttr.set(spanPaginationDot, "index", i);
@@ -70,13 +70,13 @@ function (
                 sliderPaginationHolder.appendChild(spanPaginationDot);
                 on(spanPaginationDot, 'click', lang.hitch(this, function (evt) {
                     this._showSelectedPage(sliderOuterContainer.id, evt.currentTarget);
+                    this._setArrowVisibility(sliderOuterContainer.id);
                 }));
             }
-            sliderTdRightArrow = domConstruct.create('td', { "align": "left", "style": "width: 30px;" }, sliderRow);
-            sliderDivRightArrow = domConstruct.create('div', { "id": this.domNode.id + "rightArrow", "title": i18n.widgets.Slider.next }, sliderTdRightArrow);
-            sliderSpanLeftArrow = domConstruct.create('span', { "class": "rightArrow" }, sliderDivRightArrow);
-
+            sliderDivRightArrow = domConstruct.create('div', { "id": this.domNode.id + "rightArrow", "class": "rightArrow", "title": i18n.widgets.Slider.next }, sliderRightArrowHolder);
             this.sliderParent.appendChild(sliderOuterContainer);
+            this._resizeSlider(sliderOuterContainer.id);
+
             on(sliderDivRightArrow, 'click', lang.hitch(this, function () {
                 this._slideRight(sliderOuterContainer.id);
             }));
@@ -84,8 +84,15 @@ function (
                 this._slideLeft(sliderOuterContainer.id);
             }));
         },
+        _stopEvent: function () {
+            if (event && event.stopPropagation) {
+                event.stopPropagation();
+            } else if (window.event) {
+                window.event.cancelBubble = true;
+            }
+        },
         _resetSlider: function (sliderId) {
-            var carousel = query('#' + sliderId + ' .carouselscroll')[0];
+            var carousel = query('#' + sliderId + ' .carousel')[0];
             this.newLeft = 0;
             domStyle.set(carousel, 'left', this.newLeft + "px");
             domClass.add(query('#' + sliderId + ' .leftArrow')[0], "disableArrow");
@@ -94,26 +101,28 @@ function (
             domClass.add(query('#' + sliderId + ' .paginationDot')[0], "bgColor");
         },
         _resizeSlider: function (sliderId) {
+            var carousel = query('#' + sliderId + ' .carousel')[0];
+            var sliderTableWidth = (domStyle.get(this.domNode.children[0], 'width') + 1) * this.domNode.childElementCount;
+            domStyle.set(carousel, 'width', sliderTableWidth + 'px');
             var selectedPage = query('#' + sliderId + ' .bgColor')[0];
             this._showSelectedPage(sliderId, selectedPage);
         },
         _showSelectedPage: function (sliderId, page) {
             var sliderContent, carousel, pageIndex;
             sliderContent = query('#' + sliderId + ' .divSliderContent')[0];
-            carousel = query('#' + sliderId + ' .carouselscroll')[0];
-
+            carousel = query('#' + sliderId + ' .carousel')[0];
             pageIndex = parseInt(domAttr.get(page, "index"));
             this.newLeft = -(sliderContent.offsetWidth + 4) * pageIndex;
             domStyle.set(carousel, 'left', this.newLeft + "px");
             domClass.remove(query('#' + sliderId + ' .bgColor')[0], "bgColor");
             domClass.add(page, "bgColor");
-            this._setArrowVisibility(sliderId);
+
 
         },
         //function to move slider on right side
         _slideRight: function (sliderId) {
             var tdWidth, difference, carousel, sliderContent;
-            carousel = query('#' + sliderId + ' .carouselscroll')[0];
+            carousel = query('#' + sliderId + ' .carousel')[0];
             sliderContent = query('#' + sliderId + ' .divSliderContent')[0];
             tdWidth = (sliderContent.offsetWidth) + 4;
             difference = sliderContent.offsetWidth - carousel.offsetWidth;
@@ -133,7 +142,7 @@ function (
         //function to move slider on left side
         _slideLeft: function (sliderId) {
             var sliderContentWidth, carousel, sliderContent;
-            carousel = query('#' + sliderId + ' .carouselscroll')[0];
+            carousel = query('#' + sliderId + ' .carousel')[0];
             sliderContent = query('#' + sliderId + ' .divSliderContent')[0];
             sliderContentWidth = (sliderContent.offsetWidth) + 4;
             if (this.newLeft < 0) {
@@ -146,15 +155,12 @@ function (
         },
         _setArrowVisibility: function (sliderId) {
             var difference, carousel, sliderContent;
-            carousel = query('#' + sliderId + ' .carouselscroll')[0];
+            carousel = query('#' + sliderId + ' .carousel')[0];
             sliderContent = query('#' + sliderId + ' .divSliderContent')[0];
             difference = sliderContent.offsetWidth - carousel.offsetWidth;
-            domClass.remove(query('#' + sliderId + ' .rightArrow')[0], "disableArrow");
-            domClass.remove(query('#' + sliderId + ' .leftArrow')[0], "disableArrow");
             if (this.newLeft == 0) {
                 domClass.add(query('#' + sliderId + ' .leftArrow')[0], "disableArrow");
             }
-
             if (difference >= 0) {
                 domClass.add(query('#' + sliderId + ' .rightArrow')[0], "disableArrow");
             } else if ((this.newLeft < (difference + 5))) {
