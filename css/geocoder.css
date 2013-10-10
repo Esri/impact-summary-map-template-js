@@ -31,6 +31,10 @@
     	margin: 3px 0 3px 6px;
 }
 
+.esriGeocoderSearch:hover,.esriGeocoderIcon:hover
+{
+		color: #000 !important;
+}
 
 .esriGeocoder .esriGeocoderClearFloat {
     	clear: both;
@@ -81,9 +85,14 @@
 .esriGeocoder .esriGeocoderReset {
     	margin: 3px 6px 3px 0;
     	float: right;
-    	display: none;
+	height:16px;
+	width:16px;
+	display:none;
 }
-
+.esriGeocoderHasValue .esriGeocoderReset
+{
+	display: block !important;
+}
 .esriGeocoder .esriGeocoderMenuArrow {
     	display: none;
     	cursor: pointer;
@@ -172,11 +181,9 @@
 
 /*added font icon .............*/
 
-.esriGeocoder .esriGeocoderSearch, .esriGeocoderReset {
-    	font-size: 17px !important;
-    	color: #999 !important;
-}
-.esriGeocoderSearch {
-    	float: right !important;
+.esriGeocoder .esriGeocoderIcon
+{
+    font-size: 17px !important;
+    color: #999;
 }
 

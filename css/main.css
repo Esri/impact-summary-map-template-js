@@ -243,7 +243,7 @@ html,body {
 .geoData {
 	position:absolute;
 	z-index:99;
-   	bottom: 20px;
+        bottom: 40px;
 	width:100%;
 	-moz-user-select:none;
 	-webkit-user-select:none;
@@ -256,34 +256,6 @@ html,body {
 	display:inline-block;
 }
 
-.geoData table {
-	padding:0;
-	margin:0;
-	text-align:center;
-	border-collapse:collapse;
-	border:0;
-}
-
-.geoData tr td {
-    	padding: 5px;
-    	margin: 0;
-    	text-align: left;
-    	border: 0;
-        height: 100px;
-}
-
-.tblSlide tr td {
-   	background-color: #fff !important;
-  	padding: 0px 5px 0px 20px;
-   	border-right: 1px solid #ccc;
-  	border-collapse: collapse;
-        height: 90px;
-}
-
-.geoData tr .last {
-	border-bottom:0;
-}
-
 .geoData .panel {
 	text-align:center;
 	display: inline-block;
@@ -293,15 +265,22 @@ html,body {
 }
 
 .geoData .panel-expanded {
-	text-align: center;
-	color: gray;
+        display: none;
+        text-align: center;
+        color: gray;
         padding: 0px;
     	margin: 5px 0px;
    	border: 1px solid gray;
    	border-top: none;
         border-bottom: none;
-    	bottom: 15px;
-    	height: 115px;
+        position: absolute;
+        bottom: 30px;
+        height: 0px;
+        transition: height .5s;
+        transition-property: height;
+        transition-duration: .5s;
+        -webkit-transition-property: height;
+        -webkit-transition-duration: .5s;
 }
 
 .population .tblSlideContainer {
@@ -314,7 +293,7 @@ html,body {
    	border-bottom: 3px solid rgba(0,69,117,0.80) !important;
 }
 
-.critical-infrastructure .tblSlideContainer {
+.critical_infrastructure .tblSlideContainer {
    	border-bottom: 3px solid #35ac46;
    	border-bottom: 3px solid rgba(42,116,51,0.80) !important;
 }
@@ -324,18 +303,17 @@ html,body {
    	border-bottom: 3px solid rgba(107,25,120,0.80) !important;
 }
 .geoData .count {
-        font-size: 32px;
-	margin:0;
+        margin: 0;
         text-align: left;
 }
 .geoData .panel .count {
-        font-size: 25px;
-        padding: 15px 5px;
+        font-size: 34px;
+        padding: 15px 20px;
      	text-align: center;
 }
 .tblSlide .count {
         font-size: 27px;
-     	margin-top: 5px;
+		margin-top: 0px;
         display: block;
 }
 .geoData .panel .title {
@@ -386,22 +364,22 @@ html,body {
 }
 
 
-.geoData .critical-infrastructure .count {
+.geoData .critical_infrastructure .count {
         background-color: #35ac46;
         background: rgba(53,172,70,0.80);
 }
 
-.geoData .critical-infrastructure .title, .critical-infrastructure .bgColor {
+.geoData .critical_infrastructure .title, .critical_infrastructure .bgColor {
         background-color: #2a7433;
         background: rgba(42,116,51,0.80);
 }
 
-.geoData .critical-infrastructure:hover .count {
+.geoData .critical_infrastructure:hover .count {
         background-color: #35ac46;
         background: rgba(53,172,70,0.70);
 }
 
-.geoData .critical-infrastructure:hover .title {
+.geoData .critical_infrastructure:hover .title {
         background-color: #2a7433;
         background: rgba(42,116,51,0.70);
 }
@@ -435,7 +413,7 @@ html,body {
 }
 
 .divHeader {
-        height: 21px;
+        height: 18%;
     	width: 100%;
     	border-bottom: 1px solid gray;
 }
@@ -443,18 +421,19 @@ html,body {
 .divHeaderTitle {
     	color: #fff;
     	float: left;
-    	height: 20px;
+		height: 100%;
     	padding: 0px 5px;
     	border: 1px solid gray;
     	border-bottom: none;
     	border-left: none;
     	border-collapse: collapse;
 	font-size: 14px;
+        overflow: hidden;
 }
 
 .divHeaderClose {
     	float: right;
-        height: 20px;
+        height: 100%;
     	border: 1px solid gray;
    	border-bottom: 1px solid #fff !important;
    	border-right: none;
@@ -463,6 +442,7 @@ html,body {
     	font-size: 20px;
    	background-color: #fff;
         cursor: pointer;
+        overflow: hidden;
 }
 
 .tblSlide .title {
@@ -477,31 +457,27 @@ html,body {
 .tblSlideContainer {
     	background-color: #fff;
         width: 100%;
-        height: 89px;
+        height: 80%;
+        overflow: hidden;
 }
 /*---------------------------------------------------------------------------*/
 /*style for impact polygon slider*/
 .leftArrow, .rightArrow {
-    	position: absolute;
-        top: 24px;
-    	font-size: 40px;
-    	width: 30px;
-    	height:30px;
-    	line-height: 30px;
-    	cursor: pointer;
-    	color: rgb(221, 220, 220);
+        position: relative;
+        margin-top: 24px;
+        font-size: 40px;
+        width: 30px;
+        line-height: 30px;
+        cursor: pointer;
+        color: rgb(221, 220, 220);
+        overflow: hidden;
+        margin-left: 0px !important;
 }
 
 .disableArrow {
-    	color: #ccc;
-    	display: none !important;
-    	cursor: default !important;
-}
-.leftArrow {
-        left: -5px;
-}
-.rightArrow {
-        right: -5px;
+        color: #ccc;
+        display: none !important;
+        cursor: default !important;
 }
 
 .slidePanel {
@@ -539,7 +515,9 @@ html,body {
 }
 .tblSlide {
         display: inline-block;
-    	height: 100%;
+        margin-top: 10px;
+        height: 75px;
+        overflow: hidden;
 }
 
 .esriGeocoderResults {
@@ -556,8 +534,9 @@ html,body {
 .divPagination {
     	width: 100%;
         position: relative;
-        bottom: 2px;
-    	text-align: center;
+        text-align: center;
+        bottom: 5px;
+        -webkit-bottom: 5px;
 }
 
 .paginationDot {
@@ -576,17 +555,14 @@ html,body {
 
 .tblSlide div {
         float: left;
-        height: 75px;
+        height: 70px;
         width: 150px;
         border-right: 1px solid #ccc;
+        overflow: hidden;
 }
 
 .divLeft {
-    	float: left;
-}
-
-.divRight {
-        float: right;
+        float: left;
 }
 
 .divSliderContent {
@@ -597,13 +573,13 @@ html,body {
         position: relative;
 }
 .divLeft, .divRight {
-        width: 40px;
-        height: 90px;
+        width: 36px;
+        height: 100px;
+        overflow: hidden;
 }
 .carousel {
         overflow: hidden;
         position: relative;
-        height: 70px;
 }
 .tblSlide .count, .tblSlide .title {
         background-color: #fff !important;
@@ -648,4 +624,11 @@ html,body {
 
 .esriGeocoder {
         right: 0px;
+}
+
+.animateSlider {
+        height: 130px !important;
+}
+#geocoderMobile {
+        display: none;
 }

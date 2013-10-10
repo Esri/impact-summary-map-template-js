@@ -104,7 +104,7 @@ function (
         /* Public Functions */
         /* ---------------- */
         show: function(){
-            this.set("visible", true);  
+            this.set("visible", true);
         },
         hide: function(){
             this.set("visible", false);
@@ -125,7 +125,7 @@ function (
                 this.close();
             }
             else{
-                this.open();    
+                this.open();
             }
             this.emit("toggle", {});
         },
@@ -174,8 +174,16 @@ function (
             on(this._emailButton, "click", lang.hitch(this, function (evt) {
                 this._configureShareLink(this.config.emailURL, true);
             }));
+
+            on(this._shareMapUrlText, "click", lang.hitch(this, function () {
+                this._shareMapUrlText.select();
+            }));
+
+            on(this._embedNode, "click", lang.hitch(this, function () {
+                this._embedNode.select();
+            }));
         },
-        _updateUrlWatch: function(){            
+        _updateUrlWatch: function(){
             var es = '<iframe width="' + this.get("embedWidth") + '" height="' + this.get("embedHeight") + '" src="' + this.get("url") + '" frameborder="0" scrolling="no"></iframe>';
             this.set("embed", es);
             this._embedNode.innerHTML = entities.encode(es);

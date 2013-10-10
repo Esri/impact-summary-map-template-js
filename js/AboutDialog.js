@@ -146,7 +146,7 @@ function (
                 }
                 this._licenseInfoNode.innerHTML = item.licenseInfo;
                 this._infoNode.innerHTML = '(' + item.numViews + ' ' + i18n.widgets.AboutDialog.views + ', ' + item.numComments + ' ' + i18n.widgets.AboutDialog.comments + ')';
-                this._moreInfoNode.innerHTML = '<a target="_blank" href="' + this.get("sharinghost") + '/home/item.html?id=' + item.id + '">' + i18n.widgets.AboutDialog.itemInfo+ '</a>';
+                this._moreInfoNode.innerHTML = i18n.widgets.AboutDialog.itemInfo + '  <a target="_blank" href="' + this.get("sharinghost") + '/home/item.html?id=' + item.id + '">' + i18n.widgets.AboutDialog.itemInfoLink + '</a>';
             }
         },
         _updateThemeWatch: function(attr, oldVal, newVal) {

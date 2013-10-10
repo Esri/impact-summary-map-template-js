@@ -1,7 +1,7 @@
 <div class="geodata-container">
     <div class="panel-expanded population" data-type="population" id="panelPopulation">
         <div class="divHeader">
-            <span class="bgColor divHeaderTitle">Population Age {{#numFormat}}{{TOTPOP_CY}}{{/numFormat}}</span><span
+            <span class="bgColor divHeaderTitle">Population: {{#numFormat}}{{TOTPOP_CY}}{{/numFormat}}</span><span
                 class="divHeaderClose icon-cancel-1" title="close"></span>
         </div>
         <div class="tblSlideContainer">
@@ -19,7 +19,7 @@
     </div>
     <div class="panel-expanded households" data-type="households" id="panelHouseholds">
         <div class="divHeader">
-            <span class="bgColor divHeaderTitle">Household {{#numFormat}}{{TOTHH_CY}}{{/numFormat}}</span>
+            <span class="bgColor divHeaderTitle">Households: {{#numFormat}}{{TOTHH_CY}}{{/numFormat}}</span>
             <span class="divHeaderClose icon-cancel-1" title="close"></span>
         </div>
         <div class="tblSlideContainer">
@@ -35,13 +35,13 @@
             </div>
         </div>
     </div>
-    <div class="panel-expanded critical-infrastructure" data-type="critical_infrastructure">
+    <div class="panel-expanded critical_infrastructure" data-type="critical_infrastructure">
         <div class="divHeader">
-            <span class="bgColor divHeaderTitle">Critical-infrastructure {{#numFormat}}{{CIKR_Total}}{{/numFormat}}</span><span
+            <span class="bgColor divHeaderTitle">Critical Infrastructures: {{#numFormat}}{{CIKR_Total}}{{/numFormat}}</span><span
                 class="divHeaderClose icon-cancel-1" title="close"></span>
         </div>
         <div class="tblSlideContainer">
-            <div id="infrastruct" class="tblSlide">
+            <div id="critical_infrastructure" class="tblSlide">
                 {{#CIKR_AMTwr}}
                 <div>
                     <span class="count">{{#numFormat}}{{CIKR_AMTwr}}{{/numFormat}} </span><span class="title">
@@ -123,7 +123,7 @@
     </div>
     <div class="panel-expanded businesses" data-type="businesses">
         <div class="divHeader">
-            <span class="bgColor divHeaderTitle">Businesses {{#numFormat}}{{BUS_Total}}{{/numFormat}}</span>
+            <span class="bgColor divHeaderTitle">Businesses: {{#numFormat}}{{BUS_Total}}{{/numFormat}}</span>
             <span class="divHeaderClose icon-cancel-1" title="close"></span>
         </div>
         <div class="tblSlideContainer">
@@ -202,7 +202,7 @@
             <div class="title">
                 Households</div>
         </div>
-        <div class="panel critical-infrastructure" data-type="critical_infrastructure">
+        <div class="panel critical_infrastructure" data-type="critical_infrastructure">
             <div class="count">
                 {{#numFormat}}{{CIKR_Total}}{{/numFormat}}</div>
             <div class="title">
