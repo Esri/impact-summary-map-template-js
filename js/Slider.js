@@ -2,11 +2,13 @@
     "dojo/Evented",
     "dojo/_base/declare",
     "dojo/_base/lang",
+    "dojo/_base/array",
     "dijit/_WidgetBase",
     "dojo/on",
     "dojo/query",
     "dojo/i18n!modules/nls/Slider",
     "dojo/dom",
+    "dojo/topic",
     "dojo/dom-class",
     "dojo/dom-style",
     "dojo/dom-attr",
@@ -16,11 +18,13 @@ function (
      Evented,
      declare,
      lang,
+     array,
      WidgetBase,
      on,
      query,
      i18n,
      dom,
+     topic,
      domClass,
      domStyle,
      domAttr,
@@ -34,6 +38,9 @@ function (
             this.resizeEvent = null;
             this._i18n = i18n;
             this._createSlider();
+            topic.subscribe("resizeGeoDataSlider",lang.hitch(this,function (sliderId) {
+                this._resizeSlider(sliderId);
+            }));
         },
 
         //function to create slider based on content
@@ -41,13 +48,7 @@ function (
             var sliderOuterContainer, sliderInnerContainer, sliderLeftArrowHolder, sliderRightArrowHolder, sliderDivLeftArrow, sliderDiv, sliderContentDiv,
                 sliderDivRightArrow, sliderPaginationHolder, pageCount;
             sliderOuterContainer = domConstruct.create('div', { "id": "slider" + this.sliderContent.id, "class": "divSliderContainer" }, null);
-            query(".geoData")[0].ondblclick = lang.hitch(this, function (event) {
-                this._stopEvent(event);
-            });
-
-            query(".geoData")[0].onmousedown = lang.hitch(this, function (event) {
-                this._stopEvent(event);
-            });
+         
             sliderInnerContainer = domConstruct.create('div', { "class": "divInnerSliderContainer" }, sliderOuterContainer);
             sliderLeftArrowHolder = domConstruct.create('div', { "class": "divLeft" }, sliderInnerContainer);
             sliderDiv = domConstruct.create('div', { "id": "divSlider" + this.sliderContent.id, "class": "divSliderContent" }, sliderInnerContainer);
@@ -88,6 +89,12 @@ function (
                 event.stopPropagation();
             } else if (window.event) {
                 window.event.cancelBubble = true;
+	    }
+        },
+        _setPanelWidth: function (node) {
+            if(node) {
+                var sliderWidth = query('.geoPanel')[0].offsetWidth;
+                domStyle.set(node,'width',sliderWidth + 'px');
             }
         },
         _resetSlider: function (sliderId) {

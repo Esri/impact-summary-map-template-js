@@ -276,11 +276,11 @@ html,body {
         position: absolute;
         bottom: 30px;
         height: 0px;
-        transition: height .5s;
+        transition: height .25s;
         transition-property: height;
-        transition-duration: .5s;
+        transition-duration: .25s;
         -webkit-transition-property: height;
-        -webkit-transition-duration: .5s;
+        -webkit-transition-duration: .25s;
 }
 
 .population .tblSlideContainer {
@@ -413,36 +413,37 @@ html,body {
 }
 
 .divHeader {
-        height: 18%;
-    	width: 100%;
-    	border-bottom: 1px solid gray;
+        height: 20%;
+        line-height: 25px;
+        width: 100%;
+        border-bottom: 1px solid gray;
 }
 
 .divHeaderTitle {
-    	color: #fff;
-    	float: left;
-		height: 100%;
-    	padding: 0px 5px;
-    	border: 1px solid gray;
-    	border-bottom: none;
-    	border-left: none;
-    	border-collapse: collapse;
+	color: #fff;
+	float: left;
+	height: 25px;
+	padding: 0px 5px;
+	border: 1px solid gray;
+	border-bottom: none;
+	border-left: none;
+	border-collapse: collapse;
 	font-size: 14px;
-        overflow: hidden;
+	overflow: hidden;
 }
 
 .divHeaderClose {
-    	float: right;
-        height: 100%;
-    	border: 1px solid gray;
-   	border-bottom: 1px solid #fff !important;
-   	border-right: none;
-   	border-collapse: collapse;
-   	padding: 0px 5px;
-    	font-size: 20px;
-   	background-color: #fff;
-        cursor: pointer;
-        overflow: hidden;
+	float: right;
+	height: 25px;
+	border: 1px solid gray;
+	border-bottom: 1px solid #fff !important;
+	border-right: none;
+	border-collapse: collapse;
+	padding: 0px 5px;
+	font-size: 20px;
+	background-color: #fff;
+	cursor: pointer;
+	overflow: hidden;
 }
 
 .tblSlide .title {
@@ -540,7 +541,6 @@ html,body {
 }
 
 .paginationDot {
-    	color: red;
     	display: inline-block !important;
     	width: 7px;
     	height: 8px;
@@ -620,6 +620,7 @@ html,body {
         z-index: 99999;
         top: 5px;
         right: 5px;
+	display: block;
 }
 
 .esriGeocoder {
@@ -629,6 +630,15 @@ html,body {
 .animateSlider {
         height: 130px !important;
 }
-#geocoderMobile {
-        display: none;
+#mobileSearch {
+	display: none;
+	position: absolute;
+	z-index: 99999;
+	top: 5px;
+	right: 5px;
 }
+/* Hiding input fields close icon in IE10 */
+input[type=text]::-ms-clear {
+	display: none;
+}
+/* End of style for hiding input fields close icon in IE10 */

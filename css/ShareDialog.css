@@ -12,10 +12,11 @@
 }
 
 .dijitDialogCloseIcon {
-	font-size:25px;
-	background-image:none!important;
-	border:none!important;
-	font-weight:100!important;
+	font-size: 25px;
+	background-image: none !important;
+	border: none !important;
+	font-weight: 100 !important;
+	height: auto !important;
 }
 
 .dijitDialogPaneContent {
@@ -63,8 +64,9 @@
 }
 
 .shareDialogContent {
-	height:400px;
-	margin-left:15px;
+	height: 400px;
+	margin-left: 15px;
+	min-width: 300px !important;
 }
 
 .shareDialogSubHeader {

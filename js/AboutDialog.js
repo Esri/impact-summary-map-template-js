@@ -124,6 +124,13 @@ function (
             on(this.get("dialog"), 'hide', lang.hitch(this, function(){
                 domClass.remove(this._buttonNode, this._css.buttonSelected);
             }));
+            on(window, "orientationchange", lang.hitch(this, function() {
+                var open = this.get("dialog").get("open");
+                if (open) {
+                    dialog.hide();
+                    dialog.show();
+                }
+            }));
             this._setDialogContent();
             this._visible();
             this.set("loaded", true);

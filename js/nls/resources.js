@@ -8,7 +8,8 @@ define({root:
         impact: "Impact",
         summarize: "Summarize",
         share: "Share",
-        about: "About"
+        about: "About",
+        noSearchResult:"No result found"
     }
 }),
 "fr":1

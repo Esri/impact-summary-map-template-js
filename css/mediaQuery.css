@@ -1,14 +1,19 @@
 ﻿
 
 @media screen and (max-width:850px) {
-	.esriGeocoder input {
-                width: 80% !important;
+        #geocoderSearch .esriGeocoder input {
+                width: 70% !important;
         }
         .geoData .panel .count {
                 padding: 15px 15px !important;
                 font-size: 30px !important;
         }
-
+        #cp_outer_left {
+                display:none;
+        }
+        .mobileLocateBoxDisplay {
+                display: none !important;
+        }
 }
 @media screen and (max-width:600px) {
         .geoData .panel .title {
@@ -33,13 +38,23 @@
                 width: 80px !important;
                 margin-left: 35px;
         }
+        #mobileSearch {
+                display: none;
+        }
+}
+@media only screen and (max-width:510px) {
+        #title {
+                display: none;
+        }
 }
 
 @media screen and (max-width:480px) {
-        .esriSimpleSlider, #LocateButton, #HomeButton, #BasemapToggle, #title {
+        .esriSimpleSlider, #LocateButton, #HomeButton, #BasemapToggle, #title, .esriAttribution, .locateBox {
                 display: none !important;
         }
-
+        .mobileLocateBoxDisplay {
+                display: block !important;
+        }
         .geoData .panel .count {
                 padding: 12px 5px !important;
                 font-size: 20px !important;
@@ -86,9 +101,11 @@
         #geocoderMobile .esriGeocoder {
                 height: 30px;
         }
-
-        .esriGeocoder input {
+        #geocoderMobile.esriGeocoder input {
                 width: 80% !important;
+        }
+        #mobileSearch {
+                display: none;
         }
 }
 
@@ -190,11 +207,14 @@
         }
 }
 @media screen and (max-device-width: 480px) and (orientation: landscape) {
+        .mobileLocateBoxDisplay {
+                display: block !important;
+        }
 
         .toggle-grey:hover, .toggle-grey:active {
                 color: #999;
         }
-        .esriSimpleSlider, #LocateButton, #HomeButton, #BasemapToggle, #title {
+        .esriSimpleSlider, #LocateButton, #HomeButton, #BasemapToggle, #title, .geocoderSearch, .locateBox {
                 display: none !important;
         }
 
@@ -229,25 +249,13 @@
                 width: 80px !important;
                 margin-left: 30px !important;
         }
-        .geocoderSearch {
-                display: none !important;
+        #mobileGeocoder, #mobileGeocoderIcon {
+                display: block !important;
         }
-        .locateBox {
-                display: none !important;
-        }
-
-        #mobileGeocoder {
-                display: block;
-        }
-        .esriGeocoderContainer {
+        #geocoderMobile .esriGeocoderContainer {
                 width: 310px !important;
         }
-        .mobileLocateBox {
-                position: absolute;
-                z-index: 99999;
-                top: 5px;
-                right: 5px;
-        }
+
         .esriGeocoder {
                 height: 35px;
                 right: 0px;
@@ -258,12 +266,22 @@
         .esriAttribution {
                 display: none !important;
         }
+        #cp_outer_left {
+                display: none;
+        }
+
+        .geoData {
+                bottom: 5px !important;
+        }
 }
 @media screen and (max-device-width: 480px) and (orientation: portrait) {
-	.divLeft, .divRight {
+        .mobileLocateBoxDisplay {
+                display: block !important;
+        }
+        .divLeft, .divRight {
                 width: 34px !important;
         }
-        .esriSimpleSlider, #LocateButton, #HomeButton, #BasemapToggle, #title {
+        .esriSimpleSlider, #LocateButton, #HomeButton, #BasemapToggle, #title, .geocoderSearch {
                 display: none !important;
         }
 
@@ -304,9 +322,6 @@
                 width: 300px !important;
         }
 
-        .esriSimpleSlider, #LocateButton, #HomeButton, #BasemapToggle, #title, .geocoderSearch {
-                display: none !important;
-        }
 
         .locateBox {
                 display: none !important;
@@ -322,5 +337,8 @@
         }
         .esriAttribution {
                 display: none !important;
+        }
+        #cp_outer_left {
+                display: none;
         }
 }

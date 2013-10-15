@@ -16,7 +16,7 @@ define([
     "dojo/dom-style",
     "dojo/dom-construct",
     "dojox/html/entities",
-    "esri",
+    "esri/request",
     "esri/urlUtils",
     "esri/geometry/Extent",
     "dijit/Dialog"
@@ -32,7 +32,7 @@ function (
     dijitTemplate, i18n,
     domClass, domStyle, domConstruct,
     entities,
-    esri,
+    esriRequest,
     urlUtils,
     Extent,
     Dialog
@@ -182,6 +182,14 @@ function (
             on(this._embedNode, "click", lang.hitch(this, function () {
                 this._embedNode.select();
             }));
+
+            on(window,"orientationchange",lang.hitch(this,function () {
+                var open = this.get("dialog").get("open");
+                if(open) {
+                    dialog.hide();
+                    dialog.show();
+                }
+            }));
         },
         _updateUrlWatch: function(){
             var es = '<iframe width="' + this.get("embedWidth") + '" height="' + this.get("embedHeight") + '" src="' + this.get("url") + '" frameborder="0" scrolling="no"></iframe>';
@@ -192,7 +200,7 @@ function (
         _shareLink: function () {
             var _self = this, tinyResponse, url;
             url = string.substitute(this.config.TinyURLServiceURL, [encodeURIComponent(this.get("url"))]);
-            esri.request({
+            esriRequest({
                 url: url,
                 callbackParamName: "callback",
                 load: function (data) {
