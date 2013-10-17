@@ -21,6 +21,7 @@
 
 .dijitDialogPaneContent {
 	max-height:550px!important;
+    	max-width: 530px!important;
 	overflow:auto;
 	border:none!important;
 }

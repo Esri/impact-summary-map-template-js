@@ -91,6 +91,7 @@ function(
             // any url parameters and any application specific configuration information.
             this.config = config;
             this.isDrawerOpen = true;
+            this.isUserIntraction = false;
             this._cssStyles();
             ready(lang.hitch(this, function() {
                 this._setLanguageStrings();
@@ -163,7 +164,7 @@ function(
                 this._toggleDrawer();
             }));
             this._drawer = cp_outer_left.domNode;
-            this._drawerWidth = domGeom.getContentBox(this._drawer).w;
+            this._drawerWidth = domStyle.get(this._drawer,'width');
             this._drawerMenu();
         },
         _showDrawerPanel: function(buttonNode){
@@ -220,18 +221,15 @@ function(
                                 topic.publish("resizeGeoDataSlider",slider.id);
                             }
                         }
-                        this._setHeaderToolsVisibility();
+                        this._setHeaderToolsVisibility(true);
                         this._toggleHamburgerButton();
                     })
                 }).play();
 
-            }
-            else {
-                domStyle.set(this._drawer, 'display', 'block');
-                if (domGeom.getContentBox(this._drawer).w != 0) {
-                    this._drawerWidth = domGeom.getContentBox(this._drawer).w;
-                }
+            } else {
+                domStyle.set(this._drawer,'display','block');
                 this.isDrawerOpen = true;
+                this.isUserIntraction = true;
                 fx.animateProperty({
                     node:this._drawer,
                     properties: {
@@ -242,9 +240,7 @@ function(
                     onAnimate: lang.hitch(this, function(){
                         this._bc_outer.layout();
                         if(window.innerWidth < 850) {
-                            domStyle.set(query(".geodata-container")[0],'display','none');
-                            domStyle.set(query('.topMenuRight')[0],'display','none');
-                            domClass.remove(dom.byId("mobileSearch"),"mobileLocateBoxDisplay");
+                            this._setHeaderToolsVisibility(false);
                         }
                     }),
                     onEnd: lang.hitch(this, function(){
@@ -307,9 +303,13 @@ function(
                         }
                     }
                 }
-                sum.numFormat = function() {
-                    return function(text, render) {
-                        return number.format(parseInt(render(text), 10));
+                sum.numFormat = function () {
+                    return function (text,render) {
+                        if (render(text).length > 5) {
+                            return numeral(parseInt(render(text), 10)).format('0.0a');
+                        } else {
+                            return parseInt(render(text), 10);
+                        }
                     };
                 };
                 domStyle.set(this.dataNode, 'display', 'block');
@@ -358,27 +358,12 @@ function(
                     domStyle.set(query(".geodata-container")[0], 'display', 'none');
                 }
                 this._panelClick = on(query('.panel', this.dataNode), 'click', lang.hitch(this, function (evt) {
-                    if (evt.stopPropagation) {
-                        evt.stopPropagation();
-                    } else {
-                        evt.cancelBubble = true;
-                    }
                     var type = domAttr.get(evt.currentTarget, 'data-type');
                     this._showExpanded(type);
 
                 }));
                 this._expandedClick = on(query('.' + this.css.statsPanelSelected + ' .divHeaderClose', this.dataNode), 'click', lang.hitch(this, function (evt) {
-                    if (evt.stopPropagation) {
-                        evt.stopPropagation();
-                    } else {
-                        evt.cancelBubble = true;
-                    }
                     this._hideExpanded(evt.currentTarget);
-
-                }));
-                this._expandedClick = on(query('.' + this.css.statsPanelSelected, this.dataNode), 'click', lang.hitch(this, function (evt) {
-                    event.stop(evt);
-                    evt.cancelBubble = true;
                 }));
                 // add features to graphics layer
                 this._selectedGraphics.clear();
@@ -406,14 +391,17 @@ function(
             }
             if (window.innerWidth < 850) {
                 if (domStyle.get(this._drawer, 'display') === 'block' && (this.isDrawerOpen)) {
+                    if(this.isUserIntraction) {
+                        this._setHeaderToolsVisibility(false);
+                    } else {
                     this.isDrawerOpen = false;
                     domStyle.set(this._drawer, 'display', 'none');
-                    this._bc_outer.layout();
-                    this._setHeaderToolsVisibility();
+                    this._setHeaderToolsVisibility(true);
                 }
-            }
-            else {
-                this._setHeaderToolsVisibility();
+                    this._bc_outer.layout();
+                }
+            } else {
+                this._setHeaderToolsVisibility(true);
                 if(domStyle.get(this._drawer,'display') === 'none' && !(this.isDrawerOpen)) {
                     this.isDrawerOpen = true;
                     domStyle.set(this._drawer, 'display', 'block');
@@ -422,16 +410,23 @@ function(
             }
             this._toggleHamburgerButton();
         },
-        _setHeaderToolsVisibility: function () {
-            domStyle.set(query('.topMenuRight')[0],'display','block');
-            if(domClass.contains(dom.byId("mobileGeocoderIcon"),"toggle-grey-on")) {
-                domClass.add(dom.byId("mobileSearch"),"mobileLocateBoxDisplay");
+        _setHeaderToolsVisibility: function (isVisible) {
+            if (isVisible) {
+                domStyle.set(query('.topMenuRight')[0],'display','block');
+                if(domClass.contains(dom.byId("mobileGeocoderIcon"),"toggle-grey-on")) {
+                    domClass.add(dom.byId("mobileSearch"),"mobileLocateBoxDisplay");
+                }
+            } else {
+                if(query(".geodata-container")[0]) {
+                    domStyle.set(query(".geodata-container")[0],'display','none');
+                }
+                domStyle.set(query('.topMenuRight')[0],'display','none');
+                domClass.remove(dom.byId("mobileSearch"),"mobileLocateBoxDisplay");
             }
         },
         _hideExpanded: function (element) {
-            var domSlider, cont, divCount;
+            var domSlider,divCount;
             domSlider = element.parentElement.parentElement;
-            cont = query('.geoPanel')[0];
             divCount = query('.panel .count');
 
             //hide slider
@@ -506,6 +501,7 @@ function(
                                 q.where = '1 = 1';
                                 this._impactLayer.queryFeatures(q, lang.hitch(this, function (fs) {
                                     this._displayStats(fs.features);
+                                    this.map.setExtent(fs.features[0].geometry.getExtent().expand(3));
                                 }));
                             }
                         }));
@@ -521,6 +517,7 @@ function(
                             }
                             this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
                                 this._displayStats(fs.features);
+                                this.map.setExtent(fs.features[0].geometry.getExtent().expand(3));
                             }));
                         }));
                     }
@@ -590,7 +587,7 @@ function(
             this._createGeocoder("geocoderSearch");
             this._createGeocoder("geocoderMobile");
 
-            dom.byId("mobileGeocoderIcon").onclick = function () {
+            on(dom.byId("mobileGeocoderIcon"), "click", function () {
                 if(domStyle.get(dom.byId("mobileSearch"),"display") == "none") {
 
                     domClass.add(dom.byId("mobileSearch"),"mobileLocateBoxDisplay");
@@ -600,7 +597,13 @@ function(
                     domStyle.set(dom.byId("mobileSearch"),"display","none");
                     domClass.replace(dom.byId("mobileGeocoderIcon"),"toggleSearch","toggle-grey-on");
                 }
-            };
+            });
+
+            on(dom.byId("btnCloseGeocoder"), "click", function () {
+                domClass.remove(dom.byId("mobileSearch"),"mobileLocateBoxDisplay");
+                domStyle.set(dom.byId("mobileSearch"),"display","none");
+                domClass.replace(dom.byId("mobileGeocoderIcon"),"toggleSearch","toggle-grey-on");
+            });
             /* Start temporary until after JSAPI 3.8 is released */
             var layers = this.map.getLayersVisibleAtScale(this.map.getScale());
             on.once(this.map, 'basemap-change', lang.hitch(this, function(){
