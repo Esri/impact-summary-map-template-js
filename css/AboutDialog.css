@@ -10,6 +10,7 @@
 .aboutDialogContent {
         margin: 10px 0 0 15px;
         max-height: 400px;
+        min-width:300px;
 }
 
 .nodeDescription {

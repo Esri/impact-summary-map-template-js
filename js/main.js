@@ -90,7 +90,6 @@ function(
             // and application id
             // any url parameters and any application specific configuration information.
             this.config = config;
-            this.isDrawerOpen = true;
             this.isUserIntraction = false;
             this._cssStyles();
             ready(lang.hitch(this, function() {
@@ -228,7 +227,6 @@ function(
 
             } else {
                 domStyle.set(this._drawer,'display','block');
-                this.isDrawerOpen = true;
                 this.isUserIntraction = true;
                 fx.animateProperty({
                     node:this._drawer,
@@ -276,8 +274,27 @@ function(
             }, 0);
             domStyle.set(node, 'display', 'none');
         },
-        _displayStats: function(features) {
-	    var _self=this;
+        formatNumber: function (number, decPlaces) {
+            var orig = number;
+            var dec = decPlaces;
+            decPlaces = Math.pow(10, decPlaces);
+            var abbrev = ["k", "m", "b", "t"];
+            for (var i = abbrev.length - 1; i >= 0; i--) {
+                var size = Math.pow(10, (i + 1) * 3);
+                if (size <= number) {
+                    var number = Math.round(number * decPlaces / size) / decPlaces;
+                    if ((number == 1000) && (i < abbrev.length - 1)) {
+                        number = 1;
+                        i++;
+                    }
+                    number += abbrev[i];
+                    break;
+                }
+            }
+            return number;
+        },
+        _displayStats: function (features) {
+            var _self = this;
             if (features && features.length) {
                 var variables = this.config.sum_variables;
                 var sum = {}, i;
@@ -304,12 +321,8 @@ function(
                     }
                 }
                 sum.numFormat = function () {
-                    return function (text,render) {
-                        if (render(text).length > 5) {
-                            return numeral(parseInt(render(text), 10)).format('0.0a');
-                        } else {
-                            return parseInt(render(text), 10);
-                        }
+                    return function (text, render) {
+                        return _self.formatNumber(parseInt(render(text)), 2);
                     };
                 };
                 domStyle.set(this.dataNode, 'display', 'block');
@@ -323,9 +336,9 @@ function(
 
                 //Create Slider for Geo data panels
                 var slider, objSlider, childNode, divGeoPanel, sliderResizeHandler = null; //resize handler
-                slider = query('.panel-expanded .tblSlideContainer');
+                slider = query('.panel-expanded .divOuterSliderContainer');
                 array.forEach(slider, function (node) {
-                    divGeoPanel = query('.tblSlide', node)[0];
+                    divGeoPanel = query('.divGeoDataHolder', node)[0];
                     childNode = query('div', divGeoPanel).length;
                     _self._setPanelWidth(node.parentElement);
                     if (childNode > 3) {
@@ -390,22 +403,20 @@ function(
                 domStyle.set(query(".geodata-container")[0], 'display', 'inline-block');
             }
             if (window.innerWidth < 850) {
-                if (domStyle.get(this._drawer, 'display') === 'block' && (this.isDrawerOpen)) {
-                    if(this.isUserIntraction) {
+                if (domStyle.get(this._drawer, 'display') === 'block') {
+                    if (this.isUserIntraction) {
                         this._setHeaderToolsVisibility(false);
                     } else {
-                    this.isDrawerOpen = false;
-                    domStyle.set(this._drawer, 'display', 'none');
-                    this._setHeaderToolsVisibility(true);
-                }
+                        domStyle.set(this._drawer, 'display', 'none');
+                        this._setHeaderToolsVisibility(true);
+                    }
                     this._bc_outer.layout();
                 }
             } else {
                 this._setHeaderToolsVisibility(true);
-                if(domStyle.get(this._drawer,'display') === 'none' && !(this.isDrawerOpen)) {
-                    this.isDrawerOpen = true;
-                    domStyle.set(this._drawer, 'display', 'block');
-                    this._bc_outer.layout();
+                if (domStyle.get(this._drawer, 'display') === 'none') {
+                    this._toggleDrawer();
+                    this.isUserIntraction = false;
                 }
             }
             this._toggleHamburgerButton();
@@ -501,7 +512,7 @@ function(
                                 q.where = '1 = 1';
                                 this._impactLayer.queryFeatures(q, lang.hitch(this, function (fs) {
                                     this._displayStats(fs.features);
-                                    this.map.setExtent(fs.features[0].geometry.getExtent().expand(3));
+                                    this.map.setExtent(fs.features[0].geometry.getExtent(), true);
                                 }));
                             }
                         }));
@@ -517,7 +528,7 @@ function(
                             }
                             this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
                                 this._displayStats(fs.features);
-                                this.map.setExtent(fs.features[0].geometry.getExtent().expand(3));
+                                this.map.setExtent(fs.features[0].geometry.getExtent(), true);
                             }));
                         }));
                     }
@@ -592,10 +603,6 @@ function(
 
                     domClass.add(dom.byId("mobileSearch"),"mobileLocateBoxDisplay");
                     domClass.replace(dom.byId("mobileGeocoderIcon"),"toggle-grey-on","toggleSearch");
-                } else {
-                    domClass.remove(dom.byId("mobileSearch"),"mobileLocateBoxDisplay");
-                    domStyle.set(dom.byId("mobileSearch"),"display","none");
-                    domClass.replace(dom.byId("mobileGeocoderIcon"),"toggleSearch","toggle-grey-on");
                 }
             });
 

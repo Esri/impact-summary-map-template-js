@@ -4,14 +4,14 @@
             <span class="bgColor divHeaderTitle">Population: {{#numFormat}}{{TOTPOP_CY}}{{/numFormat}}</span><span
                 class="divHeaderClose icon-cancel-1" title="close"></span>
         </div>
-        <div class="tblSlideContainer">
-            <div id="population" class="tblSlide">
+        <div class="divOuterSliderContainer">
+            <div id="population" class="divGeoDataHolder">
                 <div>
-                    <span class="count">{{#numFormat}}{{POP15_CY}}{{/numFormat}}</span> <span class="title">
+                    <span class="count">{{#numFormat}}{{POP15_CY}}{{/numFormat}}</span> <span class="title" title="Under 16">
                         Under 16 </span>
                 </div>
                 <div>
-                    <span class="count">{{#numFormat}}{{POP65U_CY}}{{/numFormat}}</span> <span class="title">
+                    <span class="count">{{#numFormat}}{{POP65U_CY}}{{/numFormat}}</span> <span class="title" title="Over 64">
                         Over 64</span>
                 </div>
             </div>
@@ -22,14 +22,14 @@
             <span class="bgColor divHeaderTitle">Households: {{#numFormat}}{{TOTHH_CY}}{{/numFormat}}</span>
             <span class="divHeaderClose icon-cancel-1" title="close"></span>
         </div>
-        <div class="tblSlideContainer">
-            <div id="households" class="tblSlide">
+        <div class="divOuterSliderContainer">
+            <div id="households" class="divGeoDataHolder">
                 <div>
-                    <span class="count">{{#numFormat}}{{OWNER_CY}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{OWNER_CY}}{{/numFormat}} </span><span class="title" title="Owners">
                         Owners </span>
                 </div>
                 <div>
-                    <span class="count">{{#numFormat}}{{RENTER_CY}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{RENTER_CY}}{{/numFormat}} </span><span class="title" title="Renters">
                         Renters </span>
                 </div>
             </div>
@@ -40,81 +40,81 @@
             <span class="bgColor divHeaderTitle">Critical Infrastructures: {{#numFormat}}{{CIKR_Total}}{{/numFormat}}</span><span
                 class="divHeaderClose icon-cancel-1" title="close"></span>
         </div>
-        <div class="tblSlideContainer">
-            <div id="critical_infrastructure" class="tblSlide">
+        <div class="divOuterSliderContainer">
+            <div id="critical_infrastructure" class="divGeoDataHolder">
                 {{#CIKR_AMTwr}}
                 <div>
-                    <span class="count">{{#numFormat}}{{CIKR_AMTwr}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{CIKR_AMTwr}}{{/numFormat}} </span><span class="title"title="AM Towers">
                         AM Towers </span>
                 </div>
                 {{/CIKR_AMTwr}} {{#CIKR_BrTn}}
                 <div>
-                    <span class="count">{{#numFormat}}{{CIKR_BrTn}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{CIKR_BrTn}}{{/numFormat}} </span><span class="title" title="Bridges and Tunnels">
                         Bridges and Tunnels </span>
                 </div>
                 {{/CIKR_BrTn}} {{#CIKR_Dam}}
                 <div>
-                    <span class="count">{{#numFormat}}{{CIKR_Dam}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{CIKR_Dam}}{{/numFormat}} </span><span class="title" title="Dams">
                         Dams </span>
                 </div>
                 {{/CIKR_Dam}} {{#CIKR_Edu}}
                 <div>
-                    <span class="count">{{#numFormat}}{{CIKR_Edu}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{CIKR_Edu}}{{/numFormat}} </span><span class="title" title="Education Facilities">
                         Education Facilities </span>
                 </div>
                 {{/CIKR_Edu}} {{#CIKR_ECC}}
                 <div>
-                    <span class="count">{{#numFormat}}{{CIKR_ECC}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{CIKR_ECC}}{{/numFormat}} </span><span class="title" title="Emergency Communications Centers">
                         Emergency Communications Centers </span>
                 </div>
                 {{/CIKR_ECC}} {{#CIKR_FMTwr}}
                 <div>
-                    <span class="count">{{#numFormat}}{{CIKR_FMTwr}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{CIKR_FMTwr}}{{/numFormat}} </span><span class="title" title="FM Towers">
                         FM Towers </span>
                 </div>
                 {{/CIKR_FMTwr}} {{#CIKR_FrSta}}
                 <div>
-                    <span class="count">{{#numFormat}}{{CIKR_FrSta}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{CIKR_FrSta}}{{/numFormat}} </span><span class="title" title="Fire Stations">
                         Fire Stations </span>
                 </div>
                 {{/CIKR_FrSta}} {{#CIKR_Hzmt}}
                 <div>
-                    <span class="count">{{#numFormat}}{{CIKR_Hzmt}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{CIKR_Hzmt}}{{/numFormat}} </span><span class="title" title="Hazmat Facilities">
                         Hazmat Facilities </span>
                 </div>
                 {{/CIKR_Hzmt}} {{#CIKR_HCF}}
                 <div>
-                    <span class="count">{{#numFormat}}{{CIKR_HCF}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{CIKR_HCF}}{{/numFormat}} </span><span class="title" title="Healthcare Facilities">
                         Healthcare Facilities </span>
                 </div>
                 {{/CIKR_HCF}} {{#CIKR_PkIco}}
                 <div>
-                    <span class="count">{{#numFormat}}{{CIKR_PkIco}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{CIKR_PkIco}}{{/numFormat}} </span><span class="title" title="Parks and Icons">
                         Parks and Icons </span>
                 </div>
                 {{/CIKR_PkIco}} {{#CIKR_Pol}}
                 <div>
-                    <span class="count">{{#numFormat}}{{CIKR_Pol}}{{/numFormat}}</span> <span class="title">
+                    <span class="count">{{#numFormat}}{{CIKR_Pol}}{{/numFormat}}</span> <span class="title" title="Police Stations">
                         Police Stations </span>
                 </div>
                 {{/CIKR_Pol}} {{#CIKR_Port}}
                 <div>
-                    <span class="count">{{#numFormat}}{{CIKR_Port}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{CIKR_Port}}{{/numFormat}} </span><span class="title" title="Port Facilities">
                         Port Facilities </span>
                 </div>
                 {{/CIKR_Port}} {{#CIKR_Rsrvr}}
                 <div>
-                    <span class="count">{{#numFormat}}{{CIKR_Rsrvr}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{CIKR_Rsrvr}}{{/numFormat}} </span><span class="title" title="Reservoirs">
                         Reservoirs </span>
                 </div>
                 {{/CIKR_Rsrvr}} {{#CIKR_WWF}}
                 <div>
-                    <span class="count">{{#numFormat}}{{CIKR_WWF}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{CIKR_WWF}}{{/numFormat}} </span><span class="title" title="Wastewater Facilities">
                         Wastewater Facilities </span>
                 </div>
                 {{/CIKR_WWF}} {{#CIKR_Pwr}}
                 <div>
-                    <span class="count">{{#numFormat}}{{CIKR_Pwr}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{CIKR_Pwr}}{{/numFormat}} </span><span class="title" title="Energy Facilities">
                         Energy Facilities </span>
                 </div>
                 {{/CIKR_Pwr}}
@@ -126,61 +126,61 @@
             <span class="bgColor divHeaderTitle">Businesses: {{#numFormat}}{{BUS_Total}}{{/numFormat}}</span>
             <span class="divHeaderClose icon-cancel-1" title="close"></span>
         </div>
-        <div class="tblSlideContainer">
-            <div id="businesses" class="tblSlide">
+        <div class="divOuterSliderContainer">
+            <div id="businesses" class="divGeoDataHolder">
                 {{#BUS_Banks}}
                 <div>
-                    <span class="count">{{#numFormat}}{{BUS_Banks}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{BUS_Banks}}{{/numFormat}} </span><span class="title" title="Banks and Financial Services">
                         Banks and Financial Services </span>
                 </div>
                 {{/BUS_Banks}} {{#BUS_Hsptl}}
                 <div>
-                    <span class="count">{{#numFormat}}{{BUS_Hsptl}}{{/numFormat}}</span> <span class="title">
+                    <span class="count">{{#numFormat}}{{BUS_Hsptl}}{{/numFormat}}</span> <span class="title" title="Hospitals">
                         Hospitals </span>
                 </div>
                 {{/BUS_Hsptl}} {{#BUS_GrcStr}}
                 <div>
-                    <span class="count">{{#numFormat}}{{BUS_GrcStr}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{BUS_GrcStr}}{{/numFormat}} </span><span class="title" title="Grocery and Convenience Stores">
                         Grocery and Convenience Stores</span>
                 </div>
                 {{/BUS_GrcStr}} {{#BUS_PnTSvc}}
                 <div>
-                    <span class="count">{{#numFormat}}{{BUS_PnTSvc}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{BUS_PnTSvc}}{{/numFormat}} </span><span class="title" title="Professional and Technical Services">
                         Professional and Technical Services </span>
                 </div>
                 {{/BUS_PnTSvc}} {{#BUS_Safety}}
                 <div>
-                    <span class="count">{{#numFormat}}{{BUS_Safety}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{BUS_Safety}}{{/numFormat}} </span><span class="title" title="Public Safety and Justice">
                         Public Safety and Justice </span>
                 </div>
                 {{/BUS_Safety}} {{#BUS_Util}}
                 <div>
-                    <span class="count">{{#numFormat}}{{BUS_Util}}{{/numFormat}}</span> <span class="title">
+                    <span class="count">{{#numFormat}}{{BUS_Util}}{{/numFormat}}</span> <span class="title" title=" Utilities">
                         Utilities </span>
                 </div>
                 {{/BUS_Util}} {{#BUS_BldSpl}}
                 <div>
-                    <span class="count">{{#numFormat}}{{BUS_BldSpl}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{BUS_BldSpl}}{{/numFormat}} </span><span class="title" title="Building Supplies">
                         Building Supplies</span>
                 </div>
                 {{/BUS_BldSpl}} {{#BUS_GasStn}}
                 <div>
-                    <span class="count">{{#numFormat}}{{BUS_GasStn}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{BUS_GasStn}}{{/numFormat}} </span><span class="title" title="Gas Stations">
                         Gas Stations </span>
                 </div>
                 {{/BUS_GasStn}} {{#BUS_DptStr}}
                 <div>
-                    <span class="count">{{#numFormat}}{{BUS_DptStr}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{BUS_DptStr}}{{/numFormat}} </span><span class="title" title="Discount and Department Stores">
                         Discount and Department Stores </span>
                 </div>
                 {{/BUS_DptStr}} {{#BUS_Ldging}}
                 <div>
-                    <span class="count">{{#numFormat}}{{BUS_Ldging}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{BUS_Ldging}}{{/numFormat}} </span><span class="title" title="Lodging">
                         Lodging </span>
                 </div>
                 {{/BUS_Ldging}} {{#BUS_Other}}
                 <div>
-                    <span class="count">{{#numFormat}}{{BUS_Other}}{{/numFormat}} </span><span class="title">
+                    <span class="count">{{#numFormat}}{{BUS_Other}}{{/numFormat}} </span><span class="title" title="Other">
                         Other </span>
                 </div>
                 {{/BUS_Other}}

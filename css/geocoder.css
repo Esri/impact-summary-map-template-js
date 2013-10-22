@@ -9,10 +9,11 @@
 }
 
 .esriGeocoderContainer {
-    	width: 192px;
-    	font-size: 12px;
-    	line-height: 16px;
-    	font-family: Arial, Helvetica, sans-serif;
+	-webkit-text-size-adjust: none;
+	width: 192px;
+	font-size: 12px;
+	line-height: 16px;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 .esriGeocoderContainer ul {
@@ -122,7 +123,7 @@
 	background: #fff;
 	-webkit-border-radius: 0 0 2px 2px;
 	border-radius: 0 0 2px 2px;
-	font-size: 12px !important;
+	font-size: 12px;
 }
 
 .esriGeocoderResult {
@@ -136,7 +137,7 @@
     	text-overflow: ellipsis;
     	-o-text-overflow: ellipsis;
     	margin-left: -1px;
-	font-size: 12px !important;
+	font-size: 12px;
 }
 
 .esriGeocoderResult:hover, .esriGeocoderResultEven:focus, .esriGeocoderResultOdd:focus {
@@ -185,12 +186,13 @@
         width: 75% !important;
 }
 #geocoderMobile .esriGeocoderIcon {
-        margin: 7px 4px 0px 4px !important;
+	margin: 7px 4px 0px 4px !important;
 }
 #geocoderMobile .esriGeocoder input {
-        width: 80% !important;
-        line-height: 25px;
+	width: 80% !important;
+	line-height: 25px;
+	height: 20px;
 }
 #geocoderMobile .esriGeocoder {
-        height: 30px;
+	height: 30px;
 }

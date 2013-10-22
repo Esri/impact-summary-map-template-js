@@ -266,6 +266,7 @@ html, body {
 	float:left;
 	color:#fff;
 	cursor:pointer;
+    	border: none !important;
 }
 
 .geoData .panel-expanded {
@@ -276,33 +277,32 @@ html, body {
     	margin: 5px 0px;
    	border: 1px solid gray;
    	border-top: none;
-        border-bottom: none;
-        position: absolute;
-        bottom: 30px;
-        height: 0px;
-        transition: height .25s;
-        transition-property: height;
-        transition-duration: .25s;
-        -webkit-transition-property: height;
-        -webkit-transition-duration: .25s;
+	position: absolute;
+	bottom: 30px;
+	height: 0px;
+	transition: height .25s;
+	transition-property: height;
+	transition-duration: .25s;
+	-webkit-transition-property: height;
+	-webkit-transition-duration: .25s;
 }
 
-.population .tblSlideContainer {
+ .population  {
    	border-bottom: 3px solid #da4d1e !important;
    	border-bottom: 3px solid rgba(218,77,30,0.80) !important;
 }
 
-.households .tblSlideContainer {
+.households  {
    	border-bottom: 3px solid #004575 !important;
    	border-bottom: 3px solid rgba(0,69,117,0.80) !important;
 }
 
-.critical_infrastructure .tblSlideContainer {
+.critical_infrastructure  {
    	border-bottom: 3px solid #35ac46;
    	border-bottom: 3px solid rgba(42,116,51,0.80) !important;
 }
 
-.businesses .tblSlideContainer {
+.businesses  {
    	border-bottom: 3px solid #6b1978 !important;
    	border-bottom: 3px solid rgba(107,25,120,0.80) !important;
 }
@@ -315,7 +315,7 @@ html, body {
         padding: 15px 20px;
      	text-align: center;
 }
-.tblSlide .count {
+.divGeoDataHolder .count {
         font-size: 27px;
 		margin-top: 0px;
         display: block;
@@ -450,19 +450,23 @@ html, body {
 	overflow: hidden;
 }
 
-.tblSlide .title {
+.divGeoDataHolder .title {
     	padding: 2px 0px;
-        font-size: 13px;
+	font-size: 13px;
     	font-weight: normal;
     	width: 100px;
     	word-break: break-word;
     	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space:nowrap;
+	cursor: pointer;
 }
 
-.tblSlideContainer {
+
+.divOuterSliderContainer {
     	background-color: #fff;
         width: 100%;
-        height: 80%;
+	height: 79%;
         overflow: hidden;
 }
 /*---------------------------------------------------------------------------*/
@@ -471,12 +475,12 @@ html, body {
         position: relative;
         margin-top: 24px;
         font-size: 40px;
-        width: 30px;
         line-height: 30px;
         cursor: pointer;
         color: rgb(221, 220, 220);
         overflow: hidden;
         margin-left: 0px !important;
+        height: 40px;
 }
 
 .disableArrow {
@@ -518,7 +522,7 @@ html, body {
     	bottom: 5px;
     	vertical-align: middle;
 }
-.tblSlide {
+.divGeoDataHolder {
         display: inline-block;
         margin-top: 10px;
         height: 75px;
@@ -557,7 +561,7 @@ html, body {
     	cursor:pointer;
 }
 
-.tblSlide div {
+.divGeoDataHolder div {
         float: left;
         height: 70px;
         width: 150px;
@@ -567,6 +571,9 @@ html, body {
 
 .divLeft {
         float: left;
+}
+.divRight {
+        float: right;
 }
 
 .divSliderContent {
@@ -585,7 +592,7 @@ html, body {
         overflow: hidden;
         position: relative;
 }
-.tblSlide .count, .tblSlide .title {
+.divGeoDataHolder .count, .divGeoDataHolder .title {
         background-color: #fff !important;
         display: block;
         text-align: left;
@@ -621,18 +628,6 @@ html, body {
         display: none;
 }
 
-
-.mobileLocateBox {
-        position: absolute;
-        z-index: 99999;
-        top: 5px;
-        right: 5px;
-	display: block;
-}
-
-.esriGeocoder {
-        right: 0px;
-}
 #btnCloseGeocoder {
         float: left;
         width: 60px;

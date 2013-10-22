@@ -27,16 +27,19 @@
                 width: 378px !important;
         }
 
-        .tblSlide div {
+        .divGeoDataHolder div {
                 width: 126px;
         }
 
-        .tblSlide .title, .tblSlide .count {
+        .divGeoDataHolder .title, .divGeoDataHolder .count {
                 width: 80px !important;
                 margin-left: 35px;
         }
         #mobileSearch {
                 display: none;
+        }
+        .divGeoDataHolder .count {
+                font-size: 24px !important;
         }
 }
 @media only screen and (max-width:510px) {
@@ -57,11 +60,11 @@
                 font-size: 20px !important;
         }
 
-        .tblSlide .count {
-                font-size: 26px !important;
+        .divGeoDataHolder .count {
+                font-size: 22px !important;
         }
 
-        .tblSlide .title {
+        .divGeoDataHolder .title {
                 font-size: 12px !important;
         }
 
@@ -75,11 +78,11 @@
                 width: 342px !important;
         }
 
-        .tblSlide div {
+        .divGeoDataHolder div {
                 width: 114px !important;
         }
 
-        .tblSlide .title, .tblSlide .count {
+        .divGeoDataHolder .title, .divGeoDataHolder .count {
                 width: 80px !important;
                 margin-left: 30px !important;
         }
@@ -125,18 +128,18 @@
                 width: 290px !important;
         }
 
-        .tblSlide div {
+        .divGeoDataHolder div {
                 width: 97px !important;
         }
-        .tblSlide .title, .tblSlide .count {
+        .divGeoDataHolder .title, .divGeoDataHolder .count {
                 margin-left: 10px !important;
                 width: 70px !important;
         }
-        .tblSlide .title {
+        .divGeoDataHolder .title {
                 font-size: 12px !important;
         }
 
-        .tblSlide .count {
+        .divGeoDataHolder .count {
                 font-size: 20px !important;
         }
         #geocoderMobile .esriGeocoderContainer {
@@ -161,17 +164,17 @@
                 width: 240px !important;
         }
 
-        .tblSlide div {
+        .divGeoDataHolder div {
                 width: 80px !important;
         }
 
-        .tblSlide .title {
+        .divGeoDataHolder .title {
                 width: 50px !important;
                 font-size: 11px !important;
         }
 
-        .tblSlide .count {
-                font-size: 20px !important;
+        .divGeoDataHolder .count {
+                font-size: 18px !important;
         }
         #geocoderMobile .esriGeocoderContainer {
                 width: 270px !important;
@@ -213,17 +216,17 @@
                 width: 228px !important;
         }
 
-        .tblSlide div {
+        .divGeoDataHolder div {
                 width: 76px !important;
         }
-        .tblSlide .count {
+        .divGeoDataHolder .count {
                 font-size: 15px !important;
         }
-        .tblSlide .title, .tblSlide .count {
+        .divGeoDataHolder .title, .divGeoDataHolder .count {
                 margin-left: 10px !important;
                 width: 50px !important;
         }
-        .tblSlide .title {
+        .divGeoDataHolder .title {
                 font-size: 10px !important;
         }
         .geocoderSearch {
@@ -238,7 +241,7 @@
 
 }
 @media screen and (max-width: 310px) {
-        .geoData {
+        .geoData, .topMenuRight, #mobileSearch {
                 display: none !important;
         }
         #geocoderMobile .esriGeocoderContainer {
@@ -262,11 +265,11 @@
                 font-size: 20px !important;
         }
 
-        .tblSlide .count {
+        .divGeoDataHolder .count {
                 font-size: 26px !important;
         }
 
-        .tblSlide .title {
+        .divGeoDataHolder .title {
                 font-size: 12px !important;
         }
 
@@ -280,14 +283,17 @@
                 width: 342px !important;
         }
 
-        .tblSlide div {
+        .divGeoDataHolder div {
                 width: 114px !important;
         }
 
-        .tblSlide .title, .tblSlide .count {
+        .divGeoDataHolder .title, .divGeoDataHolder .count {
                 width: 80px !important;
                 margin-left: 30px !important;
         }
+        #geocoderMobile{
+                width:75% !important;
+                }
         #geocoderMobile .esriGeocoder {
                 height: 35px;
         }
@@ -295,7 +301,7 @@
                 display: block !important;
         }
         #geocoderMobile .esriGeocoderContainer {
-                width: 440px !important;
+              width:100% !important;
         }
         #geocoderMobile .esriGeocoder input {
                 width: 86% !important;
@@ -314,7 +320,7 @@
         .geoData {
                 bottom: 5px !important;
         }
-        .tblSlide {
+        .divGeoDataHolder {
                 margin-top: 15px !important;
         }
         .divPagination {
@@ -322,6 +328,9 @@
         }
         #mobileSearch {
                 height: 36px !important;
+        }
+        #geocoderMobile .esriGeocoderResults, #geocoderMobile .esriGeocoder input.esriGeocoderContainer ul li {
+                font-size: 15px !important;
         }
 }
 @media screen and (max-device-width: 480px) and (orientation: portrait) {
@@ -347,17 +356,17 @@
         .divSliderContent {
                 width: 228px !important;
         }
-        .tblSlide div {
+        .divGeoDataHolder div {
                 width: 76px !important;
         }
-        .tblSlide .count {
+        .divGeoDataHolder .count {
                 font-size: 15px !important;
         }
-        .tblSlide .title, .tblSlide .count {
+        .divGeoDataHolder .title, .divGeoDataHolder .count {
                 margin-left: 10px !important;
                 width: 50px !important;
         }
-        .tblSlide .title {
+        .divGeoDataHolder .title {
                 font-size: 10px !important;
         }
         .geocoderSearch {
@@ -394,7 +403,7 @@
         #cp_outer_left {
                 display: none;
         }
-        .tblSlide {
+        .divGeoDataHolder {
                 margin-top: 15px !important;
         }
         .divPagination {
@@ -402,6 +411,9 @@
         }
         #mobileSearch {
                 height: 36px !important;
+        }
+        #geocoderMobile .esriGeocoderResults, #geocoderMobile .esriGeocoder input .esriGeocoderContainer ul li {
+                font-size: 15px !important;
         }
 
 }

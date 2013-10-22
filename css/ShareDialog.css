@@ -4,6 +4,7 @@
 
 .dijitDialog {
 	box-shadow:-2px 2px 20px #333F47!important;
+	-webkit-text-size-adjust: none !important;
 }
 
 .dijitDialogTitleBar {
