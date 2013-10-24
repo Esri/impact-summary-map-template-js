@@ -97,7 +97,7 @@ function(
                 this._createWebMap();
             }));
 
-            aspect.after(this, "_init", lang.hitch(this, function () {
+            aspect.after(this,"_init",lang.hitch(this,function () {
                 this._hideLoadingIndicator();
             }));
         },
@@ -205,28 +205,24 @@ function(
                     onAnimate: lang.hitch(this, function(){
                         this._bc_outer.layout();
                     }),
-                    onEnd: lang.hitch(this,function () {
-                        domStyle.set(this._drawer,'display','none');
-
+                    onEnd: lang.hitch(this, function(){
+                        domStyle.set(this._drawer, 'display', 'none');
+                        this._toggleMediaQuery('mediaQuery','mediaQueryDrawer','/css/mediaQuery.css');
                         if(query(".geodata-container")[0]) {
                             domStyle.set(query(".geodata-container")[0],'display','inline-block');
                         }
                         this._bc_outer.layout();
                         var domSlider = query('.' + this.css.statsPanelSelected + '.animateSlider')[0];
-                        if (domSlider) {
+                        if(domSlider) {
                             this._setPanelWidth(domSlider);
-                            var slider = query('.divSliderContainer',domSlider)[0];
-                            if(slider) {
-                                topic.publish("resizeGeoDataSlider",slider.id);
-                            }
                         }
-                        this._setHeaderToolsVisibility(true);
+                        this._setMobileGeocoderVisibility(true);
                         this._toggleHamburgerButton();
                     })
                 }).play();
-
-            } else {
-                domStyle.set(this._drawer,'display','block');
+            }
+            else{
+                domStyle.set(this._drawer, 'display', 'block');
                 this.isUserIntraction = true;
                 fx.animateProperty({
                     node:this._drawer,
@@ -238,7 +234,11 @@ function(
                     onAnimate: lang.hitch(this, function(){
                         this._bc_outer.layout();
                         if(window.innerWidth < 850) {
-                            this._setHeaderToolsVisibility(false);
+                            this._toggleMediaQuery('mediaQueryDrawer','mediaQuery','/css/mediaQueryDrawer.css');
+                            var domSlider = query('.' + this.css.statsPanelSelected + '.animateSlider')[0];
+                            if(domSlider) {
+                                this._setPanelWidth(domSlider);
+                            }
                         }
                     }),
                     onEnd: lang.hitch(this, function(){
@@ -246,44 +246,40 @@ function(
                         this._toggleHamburgerButton();
                     })
                 }).play();
-
             }
         },
-
         _toggleHamburgerButton: function () {
-            if (domStyle.get(this._drawer, 'display') === 'block') {
-                if (domClass.contains(dom.byId('hamburger_button'), this.css.toggleBlue)) {
-                    domClass.replace(dom.byId('hamburger_button'), this.css.toggleBlueOn, this.css.toggleBlue);
+            if(domStyle.get(this._drawer,'display') === 'block') {
+                if(domClass.contains(dom.byId('hamburger_button'),this.css.toggleBlue)) {
+                    domClass.replace(dom.byId('hamburger_button'),this.css.toggleBlueOn,this.css.toggleBlue);
                 }
             } else {
-                if (domClass.contains(dom.byId('hamburger_button'), this.css.toggleBlueOn)) {
-                    domClass.replace(dom.byId('hamburger_button'), this.css.toggleBlue, this.css.toggleBlueOn);
+                if(domClass.contains(dom.byId('hamburger_button'),this.css.toggleBlueOn)) {
+                    domClass.replace(dom.byId('hamburger_button'),this.css.toggleBlue,this.css.toggleBlueOn);
                 }
             }
         },
 
         _displayContainer: function (node) {
-            domStyle.set(node, 'display', 'block');
+            domStyle.set(node,'display','block');
             setTimeout(function () {
-                domClass.add(node, "animateSlider");
-            }, 0);
+                domClass.add(node,"animateSlider");
+            },0);
         },
         _hideContainer: function (node) {
             setTimeout(function () {
-                domClass.remove(node, "animateSlider");
-            }, 0);
-            domStyle.set(node, 'display', 'none');
+                domClass.remove(node,"animateSlider");
+            },0);
+            domStyle.set(node,'display','none');
         },
-        formatNumber: function (number, decPlaces) {
-            var orig = number;
-            var dec = decPlaces;
-            decPlaces = Math.pow(10, decPlaces);
-            var abbrev = ["k", "m", "b", "t"];
-            for (var i = abbrev.length - 1; i >= 0; i--) {
-                var size = Math.pow(10, (i + 1) * 3);
-                if (size <= number) {
-                    var number = Math.round(number * decPlaces / size) / decPlaces;
-                    if ((number == 1000) && (i < abbrev.length - 1)) {
+        formatNumber: function (number,decPlaces) {
+            decPlaces = Math.pow(10,decPlaces);
+            var abbrev = ["k","m","b","t"];
+            for(var i = abbrev.length - 1;i >= 0;i--) {
+                var size = Math.pow(10,(i + 1) * 3);
+                if(size <= number) {
+                    number = Math.round(number * decPlaces / size) / decPlaces;
+                    if((number == 1000) && (i < abbrev.length - 1)) {
                         number = 1;
                         i++;
                     }
@@ -294,8 +290,8 @@ function(
             return number;
         },
         _displayStats: function (features) {
-            var _self = this;
-            if (features && features.length) {
+            var _self = this,decPlaces;
+            if(features && features.length) {
                 var variables = this.config.sum_variables;
                 var sum = {}, i;
                 if (features.length > 1) {
@@ -320,64 +316,62 @@ function(
                         }
                     }
                 }
-                sum.numFormat = function () {
-                    return function (text, render) {
-                        return _self.formatNumber(parseInt(render(text)), 2);
+                sum.numFormat = function() {
+                    return function(text, render) {
+                        if(render(text).length >= 7) {
+                            decPlaces = 1;
+                        } else if(render(text).length >= 5) {
+                            decPlaces = 0;
+                        } else {
+                            decPlaces = 2;
+                        }
+                        return _self.formatNumber(parseInt(render(text)),decPlaces);
                     };
                 };
-                domStyle.set(this.dataNode, 'display', 'block');
+                domStyle.set(this.dataNode,'display','block');
                 var output = Mustache.render(panelsView, sum);
-                var selectedPanel, panelType;
-                selectedPanel = query('.' + this.css.statsPanelSelected + '.animateSlider', this.dataNode)[0];
-                if (selectedPanel) {
-                    panelType = domAttr.get(selectedPanel, 'data-type');
+                var selectedPanel,panelType;
+                selectedPanel = query('.' + this.css.statsPanelSelected + '.animateSlider',this.dataNode)[0];
+                if(selectedPanel) {
+                    panelType = domAttr.get(selectedPanel,'data-type');
                 }
                 this.dataNode.innerHTML = output;
-
                 //Create Slider for Geo data panels
-                var slider, objSlider, childNode, divGeoPanel, sliderResizeHandler = null; //resize handler
+                var slider,objSlider,childNode,divGeoPanel,sliderResizeHandler = null; //resize handler
                 slider = query('.panel-expanded .divOuterSliderContainer');
-                array.forEach(slider, function (node) {
-                    divGeoPanel = query('.divGeoDataHolder', node)[0];
-                    childNode = query('div', divGeoPanel).length;
+                array.forEach(slider,function (node) {
+                    divGeoPanel = query('.divGeoDataHolder',node)[0];
+                    childNode = query('div',divGeoPanel).length;
                     _self._setPanelWidth(node.parentElement);
-                    if (childNode > 3) {
-                        if (divGeoPanel) {
-                            objSlider = new Slider({ sliderContent: divGeoPanel, sliderParent: node });
+                    if(childNode > 3) {
+                        if(divGeoPanel) {
+                            objSlider = new Slider({ sliderContent: divGeoPanel,sliderParent: node });
                         }
                     }
-                    if (!sliderResizeHandler) {
+                    if(!sliderResizeHandler) {
                         //set slider position on window resize
-                        sliderResizeHandler = on(window, 'resize', lang.hitch(this, function () {
+                        sliderResizeHandler = on(window,'resize',function () {
                             _self._setLeftPanelVisibility();
-                            setTimeout(lang.hitch(this, function () {
-                                array.forEach(slider, lang.hitch(this, function (sliderNode) {
+                            setTimeout(function () {
+                                array.forEach(slider,lang.hitch(this,function (sliderNode) {
                                     _self._setPanelWidth(sliderNode.parentElement);
-                                    var divSlider = query('.divSliderContainer', sliderNode)[0];
-                                    if (divSlider) {
-                                        topic.publish("resizeGeoDataSlider", divSlider.id);
-                                    }
                                 }));
-                            }), 100);
-                        }));
+                            },100);
+                        });
                     }
-                    domStyle.set(divGeoPanel.lastElementChild, "border", "none");
+                    domStyle.set(divGeoPanel.lastElementChild,"border","none");
                 });
-                if (panelType) {
+                if(panelType) {
                     this._showExpanded(panelType);
                 }
-                if (domStyle.get(this._drawer, 'display') === 'block' && window.innerWidth <= 850) {
+                this._panelClick = on(query('.panel',this.dataNode),'click',function (evt) {
+                    var type = domAttr.get(evt.currentTarget,'data-type');
+                    _self._showExpanded(type);
 
-                    domStyle.set(query(".geodata-container")[0], 'display', 'none');
-                }
-                this._panelClick = on(query('.panel', this.dataNode), 'click', lang.hitch(this, function (evt) {
-                    var type = domAttr.get(evt.currentTarget, 'data-type');
-                    this._showExpanded(type);
-
-                }));
-                this._expandedClick = on(query('.' + this.css.statsPanelSelected + ' .divHeaderClose', this.dataNode), 'click', lang.hitch(this, function (evt) {
-                    this._hideExpanded(evt.currentTarget);
-                }));
+                });
+                this._expandedClick = on(query('.' + this.css.statsPanelSelected + ' .divHeaderClose',this.dataNode),'click',function (evt) {
+                    _self._hideExpanded(evt.currentTarget);
+                });
                 // add features to graphics layer
                 this._selectedGraphics.clear();
                 for (i = 0; i < features.length; i++) {
@@ -393,46 +387,73 @@ function(
             }
         },
         _setPanelWidth: function (node) {
-            if (node) {
+            if(node) {
                 var sliderWidth = query('.geoPanel')[0].offsetWidth;
-                domStyle.set(node, 'width', sliderWidth + 'px');
+                domStyle.set(node,'width',sliderWidth + 'px');
+                this._resizeGeoContainer(node);
+            }
+
+        },
+        _resizeGeoContainer: function (node) {
+            var slider = query('.divSliderContainer',node)[0];
+            if(slider) {
+                topic.publish("resizeGeoDataSlider",slider.id);
             }
         },
         _setLeftPanelVisibility: function () {
-            if (query(".geodata-container")[0]) {
-                domStyle.set(query(".geodata-container")[0], 'display', 'inline-block');
+            if(query(".geodata-container")[0]) {
+                domStyle.set(query(".geodata-container")[0],'display','inline-block');
             }
-            if (window.innerWidth < 850) {
-                if (domStyle.get(this._drawer, 'display') === 'block') {
-                    if (this.isUserIntraction) {
-                        this._setHeaderToolsVisibility(false);
+
+            if(window.innerWidth < 850) {
+                if(domStyle.get(this._drawer,'display') === 'block') {
+                    if(this.isUserIntraction) {
+                        this._toggleMediaQuery('mediaQueryDrawer','mediaQuery','/css/mediaQueryDrawer.css');
                     } else {
-                        domStyle.set(this._drawer, 'display', 'none');
-                        this._setHeaderToolsVisibility(true);
+                        domStyle.set(this._drawer,'display','none');
+                        this._setMobileGeocoderVisibility(true);
                     }
                     this._bc_outer.layout();
                 }
             } else {
-                this._setHeaderToolsVisibility(true);
-                if (domStyle.get(this._drawer, 'display') === 'none') {
+                this._setMobileGeocoderVisibility(true);
+                if(domStyle.get(this._drawer,'display') === 'none') {
                     this._toggleDrawer();
                     this.isUserIntraction = false;
                 }
             }
+            this._bc_outer.resize();
+            this._setSliderMediaQuery();
             this._toggleHamburgerButton();
         },
-        _setHeaderToolsVisibility: function (isVisible) {
-            if (isVisible) {
-                domStyle.set(query('.topMenuRight')[0],'display','block');
+        _toggleMediaQuery: function (addCss,removeCss,path) {
+            if(dom.byId(removeCss)) {
+                document.getElementsByTagName('head')[0].removeChild(dom.byId(removeCss));
+            }
+            if(!dom.byId(addCss)) {
+                var css = document.createElement('link');
+                css.href = package_path + path;
+                css.type = 'text/css';
+                css.rel = 'stylesheet';
+                css.media = 'screen';
+                css.id = addCss;
+                document.getElementsByTagName('head')[0].appendChild(css);
+
+            }
+
+        },
+        _setSliderMediaQuery: function () {
+            if(domStyle.get(this._drawer,'display') == 'none') {
+                this._toggleMediaQuery('mediaQuery','mediaQueryDrawer','/css/mediaQuery.css');
+            } else {
+                this._toggleMediaQuery('mediaQueryDrawer','mediaQuery','/css/mediaQueryDrawer.css');
+            }
+        },
+        _setMobileGeocoderVisibility: function (isVisible) {
+            if(isVisible) {
                 if(domClass.contains(dom.byId("mobileGeocoderIcon"),"toggle-grey-on")) {
                     domClass.add(dom.byId("mobileSearch"),"mobileLocateBoxDisplay");
                 }
-            } else {
-                if(query(".geodata-container")[0]) {
-                    domStyle.set(query(".geodata-container")[0],'display','none');
-                }
-                domStyle.set(query('.topMenuRight')[0],'display','none');
-                domClass.remove(dom.byId("mobileSearch"),"mobileLocateBoxDisplay");
             }
         },
         _hideExpanded: function (element) {
@@ -441,36 +462,32 @@ function(
             divCount = query('.panel .count');
 
             //hide slider
-            this._hideContainer(domSlider, 100);
+            this._hideContainer(domSlider,100);
 
-            //display geo-data count panel
-            array.forEach(divCount, function (elementCount) {
-                domStyle.set(elementCount, 'display', 'block');
+            //display geo-data count panels
+            array.forEach(divCount,function (elementCount) {
+                domStyle.set(elementCount,'display','block');
             });
-            query('.' + this.css.menuPanel, this.dataNode).style('cursor', 'pointer');
+            query('.' + this.css.menuPanel,this.dataNode).style('cursor','pointer');
         },
-        _showExpanded: function (type) {
-            var domSlider, divCount, slider;
-            domSlider = query('.' + this.css.statsPanelSelected + '[data-type="' + type + '"]', this.dataNode)[0];
+        _showExpanded: function(type) {
+            var domSlider,divCount;
+            domSlider = query('.' + this.css.statsPanelSelected + '[data-type="' + type + '"]',this.dataNode)[0];
 
-            if (domStyle.get(domSlider, 'display') == 'none') {
-                query('.' + this.css.statsPanelSelected, this.dataNode).style('display', 'none');
-                query('.' + this.css.statsPanelSelected, this.dataNode).removeClass("animateSlider");
-                query('.' + this.css.menuPanel, this.dataNode).style('cursor', 'pointer');
+            if(domStyle.get(domSlider,'display') == 'none') {
+                query('.' + this.css.statsPanelSelected,this.dataNode).style('display','none');
+                query('.' + this.css.statsPanelSelected,this.dataNode).removeClass("animateSlider");
+                query('.' + this.css.menuPanel,this.dataNode).style('cursor','pointer');
                 divCount = query('.panel .count');
-                slider = query('.divSliderContainer', domSlider)[0];
 
                 //display slider
-                this._displayContainer(domSlider, 250);
-                //hide geo-data count panel.
-                array.forEach(divCount, function (elementCount) {
-                    domStyle.set(elementCount, 'display', 'none');
+                this._displayContainer(domSlider,250);
+                //hide geo-data count panels.
+                array.forEach(divCount,function (elementCount) {
+                    domStyle.set(elementCount,'display','none');
                 });
                 this._setPanelWidth(domSlider);
-                if (slider) {
-                    topic.publish("resizeGeoDataSlider", slider.id);
-                }
-                domStyle.set(query('.' + this.css.menuPanel + '[data-type="' + type + '"]', this.dataNode)[0], 'cursor', 'default');
+                domStyle.set(query('.' + this.css.menuPanel + '[data-type="' + type + '"]',this.dataNode)[0],'cursor','default');
             }
         },
         // get layer of impact area by layer title
@@ -485,11 +502,11 @@ function(
             }
             return false;
         },
-        _setValueRange: function () {
+        _setValueRange: function() {
             this._multiple = false;
             var renderer = this._impactLayer.renderer;
             this._attributeField = renderer ? renderer.attributeField : this.config.impact_field;
-            if (renderer) {
+            if(renderer){
                 var infos = renderer.infos;
                 if (infos && infos.length) {
                     // multiple polygon impact
@@ -505,15 +522,15 @@ function(
                         dom.byId('renderer_menu').innerHTML = output;
                         domStyle.set(dom.byId('renderer_menu'), 'display', 'block');
                         this._summarizeClick = on(dom.byId('summarize'), 'click', lang.hitch(this, function(evt) {
-                            if (!domClass.contains(evt.currentTarget, this.css.rendererSelected)) {
-                                this._clearSelected();
-                                domClass.add(evt.currentTarget, this.css.rendererSelected);
-                                var q = new Query();
-                                q.where = '1 = 1';
-                                this._impactLayer.queryFeatures(q, lang.hitch(this, function (fs) {
-                                    this._displayStats(fs.features);
-                                    this.map.setExtent(fs.features[0].geometry.getExtent(), true);
-                                }));
+                            if(!domClass.contains(evt.currentTarget,this.css.rendererSelected)) {
+                            this._clearSelected();
+                            domClass.add(evt.currentTarget, this.css.rendererSelected);
+                            var q = new Query();
+                            q.where = '1 = 1';
+                            this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
+                                this._displayStats(fs.features);
+                                    this.map.setExtent(fs.features[0].geometry.getExtent(),true);
+                            }));
                             }
                         }));
                         on(query('.'  + this.css.rendererMenuItem, dom.byId('renderer_menu')), 'click', lang.hitch(this, function(evt) {
@@ -528,7 +545,7 @@ function(
                             }
                             this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
                                 this._displayStats(fs.features);
-                                this.map.setExtent(fs.features[0].geometry.getExtent(), true);
+                                this.map.setExtent(fs.features[0].geometry.getExtent(),true);
                             }));
                         }));
                     }
@@ -543,9 +560,9 @@ function(
         },
 
         _hideImapctArea: function () {
-            domStyle.set(dom.byId("imapct_content"), "display", "none");
-            domStyle.set(dom.byId("legend_content"), { "width": "100%" });
-            domStyle.set(dom.byId("legend_name"), "border-right", "none");
+            domStyle.set(dom.byId("imapct_content"),"display","none");
+            domStyle.set(dom.byId("legend_content"),{ "width": "100%" });
+            domStyle.set(dom.byId("legend_name"),"border-right","none");
         },
         _selectEvent: function(evt) {
             if (evt.graphic) {
@@ -598,15 +615,15 @@ function(
             this._createGeocoder("geocoderSearch");
             this._createGeocoder("geocoderMobile");
 
-            on(dom.byId("mobileGeocoderIcon"), "click", function () {
+            on(dom.byId("mobileGeocoderIcon"),"click",function () {
                 if(domStyle.get(dom.byId("mobileSearch"),"display") == "none") {
-
+                    dom.byId("geocoderMobile_input").value = '';
                     domClass.add(dom.byId("mobileSearch"),"mobileLocateBoxDisplay");
                     domClass.replace(dom.byId("mobileGeocoderIcon"),"toggle-grey-on","toggleSearch");
                 }
             });
 
-            on(dom.byId("btnCloseGeocoder"), "click", function () {
+            on(dom.byId("btnCloseGeocoder"),"click",function () {
                 domClass.remove(dom.byId("mobileSearch"),"mobileLocateBoxDisplay");
                 domStyle.set(dom.byId("mobileSearch"),"display","none");
                 domClass.replace(dom.byId("mobileGeocoderIcon"),"toggleSearch","toggle-grey-on");
@@ -625,7 +642,7 @@ function(
 
             this.dataNode = domConstruct.place(domConstruct.create('div', {
                 className: this.css.stats
-            }), dom.byId('cp_inner_center'), 'first');
+            }),dom.byId('cp_inner_center'),'first');
             // get layer by id
             this._impactLayer = this.getLayerByTitle(this.map, this.layers, this.config.impact_layer);
             if(this._impactLayer){
@@ -644,42 +661,42 @@ function(
                 // FIELD" = (SELECT MAX("FIELD") FROM layer)
                 q.orderByFields = [this._attributeField + ' DESC'];
             }
-            if (this._impactLayer) {
-                this._impactLayer.queryFeatures(q, lang.hitch(this, function (fs) {
-                    if (fs.features.length) {
-                        this._displayStats([fs.features[0]]);
-                    }
-                }));
-                on(this._selectedGraphics, 'click', lang.hitch(this, function (evt) {
-                    this._selectEvent(evt);
-                }));
-                on(this._impactLayer, 'click', lang.hitch(this, function (evt) {
-                    this._selectEvent(evt);
-                }));
-                on(this._impactLayer, 'visibility-change', lang.hitch(this, function (evt) {
-                    this._selectedGraphics.setVisibility(evt.visible);
-                }));
+            if(this._impactLayer) {
+            this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
+                if (fs.features.length) {
+                    this._displayStats([fs.features[0]]);
+                }
+            }));
+            on(this._selectedGraphics, 'click', lang.hitch(this, function(evt) {
+                this._selectEvent(evt);
+            }));
+            on(this._impactLayer, 'click', lang.hitch(this, function(evt) {
+                this._selectEvent(evt);
+            }));
+            on(this._impactLayer, 'visibility-change', lang.hitch(this, function(evt) {
+                this._selectedGraphics.setVisibility(evt.visible);
+            }));
             }
             this._setLeftPanelVisibility();
         },
 
         _createGeocoder: function (container) {
-            var _self = this, geocoderWidget;
+            var _self = this,geocoderWidget;
             geocoderWidget = new Geocoder({
                 map: this.map,
                 theme: 'calite',
                 autoComplete: true
-            }, dom.byId(container));
+            },dom.byId(container));
             geocoderWidget.startup();
 
-            on(geocoderWidget, 'FindResults', function (response) {
-                if (!response.results.length) {
+            on(geocoderWidget,'FindResults',function (response) {
+                if(!response.results.length) {
                     alert(_self.config.i18n.general.noSearchResult);
                 }
             });
         },
 
-        _clearSelected: function () {
+        _clearSelected: function() {
             var items = query('.' + this.css.rendererSelected, dom.byId('renderer_menu'));
             var i;
             if (items && items.length) {
@@ -690,7 +707,7 @@ function(
         },
 
         _hideLoadingIndicator: function () {
-            domStyle.set(dom.byId("loadingIndicatorDiv"), "display", "none");
+            domStyle.set(dom.byId("loadingIndicatorDiv"),"display","none");
         },
 
         //create a map based on the input web map id

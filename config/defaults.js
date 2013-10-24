@@ -21,10 +21,10 @@ define([], function() {
         "embedMapSize": [{ "width": "100%", "height": "500px" },
                          { "width": "100%", "height": "400px" },
                          { "width": "100%", "height": "300px" },
-                         { "width": "800px", "height":"640px" },
+                         { "width": "800px", "height": "640px" },
                          { "width": "640px", "height": "480px"}],
         "bingmapskey": "", //Enter the url to your organizations bing maps key if you want to use bing basemaps
-        "sharinghost": location.protocol + "//" + "www.arcgis.com" ,//Defaults to arcgis.com. Set this value to your portal or organization host name.
+        "sharinghost": location.protocol + "//" + "www.arcgis.com",//Defaults to arcgis.com. Set this value to your portal or organization host name.
         "facebookURL": "http://www.facebook.com/sharer.php?u=",
         "twitterURL": "http://mobile.twitter.com/compose/tweet?status=",
         "emailURL": "mailto:%20?subject=Check%20out%20this%20map!&body=",

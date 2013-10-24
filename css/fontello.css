@@ -19,42 +19,31 @@
 }
 */
 
-[class^="icon-"]:before, [class*=" icon-"]:before, .leftArrow, .rightArrow, .dijitDialogCloseIcon,.esriGeocoderSearch,.esriGeocoderReset {
+[class^="icon-"]:before,[class*=" icon-"]:before,.leftArrow,.rightArrow,.dijitDialogCloseIcon,.esriGeocoderSearch,.esriGeocoderReset {
   font-family: "fontello";
   font-style: normal;
   font-weight: normal;
   speak: none;
-
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
   margin-right: .2em;
   text-align: center;
   /* opacity: .8; */
-
   /* For safety - reset parent styles, that can break glyph codes*/
   font-variant: normal;
   text-transform: none;
-
   /* fix buttons height, for twitter bootstrap */
   line-height: 1em;
-
   /* Animation center compensation - margins should be symmetric */
   /* remove if not needed */
   margin-left: .2em;
-
   /* you can be more comfortable with increased icons size */
   /* font-size: 120%; */
-
   /* Uncomment for 3D effect */
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
-
-.icon-home-1:before
-{
-    content: '\e808';
-}
-
+.icon-home-1:before{ content: '\e808'; }
 .icon-home-1:before { content: '\e808'; } /* '' */
 .icon-up-dir:before { content: '\e811'; } /* '' */
 .icon-right-dir-1:before { content: '\e807'; } /* '' */
@@ -80,23 +69,8 @@
 .icon-target-1:before { content: '\e82f'; } /* '' */
 .icon-search-1:before { content: '\e800'; } /* '' */
 .icon-link-1:before { content: '\e803'; } /* '' */
-.leftArrow:before
-{
-    content: '\e80d';
-}
-.rightArrow:before
-{
-    content: '\e80b';
-}
-.dijitDialogCloseIcon:before
-{
-    content: '\e80c';
-}
-.esriGeocoderSearch:before
-{
-    content: '\e800';
-}
-.esriGeocoderReset:before
-{
-     content: '\e80c';
-}
+.leftArrow:before { content: '\e80d'; }
+.rightArrow:before { content: '\e80b'; }
+.dijitDialogCloseIcon:before { content: '\e80c'; }
+.esriGeocoderSearch:before { content: '\e800'; }
+.esriGeocoderReset:before { content: '\e80c'; }

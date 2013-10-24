@@ -26,39 +26,37 @@ function (
      domAttr,
      domConstruct
 ) {
-    var Widget = declare(null, {
-
+    var Widget = declare(null,{
         constructor: function (options) {
-            declare.safeMixin(this, options);
+            declare.safeMixin(this,options);
             this.resizeEvent = null;
             this._i18n = i18n;
             this.displayPageCount = 3;
             this._createSlider();
             topic.subscribe("resizeGeoDataSlider",lang.hitch(this,function (sliderId) {
-                this._resizeSlider(sliderId);
+                setTimeout(lang.hitch(this,function () {
+                    this._resizeSlider(sliderId);
+                }),0);
             }));
         },
 
         //function to create slider based on content
         _createSlider: function () {
-            var sliderOuterContainer, sliderInnerContainer, sliderLeftArrowHolder, sliderRightArrowHolder, sliderDivLeftArrow, sliderDiv, sliderContentDiv,
+            var sliderOuterContainer,sliderInnerContainer,sliderLeftArrowHolder,sliderRightArrowHolder,sliderDivLeftArrow,sliderDiv,sliderContentDiv,
                 sliderDivRightArrow;
-            sliderOuterContainer = domConstruct.create('div', { "id": "slider" + this.sliderContent.id, "class": "divSliderContainer" }, null);
-         
-            sliderInnerContainer = domConstruct.create('div', { "class": "divInnerSliderContainer" }, sliderOuterContainer);
-            sliderLeftArrowHolder = domConstruct.create('div', { "class": "divLeft" }, sliderInnerContainer);
-            sliderDiv = domConstruct.create('div', { "id": "divSlider" + this.sliderContent.id, "class": "divSliderContent" }, sliderInnerContainer);
-            sliderContentDiv = domConstruct.create('div', { "class": "carousel slidePanel" }, null);
+            sliderOuterContainer = domConstruct.create('div',{ "id": "slider" + this.sliderContent.id,"class": "divSliderContainer" },null);
+            sliderInnerContainer = domConstruct.create('div',{ "class": "divInnerSliderContainer" },sliderOuterContainer);
+            sliderLeftArrowHolder = domConstruct.create('div',{ "class": "divLeft" },sliderInnerContainer);
+            sliderDiv = domConstruct.create('div',{ "id": "divSlider" + this.sliderContent.id,"class": "divSliderContent" },sliderInnerContainer);
+            sliderContentDiv = domConstruct.create('div',{ "class": "carousel slidePanel" },null);
             sliderDiv.appendChild(sliderContentDiv);
             sliderContentDiv.appendChild(this.sliderContent);
-            sliderRightArrowHolder = domConstruct.create('div', { "class": "divRight" }, sliderInnerContainer);
-            sliderDivLeftArrow = domConstruct.create('div', { "id": this.sliderContent.id + "leftArrow", "class": "leftArrow disableArrow", "title": i18n.widgets.Slider.previous }, sliderLeftArrowHolder);
-
-            this._createPagination(sliderDiv, sliderOuterContainer);
-            sliderDivRightArrow = domConstruct.create('div', { "id": this.sliderContent.id + "rightArrow", "class": "rightArrow", "title": i18n.widgets.Slider.next }, sliderRightArrowHolder);
+            sliderRightArrowHolder = domConstruct.create('div',{ "class": "divRight" },sliderInnerContainer);
+            sliderDivLeftArrow = domConstruct.create('div',{ "id": this.sliderContent.id + "leftArrow","class": "leftArrow disableArrow","title": i18n.widgets.Slider.previous },sliderLeftArrowHolder);
+            this._createPagination(sliderDiv,sliderOuterContainer);
+            sliderDivRightArrow = domConstruct.create('div',{ "id": this.sliderContent.id + "rightArrow","class": "rightArrow","title": i18n.widgets.Slider.next },sliderRightArrowHolder);
             this.sliderParent.appendChild(sliderOuterContainer);
             this._resizeSlider(sliderOuterContainer.id);
-
             on(sliderDivRightArrow,'click',lang.hitch(this,function () {
                 this._slide(sliderOuterContainer.id,true);
             }));
@@ -67,27 +65,27 @@ function (
             }));
         },
 
-        _createPagination: function (sliderDiv, sliderOuterContainer) {
-            var pageCount, sliderPaginationHolder, spanPaginationDot;
-            sliderPaginationHolder = domConstruct.create('div', { "class": "divPagination" }, null);
+        _createPagination: function (sliderDiv,sliderOuterContainer) {
+            var pageCount,sliderPaginationHolder,spanPaginationDot;
+            sliderPaginationHolder = domConstruct.create('div',{ "class": "divPagination" },null);
             sliderDiv.appendChild(sliderPaginationHolder);
             pageCount = Math.ceil(this.sliderContent.childElementCount / this.displayPageCount);
-            for (var i = 0; i < pageCount; i++) {
-                spanPaginationDot = domConstruct.create("span", { "class": "paginationDot" }, null);
-                domAttr.set(spanPaginationDot, "index", i);
-                if (i == 0) {
-                    domClass.add(spanPaginationDot, "bgColor");
+            for(var i = 0;i < pageCount;i++) {
+                spanPaginationDot = domConstruct.create("span",{ "class": "paginationDot" },null);
+                domAttr.set(spanPaginationDot,"index",i);
+                if(i == 0) {
+                    domClass.add(spanPaginationDot,"bgColor");
                 }
                 sliderPaginationHolder.appendChild(spanPaginationDot);
-                on(spanPaginationDot, 'click', lang.hitch(this, function (evt) {
-                    this._showSelectedPage(sliderOuterContainer.id, evt.currentTarget);
+                on(spanPaginationDot,'click',lang.hitch(this,function (evt) {
+                    this._showSelectedPage(sliderOuterContainer.id,evt.currentTarget);
                     this._setArrowVisibility(sliderOuterContainer.id);
                 }));
             }
         },
 
-        _slide: function (sliderId, isSlideRight) {
-            var sliderContent, carousel, newLeft, selectedPage, pageIndex;
+        _slide: function (sliderId,isSlideRight) {
+            var sliderContent,carousel,newLeft,selectedPage,pageIndex;
             sliderContent = query('#' + sliderId + ' .divSliderContent')[0];
             carousel = query('#' + sliderId + ' .carousel')[0];
             this._moveSliderPage(sliderId,isSlideRight);
@@ -96,12 +94,14 @@ function (
             newLeft = -(domStyle.get(sliderContent,'width') + this.displayPageCount + 1) * pageIndex;
             domStyle.set(carousel,'left',newLeft + "px");
         },
+
         _setPanelWidth: function (node) {
             if(node) {
                 var sliderWidth = query('.geoPanel')[0].offsetWidth;
                 domStyle.set(node,'width',sliderWidth + 'px');
             }
         },
+
         _resetSlider: function (sliderId) {
             var newLeft,carousel = query('#' + sliderId + ' .carousel')[0];
             newLeft = 0;
@@ -111,6 +111,7 @@ function (
             domClass.remove(query('#' + sliderId + ' .bgColor')[0],"bgColor");
             domClass.add(query('#' + sliderId + ' .paginationDot')[0],"bgColor");
         },
+
         _resizeSlider: function (sliderId) {
             var carousel,sliderContentHolder,sliderTableWidth,selectedPage;
             carousel = query('#' + sliderId + ' .carousel')[0];
@@ -119,23 +120,23 @@ function (
             domStyle.set(sliderContentHolder,'width',sliderTableWidth + 'px');
             domStyle.set(carousel,'width',sliderTableWidth + 'px');
             selectedPage = query('#' + sliderId + ' .bgColor')[0];
-            this._showSelectedPage(sliderId, selectedPage);
+            this._showSelectedPage(sliderId,selectedPage);
         },
-        _showSelectedPage: function (sliderId, page) {
+
+        _showSelectedPage: function (sliderId,page) {
             var sliderContent,carousel,pageIndex,newLeft;
             sliderContent = query('#' + sliderId + ' .divSliderContent')[0];
             carousel = query('#' + sliderId + ' .carousel')[0];
-            pageIndex = parseInt(domAttr.get(page, "index"));
+            pageIndex = parseInt(domAttr.get(page,"index"));
             newLeft = -(domStyle.get(sliderContent,'width') + this.displayPageCount + 1) * pageIndex;
             domStyle.set(carousel,'left',newLeft + "px");
-            domClass.remove(query('#' + sliderId + ' .bgColor')[0], "bgColor");
-            domClass.add(page, "bgColor");
-
-
+            domClass.remove(query('#' + sliderId + ' .bgColor')[0],"bgColor");
+            domClass.add(page,"bgColor");
         },
+
         _setArrowVisibility: function (sliderId) {
-            var pageId, pageCount, currentPage = query('#' + sliderId + ' .bgColor')[0];
-            pageId = parseInt(domAttr.get(currentPage, "index"));
+            var pageId,pageCount,currentPage = query('#' + sliderId + ' .bgColor')[0];
+            pageId = parseInt(domAttr.get(currentPage,"index"));
             pageCount = query('#' + sliderId + ' .paginationDot').length;
 
             if(pageId == 0) {
@@ -150,13 +151,14 @@ function (
                 domClass.remove(query('#' + sliderId + ' .leftArrow')[0],"disableArrow");
             }
         },
-        _moveSliderPage: function (sliderId, isSlideRight) {
-            var nxtPageId, nextPage, currentPage = query('#' + sliderId + ' .bgColor')[0];
-            nxtPageId = parseInt(domAttr.get(currentPage, "index"));
+
+        _moveSliderPage: function (sliderId,isSlideRight) {
+            var nxtPageId,nextPage,currentPage = query('#' + sliderId + ' .bgColor')[0];
+            nxtPageId = parseInt(domAttr.get(currentPage,"index"));
             isSlideRight ? nxtPageId++ : nxtPageId--;
             nextPage = query('#' + sliderId + ' .paginationDot')[nxtPageId];
-            domClass.remove(currentPage, "bgColor");
-            domClass.add(nextPage, "bgColor");
+            domClass.remove(currentPage,"bgColor");
+            domClass.add(nextPage,"bgColor");
             this._setArrowVisibility(sliderId);
         }
     });

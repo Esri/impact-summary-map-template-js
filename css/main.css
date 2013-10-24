@@ -1,13 +1,12 @@
-*
-{
-        outline: none;
+* {
+	outline:none;
 }
-html, body {
-	padding: 0;
-	margin: 0;
-	height: 100%;
-	width: 100%;
-	font-family: 'Lato' ,sans-serif;
+html,body {
+	padding:0;
+	margin:0;
+	height:100%;
+	width:100%;
+	font-family:'Lato',sans-serif;
 }
 
 #bc_inner,#bc_outer {
@@ -25,7 +24,7 @@ html, body {
 	border:0;
 	overflow:hidden;
 	z-index:3;
-    	background-color: transparent;
+	background-color:transparent;
 }
 
 #cp_outer_left {
@@ -48,7 +47,10 @@ html, body {
 	margin:0;
 	border:0;
 }
-
+#cp_inner_center {
+	top:0px !important;
+	height:100% !important;
+}
 #mapDiv {
 	padding:0;
 	margin:0;
@@ -59,14 +61,14 @@ html, body {
 
 #BasemapToggle {
 	position:absolute;
-	top:20px;
+	top:55px;
 	right:20px;
 	z-index:35;
 }
 
 #mapButtons {
 	position:absolute;
-	top:92px;
+	top:127px;
 	left:20px;
 	z-index:35;
 }
@@ -81,12 +83,12 @@ html, body {
 
 #drawer_panels .panel {
 	display:none;
-	width: 100%;
+	width:100%;
 }
 
 #drawer_panels .panel-selected {
 	display:block;
-	width: 100%;
+	width:100%;
 }
 
 #drawer_menu {
@@ -95,7 +97,7 @@ html, body {
 	line-height:18px;
 	text-align:center;
 	overflow:visible;
-	width: 100%;
+	width:100%;
 }
 
 #drawer_menu .item {
@@ -118,8 +120,8 @@ html, body {
 #drawer_menu .item .title {
 	padding:7px 0;
 	white-space:nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
+	text-overflow:ellipsis;
+	overflow:hidden;
 	width:90%;
 }
 
@@ -150,7 +152,7 @@ html, body {
 .topBar {
 	background:#f8f8f8;
 	height:34px;
-	border-bottom: 1px solid #ddd;
+	border-bottom:1px solid #ddd;
 }
 
 #title {
@@ -169,8 +171,8 @@ html, body {
 	line-height:25px;
 }
 
-.toggle-grey, .toggleSearch {
-        color: #999;
+.toggle-grey,.toggleSearch {
+	color:#999;
 }
 
 .toggle-grey:hover,.toggle-grey:active {
@@ -178,7 +180,7 @@ html, body {
 }
 
 .toggle-grey-on {
-        color: #007ac2 !important;
+	color:#007ac2 !important;
 }
 
 .toggle-grey-on:hover,.toggle-grey-on:active {
@@ -228,8 +230,8 @@ html, body {
 	color:#555;
 	cursor:pointer;
 	white-space:nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
+	text-overflow:ellipsis;
+	overflow:hidden;
 	width:245px;
 }
 
@@ -247,7 +249,7 @@ html, body {
 .geoData {
 	position:absolute;
 	z-index:99;
-        bottom: 40px;
+	bottom:40px;
 	width:100%;
 	-moz-user-select:none;
 	-webkit-user-select:none;
@@ -259,401 +261,394 @@ html, body {
 .geodata-container {
 	display:inline-block;
 }
-
 .geoData .panel {
 	text-align:center;
-	display: inline-block;
+	display:inline-block;
 	float:left;
 	color:#fff;
 	cursor:pointer;
-    	border: none !important;
+	border:none !important;
 }
 
 .geoData .panel-expanded {
-        display: none;
-        text-align: center;
-        color: gray;
-        padding: 0px;
-    	margin: 5px 0px;
-   	border: 1px solid gray;
-   	border-top: none;
-	position: absolute;
-	bottom: 30px;
-	height: 0px;
-	transition: height .25s;
-	transition-property: height;
-	transition-duration: .25s;
-	-webkit-transition-property: height;
-	-webkit-transition-duration: .25s;
+	display:none;
+	text-align:center;
+	color:gray;
+	padding:0px;
+	margin:5px 0px;
+	border:1px solid gray;
+	border-top:none;
+	position:absolute;
+	bottom:30px;
+	height:0px;
+	transition:height .25s;
+	transition-property:height;
+	transition-duration:.25s;
+	-webkit-transition-property:height;
+	-webkit-transition-duration:.25s;
 }
-
- .population  {
-   	border-bottom: 3px solid #da4d1e !important;
-   	border-bottom: 3px solid rgba(218,77,30,0.80) !important;
+.population {
+	border-bottom:3px solid #da4d1e !important;
+	border-bottom:3px solid rgba(218,77,30,0.80) !important;
 }
-
-.households  {
-   	border-bottom: 3px solid #004575 !important;
-   	border-bottom: 3px solid rgba(0,69,117,0.80) !important;
+.households {
+	border-bottom:3px solid #004575 !important;
+	border-bottom:3px solid rgba(0,69,117,0.80) !important;
 }
-
-.critical_infrastructure  {
-   	border-bottom: 3px solid #35ac46;
-   	border-bottom: 3px solid rgba(42,116,51,0.80) !important;
+.critical_infrastructure {
+	border-bottom:3px solid #35ac46;
+	border-bottom:3px solid rgba(42,116,51,0.80) !important;
 }
-
-.businesses  {
-   	border-bottom: 3px solid #6b1978 !important;
-   	border-bottom: 3px solid rgba(107,25,120,0.80) !important;
+.businesses {
+	border-bottom:3px solid #6b1978 !important;
+	border-bottom:3px solid rgba(107,25,120,0.80) !important;
 }
 .geoData .count {
-        margin: 0;
-        text-align: left;
+	margin:0;
+	text-align:left;
 }
 .geoData .panel .count {
-        font-size: 34px;
-        padding: 15px 20px;
-     	text-align: center;
+	font-size:34px;
+	padding:15px 20px;
+	text-align:center;
 }
 .divGeoDataHolder .count {
-        font-size: 27px;
-		margin-top: 0px;
-        display: block;
+	font-size:27px;
+	margin-top:0px;
+	display:block;
 }
 .geoData .panel .title {
-	margin: 0;
-        padding: 3px 22px;
-        font-size: 14px;
-   	font-weight: normal;
+	margin:0;
+	padding:3px 22px;
+	font-size:14px;
+	font-weight:normal;
 }
 
 .geoData .population .count {
-        background-color: #f36f20;
-        background: rgba(243,111,32,0.80);
+	background-color:#f36f20;
+	background-color:rgba(243,111,32,0.80);
 }
-
-.geoData .population .title, .population .bgColor {
-        background-color: #da4d1e;
-        background: rgba(218,77,30,0.80);
+.geoData .population .title,.population .bgColor {
+	background-color:#da4d1e;
+	background-color:rgba(218,77,30,0.80);
 }
 
 .geoData .population:hover .count {
-        background-color: #f36f20;
-        background: rgba(243,111,32,0.70);
+	background-color:#f36f20;
+	background-color:rgba(243,111,32,0.70);
 }
 
 .geoData .population:hover .title {
-        background-color: #da4d1e;
-        background: rgba(218,77,30,0.70);
+	background-color:#da4d1e;
+	background-color:rgba(218,77,30,0.70);
 }
 
 .geoData .households .count {
-        background-color: #007ac2;
-        background: rgba(0,122,194,0.80);
+	background-color:#007ac2;
+	background-color:rgba(0,122,194,0.80);
 }
 
-.geoData .households .title, .households .bgColor {
-        background-color: #004575;
-        background: rgba(0,69,117,0.80);
+.geoData .households .title,.households .bgColor {
+	background-color:#004575;
+	background-color:rgba(0,69,117,0.80);
 }
 
 .geoData .households:hover .count {
-        background-color: #007ac2;
-        background: rgba(0,122,194,0.70);
+	background-color:#007ac2;
+	background-color:rgba(0,122,194,0.70);
 }
 
 .geoData .households:hover .title {
-        background-color: #004575;
-        background: rgba(0,69,117,0.70);
+	background-color:#004575;
+	background-color:rgba(0,69,117,0.70);
 }
 
 
 .geoData .critical_infrastructure .count {
-        background-color: #35ac46;
-        background: rgba(53,172,70,0.80);
+	background-color:#35ac46;
+	background-color:rgba(53,172,70,0.80);
 }
-
-.geoData .critical_infrastructure .title, .critical_infrastructure .bgColor {
-        background-color: #2a7433;
-        background: rgba(42,116,51,0.80);
+.geoData .critical_infrastructure .title,.critical_infrastructure .bgColor {
+	background-color:#2a7433;
+	background-color:rgba(42,116,51,0.80);
 }
 
 .geoData .critical_infrastructure:hover .count {
-        background-color: #35ac46;
-        background: rgba(53,172,70,0.70);
+	background-color:#35ac46;
+	background-color:rgba(53,172,70,0.70);
 }
 
 .geoData .critical_infrastructure:hover .title {
-        background-color: #2a7433;
-        background: rgba(42,116,51,0.70);
+	background-color:#2a7433;
+	background-color:rgba(42,116,51,0.70);
 }
 
 .geoData .businesses .count {
-        background-color: #8f499c;
-        background: rgba(143,73,156,0.80);
+	background-color:#8f499c;
+	background-color:rgba(143,73,156,0.80);
 }
 
 .geoData .businesses .title, .businesses .bgColor {
-        background-color: #6b1978;
-        background: rgba(107,25,120,0.80);
+	background-color:#6b1978;
+	background-color:rgba(107,25,120,0.80);
 }
 
 .geoData .businesses:hover .count {
-        background-color: #8f499c;
-        background: rgba(143,73,156,0.70);
+	background-color:#8f499c;
+	background-color:rgba(143,73,156,0.70);
 }
 
 .geoData .businesses:hover .title {
-        background-color: #6b1978;
-        background: rgba(107,25,120,0.70);
+	background-color:#6b1978;
+	background-color:rgba(107,25,120,0.70);
 }
 
 .clear {
-        clear: both;
+	clear:both;
 }
 .geoPanel {
-        height: auto;
-        display: inline-block;
+	height:auto;
+	display:inline-block;
 }
-
 .divHeader {
-        height: 20%;
-        line-height: 25px;
-        width: 100%;
-        border-bottom: 1px solid gray;
+	height:20%;
+	line-height:25px;
+	width:100%;
+	border-bottom:1px solid gray;
 }
-
 .divHeaderTitle {
-	color: #fff;
-	float: left;
-	height: 25px;
-	padding: 0px 5px;
-	border: 1px solid gray;
-	border-bottom: none;
-	border-left: none;
-	border-collapse: collapse;
-	font-size: 14px;
-	overflow: hidden;
+	color:#fff;
+	float:left;
+	height:25px;
+	padding:0px 5px;
+	border:1px solid gray;
+	border-bottom:none;
+	border-left:none;
+	border-collapse:collapse;
+	font-size:14px;
+	overflow:hidden;
 }
-
 .divHeaderClose {
-	float: right;
-	height: 25px;
-	border: 1px solid gray;
-	border-bottom: 1px solid #fff !important;
-	border-right: none;
-	border-collapse: collapse;
-	padding: 0px 5px;
-	font-size: 20px;
-	background-color: #fff;
-	cursor: pointer;
-	overflow: hidden;
+	float:right;
+	height:25px;
+	border:1px solid gray;
+	border-bottom:1px solid #fff !important;
+	border-right:none;
+	border-collapse:collapse;
+	padding:0px 5px;
+	font-size:20px;
+	background-color:#fff;
+	cursor:pointer;
+	overflow:hidden;
 }
-
 .divGeoDataHolder .title {
-    	padding: 2px 0px;
-	font-size: 13px;
-    	font-weight: normal;
-    	width: 100px;
-    	word-break: break-word;
-    	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space:nowrap;
-	cursor: pointer;
+	padding:2px 0px;
+	font-size:13px;
+	font-weight:normal;
+	width:100px;
+	word-break:break-word;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	display:-webkit-box !important;
+	-webkit-line-clamp:2;
+	-webkit-box-orient:vertical;
+	cursor:pointer;
 }
-
-
 .divOuterSliderContainer {
-    	background-color: #fff;
-        width: 100%;
-	height: 79%;
-        overflow: hidden;
+	background-color:#fff;
+	width:100%;
+	height:79%;
+	overflow:hidden;
 }
-/*---------------------------------------------------------------------------*/
-/*style for impact polygon slider*/
 .leftArrow, .rightArrow {
-        position: relative;
-        margin-top: 24px;
-        font-size: 40px;
-        line-height: 30px;
-        cursor: pointer;
-        color: rgb(221, 220, 220);
-        overflow: hidden;
-        margin-left: 0px !important;
-        height: 40px;
+	position:relative;
+	margin-top:24px;
+	font-size:40px;
+	line-height:30px;
+	cursor:pointer;
+	color:rgb(221, 220, 220);
+	overflow:hidden;
+	margin-left:0px !important;
+	height:40px;
 }
-
 .disableArrow {
-        color: #ccc;
-        display: none !important;
-        cursor: default !important;
+	color:#ccc;
+	display:none !important;
+	cursor:default !important;
 }
-
 .slidePanel {
-    	transition-property: left;
-        transition-duration: .2s;
-    	transition-timing-function: ease;
-    	transition-delay: 0s;
-    	-webkit-transition-property: left;
-        -webkit-transition-duration: .2s;
-    	-webkit-transition-timing-function: linear;
-    	-webkit-transition-delay: 0s;
+	transition-property:left;
+	transition-duration:.2s;
+	transition-timing-function:ease;
+	transition-delay:0s;
+	-webkit-transition-property:left;
+	-webkit-transition-duration:.2s;
+	-webkit-transition-timing-function:linear;
+	-webkit-transition-delay:0s;
 }
-
 .divSliderContainer {
-    	z-index: 1002;
-    	background-color: #fff;
+	z-index:1002;
+	background-color:#fff;
 }
-
 .divInnerSliderContainer {
-    	bottom: 0px;
-    	height: 100%;
-   	width: 100%;
-    	z-index: 1005;
-    	position: relative;
-    	background: transparent;
-    	text-align: center;
+	bottom:0px;
+	height:100%;
+	width:100%;
+	z-index:1005;
+	position:relative;
+	background:transparent;
+	text-align:center;
 }
-
 .carouselscroll {
-        height:70px;
-    	position: absolute;
-    	left: 0px;
-    	bottom: 5px;
-    	vertical-align: middle;
+	height:70px;
+	position:absolute;
+	left:0px;
+	bottom:5px;
+	vertical-align:middle;
 }
 .divGeoDataHolder {
-        display: inline-block;
-        margin-top: 10px;
-        height: 75px;
-        overflow: hidden;
+	display:inline-block;
+	margin-top:10px;
+	height:75px;
+	overflow:hidden;
 }
-
 .esriGeocoderResults {
-    	position: relative !important;
+	position:relative !important;
 }
-
 .topMenuRight {
-    	position: relative;
-    	top: 0;
-    	left: 0;
-    	float: right;
+	position:relative;
+	top:0;
+	left:0;
+	float:right;
 }
-
 .divPagination {
-    	width: 100%;
-        position: relative;
-        text-align: center;
-        bottom: 5px;
-        -webkit-bottom: 5px;
+	width:100%;
+	position:relative;
+	text-align:center;
+	bottom:5px;
 }
-
 .paginationDot {
-    	display: inline-block !important;
-    	width: 7px;
-    	height: 8px;
-    	position: relative;
-    	background-color: gray;
-    	border-radius: 7px;
-    	-webkit-border-radius: 7px;
-    	-moz-border-radius: 7px;
-    	margin: 0px 3px;
-    	cursor:pointer;
+	display:inline-block !important;
+	width:7px;
+	height:8px;
+	position:relative;
+	background-color:gray;
+	border-radius:7px;
+	-webkit-border-radius:7px;
+	-moz-border-radius:7px;
+	margin:0px 3px;
+	cursor:pointer;
 }
-
 .divGeoDataHolder div {
-        float: left;
-        height: 70px;
-        width: 150px;
-        border-right: 1px solid #ccc;
-        overflow: hidden;
+	float:left;
+	height:70px;
+	width:150px;
+	border-right:1px solid #ccc;
+	overflow:hidden;
 }
-
 .divLeft {
-        float: left;
+	float:left;
 }
 .divRight {
-        float: right;
+	float:right;
 }
-
 .divSliderContent {
-        width: 450px;
-        overflow: hidden;
-        float: left;
-        height: 100%;
-        position: relative;
+	width:450px;
+	overflow:hidden;
+	float:left;
+	height:100%;
+	position:relative;
 }
 .divLeft, .divRight {
-        width: 36px;
-        height: 100px;
-        overflow: hidden;
+	width:36px;
+	height:100px;
+	overflow:hidden;
 }
 .carousel {
-        overflow: hidden;
-        position: relative;
+	overflow:hidden;
+	position:relative;
 }
 .divGeoDataHolder .count, .divGeoDataHolder .title {
-        background-color: #fff !important;
-        display: block;
-        text-align: left;
-        margin-left: 40px;
+	background-color:#fff !important;
+	display:block;
+	text-align:left;
+	margin-left:40px;
 }
 
 /*****************************************************/
 /* style for loading indicator */
 
 .loadingIndicatorDiv {
-        height: 100%;
-        width: 100%;
-        display: block;
-        z-index: 99999;
-        position: absolute;
-        bottom: 0px;
-        top: 0px;
-        left: 0px;
-        background: rgb(238,238,238);
-        background-position: center center;
-        background-image: url('../images/ajax-loader.gif');
-        background-repeat: no-repeat;
+	height:100%;
+	width:100%;
+	display:block;
+	z-index:99999;
+	position:absolute;
+	bottom:0px;
+	top:0px;
+	left:0px;
+	background:rgb(238,238,238);
+	background-position:center center;
+	background-image:url('../images/ajax-loader.gif');
+	background-repeat:no-repeat;
 }
 /*End of style for loading indicator */
 #mobileGeocoderIcon {
-        display: none;
+	display:none;
 }
 #geocoderMobile {
-        float: left !important;
-        margin-left: 15px;
+	float:left !important;
+	margin-left:15px;
 }
 .mobileLocateBoxHidden {
-        display: none;
+	display:none;
 }
-
 #btnCloseGeocoder {
-        float: left;
-        width: 60px;
-        padding: 1px 10px 1px 10px;
-        line-height: 30px;
-        height: 30px;
-        color: #999;
-        margin-left: 10px;
-        font-size: 17px;
-        cursor: pointer;
+	float:left;
+	width:60px;
+	padding:1px 10px 1px 10px;
+	line-height:30px;
+	height:30px;
+	color:#999;
+	margin-left:10px;
+	font-size:17px;
+	cursor:pointer;
 }
 .animateSlider {
-        height: 130px !important;
+	height:130px !important;
 }
 #mobileSearch {
-	display: none;
-	position: absolute;
-	z-index: 99999;
-	right: 0px;
-	padding: 5px 4px;
-	background: rgba(255, 255, 255, 0.7);
-	width: 100%;
-	height: 32px;
+	display:none;
+	position:absolute;
+	z-index:99999;
+	right:0px;
+	padding:5px 4px;
+	background:rgba(255, 255, 255, 0.7);
+	width:100%;
+	height:32px;
+	top:35px;
 }
 /* Hiding input fields close icon in IE10 */
 input[type=text]::-ms-clear {
-	display: none;
+	display:none;
 }
 /* End of style for hiding input fields close icon in IE10 */
+@media screen and (max-width:910px) {
+	.geoData .panel .count {
+		font-size:30px;
+		padding:15px 18px;
+		text-align:center;
+	}
+}
+@media screen and (max-width:850px) {
+	.geoData .panel .count {
+		padding:15px 15px !important;
+		font-size:30px !important;
+	}
+	#cp_outer_left {
+		display:none;
+	}
+	.mobileLocateBoxDisplay {
+		display:none !important;
+	}
+}
