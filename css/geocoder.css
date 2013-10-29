@@ -99,7 +99,7 @@
 	position:absolute;
 	left:0;
 	top:100%;
-	margin:-1px 0 0;
+	margin:0;
 	border:1px solid #ccc;
 	border-top:0;
 	padding:0;
@@ -167,7 +167,7 @@
 #geocoderMobile .esriGeocoder input {
 	width:80% !important;
 	line-height:25px;
-	height:20px;
+	height:25px;
 }
 #geocoderMobile .esriGeocoder {
 	height:30px;

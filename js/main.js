@@ -4,6 +4,7 @@ define([
     "dojo/_base/lang",
     "dojo/_base/array",
     "esri/arcgis/utils",
+    "esri/graphicsUtils",
     "esri/IdentityManager",
     "dojo/dom-construct",
     "dojo/dom",
@@ -50,6 +51,7 @@ function(
     lang,
     array,
     arcgisUtils,
+    graphicsUtils,
     IdentityManager,
     domConstruct,
     dom,
@@ -204,13 +206,11 @@ function(
                     easing: easing.expoOut,
                     onAnimate: lang.hitch(this, function(){
                         this._bc_outer.layout();
+                        this._toggleMediaQuery('mediaQuery', 'mediaQueryDrawer', '/css/mediaQuery.css');
                     }),
                     onEnd: lang.hitch(this, function(){
                         domStyle.set(this._drawer, 'display', 'none');
-                        this._toggleMediaQuery('mediaQuery','mediaQueryDrawer','/css/mediaQuery.css');
-                        if(query(".geodata-container")[0]) {
-                            domStyle.set(query(".geodata-container")[0],'display','inline-block');
-                        }
+
                         this._bc_outer.layout();
                         var domSlider = query('.' + this.css.statsPanelSelected + '.animateSlider')[0];
                         if(domSlider) {
@@ -244,6 +244,8 @@ function(
                     onEnd: lang.hitch(this, function(){
                         this._bc_outer.layout();
                         this._toggleHamburgerButton();
+                        domStyle.set(dom.byId("cp_inner_center"), 'height', window.innerHeight - 35 + 'px');
+
                     })
                 }).play();
             }
@@ -359,7 +361,10 @@ function(
                             },100);
                         });
                     }
-                    domStyle.set(divGeoPanel.lastElementChild,"border","none");
+                    if (divGeoPanel.lastElementChild) {
+                        domStyle.set(divGeoPanel.lastElementChild, "border", "none");
+                    }
+
                 });
                 if(panelType) {
                     this._showExpanded(panelType);
@@ -422,9 +427,9 @@ function(
                     this.isUserIntraction = false;
                 }
             }
-            this._bc_outer.resize();
             this._setSliderMediaQuery();
             this._toggleHamburgerButton();
+            domStyle.set(dom.byId("cp_inner_center"), 'height', window.innerHeight - 35 + 'px');
         },
         _toggleMediaQuery: function (addCss,removeCss,path) {
             if(dom.byId(removeCss)) {
@@ -522,18 +527,34 @@ function(
                         dom.byId('renderer_menu').innerHTML = output;
                         domStyle.set(dom.byId('renderer_menu'), 'display', 'block');
                         this._summarizeClick = on(dom.byId('summarize'), 'click', lang.hitch(this, function(evt) {
+                            if (window.innerWidth < 850) {
+                                this._toggleDrawer();
+                            }
+                            domStyle.set(query(".geodata-container")[0], 'display', 'none');
+                            if (!this._impactLayer.visible) {
+                                this._impactLayer.setVisibility(true);
+                            }
                             if(!domClass.contains(evt.currentTarget,this.css.rendererSelected)) {
                             this._clearSelected();
                             domClass.add(evt.currentTarget, this.css.rendererSelected);
                             var q = new Query();
                             q.where = '1 = 1';
                             this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
-                                this._displayStats(fs.features);
-                                    this.map.setExtent(fs.features[0].geometry.getExtent(),true);
+                                    setTimeout(lang.hitch(this, function () {
+                                        this._displayStats(fs.features);
+                                        this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
+                                    }), 250);
                             }));
                             }
                         }));
                         on(query('.'  + this.css.rendererMenuItem, dom.byId('renderer_menu')), 'click', lang.hitch(this, function(evt) {
+                            if (!this._impactLayer.visible) {
+                                this._impactLayer.setVisibility(true);
+                            }
+                            if (window.innerWidth < 850) {
+                                this._toggleDrawer();
+                            }
+                            domStyle.set(query(".geodata-container")[0], 'display', 'none');
                             this._clearSelected();
                             var value = domAttr.get(evt.currentTarget, 'data-value');
                             domClass.add(evt.currentTarget, this.css.rendererSelected);
@@ -541,11 +562,18 @@ function(
                             if (value === 0) {
                                 q.where = '1 = 1';
                             } else {
-                                q.where = this._attributeField + ' = ' + value;
+                                if (isNaN(value)) {
+                                    q.where = this._attributeField + ' = ' + "'" + value + "'";
+                                }
+                                else {
+                                    q.where = this._attributeField + ' = ' + value;
+                                }
                             }
                             this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
-                                this._displayStats(fs.features);
-                                this.map.setExtent(fs.features[0].geometry.getExtent(),true);
+                                setTimeout(lang.hitch(this, function () {
+                                    this._displayStats(fs.features);
+                                    this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
+                                }), 250);
                             }));
                         }));
                     }
@@ -621,6 +649,11 @@ function(
                     domClass.add(dom.byId("mobileSearch"),"mobileLocateBoxDisplay");
                     domClass.replace(dom.byId("mobileGeocoderIcon"),"toggle-grey-on","toggleSearch");
                 }
+                else {
+                    domClass.remove(dom.byId("mobileSearch"), "mobileLocateBoxDisplay");
+                    domStyle.set(dom.byId("mobileSearch"), "display", "none");
+                    domClass.replace(dom.byId("mobileGeocoderIcon"), "toggleSearch", "toggle-grey-on");
+                }
             });
 
             on(dom.byId("btnCloseGeocoder"),"click",function () {
@@ -675,6 +708,12 @@ function(
             }));
             on(this._impactLayer, 'visibility-change', lang.hitch(this, function(evt) {
                 this._selectedGraphics.setVisibility(evt.visible);
+                    if (!evt.visible) {
+                        domStyle.set(query(".geodata-container")[0], 'display', 'none');
+                    }
+                    else {
+                        domStyle.set(query(".geodata-container")[0], 'display', 'inline-block');
+                    }
             }));
             }
             this._setLeftPanelVisibility();

@@ -9,7 +9,9 @@
 .aboutDialogContent {
 	margin:10px 0 0 15px;
 	max-height:400px;
-	min-width:300px;
+	max-width:510px !important;
+	min-width:240px !important;
+	word-wrap:break-word;
 }
 .nodeDescription {
 	padding:5px 0 10px 0;
@@ -17,7 +19,4 @@
 .headerNodeDescription {
 	margin:10px 0 10px 0;
 	font-weight:bold;
-}
-.aboutDialogContent {
-	max-width:510px !important;
 }

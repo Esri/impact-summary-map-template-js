@@ -117,6 +117,7 @@ function (
             if(!this.get("dialog")){
                 var dialog = new Dialog({
                     title: i18n.widgets.AboutDialog.title,
+                    draggable:false,
                     style: "max-width: 550px;"
                 }, this._dialogNode);
                 this.set("dialog", dialog);
