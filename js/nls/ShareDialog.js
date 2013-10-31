@@ -6,7 +6,11 @@ define({
                 "heading":"Share this map",
                 "url":"Map URL",
                 "embed":"Embed Map",
-                "size":"Map size:"
+                "size":"Map size (width/height):",
+                "facebookTooltip":"Facebook",
+                "twitterTooltip": "Twitter",
+                "gplusTooltip":"Google Plus",
+                "emailTooltip":"Email"
             }
         }
     })

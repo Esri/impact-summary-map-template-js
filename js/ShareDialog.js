@@ -8,13 +8,17 @@ define([
     "dijit/_OnDijitClickMixin",
     "dijit/_TemplatedMixin",
     "dojo/on",
-    // load template
+    "dojo/string",
+     // load template
     "dojo/text!modules/dijit/templates/ShareDialog.html",
     "dojo/i18n!modules/nls/ShareDialog",
     "dojo/dom-class",
     "dojo/dom-style",
     "dojo/dom-construct",
     "dojox/html/entities",
+    "esri/request",
+    "esri/urlUtils",
+    "esri/geometry/Extent",
     "dijit/Dialog"
 ],
 function (
@@ -24,9 +28,13 @@ function (
     has, esriNS,
     _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
     on,
+    string,
     dijitTemplate, i18n,
     domClass, domStyle, domConstruct,
     entities,
+    esriRequest,
+    urlUtils,
+    Extent,
     Dialog
 ) {
     var Widget = declare([_WidgetBase, _OnDijitClickMixin, _TemplatedMixin, Evented], {
@@ -36,8 +44,6 @@ function (
             theme: "ShareDialog",
             visible:true,
             url: window.location.href,
-            embedWidth: "100%",
-            embedHeight: "500",
             dialog: null
         },
         // lifecycle: 1
@@ -52,8 +58,8 @@ function (
             this.set("url",this.options.url);
             this.set("visible", this.options.visible);
             this.set("dialog", this.options.dialog);
-            this.set("embedWidth", this.options.embedWidth);
-            this.set("embedHeight", this.options.embedHeight);
+            this.set("embedWidth", this.options.config.embedMapSize[0].width);
+            this.set("embedHeight", this.options.config.embedMapSize[0].height);
             // listeners
             this.watch("theme", this._updateThemeWatch);
             this.watch("url", this._updateUrlWatch);
@@ -65,7 +71,18 @@ function (
                 embed: "embedPage",
                 button: "toggle-grey",
                 buttonSelected: "toggle-grey-on",
-                icon: "icon-share"
+                icon: "icon-share",
+                facebookIcon: "icon-facebook-squared-1 shareDialogIconClass",
+                twitterIcon: "icon-twitter-1 shareDialogIconClass",
+                gplusIcon: "icon-gplus shareDialogIconClass",
+                emailIcon: "icon-mail shareDialogIconClass",
+                mapSizeLabel: "mapSizeLabel",
+                shareMapURL: "shareMapURL",
+                iconContainer: "iconContainer",
+                embedMapSizeDropDown: "embedMapSizeDropDown",
+                shareDialogContent: "shareDialogContent",
+                shareDialogSubHeader: "shareDialogSubHeader",
+                shareDialogTextarea: "shareDialogTextarea"
             };
         },
         // start widget. called by user
@@ -87,7 +104,7 @@ function (
         /* Public Functions */
         /* ---------------- */
         show: function(){
-            this.set("visible", true);  
+            this.set("visible", true);
         },
         hide: function(){
             this.set("visible", false);
@@ -96,6 +113,7 @@ function (
             domClass.add(this._buttonNode, this._css.buttonSelected);
             this.get("dialog").show();
             this.emit("open", {});
+            this._shareLink();
         },
         close: function(){
             this.get("dialog").hide();
@@ -107,7 +125,7 @@ function (
                 this.close();
             }
             else{
-                this.open();    
+                this.open();
             }
             this.emit("toggle", {});
         },
@@ -119,7 +137,8 @@ function (
             if(!this.get("dialog")){
                 var dialog = new Dialog({
                     title: i18n.widgets.ShareDialog.title,
-                    style: "width: 300px"
+                    draggable: false,
+                    style: "max-width:550px;"
                 }, this._dialogNode);
                 this.set("dialog", dialog);
             }
@@ -130,13 +149,86 @@ function (
             this._updateUrlWatch();
             this.set("loaded", true);
             this.emit("load", {});
+            this.config.extent = [this.map.extent.xmin, this.map.extent.ymin, this.map.extent.xmax, this.map.extent.ymax];
+            this._shareMapUrlText.value = this.get("url");
+            on(this._comboBoxNode, "change", lang.hitch(this, function (evt) {
+                this.set("embedWidth", this.config.embedMapSize[evt.currentTarget.value].width);
+                this.set("embedHeight", this.config.embedMapSize[evt.currentTarget.value].height);
+                this._updateUrlWatch();
+            }));
+            for (i in this.config.embedMapSize) {
+                this._comboBoxNode.options[this._comboBoxNode.options.length] = new Option(this.config.embedMapSize[i].width + " x " + this.config.embedMapSize[i].height, i);
+            }
+
+            on(this._facebookButton, "click", lang.hitch(this, function (evt) {
+                this._configureShareLink(this.config.facebookURL);
+            }));
+
+            on(this._twitterButton, "click", lang.hitch(this, function (evt) {
+                this._configureShareLink(this.config.twitterURL);
+            }));
+
+            on(this._gpulsButton, "click", lang.hitch(this, function (evt) {
+                this._configureShareLink(this.config.googlePlusURL);
+            }));
+
+            on(this._emailButton, "click", lang.hitch(this, function (evt) {
+                this._configureShareLink(this.config.emailURL, true);
+            }));
+
+            on(this._shareMapUrlText, "click", lang.hitch(this, function () {
+                this._shareMapUrlText.select();
+            }));
+
+            on(this._embedNode, "click", lang.hitch(this, function () {
+                this._embedNode.select();
+            }));
+
+            on(window,"orientationchange",lang.hitch(this,function () {
+                var open = this.get("dialog").get("open");
+                if(open) {
+                    dialog.hide();
+                    dialog.show();
+                }
+            }));
         },
-        _updateUrlWatch: function(){            
+        _updateUrlWatch: function(){
             var es = '<iframe width="' + this.get("embedWidth") + '" height="' + this.get("embedHeight") + '" src="' + this.get("url") + '" frameborder="0" scrolling="no"></iframe>';
             this.set("embed", es);
             this._embedNode.innerHTML = entities.encode(es);
         },
-        _updateThemeWatch: function(attr, oldVal, newVal) {
+
+        _shareLink: function () {
+            var _self = this, tinyResponse, url;
+            url = string.substitute(this.config.TinyURLServiceURL, [encodeURIComponent(this.get("url"))]);
+            esriRequest({
+                url: url,
+                callbackParamName: "callback",
+                load: function (data) {
+                    tinyResponse = data;
+                    _self.tinyUrl = data;
+                    var attr = _self.config.TinyURLResponseAttribute.split(".");
+                    for (var x = 0; x < attr.length; x++) {
+                        _self.tinyUrl = _self.tinyUrl[attr[x]];
+                    }
+
+                    if (_self.tinyUrl) {
+                        _self._shareMapUrlText.value = _self.tinyUrl;
+                    }
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            });
+        },
+        _configureShareLink: function (Link, isMail) {
+            var fullLink;
+            fullLink = Link + (this.tinyUrl ? this.tinyUrl : this.get("url"));
+            isMail ? parent.location = fullLink : window.open(fullLink, 'share', true);
+
+        },
+
+        _updateThemeWatch: function (attr, oldVal, newVal) {
             if (this.get("loaded")) {
                 domClass.remove(this.domNode, oldVal);
                 domClass.add(this.domNode, newVal);

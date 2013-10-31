@@ -58,7 +58,12 @@ function (
                 container: "buttonContainer",
                 button: "toggle-grey",
                 buttonSelected: "toggle-grey-on",
-                icon: "icon-info-circled-1"
+                icon: "icon-info-circled-1",
+                aboutDialogHeader: "aboutDialogHeader",
+                licenseInfoNode: "licenseInfoNode",
+                aboutDialogContent: "aboutDialogContent",
+                nodeDescription: "nodeDescription",
+                headerNodeDescription: "headerNodeDescription"
             };
         },
         // start widget. called by user
@@ -112,12 +117,20 @@ function (
             if(!this.get("dialog")){
                 var dialog = new Dialog({
                     title: i18n.widgets.AboutDialog.title,
-                    style: "width: 300px"
+                    draggable:false,
+                    style: "max-width: 550px;"
                 }, this._dialogNode);
                 this.set("dialog", dialog);
             }
             on(this.get("dialog"), 'hide', lang.hitch(this, function(){
                 domClass.remove(this._buttonNode, this._css.buttonSelected);
+            }));
+            on(window, "orientationchange", lang.hitch(this, function() {
+                var open = this.get("dialog").get("open");
+                if (open) {
+                    dialog.hide();
+                    dialog.show();
+                }
             }));
             this._setDialogContent();
             this._visible();
@@ -141,7 +154,7 @@ function (
                 }
                 this._licenseInfoNode.innerHTML = item.licenseInfo;
                 this._infoNode.innerHTML = '(' + item.numViews + ' ' + i18n.widgets.AboutDialog.views + ', ' + item.numComments + ' ' + i18n.widgets.AboutDialog.comments + ')';
-                this._moreInfoNode.innerHTML = '<a target="_blank" href="' + this.get("sharinghost") + '/home/item.html?id=' + item.id + '">' + i18n.widgets.AboutDialog.itemInfo+ '</a>';
+                this._moreInfoNode.innerHTML = i18n.widgets.AboutDialog.itemInfo + '  <a target="_blank" href="' + this.get("sharinghost") + '/home/item.html?id=' + item.id + '">' + i18n.widgets.AboutDialog.itemInfoLink + '</a>';
             }
         },
         _updateThemeWatch: function(attr, oldVal, newVal) {
