@@ -6,7 +6,7 @@
 .licenseInfoNode {
 	font-size:small;
 }
-.aboutDialogContent {
+.aboutDialogContent,.drawerOpen .aboutDialogContent {
 	margin:10px 0 0 15px;
 	max-height:400px;
 	max-width:510px !important;

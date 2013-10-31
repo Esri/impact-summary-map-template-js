@@ -103,7 +103,7 @@
 		font-size:12px !important;
 	}
 	.divSliderContent {
-		width:290px !important;
+		width:291px !important;
 	}
 	.divGeoDataHolder div {
 		width:97px !important;
@@ -214,7 +214,107 @@
 		width:190px !important;
 	}
 }
-@media screen and (max-device-width: 480px) and (orientation: landscape) {
+@media screen and (max-device-width: 640px) and (min-device-aspect-ratio: 400/640) {
+	.esriSimpleSlider, #BasemapToggle, #title, .geocoderSearch, .locateBox {
+		display:none !important;
+	}
+	#mapButtons {
+		top:20px !important;
+		display:block !important;
+	}
+	.mobileLocateBoxDisplay {
+		display:block !important;
+	}
+	#mobileGeocoderIcon, #geocoderMobile {
+		display:block !important;
+	}
+	#geocoderMobile .esriGeocoderContainer {
+		width:auto !important;
+	}
+	#geocoderMobile.esriGeocoder input {
+		width:90% !important;
+		height:35px !important;
+		line-height:30px !important;
+	}
+	#geocoderMobile .esriGeocoder {
+		height:35px !important;
+	}
+	#geocoderMobile {
+		width:75% !important;
+	}
+	#mobileSearch {
+		height:36px !important;
+	}
+	#geocoderMobile .esriGeocoderIcon {
+		margin:9px 4px 0px 4px !important;
+	}
+	.divPagination {
+		visibility:hidden;
+	}
+}
+@media screen and (max-device-aspect-ratio: 400/640) {
+	.esriSimpleSlider, #BasemapToggle, #title, .geocoderSearch, .locateBox {
+		display:none !important;
+	}
+	#mapButtons {
+		top:20px !important;
+		display:block !important;
+	}
+	.mobileLocateBoxDisplay {
+		display:block !important;
+	}
+	#mobileGeocoderIcon, #geocoderMobile {
+		display:block !important;
+	}
+	#geocoderMobile .esriGeocoderContainer {
+		width:auto !important;
+	}
+	#geocoderMobile .esriGeocoder input {
+		width:75% !important;
+		height:30px !important;
+	}
+	#geocoderMobile {
+		width:65% !important;
+	}
+	#geocoderMobile .esriGeocoder {
+		height:35px !important;
+	}
+	#mobileSearch {
+		height:36px !important;
+	}
+	#geocoderMobile .esriGeocoderIcon {
+		margin:9px 4px 0px 4px !important;
+	}
+	.geoData .panel .count {
+		padding:15px 3px !important;
+		font-size:15px !important;
+	}
+	.geoData .panel .title {
+		margin:0;
+		padding:4px 10px !important;
+		font-size:12px !important;
+	}
+	.divSliderContent {
+		width:291px !important;
+	}
+	.divGeoDataHolder div {
+		width:97px !important;
+	}
+	.divGeoDataHolder .title, .divGeoDataHolder .count {
+		margin-left:10px !important;
+		width:70px !important;
+	}
+	.divGeoDataHolder .title {
+		font-size:12px !important;
+	}
+	.divGeoDataHolder .count {
+		font-size:20px !important;
+	}
+	.divPagination {
+		visibility:hidden;
+	}
+}
+@media screen and (max-device-width: 480px) and (orientation:landscape) {
 	.mobileLocateBoxDisplay {
 		display:block !important;
 	}
@@ -227,6 +327,9 @@
 	}
 	.esriSimpleSlider, #BasemapToggle, #title,.geocoderSearch, .locateBox  {
 		display:none !important;
+	}
+	.divLeft, .divRight {
+		width:34px !important;
 	}
 	.geoData .panel .count {
 		padding:15px 5px !important;
@@ -295,7 +398,7 @@
 		font-size:15px !important;
 	}
 }
-@media screen and (max-device-width: 480px) and (orientation: portrait) {
+@media screen and (max-device-width:320px) and (orientation:portrait) {
 	.mobileLocateBoxDisplay {
 		display:block !important;
 	}
@@ -349,16 +452,18 @@
 	#mobileGeocoder {
 		display:block;
 	}
+	#geocoderMobile .esriGeocoderContainer {
+                width: auto !important;
+        }
+       #geocoderMobile .esriGeocoder input {
+                width: 75% !important;
+                height: 30px !important;
+        }
+	#geocoderMobile {
+                width: 65% !important;
+        }
 	#geocoderMobile .esriGeocoder {
 		height:35px;
-	}
-	#geocoderMobile .esriGeocoderContainer {
-		width:210px !important;
-	}
-	#geocoderMobile .esriGeocoder input {
-		width:75% !important;
-		line-height:30px;
-		height:30px !important;
 	}
 	#geocoderMobile .esriGeocoderIcon {
 		margin:9px 4px 0px 4px !important;
@@ -382,97 +487,4 @@
 		font-size:15px !important;
 	}
 }
-@media screen and (min-device-width:481px) and (max-device-width: 1280px) {
-	.esriSimpleSlider, #BasemapToggle, #title, .geocoderSearch, .locateBox {
-		display:none !important;
-	}
-	#mapButtons {
-		top:20px !important;
-		display:block !important;
-	}
-	.mobileLocateBoxDisplay {
-		display:block !important;
-	}
-	#mobileGeocoderIcon, #geocoderMobile {
-		display:block !important;
-	}
-	#geocoderMobile .esriGeocoderContainer {
-		width:auto !important;
-	}
-	#geocoderMobile.esriGeocoder input {
-		width:90% !important;
-		height:35px !important;
-		line-height:30px !important;
-	}
-	#geocoderMobile .esriGeocoder {
-		height:35px !important;
-	}
-	#geocoderMobile {
-		width:75% !important;
-	}
-	#mobileSearch {
-		height:36px !important;
-	}
-	#geocoderMobile .esriGeocoderIcon {
-		margin:9px 4px 0px 4px !important;
-	}
-}
-@media screen and (min-device-width:321px) and (max-device-width:800px) {
-	.esriSimpleSlider, #BasemapToggle, #title, .geocoderSearch, .locateBox {
-		display:none !important;
-	}
-	#mapButtons {
-		top:20px !important;
-		display:block !important;
-	}
-	.mobileLocateBoxDisplay {
-		display:block !important;
-	}
-	#mobileGeocoderIcon, #geocoderMobile {
-		display:block !important;
-	}
-	#geocoderMobile .esriGeocoderContainer {
-		width:auto !important;
-	}
-	#geocoderMobile .esriGeocoder input {
-		width:75% !important;
-		height:30px !important;
-	}
-	#geocoderMobile {
-		width:65% !important;
-	}
-	#geocoderMobile .esriGeocoder {
-		height:35px !important;
-	}
-	#mobileSearch {
-		height:36px !important;
-	}
-	#geocoderMobile .esriGeocoderIcon {
-		margin:9px 4px 0px 4px !important;
-	}
-	.geoData .panel .count {
-		padding:15px 3px !important;
-		font-size:15px !important;
-	}
-	.geoData .panel .title {
-		margin:0;
-		padding:3px 10px !important;
-		font-size:12px !important;
-	}
-	.divSliderContent {
-		width:290px !important;
-	}
-	.divGeoDataHolder div {
-		width:97px !important;
-	}
-	.divGeoDataHolder .title, .divGeoDataHolder .count {
-		margin-left:10px !important;
-		width:70px !important;
-	}
-	.divGeoDataHolder .title {
-		font-size:12px !important;
-	}
-	.divGeoDataHolder .count {
-		font-size:20px !important;
-	}
-}
+

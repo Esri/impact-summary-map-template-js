@@ -503,7 +503,7 @@ html,body {
 }
 .divGeoDataHolder {
 	display:inline-block;
-	margin-top:10px;
+	margin-top:13px;
 	height:75px;
 	overflow:hidden;
 }
@@ -520,7 +520,7 @@ html,body {
 	width:100%;
 	position:relative;
 	text-align:center;
-	bottom:5px;
+	bottom:9px;
 }
 .paginationDot {
 	display:inline-block !important;
@@ -536,7 +536,7 @@ html,body {
 }
 .divGeoDataHolder div {
 	float:left;
-	height:70px;
+	height:75px;
 	width:150px;
 	border-right:1px solid #ccc;
 	overflow:hidden;
@@ -640,10 +640,7 @@ input[type=text]::-ms-clear {
 		padding:15px 15px !important;
 		font-size:30px !important;
 	}
-	#cp_outer_left {
+	#cp_outer_left,.mobileLocateBoxDisplay {
 		display:none;
-	}
-	.mobileLocateBoxDisplay {
-		display:none !important;
 	}
 }

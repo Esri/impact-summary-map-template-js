@@ -98,10 +98,17 @@ function(
                 this._setLanguageStrings();
                 this._createWebMap();
             }));
-
             aspect.after(this,"_init",lang.hitch(this,function () {
                 this._hideLoadingIndicator();
             }));
+            var defaultMenu = query('.item', dom.byId('drawer_menu'));
+            if (defaultMenu) {
+                if (this.config.defaultPanel == this.config.i18n.general.legend) {
+                    this._showDrawerPanel(defaultMenu[0]);
+                } else if (this.config.defaultPanel == this.config.i18n.general.impact) {
+                    this._showDrawerPanel(defaultMenu[1]);
+                }
+            }
         },
         _setLanguageStrings: function(){
             var node;
@@ -146,7 +153,7 @@ function(
             }, dom.byId('cp_outer_left'));
             this._bc_outer.addChild(cp_outer_left);
             this._bc_outer.startup();
-            // inner countainer
+            // inner container
             this._bc_inner = new BorderContainer({gutters:false}, dom.byId('bc_inner'));
             // top panel
             var cp_inner_top = new ContentPane({
@@ -167,6 +174,10 @@ function(
             this._drawer = cp_outer_left.domNode;
             this._drawerWidth = domStyle.get(this._drawer,'width');
             this._drawerMenu();
+            on(window, 'resize', lang.hitch(this, function () {
+                this._bc_outer.layout();
+                this._bc_inner.layout();
+            }));
         },
         _showDrawerPanel: function(buttonNode){
             var menus = query('.' +  this.css.menuItemSelected, dom.byId('drawer_menu'));
@@ -206,7 +217,7 @@ function(
                     easing: easing.expoOut,
                     onAnimate: lang.hitch(this, function(){
                         this._bc_outer.layout();
-                        this._toggleMediaQuery('mediaQuery', 'mediaQueryDrawer', '/css/mediaQuery.css');
+                        domClass.remove(dojo.body(), "drawerOpen");
                     }),
                     onEnd: lang.hitch(this, function(){
                         domStyle.set(this._drawer, 'display', 'none');
@@ -234,7 +245,7 @@ function(
                     onAnimate: lang.hitch(this, function(){
                         this._bc_outer.layout();
                         if(window.innerWidth < 850) {
-                            this._toggleMediaQuery('mediaQueryDrawer','mediaQuery','/css/mediaQueryDrawer.css');
+                            domClass.add(dojo.body(), "drawerOpen");
                             var domSlider = query('.' + this.css.statsPanelSelected + '.animateSlider')[0];
                             if(domSlider) {
                                 this._setPanelWidth(domSlider);
@@ -245,7 +256,6 @@ function(
                         this._bc_outer.layout();
                         this._toggleHamburgerButton();
                         domStyle.set(dom.byId("cp_inner_center"), 'height', window.innerHeight - 35 + 'px');
-
                     })
                 }).play();
             }
@@ -324,7 +334,10 @@ function(
                             decPlaces = 1;
                         } else if(render(text).length >= 5) {
                             decPlaces = 0;
-                        } else {
+                        } else if (render(text).length === 4) {
+                            return parseInt(render(text));
+                        }
+                        else {
                             decPlaces = 2;
                         }
                         return _self.formatNumber(parseInt(render(text)),decPlaces);
@@ -364,7 +377,6 @@ function(
                     if (divGeoPanel.lastElementChild) {
                         domStyle.set(divGeoPanel.lastElementChild, "border", "none");
                     }
-
                 });
                 if(panelType) {
                     this._showExpanded(panelType);
@@ -413,7 +425,7 @@ function(
             if(window.innerWidth < 850) {
                 if(domStyle.get(this._drawer,'display') === 'block') {
                     if(this.isUserIntraction) {
-                        this._toggleMediaQuery('mediaQueryDrawer','mediaQuery','/css/mediaQueryDrawer.css');
+                        domClass.add(dojo.body(), "drawerOpen");
                     } else {
                         domStyle.set(this._drawer,'display','none');
                         this._setMobileGeocoderVisibility(true);
@@ -448,10 +460,10 @@ function(
 
         },
         _setSliderMediaQuery: function () {
-            if(domStyle.get(this._drawer,'display') == 'none') {
-                this._toggleMediaQuery('mediaQuery','mediaQueryDrawer','/css/mediaQuery.css');
+            if (domStyle.get(this._drawer, 'display') == 'none') {
+                domClass.remove(dojo.body(), "drawerOpen");
             } else {
-                this._toggleMediaQuery('mediaQueryDrawer','mediaQuery','/css/mediaQueryDrawer.css');
+                domClass.add(dojo.body(), "drawerOpen");
             }
         },
         _setMobileGeocoderVisibility: function (isVisible) {
@@ -530,22 +542,27 @@ function(
                             if (window.innerWidth < 850) {
                                 this._toggleDrawer();
                             }
-                            domStyle.set(query(".geodata-container")[0], 'display', 'none');
                             if (!this._impactLayer.visible) {
                                 this._impactLayer.setVisibility(true);
                             }
-                            if(!domClass.contains(evt.currentTarget,this.css.rendererSelected)) {
-                            this._clearSelected();
-                            domClass.add(evt.currentTarget, this.css.rendererSelected);
+                            var flag = false;
+                            if (!domClass.contains(evt.currentTarget, this.css.rendererSelected)) {
+                                domStyle.set(query(".geodata-container")[0], 'display', 'none');
+                                this._clearSelected();
+                                domClass.add(evt.currentTarget, this.css.rendererSelected);
+                                flag = true;
+                            }
                             var q = new Query();
                             q.where = '1 = 1';
                             this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
                                     setTimeout(lang.hitch(this, function () {
+                                    if (flag) {
                                         this._displayStats(fs.features);
+                                    }
                                         this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
                                     }), 250);
                             }));
-                            }
+
                         }));
                         on(query('.'  + this.css.rendererMenuItem, dom.byId('renderer_menu')), 'click', lang.hitch(this, function(evt) {
                             if (!this._impactLayer.visible) {
@@ -645,7 +662,10 @@ function(
 
             on(dom.byId("mobileGeocoderIcon"),"click",function () {
                 if(domStyle.get(dom.byId("mobileSearch"),"display") == "none") {
-                    dom.byId("geocoderMobile_input").value = '';
+                    dom.byId("geocoderMobile_input").value = "";
+                    if (domClass.contains(query('#mobileSearch .esriGeocoder')[0], 'esriGeocoderHasValue')) {
+                        domClass.remove(query('#mobileSearch .esriGeocoder')[0], 'esriGeocoderHasValue')
+                    }
                     domClass.add(dom.byId("mobileSearch"),"mobileLocateBoxDisplay");
                     domClass.replace(dom.byId("mobileGeocoderIcon"),"toggle-grey-on","toggleSearch");
                 }
@@ -786,7 +806,7 @@ function(
             }), lang.hitch(this, function(error) {
                 //an error occurred - notify the user. In this example we pull the string from the
                 //resource.js file located in the nls folder because we've set the application up
-                //for localization. If you don't need to support mulitple languages you can hardcode the
+                //for localization. If you don't need to support multiple languages you can hardcode the
                 //strings here and comment out the call in index.html to get the localization strings.
                 if (this.config && this.config.i18n) {
                     alert(this.config.i18n.map.error + ": " + error.message);

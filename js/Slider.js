@@ -31,6 +31,7 @@ function (
             declare.safeMixin(this,options);
             this.resizeEvent = null;
             this._i18n = i18n;
+	    //set no of slide to display
             this.displayPageCount = 3;
             this._createSlider();
             topic.subscribe("resizeGeoDataSlider",lang.hitch(this,function (sliderId) {
@@ -57,6 +58,7 @@ function (
             sliderDivRightArrow = domConstruct.create('div',{ "id": this.sliderContent.id + "rightArrow","class": "rightArrow","title": i18n.widgets.Slider.next },sliderRightArrowHolder);
             this.sliderParent.appendChild(sliderOuterContainer);
             this._resizeSlider(sliderOuterContainer.id);
+	    //change previous/next slide on clicking of left and right arrow.
             on(sliderDivRightArrow,'click',lang.hitch(this,function () {
                 this._slide(sliderOuterContainer.id,true);
             }));
@@ -64,11 +66,12 @@ function (
                 this._slide(sliderOuterContainer.id,false);
             }));
         },
-
+	// create UI for pagination bar for slider
         _createPagination: function (sliderDiv,sliderOuterContainer) {
             var pageCount,sliderPaginationHolder,spanPaginationDot;
             sliderPaginationHolder = domConstruct.create('div',{ "class": "divPagination" },null);
             sliderDiv.appendChild(sliderPaginationHolder);
+	    //calculate no of possible pages in slider
             pageCount = Math.ceil(this.sliderContent.childElementCount / this.displayPageCount);
             for(var i = 0;i < pageCount;i++) {
                 spanPaginationDot = domConstruct.create("span",{ "class": "paginationDot" },null);
@@ -77,6 +80,7 @@ function (
                     domClass.add(spanPaginationDot,"bgColor");
                 }
                 sliderPaginationHolder.appendChild(spanPaginationDot);
+		//Go to slider page on selecting its corresponding pagination dot
                 on(spanPaginationDot,'click',lang.hitch(this,function (evt) {
                     this._showSelectedPage(sliderOuterContainer.id,evt.currentTarget);
                     this._setArrowVisibility(sliderOuterContainer.id);
@@ -91,17 +95,17 @@ function (
             this._moveSliderPage(sliderId,isSlideRight);
             selectedPage = query('#' + sliderId + ' .bgColor')[0];
             pageIndex = parseInt(domAttr.get(selectedPage,"index"));
-            newLeft = -(domStyle.get(sliderContent,'width') + this.displayPageCount + 1) * pageIndex;
+            newLeft = -(domStyle.get(sliderContent,'width') + this.displayPageCount) * pageIndex;
             domStyle.set(carousel,'left',newLeft + "px");
         },
-
+	//set slider panel width on window resize
         _setPanelWidth: function (node) {
             if(node) {
                 var sliderWidth = query('.geoPanel')[0].offsetWidth;
                 domStyle.set(node,'width',sliderWidth + 'px');
             }
         },
-
+	//set first page in slider
         _resetSlider: function (sliderId) {
             var newLeft,carousel = query('#' + sliderId + ' .carousel')[0];
             newLeft = 0;
@@ -111,7 +115,7 @@ function (
             domClass.remove(query('#' + sliderId + ' .bgColor')[0],"bgColor");
             domClass.add(query('#' + sliderId + ' .paginationDot')[0],"bgColor");
         },
-
+	 //resize slider contents
         _resizeSlider: function (sliderId) {
             var carousel,sliderContentHolder,sliderTableWidth,selectedPage;
             carousel = query('#' + sliderId + ' .carousel')[0];
@@ -122,18 +126,18 @@ function (
             selectedPage = query('#' + sliderId + ' .bgColor')[0];
             this._showSelectedPage(sliderId,selectedPage);
         },
-
+	//display selected slider page
         _showSelectedPage: function (sliderId,page) {
             var sliderContent,carousel,pageIndex,newLeft;
             sliderContent = query('#' + sliderId + ' .divSliderContent')[0];
             carousel = query('#' + sliderId + ' .carousel')[0];
             pageIndex = parseInt(domAttr.get(page,"index"));
-            newLeft = -(domStyle.get(sliderContent,'width') + this.displayPageCount + 1) * pageIndex;
+            newLeft = -(domStyle.get(sliderContent,'width') + this.displayPageCount) * pageIndex;
             domStyle.set(carousel,'left',newLeft + "px");
             domClass.remove(query('#' + sliderId + ' .bgColor')[0],"bgColor");
             domClass.add(page,"bgColor");
         },
-
+	//handle left/right arrow visibility
         _setArrowVisibility: function (sliderId) {
             var pageId,pageCount,currentPage = query('#' + sliderId + ' .bgColor')[0];
             pageId = parseInt(domAttr.get(currentPage,"index"));
@@ -151,7 +155,7 @@ function (
                 domClass.remove(query('#' + sliderId + ' .leftArrow')[0],"disableArrow");
             }
         },
-
+	//display next/previous slider page
         _moveSliderPage: function (sliderId,isSlideRight) {
             var nxtPageId,nextPage,currentPage = query('#' + sliderId + ' .bgColor')[0];
             nxtPageId = parseInt(domAttr.get(currentPage,"index"));
