@@ -40,7 +40,7 @@
 
 .LayerLegend .LL_TitleContainer {
 	border-left:5px solid #ccc;
-	background:#f8f8f8;
+	background:#fff;
 	color:#555;
 }
 
@@ -133,15 +133,15 @@
 }
 
 .LayerLegend .LL_Content::-webkit-scrollbar-thumb {
-	background-color:#5fa8d4;
+	background-color:#66b7e7;
 }
 
 .LayerLegend .LL_Content::-webkit-scrollbar-thumb:hover {
-	background-color:#66b7e7;
+	background-color:#5fa8d4;
 }
 
 .LayerLegend .LL_Content::-webkit-scrollbar-thumb:active {
-	background-color:#66b7e7;
+	background-color:#5fa8d4;
 }
 
 .LayerLegend .LL_Expanded .LL_Content {
