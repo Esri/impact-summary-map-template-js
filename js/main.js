@@ -100,15 +100,20 @@ function(
             }));
             aspect.after(this,"_init",lang.hitch(this,function () {
                 this._hideLoadingIndicator();
-            }));
-            var defaultMenu = query('.item', dom.byId('drawer_menu'));
-            if (defaultMenu) {
-                if (this.config.defaultPanel == this.config.i18n.general.legend) {
-                    this._showDrawerPanel(defaultMenu[0]);
-                } else if (this.config.defaultPanel == this.config.i18n.general.impact) {
-                    this._showDrawerPanel(defaultMenu[1]);
+                var defaultMenu = query('.item', dom.byId('drawer_menu'));
+                if (defaultMenu) {
+                    if (this.config.defaultPanel == this.config.i18n.general.legend) {
+                        this._showDrawerPanel(defaultMenu[0]);
+                    } else if (this.config.defaultPanel == this.config.i18n.general.impact) {
+                        if (this._impactLayer.renderer && this._impactLayer.renderer.infos && this._impactLayer.renderer.infos.length) {
+                            this._showDrawerPanel(defaultMenu[1]);
+                        } else {
+                            this._showDrawerPanel(defaultMenu[0]);
+                        }
+                    }
                 }
-            }
+            }));
+            
         },
         _setLanguageStrings: function(){
             var node;
@@ -335,7 +340,7 @@ function(
                         } else if(render(text).length >= 5) {
                             decPlaces = 0;
                         } else if (render(text).length === 4) {
-                            return parseInt(render(text));
+                            return number.format(parseInt(render(text), 10));
                         }
                         else {
                             decPlaces = 2;

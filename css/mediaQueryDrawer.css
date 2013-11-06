@@ -85,7 +85,7 @@
 		font-size:12px !important;
 	}
 	.drawerOpen .divSliderContent {
-		width:290px !important;
+		width:291px !important;
 	}
 	.drawerOpen .divGeoDataHolder div {
 		width:97px !important;
@@ -96,6 +96,7 @@
 	}
 	.drawerOpen .divGeoDataHolder .title {
 		font-size:12px !important;
+		height: 40px !important;
 	}
 	.drawerOpen .divGeoDataHolder .count {
 		font-size:20px !important;
@@ -113,11 +114,30 @@
 		width:80px !important;
 	}
 	.drawerOpen .divGeoDataHolder .title {
-		width:50px !important;
+		width:60px !important;
 		font-size:11px !important;
 	}
 	.drawerOpen .divGeoDataHolder .count {
 		font-size:18px !important;
+	}
+	.drawerOpen .leftArrow,.drawerOpen .rightArrow {
+		font-size: 35px !important;
+	}
+	.drawerOpen .divLeft,.drawerOpen .divRight {
+		width: 35px !important;
+	}
+}
+
+@media screen and (max-width:650px) {
+.drawerOpen .geoData .panel .title {
+		padding:4px 7px !important;
+		font-size:10px !important;
+	}
+	.drawerOpen .divSliderContent {
+		width:228px !important;
+	}
+	.drawerOpen .divGeoDataHolder div {
+		width:76px !important;
 	}
 }
 @media screen and (max-width:600px) {
@@ -136,10 +156,10 @@
 	}
 	.drawerOpen .divGeoDataHolder .title, .drawerOpen .divGeoDataHolder .count {
 		margin-left:10px !important;
-		width:50px !important;
+		width:60px !important;
 	}
 	.drawerOpen .divGeoDataHolder .title {
-		font-size:10px !important;
+		font-size:11px !important;
 	}
 	.drawerOpen .esriSimpleSlider, .drawerOpen #mapButtons, .drawerOpen #BasemapToggle, .drawerOpen #title, .drawerOpen .esriAttribution, .drawerOpen .locateBox {
 		display:none !important;

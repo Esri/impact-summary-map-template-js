@@ -121,6 +121,12 @@
 	#geocoderMobile .esriGeocoderContainer {
 		width:315px !important;
 	}
+	.leftArrow, .rightArrow {
+		font-size: 35px !important;
+	}
+	.divLeft, .divRight {
+		width: 35px !important;
+	}
 }
 @media screen and (max-width: 420px) {
 	#geocoderMobile .esriGeocoderContainer {
@@ -140,6 +146,7 @@
 	}
 	.divGeoDataHolder .title {
 		width:70px !important;
+		height: 45px !important;
 		font-size:11px !important;
 	}
 	.divGeoDataHolder .count {
@@ -204,6 +211,18 @@
 	}
 	#geocoderMobile .esriGeocoder input {
 		width:70% !important;
+	}
+}
+@media screen and (max-width: 315px) {
+	.geoData .panel .title {
+		padding:3px 6px !important;
+		font-size:10px !important;
+	}
+	.divSliderContent {
+		width:225px !important;
+	}
+	.divGeoDataHolder div {
+		width:75px !important;
 	}
 }
 @media screen and (max-width: 310px) {
