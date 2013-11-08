@@ -446,7 +446,7 @@ html,body {
 	font-weight:normal;
 	width:100px;
 	height: 30px;
-	word-break:break-word;
+	word-wrap:break-word;
 	overflow:hidden;
 	cursor:pointer;
 }

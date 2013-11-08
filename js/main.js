@@ -113,7 +113,6 @@ function(
                     }
                 }
             }));
-            
         },
         _setLanguageStrings: function(){
             var node;
@@ -550,18 +549,18 @@ function(
                             if (!this._impactLayer.visible) {
                                 this._impactLayer.setVisibility(true);
                             }
-                            var flag = false;
+                            var isSummarizeSelected = false;
                             if (!domClass.contains(evt.currentTarget, this.css.rendererSelected)) {
                                 domStyle.set(query(".geodata-container")[0], 'display', 'none');
                                 this._clearSelected();
                                 domClass.add(evt.currentTarget, this.css.rendererSelected);
-                                flag = true;
+                                isSummarizeSelected = true;
                             }
                             var q = new Query();
                             q.where = '1 = 1';
                             this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
                                     setTimeout(lang.hitch(this, function () {
-                                    if (flag) {
+                                    if (isSummarizeSelected) {
                                         this._displayStats(fs.features);
                                     }
                                         this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
@@ -719,27 +718,27 @@ function(
                 // FIELD" = (SELECT MAX("FIELD") FROM layer)
                 q.orderByFields = [this._attributeField + ' DESC'];
             }
-            if(this._impactLayer) {
-            this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
-                if (fs.features.length) {
-                    this._displayStats([fs.features[0]]);
-                }
-            }));
-            on(this._selectedGraphics, 'click', lang.hitch(this, function(evt) {
-                this._selectEvent(evt);
-            }));
-            on(this._impactLayer, 'click', lang.hitch(this, function(evt) {
-                this._selectEvent(evt);
-            }));
-            on(this._impactLayer, 'visibility-change', lang.hitch(this, function(evt) {
-                this._selectedGraphics.setVisibility(evt.visible);
+            if (this._impactLayer) {
+                this._impactLayer.queryFeatures(q, lang.hitch(this, function (fs) {
+                    if (fs.features.length) {
+                        this._displayStats([fs.features[0]]);
+                    }
+                }));
+                on(this._selectedGraphics, 'click', lang.hitch(this, function (evt) {
+                    this._selectEvent(evt);
+                }));
+                on(this._impactLayer, 'click', lang.hitch(this, function (evt) {
+                    this._selectEvent(evt);
+                }));
+                on(this._impactLayer, 'visibility-change', lang.hitch(this, function (evt) {
+                    this._selectedGraphics.setVisibility(evt.visible);
                     if (!evt.visible) {
                         domStyle.set(query(".geodata-container")[0], 'display', 'none');
                     }
                     else {
                         domStyle.set(query(".geodata-container")[0], 'display', 'inline-block');
                     }
-            }));
+                }));
             }
             this._setLeftPanelVisibility();
         },
