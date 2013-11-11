@@ -159,8 +159,6 @@ function(
             }, dom.byId('cp_inner_center'));
             this._bc_inner.addChild(cp_inner_center);
             this._bc_inner.startup();
-            this._bc_outer.layout();
-            this._bc_inner.layout();
             on(dom.byId('hamburger_button'), 'click', lang.hitch(this, function() {
                 this._toggleDrawer();
             }));
@@ -168,8 +166,7 @@ function(
             this._drawerWidth = domStyle.get(this._drawer,'width');
             this._drawerMenu();
             on(window, 'resize', lang.hitch(this, function () {
-                this._bc_outer.layout();
-                this._bc_inner.layout();
+                this._fixLayout();
             }));
         },
         _showDrawerPanel: function(buttonNode){
@@ -717,8 +714,12 @@ function(
                 }));
             }
             this._setLeftPanelVisibility();
+            this._fixLayout();
         },
-
+        _fixLayout: function(){
+            this._bc_outer.layout();
+            this._bc_inner.layout();
+        },
         _createGeocoder: function (container) {
             var _self = this,geocoderWidget;
             geocoderWidget = new Geocoder({
