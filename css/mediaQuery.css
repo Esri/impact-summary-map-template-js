@@ -1,526 +1,673 @@
 ﻿@media screen and (max-width:600px) {
 	.geoData .panel .title {
-		padding:3px 15px !important;
+		padding:3px 15px!important;
 		font-size:14px;
 	}
+	
 	.geoData .panel .count {
-		padding:12px 8px !important;
-		font-size:25px !important;
+		padding:12px 8px!important;
+		font-size:25px!important;
 	}
+	
 	.divSliderContent {
-		width:378px !important;
+		width:378px!important;
 	}
+	
 	.divGeoDataHolder div {
 		width:126px;
 	}
-	.divGeoDataHolder .title, .divGeoDataHolder .count {
-		width:80px !important;
+	
+	.divGeoDataHolder .title,.divGeoDataHolder .count {
+		width:80px!important;
 		margin-left:35px;
 	}
+	
 	.divGeoDataHolder .count {
-		font-size:24px !important;
+		font-size:24px!important;
 	}
+	
 	#mobileSearch {
 		display:none;
 	}
 }
+
 @media only screen and (max-width:510px) {
 	#title {
 		display:none;
 	}
+	
 	.geoData .panel .title {
-		padding:3px 14px !important;
-		font-size:14px !important;
-	}
-}
-@media screen and (max-width:480px) {
-	.geoData .panel .count {
-		padding:12px 5px !important;
-		font-size:20px !important;
-	}
-	.divGeoDataHolder .count {
-		font-size:22px !important;
-	}
-	.divGeoDataHolder .title {
-		font-size:12px !important;
-	}
-	.geoData .panel .title {
-		padding:3px 10px !important;
-		font-size:14px !important;
-	}
-	.divSliderContent {
-		width:342px !important;
-	}
-	.divGeoDataHolder div {
-		width:114px !important;
-	}
-	.divGeoDataHolder .title, .divGeoDataHolder .count {
-		width:80px !important;
-		margin-left:30px !important;
-	}
-	.esriAttribution {
-		display:none !important;
-	}
-	.mobileLocateBoxDisplay {
-		display:block !important;
-	}
-	.esriSimpleSlider,#BasemapToggle, #title, .esriAttribution, .locateBox {
-		display:none !important;
-	}
-	#mapButtons {
-		top:20px !important;
-		display:block !important;
-	}
-	.mobileLocateBoxDisplay {
-		display:block !important;
-	}
-	#mobileGeocoderIcon, #geocoderMobile {
-		display:block !important;
-	}
-	#geocoderMobile .esriGeocoderContainer {
-		width:365px !important;
-	}
-	#geocoderMobile.esriGeocoder input {
-		width:80% !important;
-	}
-	#mobileSearch {
-		display:none;
-	}
-}
-@media screen and (max-width: 470px) {
-	#geocoderMobile .esriGeocoderContainer {
-		width:345px !important;
-	}
-}
-@media screen and (max-width: 450px) {
-	.geoData .panel .count {
-		padding:15px 3px !important;
-		font-size:15px !important;
-	}
-	.geoData .panel .title {
-		margin:0;
-		padding:3px 10px !important;
-		font-size:12px !important;
-	}
-	.divSliderContent {
-		width:291px !important;
-	}
-	.divGeoDataHolder div {
-		width:97px !important;
-	}
-	.divGeoDataHolder .title, .divGeoDataHolder .count {
-		margin-left:10px !important;
-		width:70px !important;
-	}
-	.divGeoDataHolder .title {
-		font-size:12px !important;
-	}
-	.divGeoDataHolder .count {
-		font-size:20px !important;
-	}
-	#geocoderMobile .esriGeocoderContainer {
-		width:315px !important;
-	}
-	.leftArrow, .rightArrow {
-		font-size:35px !important;
-	}
-	.divLeft, .divRight {
-		width:35px !important;
-	}
-}
-@media screen and (max-width: 420px) {
-	#geocoderMobile .esriGeocoderContainer {
-		width:295px !important;
-	}
-}
-@media screen and (max-width:400px) {
-	.geoData .panel .title {
-		padding:4px 8px !important;
-		font-size:10px !important;
-	}
-	.divSliderContent {
-		width:240px !important;
-	}
-	.divGeoDataHolder div {
-		width:80px !important;
-	}
-	.divGeoDataHolder .title {
-		width:70px !important;
-		height:50px !important;
-		font-size:11px !important;
-	}
-	.divGeoDataHolder .count {
-		font-size:18px !important;
-	}
-	#geocoderMobile .esriGeocoderContainer {
-		width:270px !important;
-	}
-}
-@media screen and (max-width: 380px) {
-	#geocoderMobile .esriGeocoderContainer {
-		width:250px !important;
-	}
-	#geocoderMobile.esriGeocoder input {
-		width:75% !important;
-	}
-}
-@media screen and (max-width: 360px) {
-	#geocoderMobile .esriGeocoderContainer {
-		width:245px !important;
-	}
-}
-@media screen and (max-width: 350px) {
-	#geocoderMobile .esriGeocoderContainer {
-		width:225px !important;
-	}
-	#geocoderMobile .esriGeocoder input {
-		width:75% !important;
-	}
-}
-@media screen and (max-width: 330px) {
-	#geocoderMobile .esriGeocoderContainer {
-		width:215px !important;
-	}
-	.divGeoDataHolder .title {
-		height:50px !important;
-	}
-	.geoData .panel .title {
-		padding:4px 7px !important;
-	}
-	.divSliderContent {
-		width:228px !important;
-	}
-	.divGeoDataHolder div {
-		width:76px !important;
-	}
-	.divGeoDataHolder .title,.divGeoDataHolder .count {
-		margin-left:10px !important;
-		width:60px !important;
-	}
-}
-@media screen and (max-width: 320px) {
-	.geoData .panel .title {
-		padding:3px 7px !important;
-		font-size:10px !important;
-	}
-	.divSliderContent {
-		width:228px !important;
-	}
-	.divGeoDataHolder div {
-		width:76px !important;
-	}
-	.divGeoDataHolder .count {
-		font-size:15px !important;
-	}
-	.divGeoDataHolder .title, .divGeoDataHolder .count {
-		margin-left:10px !important;
-		width:50px !important;
-	}
-	.divGeoDataHolder .title {
-		font-size:10px !important;
-		height:45px !important;
-	}
-	.geocoderSearch {
-		display:none !important;
-	}
-	#geocoderMobile .esriGeocoderContainer {
-		width:200px !important;
-	}
-	#geocoderMobile .esriGeocoder input {
-		width:70% !important;
-	}
-}
-@media screen and (max-width: 315px) {
-	.geoData .panel .title {
-		padding:3px 6px !important;
-		font-size:10px !important;
-	}
-	.divSliderContent {
-		width:225px !important;
-	}
-	.divGeoDataHolder div {
-		width:75px !important;
-	}
-}
-@media screen and (max-width: 310px) {
-	.geoData, .topMenuRight, #mobileSearch {
-		display:none !important;
-	}
-	#geocoderMobile .esriGeocoderContainer {
-		width:190px !important;
-	}
-}
-@media screen and (max-device-width: 640px) and (min-device-aspect-ratio: 400/640) {
-	.esriSimpleSlider, #BasemapToggle, #title, .geocoderSearch, .locateBox {
-		display:none !important;
-	}
-	#mapButtons {
-		top:20px !important;
-		display:block !important;
-	}
-	.mobileLocateBoxDisplay {
-		display:block !important;
-	}
-	#mobileGeocoderIcon, #geocoderMobile {
-		display:block !important;
-	}
-	#geocoderMobile .esriGeocoderContainer {
-		width:auto !important;
-	}
-	#geocoderMobile.esriGeocoder input {
-		width:90% !important;
-		height:35px !important;
-		line-height:30px !important;
-	}
-	#geocoderMobile .esriGeocoder {
-		height:35px !important;
-	}
-	#geocoderMobile {
-		width:75% !important;
-	}
-	#mobileSearch {
-		height:36px !important;
-	}
-	#geocoderMobile .esriGeocoderIcon {
-		margin:9px 4px 0px 4px !important;
-	}
-	.divPagination {
-		visibility:hidden;
-	}
-}
-@media screen and (max-device-aspect-ratio: 400/640) {
-	.esriSimpleSlider, #BasemapToggle, #title, .geocoderSearch, .locateBox {
-		display:none !important;
-	}
-	#mapButtons {
-		top:20px !important;
-		display:block !important;
-	}
-	.mobileLocateBoxDisplay {
-		display:block !important;
-	}
-	#mobileGeocoderIcon, #geocoderMobile {
-		display:block !important;
-	}
-	#geocoderMobile .esriGeocoderContainer {
-		width:auto !important;
-	}
-	#geocoderMobile .esriGeocoder input {
-		width:75% !important;
-		height:30px !important;
-	}
-	#geocoderMobile {
-		width:65% !important;
-	}
-	#geocoderMobile .esriGeocoder {
-		height:35px !important;
-	}
-	#mobileSearch {
-		height:36px !important;
-	}
-	#geocoderMobile .esriGeocoderIcon {
-		margin:9px 4px 0px 4px !important;
-	}
-	.geoData .panel .count {
-		padding:15px 3px !important;
-		font-size:15px !important;
-	}
-	.geoData .panel .title {
-		margin:0;
-		padding:4px 10px !important;
-		font-size:12px !important;
-	}
-	.divSliderContent {
-		width:291px !important;
-	}
-	.divGeoDataHolder div {
-		width:97px !important;
-	}
-	.divGeoDataHolder .title, .divGeoDataHolder .count {
-		margin-left:10px !important;
-		width:70px !important;
-	}
-	.divGeoDataHolder .title {
-		font-size:12px !important;
-	}
-	.divGeoDataHolder .count {
-		font-size:20px !important;
-	}
-	.divPagination {
-		visibility:hidden;
-	}
-}
-@media screen and (max-device-width: 480px) and (orientation:landscape) {
-	.mobileLocateBoxDisplay {
-		display:block !important;
-	}
-	.toggle-grey:hover, .toggle-grey:active {
-		color:#999;
-	}
-	#mapButtons {
-		top:20px !important;
-		display:block !important;
-	}
-	.esriSimpleSlider, #BasemapToggle, #title, .geocoderSearch, .locateBox {
-		display:none !important;
-	}
-	.divLeft, .divRight {
-		width:34px !important;
-	}
-	.geoData .panel .count {
-		padding:15px 5px !important;
-		font-size:20px !important;
-	}
-	.divGeoDataHolder .count {
-		font-size:26px !important;
-	}
-	.divGeoDataHolder .title {
-		font-size:12px !important;
-	}
-	.geoData .panel .title {
-		margin:0;
-		padding:5px 10px !important;
-		font-size:14px !important;
-	}
-	.divSliderContent {
-		width:342px !important;
-	}
-	.divGeoDataHolder div {
-		width:114px !important;
-	}
-	.divGeoDataHolder .title, .divGeoDataHolder .count {
-		width:80px !important;
-		margin-left:30px !important;
-	}
-	#geocoderMobile {
-		width:75% !important;
-	}
-	#geocoderMobile .esriGeocoder {
-		height:35px;
-	}
-	#mobileGeocoder, #mobileGeocoderIcon {
-		display:block !important;
-	}
-	#geocoderMobile .esriGeocoderContainer {
-		width:100% !important;
-	}
-	#geocoderMobile .esriGeocoder input {
-		width:86% !important;
-		line-height:30px;
-		height:30px !important;
-	}
-	#geocoderMobile .esriGeocoderIcon {
-		margin:9px 4px 0px 4px !important;
-	}
-	.esriAttribution {
-		display:none !important;
-	}
-	#cp_outer_left {
-		display:none;
-	}
-	.geoData {
-		bottom:5px !important;
-	}
-	.divGeoDataHolder {
-		margin-top:15px !important;
-	}
-	.divPagination {
-		visibility:hidden;
-	}
-	#mobileSearch {
-		height:36px !important;
-	}
-	#geocoderMobile .esriGeocoderResults, #geocoderMobile .esriGeocoder input.esriGeocoderContainer ul li {
-		font-size:15px !important;
-	}
-}
-@media screen and (max-device-width:320px) and (orientation:portrait) {
-	.mobileLocateBoxDisplay {
-		display:block !important;
-	}
-	.divLeft, .divRight {
-		width:34px !important;
-	}
-	#mapButtons {
-		top:20px !important;
-		display:block !important;
-	}
-	.esriSimpleSlider, #BasemapToggle, #title, .geocoderSearch, .locateBox {
-		display:none !important;
-	}
-	.geoData .panel .count {
-		padding:12px 5px !important;
-		font-size:15px !important;
-	}
-	.geoData .panel .title {
-		margin:0;
-		padding:6px 6px !important;
-		font-size:10px !important;
-	}
-	.divSliderContent {
-		width:228px !important;
-	}
-	.divGeoDataHolder div {
-		width:76px !important;
-	}
-	.divGeoDataHolder .count {
-		font-size:15px !important;
-	}
-	.divGeoDataHolder .title, .divGeoDataHolder .count {
-		margin-left:10px !important;
-		width:50px !important;
-	}
-	.divGeoDataHolder .title {
-		font-size:10px !important;
-	}
-	.geocoderSearch {
-		display:none !important;
-	}
-	.shareMapURL {
-		width:200px;
-	}
-	.shareDialogTextarea {
-		width:300px !important;
-	}
-	.locateBox {
-		display:none !important;
-	}
-	#mobileGeocoder {
-		display:block;
-	}
-	#geocoderMobile .esriGeocoderContainer {
-		width:auto !important;
-	}
-	#geocoderMobile .esriGeocoder input {
-		width:75% !important;
-		height:30px !important;
-	}
-	#geocoderMobile {
-		width:65% !important;
-	}
-	#geocoderMobile .esriGeocoder {
-		height:35px;
-	}
-	#geocoderMobile .esriGeocoderIcon {
-		margin:9px 4px 0px 4px !important;
-	}
-	.esriAttribution {
-		display:none !important;
-	}
-	#cp_outer_left {
-		display:none;
-	}
-	.divGeoDataHolder {
-		margin-top:15px !important;
-	}
-	.divPagination {
-		visibility:hidden;
-	}
-	#mobileSearch {
-		height:36px !important;
-	}
-	#geocoderMobile .esriGeocoderResults, #geocoderMobile .esriGeocoder input .esriGeocoderContainer ul li {
-		font-size:15px !important;
+		padding:3px 14px!important;
+		font-size:14px!important;
 	}
 }
 
+@media screen and (max-width:480px) {
+	.geoData .panel .count {
+		padding:12px 5px!important;
+		font-size:20px!important;
+	}
+	
+	.divGeoDataHolder .count {
+		font-size:22px!important;
+	}
+	
+	.divGeoDataHolder .title {
+		font-size:12px!important;
+	}
+	
+	.geoData .panel .title {
+		padding:3px 10px!important;
+		font-size:14px!important;
+	}
+	
+	.divSliderContent {
+		width:342px!important;
+	}
+	
+	.divGeoDataHolder div {
+		width:114px!important;
+	}
+	
+	.divGeoDataHolder .title,.divGeoDataHolder .count {
+		width:80px!important;
+		margin-left:30px!important;
+	}
+	
+	.esriAttribution {
+		display:none!important;
+	}
+	
+	.mobileLocateBoxDisplay {
+		display:block!important;
+	}
+	
+	.esriSimpleSlider,#BasemapToggle,#title,.esriAttribution,.locateBox {
+		display:none!important;
+	}
+	
+	#mapButtons {
+		top:20px!important;
+		display:block!important;
+	}
+	
+	.mobileLocateBoxDisplay {
+		display:block!important;
+	}
+	
+	#mobileGeocoderIcon,#geocoderMobile {
+		display:block!important;
+	}
+	
+	#geocoderMobile .esriGeocoderContainer {
+		width:365px!important;
+	}
+	
+	#geocoderMobile.esriGeocoder input {
+		width:80%!important;
+	}
+	
+	#mobileSearch {
+		display:none;
+	}
+}
+
+@media screen and (max-width: 470px) {
+	#geocoderMobile .esriGeocoderContainer {
+		width:345px!important;
+	}
+}
+
+@media screen and (max-width: 450px) {
+	.geoData .panel .count {
+		padding:15px 3px!important;
+		font-size:15px!important;
+	}
+	
+	.geoData .panel .title {
+		margin:0;
+		padding:3px 10px!important;
+		font-size:12px!important;
+	}
+	
+	.divSliderContent {
+		width:291px!important;
+	}
+	
+	.divGeoDataHolder div {
+		width:97px!important;
+	}
+	
+	.divGeoDataHolder .title,.divGeoDataHolder .count {
+		margin-left:10px!important;
+		width:70px!important;
+	}
+	
+	.divGeoDataHolder .title {
+		font-size:12px!important;
+	}
+	
+	.divGeoDataHolder .count {
+		font-size:20px!important;
+	}
+	
+	#geocoderMobile .esriGeocoderContainer {
+		width:315px!important;
+	}
+	
+	.leftArrow,.rightArrow {
+		font-size:35px!important;
+	}
+	
+	.divLeft,.divRight {
+		width:35px!important;
+	}
+}
+
+@media screen and (max-width: 420px) {
+	#geocoderMobile .esriGeocoderContainer {
+		width:295px!important;
+	}
+}
+
+@media screen and (max-width:400px) {
+	.geoData .panel .title {
+		padding:4px 8px!important;
+		font-size:10px!important;
+	}
+	
+	.divSliderContent {
+		width:240px!important;
+	}
+	
+	.divGeoDataHolder div {
+		width:80px!important;
+	}
+	
+	.divGeoDataHolder .title {
+		width:70px!important;
+		height:50px!important;
+		font-size:11px!important;
+	}
+	
+	.divGeoDataHolder .count {
+		font-size:18px!important;
+	}
+	
+	#geocoderMobile .esriGeocoderContainer {
+		width:270px!important;
+	}
+}
+
+@media screen and (max-width: 380px) {
+	#geocoderMobile .esriGeocoderContainer {
+		width:250px!important;
+	}
+	
+	#geocoderMobile.esriGeocoder input {
+		width:75%!important;
+	}
+}
+
+@media screen and (max-width: 360px) {
+	#geocoderMobile .esriGeocoderContainer {
+		width:245px!important;
+	}
+}
+
+@media screen and (max-width: 350px) {
+	#geocoderMobile .esriGeocoderContainer {
+		width:225px!important;
+	}
+	
+	#geocoderMobile .esriGeocoder input {
+		width:75%!important;
+	}
+}
+
+@media screen and (max-width: 330px) {
+	#geocoderMobile .esriGeocoderContainer {
+		width:215px!important;
+	}
+	
+	.divGeoDataHolder .title {
+		height:50px!important;
+	}
+	
+	.geoData .panel .title {
+		padding:4px 7px!important;
+	}
+	
+	.divSliderContent {
+		width:228px!important;
+	}
+	
+	.divGeoDataHolder div {
+		width:76px!important;
+	}
+	
+	.divGeoDataHolder .title,.divGeoDataHolder .count {
+		margin-left:10px!important;
+		width:60px!important;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.geoData .panel .title {
+		padding:3px 7px!important;
+		font-size:10px!important;
+	}
+	
+	.divSliderContent {
+		width:228px!important;
+	}
+	
+	.divGeoDataHolder div {
+		width:76px!important;
+	}
+	
+	.divGeoDataHolder .count {
+		font-size:15px!important;
+	}
+	
+	.divGeoDataHolder .title,.divGeoDataHolder .count {
+		margin-left:10px!important;
+		width:50px!important;
+	}
+	
+	.divGeoDataHolder .title {
+		font-size:10px!important;
+		height:45px!important;
+	}
+	
+	.geocoderSearch {
+		display:none!important;
+	}
+	
+	#geocoderMobile .esriGeocoderContainer {
+		width:200px!important;
+	}
+	
+	#geocoderMobile .esriGeocoder input {
+		width:70%!important;
+	}
+}
+
+@media screen and (max-width: 315px) {
+	.geoData .panel .title {
+		padding:3px 6px!important;
+		font-size:10px!important;
+	}
+	
+	.divSliderContent {
+		width:225px!important;
+	}
+	
+	.divGeoDataHolder div {
+		width:75px!important;
+	}
+}
+
+@media screen and (max-width: 310px) {
+	.geoData,.topMenuRight,#mobileSearch {
+		display:none!important;
+	}
+	
+	#geocoderMobile .esriGeocoderContainer {
+		width:190px!important;
+	}
+}
+
+@media screen and (max-device-width: 640px) and (min-device-aspect-ratio: 400640) {
+	.esriSimpleSlider,#BasemapToggle,#title,.geocoderSearch,.locateBox {
+		display:none!important;
+	}
+	
+	#mapButtons {
+		top:20px!important;
+		display:block!important;
+	}
+	
+	.mobileLocateBoxDisplay {
+		display:block!important;
+	}
+	
+	#mobileGeocoderIcon,#geocoderMobile {
+		display:block!important;
+	}
+	
+	#geocoderMobile .esriGeocoderContainer {
+		width:auto!important;
+	}
+	
+	#geocoderMobile.esriGeocoder input {
+		width:90%!important;
+		height:35px!important;
+		line-height:30px!important;
+	}
+	
+	#geocoderMobile .esriGeocoder {
+		height:35px!important;
+	}
+	
+	#geocoderMobile {
+		width:75%!important;
+	}
+	
+	#mobileSearch {
+		height:36px!important;
+	}
+	
+	#geocoderMobile .esriGeocoderIcon {
+		margin:9px 4px 0!important;
+	}
+	
+	.divPagination {
+		visibility:hidden;
+	}
+}
+
+@media screen and (max-device-aspect-ratio: 400640) {
+	.esriSimpleSlider,#BasemapToggle,#title,.geocoderSearch,.locateBox {
+		display:none!important;
+	}
+	
+	#mapButtons {
+		top:20px!important;
+		display:block!important;
+	}
+	
+	.mobileLocateBoxDisplay {
+		display:block!important;
+	}
+	
+	#mobileGeocoderIcon,#geocoderMobile {
+		display:block!important;
+	}
+	
+	#geocoderMobile .esriGeocoderContainer {
+		width:auto!important;
+	}
+	
+	#geocoderMobile .esriGeocoder input {
+		width:75%!important;
+		height:30px!important;
+	}
+	
+	#geocoderMobile {
+		width:65%!important;
+	}
+	
+	#geocoderMobile .esriGeocoder {
+		height:35px!important;
+	}
+	
+	#mobileSearch {
+		height:36px!important;
+	}
+	
+	#geocoderMobile .esriGeocoderIcon {
+		margin:9px 4px 0!important;
+	}
+	
+	.geoData .panel .count {
+		padding:15px 3px!important;
+		font-size:15px!important;
+	}
+	
+	.geoData .panel .title {
+		margin:0;
+		padding:4px 10px!important;
+		font-size:12px!important;
+	}
+	
+	.divSliderContent {
+		width:291px!important;
+	}
+	
+	.divGeoDataHolder div {
+		width:97px!important;
+	}
+	
+	.divGeoDataHolder .title,.divGeoDataHolder .count {
+		margin-left:10px!important;
+		width:70px!important;
+	}
+	
+	.divGeoDataHolder .title {
+		font-size:12px!important;
+	}
+	
+	.divGeoDataHolder .count {
+		font-size:20px!important;
+	}
+	
+	.divPagination {
+		visibility:hidden;
+	}
+}
+
+@media screen and (max-device-width: 480px) and (orientation:landscape) {
+	.mobileLocateBoxDisplay {
+		display:block!important;
+	}
+	
+	.toggle-grey:hover,.toggle-grey:active {
+		color:#999;
+	}
+	
+	#mapButtons {
+		top:20px!important;
+		display:block!important;
+	}
+	
+	.esriSimpleSlider,#BasemapToggle,#title,.geocoderSearch,.locateBox {
+		display:none!important;
+	}
+	
+	.divLeft,.divRight {
+		width:34px!important;
+	}
+	
+	.geoData .panel .count {
+		padding:15px 5px!important;
+		font-size:20px!important;
+	}
+	
+	.divGeoDataHolder .count {
+		font-size:26px!important;
+	}
+	
+	.divGeoDataHolder .title {
+		font-size:12px!important;
+	}
+	
+	.geoData .panel .title {
+		margin:0;
+		padding:5px 10px!important;
+		font-size:14px!important;
+	}
+	
+	.divSliderContent {
+		width:342px!important;
+	}
+	
+	.divGeoDataHolder div {
+		width:114px!important;
+	}
+	
+	.divGeoDataHolder .title,.divGeoDataHolder .count {
+		width:80px!important;
+		margin-left:30px!important;
+	}
+	
+	#geocoderMobile {
+		width:75%!important;
+	}
+	
+	#geocoderMobile .esriGeocoder {
+		height:35px;
+	}
+	
+	#mobileGeocoder,#mobileGeocoderIcon {
+		display:block!important;
+	}
+	
+	#geocoderMobile .esriGeocoderContainer {
+		width:100%!important;
+	}
+	
+	#geocoderMobile .esriGeocoder input {
+		width:86%!important;
+		line-height:30px;
+		height:30px!important;
+	}
+	
+	#geocoderMobile .esriGeocoderIcon {
+		margin:9px 4px 0!important;
+	}
+	
+	.esriAttribution {
+		display:none!important;
+	}
+	
+	#cp_outer_left {
+		display:none;
+	}
+	
+	.geoData {
+		bottom:5px!important;
+	}
+	
+	.divGeoDataHolder {
+		margin-top:15px!important;
+	}
+	
+	.divPagination {
+		visibility:hidden;
+	}
+	
+	#mobileSearch {
+		height:36px!important;
+	}
+	
+	#geocoderMobile .esriGeocoderResults,#geocoderMobile .esriGeocoder input.esriGeocoderContainer ul li {
+		font-size:15px!important;
+	}
+}
+
+@media screen and (max-device-width:320px) and (orientation:portrait) {
+	.mobileLocateBoxDisplay {
+		display:block!important;
+	}
+	
+	.divLeft,.divRight {
+		width:34px!important;
+	}
+	
+	#mapButtons {
+		top:20px!important;
+		display:block!important;
+	}
+	
+	.esriSimpleSlider,#BasemapToggle,#title,.geocoderSearch,.locateBox {
+		display:none!important;
+	}
+	
+	.geoData .panel .count {
+		padding:12px 5px!important;
+		font-size:15px!important;
+	}
+	
+	.geoData .panel .title {
+		margin:0;
+		padding:6px!important;
+		font-size:10px!important;
+	}
+	
+	.divSliderContent {
+		width:228px!important;
+	}
+	
+	.divGeoDataHolder div {
+		width:76px!important;
+	}
+	
+	.divGeoDataHolder .count {
+		font-size:15px!important;
+	}
+	
+	.divGeoDataHolder .title,.divGeoDataHolder .count {
+		margin-left:10px!important;
+		width:50px!important;
+	}
+	
+	.divGeoDataHolder .title {
+		font-size:10px!important;
+	}
+	
+	.geocoderSearch {
+		display:none!important;
+	}
+	
+	.shareMapURL {
+		width:200px;
+	}
+	
+	.shareDialogTextarea {
+		width:300px!important;
+	}
+	
+	.locateBox {
+		display:none!important;
+	}
+	
+	#mobileGeocoder {
+		display:block;
+	}
+	
+	#geocoderMobile .esriGeocoderContainer {
+		width:auto!important;
+	}
+	
+	#geocoderMobile .esriGeocoder input {
+		width:75%!important;
+		height:30px!important;
+	}
+	
+	#geocoderMobile {
+		width:65%!important;
+	}
+	
+	#geocoderMobile .esriGeocoder {
+		height:35px;
+	}
+	
+	#geocoderMobile .esriGeocoderIcon {
+		margin:9px 4px 0!important;
+	}
+	
+	.esriAttribution {
+		display:none!important;
+	}
+	
+	#cp_outer_left {
+		display:none;
+	}
+	
+	.divGeoDataHolder {
+		margin-top:15px!important;
+	}
+	
+	.divPagination {
+		visibility:hidden;
+	}
+	
+	#mobileSearch {
+		height:36px!important;
+	}
+	
+	#geocoderMobile .esriGeocoderResults,#geocoderMobile .esriGeocoder input .esriGeocoderContainer ul li {
+		font-size:15px!important;
+	}
+}

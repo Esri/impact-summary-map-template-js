@@ -1,22 +1,25 @@
-
 .aboutDialogHeader {
-	font-weight:bold;
-	margin:10px 0 10px 0;
+	font-weight:700;
+	margin:10px 0;
 }
+
 .licenseInfoNode {
 	font-size:small;
 }
+
 .aboutDialogContent,.drawerOpen .aboutDialogContent {
 	margin:10px 0 0 15px;
 	max-height:400px;
-	max-width:510px !important;
-	min-width:240px !important;
+	max-width:510px!important;
+	min-width:240px!important;
 	word-wrap:break-word;
 }
+
 .nodeDescription {
-	padding:5px 0 10px 0;
+	padding:5px 0 10px;
 }
+
 .headerNodeDescription {
-	margin:10px 0 10px 0;
-	font-weight:bold;
+	margin:10px 0;
+	font-weight:700;
 }

@@ -1,6 +1,7 @@
 * {
 	outline:none;
 }
+
 html,body {
 	padding:0;
 	margin:0;
@@ -9,16 +10,16 @@ html,body {
 	font-family:'Lato',sans-serif;
 }
 
-.drawer-box-shadow{
-	-webkit-box-shadow: inset -1px 0px 6px 0px rgba(0, 0, 0, 0.5);
-    box-shadow: inset -1px 0px 6px 0px rgba(0, 0, 0, 0.5);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    *display:none;
+.drawer-box-shadow {
+	-webkit-box-shadow:inset -1px 0 6px 0 rgba(0,0,0,0.5);
+	box-shadow:inset -1px 0 6px 0 rgba(0,0,0,0.5);
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	pointer-events:none;
+	*display:none;
 }
 
 #bc_inner,#bc_outer {
@@ -59,9 +60,11 @@ html,body {
 	margin:0;
 	border:0;
 }
+
 #cp_inner_center {
-	top:35px !important;
+	top:35px!important;
 }
+
 #mapDiv {
 	padding:0;
 	margin:0;
@@ -191,7 +194,7 @@ html,body {
 }
 
 .toggle-grey-on {
-	color:#007ac2 !important;
+	color:#007ac2!important;
 }
 
 .toggle-grey-on:hover,.toggle-grey-on:active {
@@ -239,15 +242,15 @@ html,body {
 	padding:13px 9px;
 	margin:0 0 0 1px;
 	background-color:#f8f8f8;
-	background-image: none;
+	background-image:none;
 	color:#555;
 	cursor:pointer;
 	white-space:nowrap;
 	text-overflow:ellipsis;
 	overflow:hidden;
 	width:245px;
-	background-position: 95% center;
-	background-repeat: no-repeat;
+	background-position:95% center;
+	background-repeat:no-repeat;
 }
 
 #renderer_menu .summarize .item-container {
@@ -259,8 +262,9 @@ html,body {
 	color:#007ac2;
 	background-color:#fff;
 }
-#renderer_menu .loadingFeatures .item-container{
-    background-image:url('../images/ajax-loader.gif');
+
+#renderer_menu .loadingFeatures .item-container {
+	background-image:url(../images/ajax-loader.gif);
 }
 
 .geoData {
@@ -278,73 +282,83 @@ html,body {
 .geodata-container {
 	display:inline-block;
 }
+
 .geoData .panel {
 	text-align:center;
 	display:inline-block;
 	float:left;
 	color:#fff;
 	cursor:pointer;
-	border:none !important;
+	border:none!important;
 }
 
 .geoData .panel-expanded {
 	display:none;
 	text-align:center;
 	color:gray;
-	padding:0px;
-	margin:5px 0px;
+	padding:0;
+	margin:5px 0;
 	border:1px solid gray;
 	border-top:none;
 	position:absolute;
 	bottom:30px;
-	height:0px;
+	height:0;
 	transition:height .25s;
 	transition-property:height;
 	transition-duration:.25s;
 	-webkit-transition-property:height;
 	-webkit-transition-duration:.25s;
 }
+
 .population {
-	border-bottom:3px solid #da4d1e !important;
-	border-bottom:3px solid rgba(218,77,30,0.80) !important;
+	border-bottom:3px solid #da4d1e!important;
+	border-bottom:3px solid rgba(218,77,30,0.80)!important;
 }
+
 .households {
-	border-bottom:3px solid #004575 !important;
-	border-bottom:3px solid rgba(0,69,117,0.80) !important;
+	border-bottom:3px solid #004575!important;
+	border-bottom:3px solid rgba(0,69,117,0.80)!important;
 }
+
 .critical_infrastructure {
 	border-bottom:3px solid #35ac46;
-	border-bottom:3px solid rgba(42,116,51,0.80) !important;
+	border-bottom:3px solid rgba(42,116,51,0.80)!important;
 }
+
 .businesses {
-	border-bottom:3px solid #6b1978 !important;
-	border-bottom:3px solid rgba(107,25,120,0.80) !important;
+	border-bottom:3px solid #6b1978!important;
+	border-bottom:3px solid rgba(107,25,120,0.80)!important;
 }
+
 .geoData .count {
 	margin:0;
 	text-align:left;
 }
+
 .geoData .panel .count {
 	font-size:34px;
 	padding:15px 20px;
 	text-align:center;
 }
+
 .divGeoDataHolder .count {
 	font-size:27px;
-	margin-top:0px;
+	margin-top:0;
 	display:block;
 }
+
 .geoData .panel .title {
 	margin:0;
 	padding:3px 22px;
 	font-size:14px;
-	font-weight:normal;
+	font-weight:400;
 }
 
 .geoData .population .count {
 	background-color:#f36f20;
 	background-color:rgba(243,111,32,0.80);
 }
+
 .geoData .population .title,.population .bgColor {
 	background-color:#da4d1e;
 	background-color:rgba(218,77,30,0.80);
@@ -380,11 +394,11 @@ html,body {
 	background-color:rgba(0,69,117,0.70);
 }
 
-
 .geoData .critical_infrastructure .count {
 	background-color:#35ac46;
 	background-color:rgba(53,172,70,0.80);
 }
+
 .geoData .critical_infrastructure .title,.critical_infrastructure .bgColor {
 	background-color:#2a7433;
 	background-color:rgba(42,116,51,0.80);
@@ -405,7 +419,7 @@ html,body {
 	background-color:rgba(143,73,156,0.80);
 }
 
-.geoData .businesses .title, .businesses .bgColor {
+.geoData .businesses .title,.businesses .bgColor {
 	background-color:#6b1978;
 	background-color:rgba(107,25,120,0.80);
 }
@@ -423,21 +437,24 @@ html,body {
 .clear {
 	clear:both;
 }
+
 .geoPanel {
 	height:auto;
 	display:inline-block;
 }
+
 .divHeader {
 	height:20%;
 	line-height:25px;
 	width:100%;
 	border-bottom:1px solid gray;
 }
+
 .divHeaderTitle {
 	color:#fff;
 	float:left;
 	height:25px;
-	padding:0px 5px;
+	padding:0 5px;
 	border:1px solid gray;
 	border-bottom:none;
 	border-left:none;
@@ -445,69 +462,77 @@ html,body {
 	font-size:14px;
 	overflow:hidden;
 }
+
 .divHeaderClose {
 	float:right;
 	height:25px;
 	border:1px solid gray;
-	border-bottom:1px solid #fff !important;
+	border-bottom:1px solid #fff!important;
 	border-right:none;
 	border-collapse:collapse;
-	padding:0px 5px;
+	padding:0 5px;
 	font-size:20px;
 	background-color:#fff;
 	cursor:pointer;
 	overflow:hidden;
 }
+
 .divGeoDataHolder .title {
-	padding:2px 0px;
+	padding:2px 0;
 	font-size:13px;
-	font-weight:normal;
+	font-weight:400;
 	width:100px;
-	height: 30px;
+	height:30px;
 	word-wrap:break-word;
 	overflow:hidden;
 	cursor:pointer;
 }
+
 .divOuterSliderContainer {
 	background-color:#fff;
 	width:100%;
 	height:79%;
 	overflow:hidden;
 }
-.leftArrow, .rightArrow {
+
+.leftArrow,.rightArrow {
 	position:relative;
 	margin-top:24px;
 	font-size:40px;
 	line-height:30px;
 	cursor:pointer;
-	color:rgb(221, 220, 220);
+	color:#dddcdc;
 	overflow:hidden;
-	margin-left:0px !important;
-	margin-right: 0px !important;
-	width:36px !important;
+	margin-left:0!important;
+	margin-right:0!important;
+	width:36px!important;
 	height:40px;
 }
+
 .disableArrow {
 	color:#ccc;
-	display:none !important;
-	cursor:default !important;
+	display:none!important;
+	cursor:default!important;
 }
+
 .slidePanel {
 	transition-property:left;
 	transition-duration:.2s;
 	transition-timing-function:ease;
-	transition-delay:0s;
+	transition-delay:0;
 	-webkit-transition-property:left;
 	-webkit-transition-duration:.2s;
 	-webkit-transition-timing-function:linear;
-	-webkit-transition-delay:0s;
+	-webkit-transition-delay:0;
 }
+
 .divSliderContainer {
 	z-index:1002;
 	background-color:#fff;
 }
+
 .divInnerSliderContainer {
-	bottom:0px;
+	bottom:0;
 	height:100%;
 	width:100%;
 	z-index:1005;
@@ -515,36 +540,42 @@ html,body {
 	background:transparent;
 	text-align:center;
 }
+
 .carouselscroll {
 	height:70px;
 	position:absolute;
-	left:0px;
+	left:0;
 	bottom:5px;
 	vertical-align:middle;
 }
+
 .divGeoDataHolder {
 	display:inline-block;
 	margin-top:13px;
 	height:75px;
 	overflow:hidden;
 }
+
 .esriGeocoderResults {
-	position:relative !important;
+	position:relative!important;
 }
+
 .topMenuRight {
 	position:relative;
 	top:0;
 	left:0;
 	float:right;
 }
+
 .divPagination {
 	width:100%;
 	position:relative;
 	text-align:center;
 	bottom:9px;
 }
+
 .paginationDot {
-	display:inline-block !important;
+	display:inline-block!important;
 	width:7px;
 	height:8px;
 	position:relative;
@@ -552,9 +583,10 @@ html,body {
 	border-radius:7px;
 	-webkit-border-radius:7px;
 	-moz-border-radius:7px;
-	margin:0px 3px;
+	margin:0 3px;
 	cursor:pointer;
 }
+
 .divGeoDataHolder div {
 	float:left;
 	height:75px;
@@ -562,12 +594,15 @@ html,body {
 	border-right:1px solid #ccc;
 	overflow:hidden;
 }
+
 .divLeft {
 	float:left;
 }
+
 .divRight {
 	float:right;
 }
+
 .divSliderContent {
 	width:450px;
 	overflow:hidden;
@@ -575,17 +610,20 @@ html,body {
 	height:100%;
 	position:relative;
 }
-.divLeft, .divRight {
+
+.divLeft,.divRight {
 	width:36px;
 	height:100px;
 	overflow:hidden;
 }
+
 .carousel {
 	overflow:hidden;
 	position:relative;
 }
-.divGeoDataHolder .count, .divGeoDataHolder .title {
-	background-color:#fff !important;
+
+.divGeoDataHolder .count,.divGeoDataHolder .title {
+	background-color:#fff!important;
 	display:block;
 	text-align:left;
 	margin-left:40px;
@@ -593,36 +631,39 @@ html,body {
 
 /*****************************************************/
 /* style for loading indicator */
-
 .loadingIndicatorDiv {
 	height:100%;
 	width:100%;
 	display:block;
 	z-index:99999;
 	position:absolute;
-	bottom:0px;
-	top:0px;
-	left:0px;
-	background:rgb(238,238,238);
+	bottom:0;
+	top:0;
+	left:0;
+	background:#eee;
 	background-position:center center;
-	background-image:url('../images/ajax-loader.gif');
+	background-image:url(../images/ajax-loader.gif);
 	background-repeat:no-repeat;
 }
+
 /*End of style for loading indicator */
 #mobileGeocoderIcon {
 	display:none;
 }
+
 #geocoderMobile {
-	float:left !important;
+	float:left!important;
 	margin-left:15px;
 }
+
 .mobileLocateBoxHidden {
 	display:none;
 }
+
 #btnCloseGeocoder {
 	float:left;
 	width:60px;
-	padding:1px 10px 1px 10px;
+	padding:1px 10px;
 	line-height:30px;
 	height:30px;
 	color:#999;
@@ -630,24 +671,27 @@ html,body {
 	font-size:17px;
 	cursor:pointer;
 }
+
 .animateSlider {
-	height:130px !important;
+	height:130px!important;
 }
+
 #mobileSearch {
 	display:none;
 	position:absolute;
 	z-index:99999;
-	right:0px;
+	right:0;
 	padding:5px 4px;
-	background:rgba(255, 255, 255, 0.7);
+	background:rgba(255,255,255,0.7);
 	width:100%;
 	height:32px;
-
 }
+
 /* Hiding input fields close icon in IE10 */
 input[type=text]::-ms-clear {
 	display:none;
 }
+
 /* End of style for hiding input fields close icon in IE10 */
 @media screen and (max-width:910px) {
 	.geoData .panel .count {
@@ -656,11 +700,13 @@ input[type=text]::-ms-clear {
 		text-align:center;
 	}
 }
+
 @media screen and (max-width:850px) {
 	.geoData .panel .count {
-		padding:15px 15px !important;
-		font-size:30px !important;
+		padding:15px!important;
+		font-size:30px!important;
 	}
+	
 	#cp_outer_left,.mobileLocateBoxDisplay {
 		display:none;
 	}
