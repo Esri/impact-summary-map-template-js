@@ -8,6 +8,7 @@ html,body {
 	height:100%;
 	width:100%;
 	font-family:'Lato',sans-serif;
+	font-weight: 400;
 }
 
 .drawer-box-shadow {
@@ -111,13 +112,14 @@ html,body {
 	line-height:18px;
 	text-align:center;
 	overflow:visible;
+	font-weight:700;
 	width:100%;
 }
 
 #drawer_menu .item {
 	width:50%;
 	text-align:center;
-	color:#b9e0f7;
+	color:#97cbec;
 	float:left;
 	cursor:pointer;
 	-moz-user-select:none;
@@ -174,6 +176,7 @@ html,body {
 	padding:6px 0;
 	line-height:22px;
 	font-size:18px;
+	font-weight:700;
 }
 
 #hamburger_button {
@@ -260,6 +263,7 @@ html,body {
 #renderer_menu .selected .item-container,#renderer_menu .selected .item-container:hover,#renderer_menu .selected .item-container:active {
 	cursor:default;
 	color:#007ac2;
+	font-weight: 700;
 	background-color:#fff;
 }
 
@@ -460,6 +464,10 @@ html,body {
 	border-collapse:collapse;
 	font-size:14px;
 	overflow:hidden;
+}
+
+.divHeaderTitle .hNumber{
+    font-weight: 700;
 }
 
 .divHeaderClose {

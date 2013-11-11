@@ -292,7 +292,7 @@ function(
             return number;
         },
         _displayStats: function (features) {
-            var _self = this,decPlaces;
+            var decPlaces;
             if(features && features.length) {
                 var variables = this.config.sum_variables;
                 var sum = {}, i;
@@ -318,8 +318,8 @@ function(
                         }
                     }
                 }
-                sum.numFormat = function() {
-                    return function(text, render) {
+                sum.numFormat = lang.hitch(this, function() {
+                    return lang.hitch(this, function(text, render) {
                         if(render(text).length >= 7) {
                             decPlaces = 1;
                         } else if(render(text).length >= 5) {
@@ -330,9 +330,9 @@ function(
                         else {
                             decPlaces = 2;
                         }
-                        return _self.formatNumber(parseInt(render(text)),decPlaces);
-                    };
-                };
+                        return this.formatNumber(parseInt(render(text)),decPlaces);
+                    });
+                });
                 domStyle.set(this.dataNode,'display','block');
                 var output = Mustache.render(panelsView, sum);
                 var selectedPanel,panelType;
@@ -344,10 +344,10 @@ function(
                 //Create Slider for Geo data panels
                 var slider,objSlider,childNode,divGeoPanel,sliderResizeHandler = null; //resize handler
                 slider = query('.panel-expanded .divOuterSliderContainer');
-                array.forEach(slider,function (node) {
+                array.forEach(slider,lang.hitch(this, function (node) {
                     divGeoPanel = query('.divGeoDataHolder',node)[0];
                     childNode = query('div',divGeoPanel).length;
-                    _self._setPanelWidth(node.parentElement);
+                    this._setPanelWidth(node.parentElement);
                     if(childNode > 3) {
                         if(divGeoPanel) {
                             objSlider = new Slider({ sliderContent: divGeoPanel,sliderParent: node });
@@ -355,30 +355,30 @@ function(
                     }
                     if(!sliderResizeHandler) {
                         //set slider position on window resize
-                        sliderResizeHandler = on(window,'resize',function () {
-                            _self._setLeftPanelVisibility();
-                            setTimeout(function () {
+                        sliderResizeHandler = on(window,'resize',lang.hitch(this, function () {
+                            this._setLeftPanelVisibility();
+                            setTimeout(lang.hitch(this, function () {
                                 array.forEach(slider,lang.hitch(this,function (sliderNode) {
-                                    _self._setPanelWidth(sliderNode.parentElement);
+                                    this._setPanelWidth(sliderNode.parentElement);
                                 }));
-                            },100);
-                        });
+                            }),100);
+                        }));
                     }
                     if (divGeoPanel.lastElementChild) {
                         domStyle.set(divGeoPanel.lastElementChild, "border", "none");
                     }
-                });
+                }));
                 if(panelType) {
                     this._showExpanded(panelType);
                 }
-                this._panelClick = on(query('.panel',this.dataNode),'click',function (evt) {
+                this._panelClick = on(query('.panel',this.dataNode),'click',lang.hitch(this, function (evt) {
                     var type = domAttr.get(evt.currentTarget,'data-type');
-                    _self._showExpanded(type);
+                    this._showExpanded(type);
 
-                });
-                this._expandedClick = on(query('.' + this.css.statsPanelSelected + ' .divHeaderClose',this.dataNode),'click',function (evt) {
-                    _self._hideExpanded(evt.currentTarget);
-                });
+                }));
+                this._expandedClick = on(query('.' + this.css.statsPanelSelected + ' .divHeaderClose',this.dataNode),'click',lang.hitch(this, function (evt) {
+                    this._hideExpanded(evt.currentTarget);
+                }));
                 // add features to graphics layer
                 this._selectedGraphics.clear();
                 for (i = 0; i < features.length; i++) {
@@ -725,7 +725,7 @@ function(
             this._bc_inner.layout();
         },
         _createGeocoder: function (container) {
-            var _self = this,geocoderWidget;
+            var geocoderWidget;
             geocoderWidget = new Geocoder({
                 map: this.map,
                 theme: 'calite',
@@ -733,11 +733,11 @@ function(
             },dom.byId(container));
             geocoderWidget.startup();
 
-            on(geocoderWidget,'FindResults',function (response) {
+            on(geocoderWidget,'FindResults',lang.hitch(this, function (response) {
                 if(!response.results.length) {
-                    alert(_self.config.i18n.general.noSearchResult);
+                    console.log(this.config.i18n.general.noSearchResult);
                 }
-            });
+            }));
         },
 
         _clearSelected: function() {
