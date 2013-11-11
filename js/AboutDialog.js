@@ -5,7 +5,7 @@ define([
     "dojo/has",
     "esri/kernel",
     "dijit/_WidgetBase",
-    "dijit/_OnDijitClickMixin",
+    "dijit/a11yclick",
     "dijit/_TemplatedMixin",
     "dojo/on",
     // load template
@@ -13,7 +13,6 @@ define([
     "dojo/i18n!modules/nls/AboutDialog",
     "dojo/dom-class",
     "dojo/dom-style",
-    "dojo/dom-construct",
     "dijit/Dialog"
 ],
 function (
@@ -21,18 +20,18 @@ function (
     declare,
     lang,
     has, esriNS,
-    _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
+    _WidgetBase, a11yclick, _TemplatedMixin,
     on,
     dijitTemplate, i18n,
-    domClass, domStyle, domConstruct,
+    domClass, domStyle,
     Dialog
 ) {
-    var Widget = declare([_WidgetBase, _OnDijitClickMixin, _TemplatedMixin, Evented], {
+    var Widget = declare([_WidgetBase, _TemplatedMixin, Evented], {
         declaredClass: "esri.dijit.AboutDialog",
         templateString: dijitTemplate,
         options: {
             theme: "AboutDialog",
-            visible:true,
+            visible: true,
             info: null,
             sharinghost: "http://www.arcgis.com",
             dialog: null
@@ -40,16 +39,16 @@ function (
         // lifecycle: 1
         constructor: function(options, srcRefNode) {
             // mix in settings and defaults
-            declare.safeMixin(this.options, options);
+            var defaults = lang.mixin({}, this.options, options);
             // widget node
             this.domNode = srcRefNode;
             this._i18n = i18n;
             // properties
-            this.set("theme", this.options.theme);
-            this.set("visible", this.options.visible);
-            this.set("dialog", this.options.dialog);
-            this.set("item", this.options.item);
-            this.set("sharinghost", this.options.sharinghost);
+            this.set("theme", defaults.theme);
+            this.set("visible", defaults.visible);
+            this.set("dialog", defaults.dialog);
+            this.set("item", defaults.item);
+            this.set("sharinghost", defaults.sharinghost);
             // listeners
             this.watch("theme", this._updateThemeWatch);
             this.watch("visible", this._visible);
@@ -65,6 +64,12 @@ function (
                 nodeDescription: "nodeDescription",
                 headerNodeDescription: "headerNodeDescription"
             };
+        },
+        // bind listener for button to action
+        postCreate: function() {
+            this.inherited(arguments);
+            this.own(
+            on(this._buttonNode, a11yclick, lang.hitch(this, this.toggle)));
         },
         // start widget. called by user
         startup: function() {
@@ -84,27 +89,26 @@ function (
         /* ---------------- */
         /* Public Functions */
         /* ---------------- */
-        show: function(){
-            this.set("visible", true);  
+        show: function() {
+            this.set("visible", true);
         },
-        hide: function(){
+        hide: function() {
             this.set("visible", false);
         },
-        open: function(){
+        open: function() {
             domClass.add(this._buttonNode, this._css.buttonSelected);
             this.get("dialog").show();
             this.emit("open", {});
         },
-        close: function(){
+        close: function() {
             this.get("dialog").hide();
             this.emit("close", {});
         },
-        toggle: function(){
+        toggle: function() {
             var open = this.get("dialog").get("open");
-            if(open){
+            if (open) {
                 this.close();
-            }
-            else{
+            } else {
                 this.open();
             }
             this.emit("toggle", {});
@@ -114,15 +118,15 @@ function (
         /* ---------------- */
         _init: function() {
             // dialog
-            if(!this.get("dialog")){
+            if (!this.get("dialog")) {
                 var dialog = new Dialog({
                     title: i18n.widgets.AboutDialog.title,
-                    draggable:false,
+                    draggable: false,
                     style: "max-width: 550px;"
                 }, this._dialogNode);
                 this.set("dialog", dialog);
             }
-            on(this.get("dialog"), 'hide', lang.hitch(this, function(){
+            on(this.get("dialog"), 'hide', lang.hitch(this, function() {
                 domClass.remove(this._buttonNode, this._css.buttonSelected);
             }));
             on(window, "orientationchange", lang.hitch(this, function() {
@@ -137,16 +141,16 @@ function (
             this.set("loaded", true);
             this.emit("load", {});
         },
-        _setDialogContent: function(){
+        _setDialogContent: function() {
             var item = this.get("item");
-            if(item){
+            if (item) {
                 this._titleNode.innerHTML = item.title;
                 this._descriptionNode.innerHTML = item.description;
                 var tags = item.tags;
                 this._tagsNode.innerHTML = '';
-                if(tags && tags.length){
-                    for(var i = 0; i < tags.length; i++){
-                        if(i !== 0){
+                if (tags && tags.length) {
+                    for (var i = 0; i < tags.length; i++) {
+                        if (i !== 0) {
                             this._tagsNode.innerHTML += ', ';
                         }
                         this._tagsNode.innerHTML += tags[i];
@@ -154,7 +158,7 @@ function (
                 }
                 this._licenseInfoNode.innerHTML = item.licenseInfo;
                 this._infoNode.innerHTML = '(' + item.numViews + ' ' + i18n.widgets.AboutDialog.views + ', ' + item.numComments + ' ' + i18n.widgets.AboutDialog.comments + ')';
-                this._moreInfoNode.innerHTML = i18n.widgets.AboutDialog.itemInfo + '  <a target="_blank" href="' + this.get("sharinghost") + '/home/item.html?id=' + item.id + '">' + i18n.widgets.AboutDialog.itemInfoLink + '</a>';
+                this._moreInfoNode.innerHTML = '<a target="_blank" href="' + this.get("sharinghost") + '/home/item.html?id=' + item.id + '">' + i18n.widgets.AboutDialog.itemInfo + '</a> ' + i18n.widgets.AboutDialog.itemInfoLink;
             }
         },
         _updateThemeWatch: function(attr, oldVal, newVal) {
@@ -163,11 +167,10 @@ function (
                 domClass.add(this.domNode, newVal);
             }
         },
-        _visible: function(){
-            if(this.get("visible")){
+        _visible: function() {
+            if (this.get("visible")) {
                 domStyle.set(this.domNode, 'display', 'block');
-            }
-            else{
+            } else {
                 domStyle.set(this.domNode, 'display', 'none');
             }
         }

@@ -5,7 +5,7 @@ define([
     "dojo/has",
     "esri/kernel",
     "dijit/_WidgetBase",
-    "dijit/_OnDijitClickMixin",
+    "dijit/a11yclick",
     "dijit/_TemplatedMixin",
     "dojo/on",
     "dojo/string",
@@ -14,11 +14,8 @@ define([
     "dojo/i18n!modules/nls/ShareDialog",
     "dojo/dom-class",
     "dojo/dom-style",
-    "dojo/dom-construct",
     "dojox/html/entities",
     "esri/request",
-    "esri/urlUtils",
-    "esri/geometry/Extent",
     "dijit/Dialog"
 ],
 function (
@@ -26,40 +23,38 @@ function (
     declare,
     lang,
     has, esriNS,
-    _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
+    _WidgetBase, a11yclick, _TemplatedMixin,
     on,
     string,
     dijitTemplate, i18n,
-    domClass, domStyle, domConstruct,
+    domClass, domStyle,
     entities,
     esriRequest,
-    urlUtils,
-    Extent,
     Dialog
 ) {
-    var Widget = declare([_WidgetBase, _OnDijitClickMixin, _TemplatedMixin, Evented], {
+    var Widget = declare([_WidgetBase, _TemplatedMixin, Evented], {
         declaredClass: "esri.dijit.ShareDialog",
         templateString: dijitTemplate,
         options: {
             theme: "ShareDialog",
-            visible:true,
+            visible: true,
             url: window.location.href,
             dialog: null
         },
         // lifecycle: 1
         constructor: function(options, srcRefNode) {
             // mix in settings and defaults
-            declare.safeMixin(this.options, options);
+            var defaults = lang.mixin({}, this.options, options);
             // widget node
             this.domNode = srcRefNode;
             this._i18n = i18n;
             // properties
-            this.set("theme", this.options.theme);
-            this.set("url",this.options.url);
-            this.set("visible", this.options.visible);
-            this.set("dialog", this.options.dialog);
-            this.set("embedWidth", this.options.config.embedMapSize[0].width);
-            this.set("embedHeight", this.options.config.embedMapSize[0].height);
+            this.set("theme", defaults.theme);
+            this.set("url", defaults.url);
+            this.set("visible", defaults.visible);
+            this.set("dialog", defaults.dialog);
+            this.set("embedWidth", defaults.config.embedMapSize[0].width);
+            this.set("embedHeight", defaults.config.embedMapSize[0].height);
             // listeners
             this.watch("theme", this._updateThemeWatch);
             this.watch("url", this._updateUrlWatch);
@@ -85,6 +80,12 @@ function (
                 shareDialogTextarea: "shareDialogTextarea"
             };
         },
+        // bind listener for button to action
+        postCreate: function() {
+            this.inherited(arguments);
+            this.own(
+            on(this._buttonNode, a11yclick, lang.hitch(this, this.toggle)));
+        },
         // start widget. called by user
         startup: function() {
             this._init();
@@ -103,28 +104,27 @@ function (
         /* ---------------- */
         /* Public Functions */
         /* ---------------- */
-        show: function(){
+        show: function() {
             this.set("visible", true);
         },
-        hide: function(){
+        hide: function() {
             this.set("visible", false);
         },
-        open: function(){
+        open: function() {
             domClass.add(this._buttonNode, this._css.buttonSelected);
             this.get("dialog").show();
             this.emit("open", {});
             this._shareLink();
         },
-        close: function(){
+        close: function() {
             this.get("dialog").hide();
             this.emit("close", {});
         },
-        toggle: function(){
+        toggle: function() {
             var open = this.get("dialog").get("open");
-            if(open){
+            if (open) {
                 this.close();
-            }
-            else{
+            } else {
                 this.open();
             }
             this.emit("toggle", {});
@@ -134,7 +134,7 @@ function (
         /* ---------------- */
         _init: function() {
             // dialog
-            if(!this.get("dialog")){
+            if (!this.get("dialog")) {
                 var dialog = new Dialog({
                     title: i18n.widgets.ShareDialog.title,
                     draggable: false,
@@ -142,7 +142,7 @@ function (
                 }, this._dialogNode);
                 this.set("dialog", dialog);
             }
-            on(this.get("dialog"), 'hide', lang.hitch(this, function(){
+            on(this.get("dialog"), 'hide', lang.hitch(this, function() {
                 domClass.remove(this._buttonNode, this._css.buttonSelected);
             }));
             this._visible();
@@ -151,94 +151,87 @@ function (
             this.emit("load", {});
             this.config.extent = [this.map.extent.xmin, this.map.extent.ymin, this.map.extent.xmax, this.map.extent.ymax];
             this._shareMapUrlText.value = this.get("url");
-            on(this._comboBoxNode, "change", lang.hitch(this, function (evt) {
+            on(this._comboBoxNode, "change", lang.hitch(this, function(evt) {
                 this.set("embedWidth", this.config.embedMapSize[evt.currentTarget.value].width);
                 this.set("embedHeight", this.config.embedMapSize[evt.currentTarget.value].height);
                 this._updateUrlWatch();
             }));
-            for (i in this.config.embedMapSize) {
-                this._comboBoxNode.options[this._comboBoxNode.options.length] = new Option(this.config.embedMapSize[i].width + " x " + this.config.embedMapSize[i].height, i);
+            for (var i in this.config.embedMapSize) {
+                if(this.config.embedMapSize.hasOwnProperty(i)){
+                    this._comboBoxNode.options[this._comboBoxNode.options.length] = new Option(this.config.embedMapSize[i].width + " x " + this.config.embedMapSize[i].height, i);
+                }
             }
-
-            on(this._facebookButton, "click", lang.hitch(this, function (evt) {
+            on(this._facebookButton, "click", lang.hitch(this, function() {
                 this._configureShareLink(this.config.facebookURL);
             }));
-
-            on(this._twitterButton, "click", lang.hitch(this, function (evt) {
+            on(this._twitterButton, "click", lang.hitch(this, function() {
                 this._configureShareLink(this.config.twitterURL);
             }));
-
-            on(this._gpulsButton, "click", lang.hitch(this, function (evt) {
+            on(this._gpulsButton, "click", lang.hitch(this, function() {
                 this._configureShareLink(this.config.googlePlusURL);
             }));
-
-            on(this._emailButton, "click", lang.hitch(this, function (evt) {
+            on(this._emailButton, "click", lang.hitch(this, function() {
                 this._configureShareLink(this.config.emailURL, true);
             }));
-
-            on(this._shareMapUrlText, "click", lang.hitch(this, function () {
+            on(this._shareMapUrlText, "click", lang.hitch(this, function() {
                 this._shareMapUrlText.select();
             }));
-
-            on(this._embedNode, "click", lang.hitch(this, function () {
+            on(this._embedNode, "click", lang.hitch(this, function() {
                 this._embedNode.select();
             }));
-
-            on(window,"orientationchange",lang.hitch(this,function () {
+            on(window, "orientationchange", lang.hitch(this, function() {
                 var open = this.get("dialog").get("open");
-                if(open) {
+                if (open) {
                     dialog.hide();
                     dialog.show();
                 }
             }));
         },
-        _updateUrlWatch: function(){
+        _updateUrlWatch: function() {
             var es = '<iframe width="' + this.get("embedWidth") + '" height="' + this.get("embedHeight") + '" src="' + this.get("url") + '" frameborder="0" scrolling="no"></iframe>';
             this.set("embed", es);
             this._embedNode.innerHTML = entities.encode(es);
         },
-
-        _shareLink: function () {
-            var _self = this, tinyResponse, url;
+        _shareLink: function() {
+            var tinyResponse, url;
             url = string.substitute(this.config.TinyURLServiceURL, [encodeURIComponent(this.get("url"))]);
             esriRequest({
                 url: url,
                 callbackParamName: "callback",
-                load: function (data) {
+                load: lang.hitch(this, function(data) {
                     tinyResponse = data;
-                    _self.tinyUrl = data;
-                    var attr = _self.config.TinyURLResponseAttribute.split(".");
+                    this.tinyUrl = data;
+                    var attr = this.config.TinyURLResponseAttribute.split(".");
                     for (var x = 0; x < attr.length; x++) {
-                        _self.tinyUrl = _self.tinyUrl[attr[x]];
+                        this.tinyUrl = this.tinyUrl[attr[x]];
                     }
-
-                    if (_self.tinyUrl) {
-                        _self._shareMapUrlText.value = _self.tinyUrl;
+                    if (this.tinyUrl) {
+                        this._shareMapUrlText.value = this.tinyUrl;
                     }
-                },
-                error: function (error) {
-                    alert(error);
+                }),
+                error: function(error) {
+                    console.log(error);
                 }
             });
         },
-        _configureShareLink: function (Link, isMail) {
-            var fullLink;
-            fullLink = Link + (this.tinyUrl ? this.tinyUrl : this.get("url"));
-            isMail ? parent.location = fullLink : window.open(fullLink, 'share', true);
-
+        _configureShareLink: function(Link, isMail) {
+            var fullLink = Link + (this.tinyUrl ? this.tinyUrl : this.get("url"));
+            if(isMail){
+              window.location.href = fullLink;
+            } else{
+                window.open(fullLink, 'share', true);
+            }
         },
-
-        _updateThemeWatch: function (attr, oldVal, newVal) {
+        _updateThemeWatch: function(attr, oldVal, newVal) {
             if (this.get("loaded")) {
                 domClass.remove(this.domNode, oldVal);
                 domClass.add(this.domNode, newVal);
             }
         },
-        _visible: function(){
-            if(this.get("visible")){
+        _visible: function() {
+            if (this.get("visible")) {
                 domStyle.set(this.domNode, 'display', 'block');
-            }
-            else{
+            } else {
                 domStyle.set(this.domNode, 'display', 'none');
             }
         }

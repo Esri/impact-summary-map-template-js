@@ -5,7 +5,6 @@ define([
     "dojo/_base/array",
     "esri/arcgis/utils",
     "esri/graphicsUtils",
-    "esri/IdentityManager",
     "dojo/dom-construct",
     "dojo/dom",
     "dojo/on",
@@ -14,7 +13,6 @@ define([
     "dojo/dom-style",
     "dojo/dom-attr",
     "esri/tasks/query",
-    "esri/layers/FeatureLayer",
     "dojo/dom-class",
     "dojo/query",
     "dojo/aspect",
@@ -27,12 +25,10 @@ define([
     "dojo/_base/event",
     "esri/graphic",
     "esri/layers/GraphicsLayer",
-    "esri/urlUtils",
     "dijit/layout/BorderContainer",
     "dijit/layout/ContentPane",
     "dojo/_base/fx",
     "dojo/fx/easing",
-    "dojo/dom-geometry",
     "modules/LayerLegend",
     "modules/AboutDialog",
     "modules/ShareDialog",
@@ -40,10 +36,8 @@ define([
     "esri/dijit/LocateButton",
     "esri/dijit/BasemapToggle",
     "esri/dijit/Geocoder",
-    "dijit/Dialog",
     "modules/Slider",
-    "esri/dijit/Popup",
-    "dojo/fx"
+    "esri/dijit/Popup"
 ],
 function(
     ready,
@@ -52,7 +46,6 @@ function(
     array,
     arcgisUtils,
     graphicsUtils,
-    IdentityManager,
     domConstruct,
     dom,
     on,
@@ -61,7 +54,6 @@ function(
     domStyle,
     domAttr,
     Query,
-    FeatureLayer,
     domClass,
     query,
     aspect,
@@ -71,18 +63,14 @@ function(
     panelsView, rendererView,
     event,
     Graphic, GraphicsLayer,
-    urlUtils,
     BorderContainer, ContentPane,
     fx,
     easing,
-    domGeom,
     LayerLegend, AboutDialog, ShareDialog,
     HomeButton, LocateButton, BasemapToggle,
     Geocoder,
-    Dialog,
     Slider,
-    Popup,
-    coreFx
+    Popup
 ) {
     return declare("", null, {
         config: {},
@@ -136,6 +124,7 @@ function(
                 rendererMenu: 'menuList',
                 rendererMenuItem: 'item',
                 rendererSelected: 'selected',
+                rendererLoading: 'loadingFeatures',
                 rendererContainer: 'item-container',
                 rendererSummarize: 'summarize',
                 stats: 'geoData',
@@ -172,7 +161,7 @@ function(
             this._bc_inner.startup();
             this._bc_outer.layout();
             this._bc_inner.layout();
-            on(dom.byId('hamburger_button'), 'click', lang.hitch(this, function(evt) {
+            on(dom.byId('hamburger_button'), 'click', lang.hitch(this, function() {
                 this._toggleDrawer();
             }));
             this._drawer = cp_outer_left.domNode;
@@ -221,7 +210,7 @@ function(
                     easing: easing.expoOut,
                     onAnimate: lang.hitch(this, function(){
                         this._bc_outer.layout();
-                        domClass.remove(dojo.body(), "drawerOpen");
+                        domClass.remove(document.body, "drawerOpen");
                     }),
                     onEnd: lang.hitch(this, function(){
                         domStyle.set(this._drawer, 'display', 'none');
@@ -249,7 +238,7 @@ function(
                     onAnimate: lang.hitch(this, function(){
                         this._bc_outer.layout();
                         if(window.innerWidth < 850) {
-                            domClass.add(dojo.body(), "drawerOpen");
+                            domClass.add(document.body, "drawerOpen");
                             var domSlider = query('.' + this.css.statsPanelSelected + '.animateSlider')[0];
                             if(domSlider) {
                                 this._setPanelWidth(domSlider);
@@ -429,7 +418,7 @@ function(
             if(window.innerWidth < 850) {
                 if(domStyle.get(this._drawer,'display') === 'block') {
                     if(this.isUserIntraction) {
-                        domClass.add(dojo.body(), "drawerOpen");
+                        domClass.add(document.body, "drawerOpen");
                     } else {
                         domStyle.set(this._drawer,'display','none');
                         this._setMobileGeocoderVisibility(true);
@@ -447,27 +436,11 @@ function(
             this._toggleHamburgerButton();
             domStyle.set(dom.byId("cp_inner_center"), 'height', window.innerHeight - 35 + 'px');
         },
-        _toggleMediaQuery: function (addCss,removeCss,path) {
-            if(dom.byId(removeCss)) {
-                document.getElementsByTagName('head')[0].removeChild(dom.byId(removeCss));
-            }
-            if(!dom.byId(addCss)) {
-                var css = document.createElement('link');
-                css.href = package_path + path;
-                css.type = 'text/css';
-                css.rel = 'stylesheet';
-                css.media = 'screen';
-                css.id = addCss;
-                document.getElementsByTagName('head')[0].appendChild(css);
-
-            }
-
-        },
         _setSliderMediaQuery: function () {
             if (domStyle.get(this._drawer, 'display') == 'none') {
-                domClass.remove(dojo.body(), "drawerOpen");
+                domClass.remove(document.body, "drawerOpen");
             } else {
-                domClass.add(dojo.body(), "drawerOpen");
+                domClass.add(document.body, "drawerOpen");
             }
         },
         _setMobileGeocoderVisibility: function (isVisible) {
@@ -554,12 +527,15 @@ function(
                                 domStyle.set(query(".geodata-container")[0], 'display', 'none');
                                 this._clearSelected();
                                 domClass.add(evt.currentTarget, this.css.rendererSelected);
+                                domClass.add(evt.currentTarget, this.css.rendererLoading);
                                 isSummarizeSelected = true;
                             }
                             var q = new Query();
                             q.where = '1 = 1';
+                            var ct = evt.currentTarget;
                             this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
                                     setTimeout(lang.hitch(this, function () {
+                                    domClass.remove(ct, this.css.rendererLoading);
                                     if (isSummarizeSelected) {
                                         this._displayStats(fs.features);
                                     }
@@ -579,6 +555,7 @@ function(
                             this._clearSelected();
                             var value = domAttr.get(evt.currentTarget, 'data-value');
                             domClass.add(evt.currentTarget, this.css.rendererSelected);
+                            domClass.add(evt.currentTarget, this.css.rendererLoading);
                             var q = new Query();
                             if (value === 0) {
                                 q.where = '1 = 1';
@@ -590,8 +567,10 @@ function(
                                     q.where = this._attributeField + ' = ' + value;
                                 }
                             }
+                            var ct = evt.currentTarget;
                             this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
                                 setTimeout(lang.hitch(this, function () {
+                                    domClass.remove(ct, this.css.rendererLoading);
                                     this._displayStats(fs.features);
                                     this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
                                 }), 250);
@@ -668,7 +647,7 @@ function(
                 if(domStyle.get(dom.byId("mobileSearch"),"display") == "none") {
                     dom.byId("geocoderMobile_input").value = "";
                     if (domClass.contains(query('#mobileSearch .esriGeocoder')[0], 'esriGeocoderHasValue')) {
-                        domClass.remove(query('#mobileSearch .esriGeocoder')[0], 'esriGeocoderHasValue')
+                        domClass.remove(query('#mobileSearch .esriGeocoder')[0], 'esriGeocoderHasValue');
                     }
                     domClass.add(dom.byId("mobileSearch"),"mobileLocateBoxDisplay");
                     domClass.replace(dom.byId("mobileGeocoderIcon"),"toggle-grey-on","toggleSearch");
@@ -713,9 +692,6 @@ function(
             var q = new Query();
             q.where = '1=1';
             if(this._multiple){
-                //q.where = '"' + this._attributeField + '" = (SELECT MAX("' + this._attributeField + '") FROM ' + this._impactLayer.id + ')';
-                //console.log(q.where);
-                // FIELD" = (SELECT MAX("FIELD") FROM layer)
                 q.orderByFields = [this._attributeField + ' DESC'];
             }
             if (this._impactLayer) {
@@ -760,13 +736,16 @@ function(
         },
 
         _clearSelected: function() {
-            var items = query('.' + this.css.rendererSelected, dom.byId('renderer_menu'));
+            var items = query('.' + this.css.rendererMenuItem, dom.byId('renderer_menu'));
             var i;
             if (items && items.length) {
                 for (i = 0; i < items.length; i++) {
                     domClass.remove(items[i], this.css.rendererSelected);
+                    domClass.remove(items[i], this.css.rendererLoading);
                 }
             }
+            domClass.remove(dom.byId('summarize'), this.css.rendererSelected);
+            domClass.remove(dom.byId('summarize'), this.css.rendererLoading);
         },
 
         _hideLoadingIndicator: function () {
@@ -792,14 +771,10 @@ function(
                 //such as the map, operational layers, popup info and more. This object will also contain
                 //any custom options you defined for the template. In this example that is the 'theme' property.
                 //Here' we'll use it to update the application to match the specified color theme.
-                //console.log(this.config);
                 this.map = response.map;
                 this.layers = response.itemInfo.itemData.operationalLayers;
                 this._setTitle(response.itemInfo.item.title);
                 this.item = response.itemInfo.item;
-
-                console.log(this);
-
                 if (this.map.loaded) {
                     this._init();
                 } else {

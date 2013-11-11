@@ -45,7 +45,7 @@
 .shareMapURL {
 	width:330px;
 	height:25px;
-	font-size:16px;
+	font-size:14px;
 	color:Gray;
 	border:1px solid #dcdcdc;
 }
@@ -66,6 +66,8 @@
 .shareDialogTextarea {
 	width:400px!important;
 	height:50px;
+	font-size: 14px;
+	color: gray;
 	border:1px solid #dcdcdc;
 	margin:0 95px 0 0;
 }
