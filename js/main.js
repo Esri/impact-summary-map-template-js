@@ -538,6 +538,8 @@ function(
                                     }
                                         this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
                                     }), 250);
+                            }), lang.hitch(this, function(){
+                                this._clearSelected();
                             }));
 
                         }));
@@ -571,6 +573,8 @@ function(
                                     this._displayStats(fs.features);
                                     this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
                                 }), 250);
+                            }), lang.hitch(this, function(){
+                                this._clearSelected();
                             }));
                         }));
                     }
