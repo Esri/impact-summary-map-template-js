@@ -121,6 +121,12 @@
 	#geocoderMobile .esriGeocoderContainer {
 		width:315px !important;
 	}
+	.leftArrow, .rightArrow {
+		font-size:35px !important;
+	}
+	.divLeft, .divRight {
+		width:35px !important;
+	}
 }
 @media screen and (max-width: 420px) {
 	#geocoderMobile .esriGeocoderContainer {
@@ -140,6 +146,7 @@
 	}
 	.divGeoDataHolder .title {
 		width:70px !important;
+		height:50px !important;
 		font-size:11px !important;
 	}
 	.divGeoDataHolder .count {
@@ -174,6 +181,22 @@
 	#geocoderMobile .esriGeocoderContainer {
 		width:215px !important;
 	}
+	.divGeoDataHolder .title {
+		height:50px !important;
+	}
+	.geoData .panel .title {
+		padding:4px 7px !important;
+	}
+	.divSliderContent {
+		width:228px !important;
+	}
+	.divGeoDataHolder div {
+		width:76px !important;
+	}
+	.divGeoDataHolder .title,.divGeoDataHolder .count {
+		margin-left:10px !important;
+		width:60px !important;
+	}
 }
 @media screen and (max-width: 320px) {
 	.geoData .panel .title {
@@ -195,6 +218,7 @@
 	}
 	.divGeoDataHolder .title {
 		font-size:10px !important;
+		height:45px !important;
 	}
 	.geocoderSearch {
 		display:none !important;
@@ -204,6 +228,18 @@
 	}
 	#geocoderMobile .esriGeocoder input {
 		width:70% !important;
+	}
+}
+@media screen and (max-width: 315px) {
+	.geoData .panel .title {
+		padding:3px 6px !important;
+		font-size:10px !important;
+	}
+	.divSliderContent {
+		width:225px !important;
+	}
+	.divGeoDataHolder div {
+		width:75px !important;
 	}
 }
 @media screen and (max-width: 310px) {
@@ -325,7 +361,7 @@
 		top:20px !important;
 		display:block !important;
 	}
-	.esriSimpleSlider, #BasemapToggle, #title,.geocoderSearch, .locateBox  {
+	.esriSimpleSlider, #BasemapToggle, #title, .geocoderSearch, .locateBox {
 		display:none !important;
 	}
 	.divLeft, .divRight {
@@ -409,7 +445,7 @@
 		top:20px !important;
 		display:block !important;
 	}
-	.esriSimpleSlider, #BasemapToggle, #title, .geocoderSearch, .locateBox  {
+	.esriSimpleSlider, #BasemapToggle, #title, .geocoderSearch, .locateBox {
 		display:none !important;
 	}
 	.geoData .panel .count {
@@ -453,15 +489,15 @@
 		display:block;
 	}
 	#geocoderMobile .esriGeocoderContainer {
-                width: auto !important;
-        }
-       #geocoderMobile .esriGeocoder input {
-                width: 75% !important;
-                height: 30px !important;
-        }
+		width:auto !important;
+	}
+	#geocoderMobile .esriGeocoder input {
+		width:75% !important;
+		height:30px !important;
+	}
 	#geocoderMobile {
-                width: 65% !important;
-        }
+		width:65% !important;
+	}
 	#geocoderMobile .esriGeocoder {
 		height:35px;
 	}

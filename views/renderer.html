@@ -1,6 +1,7 @@
 <ul class="{{css.rendererMenu}}">
+    <li id="summarize" class="{{css.rendererSummarize}}"><div class="{{css.rendererContainer}}">{{i18n.general.summarize}}</div></li>
     {{#infos}}
     <li class="{{css.rendererMenuItem}}" data-value="{{#maxValue}}{{maxValue}}{{/maxValue}}{{#value}}{{value}}{{/value}}"><div class="{{css.rendererContainer}}" style="border-left-color:rgb({{symbol.color.r}},{{symbol.color.g}},{{symbol.color.b}}); border-left-color:rgba({{symbol.color.r}},{{symbol.color.g}},{{symbol.color.b}},{{symbol.color.a}});">{{label}}</div></li>
     {{/infos}}
-    <li id="summarize" class="{{css.rendererSummarize}}"><div class="{{css.rendererContainer}}">{{i18n.general.summarize}}</div></li>
+    
 </ul>

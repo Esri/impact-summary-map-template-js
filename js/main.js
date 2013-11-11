@@ -100,15 +100,19 @@ function(
             }));
             aspect.after(this,"_init",lang.hitch(this,function () {
                 this._hideLoadingIndicator();
-            }));
-            var defaultMenu = query('.item', dom.byId('drawer_menu'));
-            if (defaultMenu) {
-                if (this.config.defaultPanel == this.config.i18n.general.legend) {
-                    this._showDrawerPanel(defaultMenu[0]);
-                } else if (this.config.defaultPanel == this.config.i18n.general.impact) {
-                    this._showDrawerPanel(defaultMenu[1]);
+                var defaultMenu = query('.item', dom.byId('drawer_menu'));
+                if (defaultMenu) {
+                    if (this.config.defaultPanel == this.config.i18n.general.legend) {
+                        this._showDrawerPanel(defaultMenu[0]);
+                    } else if (this.config.defaultPanel == this.config.i18n.general.impact) {
+                        if (this._impactLayer.renderer && this._impactLayer.renderer.infos && this._impactLayer.renderer.infos.length) {
+                            this._showDrawerPanel(defaultMenu[1]);
+                        } else {
+                            this._showDrawerPanel(defaultMenu[0]);
+                        }
+                    }
                 }
-            }
+            }));
         },
         _setLanguageStrings: function(){
             var node;
@@ -335,7 +339,7 @@ function(
                         } else if(render(text).length >= 5) {
                             decPlaces = 0;
                         } else if (render(text).length === 4) {
-                            return parseInt(render(text));
+                            return number.format(parseInt(render(text), 10));
                         }
                         else {
                             decPlaces = 2;
@@ -545,18 +549,18 @@ function(
                             if (!this._impactLayer.visible) {
                                 this._impactLayer.setVisibility(true);
                             }
-                            var flag = false;
+                            var isSummarizeSelected = false;
                             if (!domClass.contains(evt.currentTarget, this.css.rendererSelected)) {
                                 domStyle.set(query(".geodata-container")[0], 'display', 'none');
                                 this._clearSelected();
                                 domClass.add(evt.currentTarget, this.css.rendererSelected);
-                                flag = true;
+                                isSummarizeSelected = true;
                             }
                             var q = new Query();
                             q.where = '1 = 1';
                             this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
                                     setTimeout(lang.hitch(this, function () {
-                                    if (flag) {
+                                    if (isSummarizeSelected) {
                                         this._displayStats(fs.features);
                                     }
                                         this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
@@ -714,27 +718,27 @@ function(
                 // FIELD" = (SELECT MAX("FIELD") FROM layer)
                 q.orderByFields = [this._attributeField + ' DESC'];
             }
-            if(this._impactLayer) {
-            this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
-                if (fs.features.length) {
-                    this._displayStats([fs.features[0]]);
-                }
-            }));
-            on(this._selectedGraphics, 'click', lang.hitch(this, function(evt) {
-                this._selectEvent(evt);
-            }));
-            on(this._impactLayer, 'click', lang.hitch(this, function(evt) {
-                this._selectEvent(evt);
-            }));
-            on(this._impactLayer, 'visibility-change', lang.hitch(this, function(evt) {
-                this._selectedGraphics.setVisibility(evt.visible);
+            if (this._impactLayer) {
+                this._impactLayer.queryFeatures(q, lang.hitch(this, function (fs) {
+                    if (fs.features.length) {
+                        this._displayStats([fs.features[0]]);
+                    }
+                }));
+                on(this._selectedGraphics, 'click', lang.hitch(this, function (evt) {
+                    this._selectEvent(evt);
+                }));
+                on(this._impactLayer, 'click', lang.hitch(this, function (evt) {
+                    this._selectEvent(evt);
+                }));
+                on(this._impactLayer, 'visibility-change', lang.hitch(this, function (evt) {
+                    this._selectedGraphics.setVisibility(evt.visible);
                     if (!evt.visible) {
                         domStyle.set(query(".geodata-container")[0], 'display', 'none');
                     }
                     else {
                         domStyle.set(query(".geodata-container")[0], 'display', 'inline-block');
                     }
-            }));
+                }));
             }
             this._setLeftPanelVisibility();
         },
