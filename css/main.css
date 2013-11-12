@@ -9,6 +9,8 @@ html,body {
 	width:100%;
 	font-family:'Lato',sans-serif;
 	font-weight: 400;
+	-webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .drawer-box-shadow {
@@ -299,10 +301,10 @@ html,body {
 .geoData .panel-expanded {
 	display:none;
 	text-align:center;
-	color:gray;
+	color:#777;
 	padding:0;
 	margin:5px 0;
-	border:1px solid gray;
+	border:1px solid #777;
 	border-top:none;
 	position:absolute;
 	bottom:30px;
@@ -337,6 +339,7 @@ html,body {
 .geoData .count {
 	margin:0;
 	text-align:left;
+	font-weight: 300;
 }
 
 .geoData .panel .count {
@@ -346,7 +349,7 @@ html,body {
 }
 
 .divGeoDataHolder .count {
-	font-size:27px;
+	font-size:32px;
 	margin-top:0;
 	display:block;
 }
@@ -450,7 +453,7 @@ html,body {
 	height:20%;
 	line-height:25px;
 	width:100%;
-	border-bottom:1px solid gray;
+	border-bottom:1px solid #777;
 }
 
 .divHeaderTitle {
@@ -458,22 +461,24 @@ html,body {
 	float:left;
 	height:25px;
 	padding:0 5px;
-	border:1px solid gray;
+	border:1px solid #777;
 	border-bottom:none;
 	border-left:none;
 	border-collapse:collapse;
-	font-size:14px;
+	font-size:12px;
 	overflow:hidden;
+	font-weight: 700;
 }
 
 .divHeaderTitle .hNumber{
     font-weight: 700;
+    font-size:14px;
 }
 
 .divHeaderClose {
 	float:right;
 	height:25px;
-	border:1px solid gray;
+	border:1px solid #777;
 	border-bottom:1px solid #fff!important;
 	border-right:none;
 	border-collapse:collapse;
@@ -585,7 +590,7 @@ html,body {
 	width:7px;
 	height:8px;
 	position:relative;
-	background-color:gray;
+	background-color:#777;
 	border-radius:7px;
 	-webkit-border-radius:7px;
 	-moz-border-radius:7px;

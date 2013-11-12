@@ -1,5 +1,5 @@
 .dijitDialog,.dijitDialogTitle {
-	color:Gray!important;
+	color:#777!important;
 }
 
 .dijitDialog {
@@ -54,7 +54,7 @@
 	width:330px;
 	height:25px;
 	font-size:14px;
-	color:Gray;
+	color:#777;
 	border:1px solid #dcdcdc;
 }
 
@@ -79,7 +79,7 @@
 	width:400px!important;
 	height:50px;
 	font-size:14px;
-	color:gray;
+	color:#777;
 	border:1px solid #dcdcdc;
 	margin:0 95px 0 0;
 }
