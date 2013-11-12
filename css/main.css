@@ -237,10 +237,6 @@ html,body {
 	background:#fff;
 }
 
-#renderer_menu li.summarize {
-	border-bottom:1px solid #e0e0e0;
-}
-
 #renderer_menu li .item-container {
 	border-left-style:solid;
 	border-left-width:16px;
@@ -465,12 +461,19 @@ html,body {
 	border-bottom:none;
 	border-left:none;
 	border-collapse:collapse;
-	font-size:12px;
 	overflow:hidden;
 	font-weight: 700;
 }
 
+.divHeaderTitle .hTitle{
+    display:inline-block;
+    font-weight:700;
+    font-size:12px;
+    margin-right:5px;
+}
+
 .divHeaderTitle .hNumber{
+    display:inline-block;
     font-weight: 700;
     font-size:14px;
 }
