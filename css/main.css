@@ -13,18 +13,6 @@ html,body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-.drawer-box-shadow {
-	-webkit-box-shadow:inset -1px 0 6px 0 rgba(0,0,0,0.5);
-	box-shadow:inset -1px 0 6px 0 rgba(0,0,0,0.5);
-	position:absolute;
-	top:0;
-	left:0;
-	width:100%;
-	height:100%;
-	pointer-events:none;
-	*display:none;
-}
-
 #bc_inner,#bc_outer {
 	width:100%;
 	height:100%;
@@ -43,6 +31,19 @@ html,body {
 	background-color:transparent;
 }
 
+#cp_outer_left:before{
+    -webkit-box-shadow:inset -1px 0 6px 0 rgba(0,0,0,0.5);
+	box-shadow:inset -1px 0 6px 0 rgba(0,0,0,0.5);
+	position:absolute;
+	top:0;
+	left:0;
+	bottom:0;
+    right:0;
+    content:'';
+    display:block;
+	pointer-events:none;
+}
+
 #cp_outer_left {
 	width:280px;
 	max-width:280px;
@@ -50,7 +51,6 @@ html,body {
 	padding:0;
 	margin:0;
 	border:0;
-	border-right:1px solid #ddd;
 	background:#fff;
 	overflow:auto;
 	overflow-x:hidden;
@@ -461,12 +461,19 @@ html,body {
 	border-bottom:none;
 	border-left:none;
 	border-collapse:collapse;
-	font-size:12px;
 	overflow:hidden;
 	font-weight: 700;
 }
 
+.divHeaderTitle .hTitle{
+    display:inline-block;
+    font-weight:700;
+    font-size:12px;
+    margin-right:5px;
+}
+
 .divHeaderTitle .hNumber{
+    display:inline-block;
     font-weight: 700;
     font-size:14px;
 }
