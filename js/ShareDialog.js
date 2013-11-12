@@ -83,8 +83,7 @@ function (
         // bind listener for button to action
         postCreate: function() {
             this.inherited(arguments);
-            this.own(
-            on(this._buttonNode, a11yclick, lang.hitch(this, this.toggle)));
+            this.own(on(this._buttonNode, a11yclick, lang.hitch(this, this.toggle)));
         },
         // start widget. called by user
         startup: function() {
