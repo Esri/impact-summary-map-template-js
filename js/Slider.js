@@ -171,7 +171,7 @@ function (
             } else if (pageId < pageCount - 1) {
                 domClass.remove(query('#' + sliderId + ' .leftArrow')[0], "disableArrow");
                 domClass.remove(query('#' + sliderId + ' .rightArrow')[0], "disableArrow");
-            } else if (pageId == pageCount - 1) {
+            } else if (pageId === pageCount - 1) {
                 domClass.add(query('#' + sliderId + ' .rightArrow')[0], "disableArrow");
                 domClass.remove(query('#' + sliderId + ' .leftArrow')[0], "disableArrow");
             }

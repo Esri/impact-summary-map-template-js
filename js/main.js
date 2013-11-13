@@ -90,9 +90,9 @@ function(
                 this._hideLoadingIndicator();
                 var defaultMenu = query('.item', dom.byId('drawer_menu'));
                 if (defaultMenu) {
-                    if (this.config.defaultPanel == this.config.i18n.general.legend) {
+                    if (this.config.defaultPanel === this.config.i18n.general.legend) {
                         this._showDrawerPanel(defaultMenu[0]);
-                    } else if (this.config.defaultPanel == this.config.i18n.general.impact) {
+                    } else if (this.config.defaultPanel === this.config.i18n.general.impact) {
                         if (this._impactLayer.renderer && this._impactLayer.renderer.infos && this._impactLayer.renderer.infos.length) {
                             this._showDrawerPanel(defaultMenu[1]);
                         } else {
@@ -242,6 +242,7 @@ function(
                     onEnd: lang.hitch(this, function(){
                         this._bc_outer.layout();
                         this._toggleHamburgerButton();
+                        this._setSliderMediaQuery();
                         domStyle.set(dom.byId("cp_inner_center"), 'height', window.innerHeight - 35 + 'px');
                     })
                 }).play();
@@ -278,7 +279,7 @@ function(
                 var size = Math.pow(10,(i + 1) * 3);
                 if(size <= number) {
                     number = Math.round(number * decPlaces / size) / decPlaces;
-                    if((number == 1000) && (i < abbrev.length - 1)) {
+                    if((number === 1000) && (i < abbrev.length - 1)) {
                         number = 1;
                         i++;
                     }
@@ -441,7 +442,7 @@ function(
             domStyle.set(dom.byId("cp_inner_center"), 'height', window.innerHeight - 35 + 'px');
         },
         _setSliderMediaQuery: function () {
-            if (domStyle.get(this._drawer, 'display') == 'none') {
+            if (domStyle.get(this._drawer, 'display') === 'none') {
                 domClass.remove(document.body, "drawerOpen");
             } else {
                 domClass.add(document.body, "drawerOpen");
@@ -472,7 +473,7 @@ function(
             var domSlider,divCount;
             domSlider = query('.' + this.css.statsPanelSelected + '[data-type="' + type + '"]',this.dataNode)[0];
 
-            if(domStyle.get(domSlider,'display') == 'none') {
+            if(domStyle.get(domSlider,'display') === 'none') {
                 query('.' + this.css.statsPanelSelected,this.dataNode).style('display','none');
                 query('.' + this.css.statsPanelSelected,this.dataNode).removeClass("animateSlider");
                 query('.' + this.css.menuPanel,this.dataNode).style('cursor','pointer');
@@ -652,7 +653,7 @@ function(
             this._createGeocoder("geocoderMobile");
 
             on(dom.byId("mobileGeocoderIcon"),"click",function () {
-                if(domStyle.get(dom.byId("mobileSearch"),"display") == "none") {
+                if(domStyle.get(dom.byId("mobileSearch"),"display") === "none") {
                     dom.byId("geocoderMobile_input").value = "";
                     if (domClass.contains(query('#mobileSearch .esriGeocoder')[0], 'esriGeocoderHasValue')) {
                         domClass.remove(query('#mobileSearch .esriGeocoder')[0], 'esriGeocoderHasValue');
