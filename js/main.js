@@ -165,9 +165,6 @@ function(
             this._drawer = cp_outer_left.domNode;
             this._drawerWidth = domStyle.get(this._drawer,'width');
             this._drawerMenu();
-            on(window, 'resize', lang.hitch(this, function () {
-                this._fixLayout();
-            }));
         },
         _showDrawerPanel: function(buttonNode){
             var menus = query('.' +  this.css.menuItemSelected, dom.byId('drawer_menu'));
@@ -341,6 +338,7 @@ function(
                     panelType = domAttr.get(selectedPanel,'data-type');
                 }
                 this.dataNode.innerHTML = output;
+                this._removeSliderEvents();
                 //Create Slider for Geo data panels
                 var slider,objSlider,childNode,divGeoPanel,sliderResizeHandler = null; //resize handler
                 slider = query('.panel-expanded .divOuterSliderContainer');
@@ -363,6 +361,7 @@ function(
                                 }));
                             }),100);
                         }));
+                        this._sliderEvents.push(sliderResizeHandler);
                     }
                     if (divGeoPanel.lastElementChild) {
                         domStyle.set(divGeoPanel.lastElementChild, "border", "none");
@@ -392,6 +391,14 @@ function(
             } else {
                 domStyle.set(this.dataNode, 'display', 'none');
             }
+        },
+        _removeSliderEvents: function(){
+            if(this._sliderEvents && this._sliderEvents.length){
+                for(var i = 0; i < this._sliderEvents.length; i++){
+                    this._sliderEvents[i].remove();
+                }
+            }  
+            this._sliderEvents = [];
         },
         _setPanelWidth: function (node) {
             if(node) {
@@ -718,11 +725,6 @@ function(
                 }));
             }
             this._setLeftPanelVisibility();
-            this._fixLayout();
-        },
-        _fixLayout: function(){
-            this._bc_outer.layout();
-            this._bc_inner.layout();
         },
         _createGeocoder: function (container) {
             var geocoderWidget;
