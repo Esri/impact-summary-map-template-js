@@ -63,9 +63,7 @@ function (
                 aboutDialogContent: "aboutDialogContent",
                 nodeDescription: "nodeDescription",
                 headerNodeDescription: "headerNodeDescription",
-                views:"views",
-                moreInfo:"moreInfo",
-                tags: "tags"
+                moreInfo:"moreInfo"
             };
         },
         // bind listener for button to action
@@ -162,20 +160,13 @@ function (
         _setDialogContent: function() {
             var item = this.get("item");
             if (item) {
+                // title
                 this._titleNode.innerHTML = item.title;
+                // description
                 this._descriptionNode.innerHTML = item.description;
-                var tags = item.tags;
-                this._tagsNode.innerHTML = '';
-                if (tags && tags.length) {
-                    for (var i = 0; i < tags.length; i++) {
-                        if (i !== 0) {
-                            this._tagsNode.innerHTML += ', ';
-                        }
-                        this._tagsNode.innerHTML += tags[i];
-                    }
-                }
+                // license
                 this._licenseInfoNode.innerHTML = item.licenseInfo;
-                this._infoNode.innerHTML = '(' + item.numViews + ' ' + i18n.widgets.AboutDialog.views + ', ' + item.numComments + ' ' + i18n.widgets.AboutDialog.comments + ')';
+                // more info link
                 this._moreInfoNode.innerHTML = '<a target="_blank" href="' + this.get("sharinghost") + '/home/item.html?id=' + item.id + '">' + i18n.widgets.AboutDialog.itemInfo + '</a> ' + i18n.widgets.AboutDialog.itemInfoLink;
             }
         },
