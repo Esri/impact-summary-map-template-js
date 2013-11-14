@@ -27,6 +27,7 @@
 	padding:10px 20px;
 	margin:0;
 	z-index:20;
+	position:absolute;
 }
 
 .calcite .dijitDialogPaneContent {
@@ -36,6 +37,7 @@
 	border:none;
 	padding:20px;
 	margin:0;
+	background:#fff;
 }
 
 .calcite .dijitDialogTitle {

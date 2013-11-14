@@ -3,7 +3,7 @@
 	margin:10px 0;
 }
 
-.calcite  .aboutDialogContent, .calcite .drawerOpen .aboutDialogContent {
+.calcite .aboutDialogContent,.calcite .drawerOpen .aboutDialogContent {
 	margin:0;
 	padding:0;
 	max-height:400px;
