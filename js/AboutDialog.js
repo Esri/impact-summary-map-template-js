@@ -62,7 +62,10 @@ function (
                 licenseInfoNode: "licenseInfoNode",
                 aboutDialogContent: "aboutDialogContent",
                 nodeDescription: "nodeDescription",
-                headerNodeDescription: "headerNodeDescription"
+                headerNodeDescription: "headerNodeDescription",
+                views:"views",
+                moreInfo:"moreInfo",
+                tags: "tags"
             };
         },
         // bind listener for button to action
@@ -76,6 +79,7 @@ function (
         },
         // connections/subscriptions will be cleaned up during the destroy() lifecycle phase
         destroy: function() {
+            this._removeEvents();
             this.inherited(arguments);
         },
         /* ---------------- */
@@ -115,6 +119,14 @@ function (
         /* ---------------- */
         /* Private Functions */
         /* ---------------- */
+        _removeEvents: function(){
+            if(this._events && this._events.length){
+                for(var i = 0; i < this._events.length; i++){
+                    this._events[i].remove();
+                }
+            }
+            this._events = [];
+        },
         _init: function() {
             // dialog
             if (!this.get("dialog")) {
@@ -125,16 +137,23 @@ function (
                 }, this._dialogNode);
                 this.set("dialog", dialog);
             }
-            on(this.get("dialog"), 'hide', lang.hitch(this, function() {
+            // setup events
+            this._removeEvents();
+            // hide event
+            var dialogHide = on(this.get("dialog"), 'hide', lang.hitch(this, function() {
                 domClass.remove(this._buttonNode, this._css.buttonSelected);
             }));
-            on(window, "orientationchange", lang.hitch(this, function() {
+            this._events.push(dialogHide);
+            // rotate event
+            var rotate = on(window, "orientationchange", lang.hitch(this, function() {
                 var open = this.get("dialog").get("open");
                 if (open) {
                     dialog.hide();
                     dialog.show();
                 }
             }));
+            this._events.push(rotate);
+            // set content
             this._setDialogContent();
             this._visible();
             this.set("loaded", true);

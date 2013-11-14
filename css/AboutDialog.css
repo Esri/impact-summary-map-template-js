@@ -3,23 +3,39 @@
 	margin:10px 0;
 }
 
-.licenseInfoNode {
-	font-size:small;
-}
-
-.aboutDialogContent,.drawerOpen .aboutDialogContent {
-	margin:10px 0 0 15px;
+.aboutDialogContent, .drawerOpen .aboutDialogContent {
+	margin:0;
+    padding:0;
 	max-height:400px;
 	max-width:510px!important;
 	min-width:240px!important;
 	word-wrap:break-word;
 }
 
-.nodeDescription {
-	padding:5px 0 10px;
+.aboutDialogContent  .headerNodeDescription{
+    margin:10px 0;
+    font-weight:700;
+    font-size:18px;
 }
 
-.headerNodeDescription {
-	margin:10px 0;
-	font-weight:700;
+.aboutDialogContent  .licenseHeader{
+    font-size:24px;
+    margin:10px 0;
+    font-weight:700;
+}
+
+.aboutDialogContent  .views{
+    margin:20px 0;
+}
+
+.aboutDialogContent  .tags{
+}
+
+.aboutDialogContent  .moreInfo{
+    margin:20px 0 0 0;
+    padding-bottom:40px;
+}
+
+.aboutDialogContent  .nodeDescription {
+	padding:5px 0 10px;
 }
