@@ -160,3 +160,8 @@
 	display:inline-block;
 	margin-right:5px;
 }
+
+#mapDiv .calcite .pointer,#mapDiv .calcite .outerPointer {
+	position:absolute;
+	background:url(../images/popup.png) no-repeat;
+}
