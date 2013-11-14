@@ -62,7 +62,7 @@ function (
                 aboutDialogContent: "aboutDialogContent",
                 nodeDescription: "nodeDescription",
                 headerNodeDescription: "headerNodeDescription",
-                moreInfo:"moreInfo"
+                moreInfo: "moreInfo"
             };
         },
         // bind listener for button to action
@@ -116,9 +116,9 @@ function (
         /* ---------------- */
         /* Private Functions */
         /* ---------------- */
-        _removeEvents: function(){
-            if(this._events && this._events.length){
-                for(var i = 0; i < this._events.length; i++){
+        _removeEvents: function() {
+            if (this._events && this._events.length) {
+                for (var i = 0; i < this._events.length; i++) {
                     this._events[i].remove();
                 }
             }
