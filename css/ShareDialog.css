@@ -7,9 +7,11 @@
 	-webkit-text-size-adjust:none!important;
 }
 
-.dijitDialogTitleBar {
+.claro .dijitDialogTitleBar {
 	background-color:#fff!important;
 	border-bottom-color:#eee!important;
+    padding:10px 20px;
+    margin:0;
 }
 
 .dijitDialogCloseIcon {
@@ -19,11 +21,13 @@
 	height:auto!important;
 }
 
-.dijitDialogPaneContent {
+.claro .dijitDialogPaneContent {
 	max-height:550px!important;
 	max-width:530px!important;
 	overflow:auto;
 	border:none!important;
+    padding:20px;
+    margin:0;
 }
 
 .iconContainer {
@@ -39,7 +43,8 @@
 
 .dijitDialogTitle {
 	font-size:24px!important;
-	margin:0 0 0 10px;
+	margin:0;
+    padding:0;
 }
 
 .shareDialogIconClass {

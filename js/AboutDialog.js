@@ -59,7 +59,6 @@ function (
                 buttonSelected: "toggle-grey-on",
                 icon: "icon-info-circled-1",
                 aboutDialogHeader: "aboutDialogHeader",
-                licenseInfoNode: "licenseInfoNode",
                 aboutDialogContent: "aboutDialogContent",
                 nodeDescription: "nodeDescription",
                 headerNodeDescription: "headerNodeDescription",
