@@ -80,7 +80,6 @@ function(
             // and application id
             // any url parameters and any application specific configuration information.
             this.config = config;
-            this.isUserIntraction = false;
             this._cssStyles();
             ready(lang.hitch(this, function() {
                 this._setLanguageStrings();
@@ -221,7 +220,6 @@ function(
             }
             else{
                 domStyle.set(this._drawer, 'display', 'block');
-                this.isUserIntraction = true;
                 fx.animateProperty({
                     node:this._drawer,
                     properties: {
@@ -422,19 +420,16 @@ function(
 
             if(window.innerWidth < 850) {
                 if(domStyle.get(this._drawer,'display') === 'block') {
-                    if(this.isUserIntraction) {
-                        domClass.add(document.body, "drawerOpen");
-                    } else {
+
                         domStyle.set(this._drawer,'display','none');
                         this._setMobileGeocoderVisibility(true);
-                    }
+                    
                     this._bc_outer.layout();
                 }
             } else {
                 this._setMobileGeocoderVisibility(true);
                 if(domStyle.get(this._drawer,'display') === 'none') {
                     this._toggleDrawer();
-                    this.isUserIntraction = false;
                 }
             }
             this._setSliderMediaQuery();
