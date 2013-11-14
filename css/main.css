@@ -13,6 +13,21 @@ html,body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.calcite a{
+  color:#007ac2;
+}
+
+.calcite  a:visited{
+    color:#97cbec;
+}
+
+.calcite  a:hover{
+    color:#555;
+}
+.calcite  a:active{
+    color#333;
+}
+
 #bc_inner,#bc_outer {
 	width:100%;
 	height:100%;
