@@ -32,9 +32,6 @@ html,body {
 }
 
 .drawerOpen #cp_outer_left:before{
-    _display:none;
-    *display:none;
-    display:none\10;
     -webkit-box-shadow:inset -1px 0 6px 0 rgba(0,0,0,0.5);
 	box-shadow:inset -1px 0 6px 0 rgba(0,0,0,0.5);
 	position:fixed;
