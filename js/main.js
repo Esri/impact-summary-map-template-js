@@ -80,7 +80,6 @@ function(
             // and application id
             // any url parameters and any application specific configuration information.
             this.config = config;
-            this.isUserIntraction = false;
             this._cssStyles();
             ready(lang.hitch(this, function() {
                 this._setLanguageStrings();
@@ -90,9 +89,9 @@ function(
                 this._hideLoadingIndicator();
                 var defaultMenu = query('.item', dom.byId('drawer_menu'));
                 if (defaultMenu) {
-                    if (this.config.defaultPanel == this.config.i18n.general.legend) {
+                    if (this.config.defaultPanel === this.config.i18n.general.legend) {
                         this._showDrawerPanel(defaultMenu[0]);
-                    } else if (this.config.defaultPanel == this.config.i18n.general.impact) {
+                    } else if (this.config.defaultPanel === this.config.i18n.general.impact) {
                         if (this._impactLayer.renderer && this._impactLayer.renderer.infos && this._impactLayer.renderer.infos.length) {
                             this._showDrawerPanel(defaultMenu[1]);
                         } else {
@@ -165,9 +164,6 @@ function(
             this._drawer = cp_outer_left.domNode;
             this._drawerWidth = domStyle.get(this._drawer,'width');
             this._drawerMenu();
-            on(window, 'resize', lang.hitch(this, function () {
-                this._fixLayout();
-            }));
         },
         _showDrawerPanel: function(buttonNode){
             var menus = query('.' +  this.css.menuItemSelected, dom.byId('drawer_menu'));
@@ -224,7 +220,6 @@ function(
             }
             else{
                 domStyle.set(this._drawer, 'display', 'block');
-                this.isUserIntraction = true;
                 fx.animateProperty({
                     node:this._drawer,
                     properties: {
@@ -245,6 +240,7 @@ function(
                     onEnd: lang.hitch(this, function(){
                         this._bc_outer.layout();
                         this._toggleHamburgerButton();
+                        this._setSliderMediaQuery();
                         domStyle.set(dom.byId("cp_inner_center"), 'height', window.innerHeight - 35 + 'px');
                     })
                 }).play();
@@ -281,7 +277,7 @@ function(
                 var size = Math.pow(10,(i + 1) * 3);
                 if(size <= number) {
                     number = Math.round(number * decPlaces / size) / decPlaces;
-                    if((number == 1000) && (i < abbrev.length - 1)) {
+                    if((number === 1000) && (i < abbrev.length - 1)) {
                         number = 1;
                         i++;
                     }
@@ -341,6 +337,7 @@ function(
                     panelType = domAttr.get(selectedPanel,'data-type');
                 }
                 this.dataNode.innerHTML = output;
+                this._removeSliderEvents();
                 //Create Slider for Geo data panels
                 var slider,objSlider,childNode,divGeoPanel,sliderResizeHandler = null; //resize handler
                 slider = query('.panel-expanded .divOuterSliderContainer');
@@ -363,6 +360,7 @@ function(
                                 }));
                             }),100);
                         }));
+                        this._sliderEvents.push(sliderResizeHandler);
                     }
                     if (divGeoPanel.lastElementChild) {
                         domStyle.set(divGeoPanel.lastElementChild, "border", "none");
@@ -393,6 +391,14 @@ function(
                 domStyle.set(this.dataNode, 'display', 'none');
             }
         },
+        _removeSliderEvents: function(){
+            if(this._sliderEvents && this._sliderEvents.length){
+                for(var i = 0; i < this._sliderEvents.length; i++){
+                    this._sliderEvents[i].remove();
+                }
+            }  
+            this._sliderEvents = [];
+        },
         _setPanelWidth: function (node) {
             if(node) {
                 var sliderWidth = query('.geoPanel')[0].offsetWidth;
@@ -414,19 +420,16 @@ function(
 
             if(window.innerWidth < 850) {
                 if(domStyle.get(this._drawer,'display') === 'block') {
-                    if(this.isUserIntraction) {
-                        domClass.add(document.body, "drawerOpen");
-                    } else {
+
                         domStyle.set(this._drawer,'display','none');
                         this._setMobileGeocoderVisibility(true);
-                    }
+                    
                     this._bc_outer.layout();
                 }
             } else {
                 this._setMobileGeocoderVisibility(true);
                 if(domStyle.get(this._drawer,'display') === 'none') {
                     this._toggleDrawer();
-                    this.isUserIntraction = false;
                 }
             }
             this._setSliderMediaQuery();
@@ -434,7 +437,7 @@ function(
             domStyle.set(dom.byId("cp_inner_center"), 'height', window.innerHeight - 35 + 'px');
         },
         _setSliderMediaQuery: function () {
-            if (domStyle.get(this._drawer, 'display') == 'none') {
+            if (domStyle.get(this._drawer, 'display') === 'none') {
                 domClass.remove(document.body, "drawerOpen");
             } else {
                 domClass.add(document.body, "drawerOpen");
@@ -465,7 +468,7 @@ function(
             var domSlider,divCount;
             domSlider = query('.' + this.css.statsPanelSelected + '[data-type="' + type + '"]',this.dataNode)[0];
 
-            if(domStyle.get(domSlider,'display') == 'none') {
+            if(domStyle.get(domSlider,'display') === 'none') {
                 query('.' + this.css.statsPanelSelected,this.dataNode).style('display','none');
                 query('.' + this.css.statsPanelSelected,this.dataNode).removeClass("animateSlider");
                 query('.' + this.css.menuPanel,this.dataNode).style('cursor','pointer');
@@ -645,7 +648,7 @@ function(
             this._createGeocoder("geocoderMobile");
 
             on(dom.byId("mobileGeocoderIcon"),"click",function () {
-                if(domStyle.get(dom.byId("mobileSearch"),"display") == "none") {
+                if(domStyle.get(dom.byId("mobileSearch"),"display") === "none") {
                     dom.byId("geocoderMobile_input").value = "";
                     if (domClass.contains(query('#mobileSearch .esriGeocoder')[0], 'esriGeocoderHasValue')) {
                         domClass.remove(query('#mobileSearch .esriGeocoder')[0], 'esriGeocoderHasValue');
@@ -718,11 +721,6 @@ function(
                 }));
             }
             this._setLeftPanelVisibility();
-            this._fixLayout();
-        },
-        _fixLayout: function(){
-            this._bc_outer.layout();
-            this._bc_inner.layout();
         },
         _createGeocoder: function (container) {
             var geocoderWidget;

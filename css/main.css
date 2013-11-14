@@ -31,14 +31,15 @@ html,body {
 	background-color:transparent;
 }
 
-#cp_outer_left:before{
+.drawerOpen #cp_outer_left:before{
     -webkit-box-shadow:inset -1px 0 6px 0 rgba(0,0,0,0.5);
 	box-shadow:inset -1px 0 6px 0 rgba(0,0,0,0.5);
-	position:absolute;
+	position:fixed;
+	z-index: 999;
 	top:0;
 	left:0;
-	bottom:0;
-    right:0;
+	width:280px;
+	height: 100%;
     content:'';
     display:block;
 	pointer-events:none;
