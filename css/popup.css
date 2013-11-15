@@ -162,6 +162,5 @@
 }
 
 #mapDiv .calcite .pointer,#mapDiv .calcite .outerPointer {
-	position:absolute;
-	background:url(../images/popup.png) no-repeat;
+	background-image:url(../images/popup.png);
 }

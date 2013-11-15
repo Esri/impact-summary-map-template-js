@@ -633,7 +633,8 @@ function(
 
             this._ShareDialog = new ShareDialog({
                 theme: "icon-right",
-                config: this.config,
+                bitlyLogin: this.config.bitlyLogin,
+                bitlyKey: this.config.bitlyKey,
                 map: this.map
             }, 'ShareDialog');
             this._ShareDialog.startup();

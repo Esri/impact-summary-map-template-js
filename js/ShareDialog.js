@@ -44,8 +44,8 @@ function (
             emailBody: "View the map here: ",
             googlePlusURL: "https://plus.google.com/share?url=",
             bitlyUrl: "http://api.bit.ly/v3/shorten",
-            bitlyLogin: "esri",
-            bitlyKey: "R_65fd9891cd882e2a96b99d4bda1be00e",
+            bitlyLogin: "",
+            bitlyKey: "",
             embedSizes: [{
                 "width": "100%",
                 "height": "500px"
