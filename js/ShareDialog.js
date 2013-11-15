@@ -188,6 +188,7 @@ function (
             this._comboBoxNode.innerHTML = html;
         },
         _updateUrls: function() {
+            this.set("tinyUrl", null);
             this._updateEmbedCode();
             this._shareMapUrlText.value = this.get("url");
         },
@@ -282,10 +283,10 @@ function (
                     },
                     load: lang.hitch(this, function(response) {
                         if (response && response.data && response.data.url) {
-                            this.tinyUrl = response.data.url;
+                            this.set("tinyUrl") = response.data.url;
                         }
-                        if (this.tinyUrl) {
-                            this._shareMapUrlText.value = this.tinyUrl;
+                        if (this.get("tinyUrl")) {
+                            this._shareMapUrlText.value = this.get("tinyUrl");
                         }
                     }),
                     error: function(error) {
@@ -295,7 +296,7 @@ function (
             }
         },
         _configureShareLink: function(Link, isMail) {
-            var fullLink = Link + (this.tinyUrl ? this.tinyUrl : this.get("url"));
+            var fullLink = Link + (this.get("tinyUrl") ? this.get("tinyUrl") : this.get("url"));
             if (isMail) {
                 window.location.href = fullLink;
             } else {
