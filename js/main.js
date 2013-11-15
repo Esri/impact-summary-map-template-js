@@ -234,7 +234,7 @@ function(
                         this._fixOuterLayout();
                         if (window.innerWidth < 850) {
                             domClass.add(document.body, "drawerOpen");
-                            var domSlider = query('.' + this.css.statsPanelSelected + '.animateSlider')[0];
+                            var domSlider = query('.' + this.css.statsPanelSelected + '.animateSlider', this.dataNode)[0];
                             if (domSlider) {
                                 this._setPanelWidth(domSlider);
                             }
@@ -478,7 +478,7 @@ function(
                 array.forEach(items, function(elementCount) {
                     domClass.remove(elementCount, 'panel-selected-expand');
                 });
-                divCount = query('.panel .count');
+                divCount = query('.panel .count', this.dataNode);
                 //display slider
                 this._displayContainer(domSlider, 250);
                 //hide geo-data count panels.
