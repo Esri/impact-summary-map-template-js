@@ -145,6 +145,10 @@ html,body {
 	user-select:none;
 }
 
+#drawer_menu .only-item {
+    width:100%;
+}
+
 #drawer_menu .item-container {
 	position:relative;
 	overflow:visible;
@@ -317,6 +321,10 @@ html,body {
 	color:#fff;
 	cursor:pointer;
 	border:none!important;
+}
+
+.geoData .panel-selected-expand{
+    cursor: default;
 }
 
 .geoData .panel-expanded {

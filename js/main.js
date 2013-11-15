@@ -342,7 +342,7 @@ function(
                 this._removeSliderEvents();
                 //Create Slider for Geo data panels
                 var slider, objSlider, childNode, divGeoPanel, sliderResizeHandler = null; //resize handler
-                slider = query('.panel-expanded .divOuterSliderContainer');
+                slider = query('.panel-expanded .divOuterSliderContainer', dom.byId('geodata_container'));
                 array.forEach(slider, lang.hitch(this, function(node) {
                     divGeoPanel = query('.divGeoDataHolder', node)[0];
                     childNode = query('div', divGeoPanel).length;
@@ -405,7 +405,7 @@ function(
         },
         _setPanelWidth: function(node) {
             if (node) {
-                var sliderWidth = query('.geoPanel')[0].offsetWidth;
+                var sliderWidth = dom.byId('geo_panel').offsetWidth;
                 domStyle.set(node, 'width', sliderWidth + 'px');
                 this._resizeGeoContainer(node);
             }
@@ -417,8 +417,9 @@ function(
             }
         },
         _setLeftPanelVisibility: function() {
-            if (query(".geodata-container")[0]) {
-                domStyle.set(query(".geodata-container")[0], 'display', 'inline-block');
+            var gdContainer = dom.byId('geodata_container');
+            if (gdContainer) {
+                domStyle.set(gdContainer, 'display', 'inline-block');
             }
             if (window.innerWidth < 850) {
                 if (domStyle.get(this._drawer, 'display') === 'block') {
@@ -452,22 +453,31 @@ function(
         _hideExpanded: function(element) {
             var domSlider, divCount;
             domSlider = element.parentElement.parentElement;
-            divCount = query('.panel .count');
+            divCount = query('.panel .count', dom.byId('geo_panel'));
             //hide slider
             this._hideContainer(domSlider, 100);
             //display geo-data count panels
             array.forEach(divCount, function(elementCount) {
                 domStyle.set(elementCount, 'display', 'block');
             });
-            query('.' + this.css.menuPanel, this.dataNode).style('cursor', 'pointer');
+            var items = query('.' + this.css.menuPanel, this.dataNode);
+            array.forEach(items, function(elementCount) {
+                domClass.remove(elementCount, 'panel-selected-expand');
+            });
         },
         _showExpanded: function(type) {
             var domSlider, divCount;
             domSlider = query('.' + this.css.statsPanelSelected + '[data-type="' + type + '"]', this.dataNode)[0];
             if (domStyle.get(domSlider, 'display') === 'none') {
-                query('.' + this.css.statsPanelSelected, this.dataNode).style('display', 'none');
-                query('.' + this.css.statsPanelSelected, this.dataNode).removeClass("animateSlider");
-                query('.' + this.css.menuPanel, this.dataNode).style('cursor', 'pointer');
+                var panels = query('.' + this.css.statsPanelSelected, this.dataNode); 
+                array.forEach(panels, function(elementCount) {
+                    domStyle.set(elementCount, 'display', 'none');
+                    domClass.remove(elementCount, "animateSlider");
+                });
+                var items = query('.' + this.css.menuPanel, this.dataNode);
+                array.forEach(items, function(elementCount) {
+                    domClass.remove(elementCount, 'panel-selected-expand');
+                });
                 divCount = query('.panel .count');
                 //display slider
                 this._displayContainer(domSlider, 250);
@@ -476,7 +486,8 @@ function(
                     domStyle.set(elementCount, 'display', 'none');
                 });
                 this._setPanelWidth(domSlider);
-                domStyle.set(query('.' + this.css.menuPanel + '[data-type="' + type + '"]', this.dataNode)[0], 'cursor', 'default');
+                var selected = query('.' + this.css.menuPanel + '[data-type="' + type + '"]', this.dataNode)[0];
+                domClass.add(selected, 'panel-selected-expand');
             }
         },
         // get layer of impact area by layer title
@@ -532,7 +543,7 @@ function(
                             var isSummarizeSelected = false;
                             // if not currently selected
                             if (!domClass.contains(evt.currentTarget, this.css.rendererSelected)) {
-                                domStyle.set(query(".geodata-container")[0], 'display', 'none');
+                                domStyle.set(dom.byId('geodata_container'), 'display', 'none');
                                 this._clearSelected();
                                 domClass.add(evt.currentTarget, this.css.rendererSelected);
                                 domClass.add(evt.currentTarget, this.css.rendererLoading);
@@ -567,7 +578,7 @@ function(
                                 this._toggleDrawer();
                             }
                             // hide geo
-                            domStyle.set(query(".geodata-container")[0], 'display', 'none');
+                            domStyle.set(dom.byId('geodata_container'), 'display', 'none');
                             // remove any selected
                             this._clearSelected();
                             var value = domAttr.get(evt.currentTarget, 'data-value');
@@ -599,18 +610,16 @@ function(
                         }));
                     }
                 } else {
-                    this._hideImapctArea();
+                    this._hideImpactArea();
                 }
             } else {
-                this._hideImapctArea();
+                this._hideImpactArea();
             }
         },
-        _hideImapctArea: function() {
-            domStyle.set(dom.byId("imapct_content"), "display", "none");
-            domStyle.set(dom.byId("legend_content"), {
-                "width": "100%"
-            });
-            domStyle.set(dom.byId("legend_name"), "border-right", "none");
+        _hideImpactArea: function() {
+            domStyle.set(dom.byId("impact_content"), "display", "none");
+            domClass.add(dom.byId("legend_content"), 'only-item');
+            domClass.remove(dom.byId("legend_name"), 'item-first');
         },
         _selectEvent: function(evt) {
             if (evt.graphic) {
@@ -748,10 +757,10 @@ function(
                     // if not visible
                     if (!evt.visible) {
                         // hide stats
-                        domStyle.set(query(".geodata-container")[0], 'display', 'none');
+                        domStyle.set(dom.byId('geodata_container'), 'display', 'none');
                     } else {
                         // show stats
-                        domStyle.set(query(".geodata-container")[0], 'display', 'inline-block');
+                        domStyle.set(dom.byId('geodata_container'), 'display', 'inline-block');
                     }
                 }));
             }
