@@ -58,10 +58,10 @@ function (
                 button: "toggle-grey",
                 buttonSelected: "toggle-grey-on",
                 icon: "icon-info-circled-1",
-                aboutDialogHeader: "aboutDialogHeader",
+                aboutDialogHeader: "dialogHeader",
                 aboutDialogContent: "dialogContent",
-                nodeDescription: "nodeDescription",
-                headerNodeDescription: "headerNodeDescription",
+                nodeDescription: "dialogDescription",
+                headerNodeDescription: "titleHeader",
                 moreInfo: "moreInfo"
             };
         },
