@@ -8,9 +8,24 @@ html,body {
 	height:100%;
 	width:100%;
 	font-family:'Lato',sans-serif;
-	font-weight: 400;
-	-webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+	font-weight:400;
+	-webkit-font-smoothing:antialiased;
+	-moz-osx-font-smoothing:grayscale;
+}
+
+.calcite a {
+	color:#007ac2;
+}
+
+.calcite a:visited {
+	color:#97cbec;
+}
+
+.calcite a:hover {
+	color:#555;
+}
+
+.calcite a:active {
 }
 
 #bc_inner,#bc_outer {
@@ -31,17 +46,17 @@ html,body {
 	background-color:transparent;
 }
 
-.drawerOpen #cp_outer_left:before{
-    -webkit-box-shadow:inset -1px 0 6px 0 rgba(0,0,0,0.5);
+.drawerOpen #cp_outer_left:before {
+	-webkit-box-shadow:inset -1px 0 6px 0 rgba(0,0,0,0.5);
 	box-shadow:inset -1px 0 6px 0 rgba(0,0,0,0.5);
 	position:fixed;
-	z-index: 999;
+	z-index:999;
 	top:0;
 	left:0;
 	width:280px;
-	height: 100%;
-    content:'';
-    display:block;
+	height:100%;
+	content:'';
+	display:block;
 	pointer-events:none;
 }
 
@@ -180,15 +195,20 @@ html,body {
 	line-height:22px;
 	font-size:18px;
 	font-weight:700;
+    max-width:225px;
+    text-overflow:ellipsis;
+	white-space:nowrap;
+	overflow:hidden;
 }
 
 #hamburger_button {
 	float:left;
-	padding:4px 0;
+	padding:0;
+	margin:0;
 	cursor:pointer;
-	height:25px;
+	height:34px;
 	font-size:25px;
-	line-height:25px;
+	line-height:34px;
 }
 
 .toggle-grey,.toggleSearch {
@@ -200,7 +220,7 @@ html,body {
 }
 
 .toggle-grey-on {
-	color:#007ac2!important;
+	color:#007ac2;
 }
 
 .toggle-grey-on:hover,.toggle-grey-on:active {
@@ -211,13 +231,17 @@ html,body {
 	float:left;
 }
 
+.buttonContainer {
+	padding:6px;
+	line-height:22px;
+	font-size:18px;
+}
+
 .icon-right {
 	float:right;
 	cursor:pointer;
-	height:22px;
-	font-size:18px;
-	padding:6px;
-	line-height:22px;
+	height:34px;
+	padding:0;
 	margin:0;
 }
 
@@ -262,7 +286,7 @@ html,body {
 #renderer_menu .selected .item-container,#renderer_menu .selected .item-container:hover,#renderer_menu .selected .item-container:active {
 	cursor:default;
 	color:#007ac2;
-	font-weight: 700;
+	font-weight:700;
 	background-color:#fff;
 }
 
@@ -336,7 +360,7 @@ html,body {
 .geoData .count {
 	margin:0;
 	text-align:left;
-	font-weight: 300;
+	font-weight:300;
 }
 
 .geoData .panel .count {
@@ -463,20 +487,20 @@ html,body {
 	border-left:none;
 	border-collapse:collapse;
 	overflow:hidden;
-	font-weight: 700;
+	font-weight:700;
 }
 
-.divHeaderTitle .hTitle{
-    display:inline-block;
-    font-weight:700;
-    font-size:12px;
-    margin-right:5px;
+.divHeaderTitle .hTitle {
+	display:inline-block;
+	font-weight:700;
+	font-size:12px;
+	margin-right:5px;
 }
 
-.divHeaderTitle .hNumber{
-    display:inline-block;
-    font-weight: 700;
-    font-size:14px;
+.divHeaderTitle .hNumber {
+	display:inline-block;
+	font-weight:700;
+	font-size:14px;
 }
 
 .divHeaderClose {
@@ -664,6 +688,10 @@ html,body {
 /*End of style for loading indicator */
 #mobileGeocoderIcon {
 	display:none;
+    padding:6px;
+	line-height:22px;
+	font-size:18px;
+    height:22px;
 }
 
 #geocoderMobile {

@@ -29,6 +29,15 @@
 	#mobileSearch {
 		display:none;
 	}
+    
+    .calcite  .dialogContent{
+        width:auto;
+        height:auto;
+    }
+    
+    #title{
+        max-width:200px;
+    }
 }
 
 @media only screen and (max-width:510px) {

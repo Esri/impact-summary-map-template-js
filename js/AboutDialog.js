@@ -58,11 +58,11 @@ function (
                 button: "toggle-grey",
                 buttonSelected: "toggle-grey-on",
                 icon: "icon-info-circled-1",
-                aboutDialogHeader: "aboutDialogHeader",
-                licenseInfoNode: "licenseInfoNode",
-                aboutDialogContent: "aboutDialogContent",
-                nodeDescription: "nodeDescription",
-                headerNodeDescription: "headerNodeDescription"
+                aboutDialogHeader: "dialogHeader",
+                aboutDialogContent: "dialogContent",
+                nodeDescription: "dialogDescription",
+                headerNodeDescription: "titleHeader",
+                moreInfo: "moreInfo"
             };
         },
         // bind listener for button to action
@@ -76,6 +76,7 @@ function (
         },
         // connections/subscriptions will be cleaned up during the destroy() lifecycle phase
         destroy: function() {
+            this._removeEvents();
             this.inherited(arguments);
         },
         /* ---------------- */
@@ -115,6 +116,14 @@ function (
         /* ---------------- */
         /* Private Functions */
         /* ---------------- */
+        _removeEvents: function() {
+            if (this._events && this._events.length) {
+                for (var i = 0; i < this._events.length; i++) {
+                    this._events[i].remove();
+                }
+            }
+            this._events = [];
+        },
         _init: function() {
             // dialog
             if (!this.get("dialog")) {
@@ -125,16 +134,23 @@ function (
                 }, this._dialogNode);
                 this.set("dialog", dialog);
             }
-            on(this.get("dialog"), 'hide', lang.hitch(this, function() {
+            // setup events
+            this._removeEvents();
+            // hide event
+            var dialogHide = on(this.get("dialog"), 'hide', lang.hitch(this, function() {
                 domClass.remove(this._buttonNode, this._css.buttonSelected);
             }));
-            on(window, "orientationchange", lang.hitch(this, function() {
+            this._events.push(dialogHide);
+            // rotate event
+            var rotate = on(window, "orientationchange", lang.hitch(this, function() {
                 var open = this.get("dialog").get("open");
                 if (open) {
                     dialog.hide();
                     dialog.show();
                 }
             }));
+            this._events.push(rotate);
+            // set content
             this._setDialogContent();
             this._visible();
             this.set("loaded", true);
@@ -143,20 +159,13 @@ function (
         _setDialogContent: function() {
             var item = this.get("item");
             if (item) {
+                // title
                 this._titleNode.innerHTML = item.title;
+                // description
                 this._descriptionNode.innerHTML = item.description;
-                var tags = item.tags;
-                this._tagsNode.innerHTML = '';
-                if (tags && tags.length) {
-                    for (var i = 0; i < tags.length; i++) {
-                        if (i !== 0) {
-                            this._tagsNode.innerHTML += ', ';
-                        }
-                        this._tagsNode.innerHTML += tags[i];
-                    }
-                }
+                // license
                 this._licenseInfoNode.innerHTML = item.licenseInfo;
-                this._infoNode.innerHTML = '(' + item.numViews + ' ' + i18n.widgets.AboutDialog.views + ', ' + item.numComments + ' ' + i18n.widgets.AboutDialog.comments + ')';
+                // more info link
                 this._moreInfoNode.innerHTML = '<a target="_blank" href="' + this.get("sharinghost") + '/home/item.html?id=' + item.id + '">' + i18n.widgets.AboutDialog.itemInfo + '</a> ' + i18n.widgets.AboutDialog.itemInfoLink;
             }
         },

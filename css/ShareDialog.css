@@ -1,90 +1,58 @@
-.dijitDialog,.dijitDialogTitle {
-	color:#777!important;
-}
-
-.dijitDialog {
-	box-shadow:-2px 2px 20px #333F47!important;
-	-webkit-text-size-adjust:none!important;
-}
-
-.dijitDialogTitleBar {
-	background-color:#fff!important;
-	border-bottom-color:#eee!important;
-}
-
-.dijitDialogCloseIcon {
-	font-size:25px;
-	background-image:none!important;
-	border:none!important;
-	height:auto!important;
-}
-
-.dijitDialogPaneContent {
-	max-height:550px!important;
-	max-width:530px!important;
-	overflow:auto;
-	border:none!important;
-}
-
-.iconContainer {
+.calcite .iconContainer {
 	height:40px;
 	margin:10px 0 20px;
 }
 
-.mapSizeLabel {
+.calcite .mapSizeLabel {
 	float:left;
 	font-size:15px;
-	margin:20px 0 10px;
+	margin:0 5px 0 0;
 }
 
-.dijitDialogTitle {
-	font-size:24px!important;
-	margin:0 0 0 10px;
-}
-
-.shareDialogIconClass {
-	font-size:2em;
+.calcite .shareDialogIconClass {
+	font-size:32px;
 	float:left;
 	color:#007ac2;
 	cursor:pointer;
 	margin:0 10px 0 0;
 }
 
-.shareMapURL {
-	width:330px;
+.calcite .shareMapURL {
+	width:50%;
+	min-width:30%;
+	max-width:90%;
 	height:25px;
 	font-size:14px;
 	color:#777;
 	border:1px solid #dcdcdc;
+	margin:0 0 20px;
 }
 
-.embedMapSizeDropDown {
+.calcite .mapSizeContainer {
+	margin:0;
+	padding:0 0 20px;
+}
+
+.calcite .embedMapSizeClear {
+	clear:both;
+}
+
+.calcite .embedMapSizeDropDown {
 	float:left;
-	margin:20px 0 10px 5px;
-	padding:0 5px 0 0;
 }
 
-.shareDialogContent {
-	height:400px;
-	margin-left:15px;
-	min-width:300px!important;
-}
-
-.shareDialogSubHeader {
+.calcite .shareDialogSubHeader {
 	font-size:19px;
-	margin:25px 0 5px;
+	margin:0 0 5px;
 }
 
-.shareDialogTextarea {
-	width:400px!important;
-	height:50px;
+.calcite .shareDialogTextarea {
+	width:auto;
+	max-width:90%;
+	width:75%;
+	height:75px;
 	font-size:14px;
 	color:#777;
 	border:1px solid #dcdcdc;
-	margin:0 95px 0 0;
-}
-
-.dijitDialogUnderlayWrapper,.dijitDialogUnderlay {
-	background-color:#000!important;
-	opacity:.4!important;
+	margin:0 0 20px;
 }

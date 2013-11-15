@@ -5,8 +5,8 @@ define({
                 "title": "About",
                 "itemInfo": "View this item",
                 "itemInfoLink": "on ArcGIS Online.",
-                "views": "views",
-                "comments": "comments"
+                "licenseHeader":"License",
+                "moreInfoHeader":"More Information"
             }
         }
     })

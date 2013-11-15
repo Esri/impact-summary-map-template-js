@@ -21,33 +21,12 @@ define([], function() {
         // overwritten by renderer info
         "impact_field": "GRID_CODE",
         "sum_variables": ['TOTPOP_CY', 'TOTHH_CY', 'CIKR_Total', 'BUS_Total', 'POP15_CY', 'POP65U_CY', 'OWNER_CY', 'RENTER_CY', 'CIKR_AMTwr', 'CIKR_BrTn', 'CIKR_Dam', 'CIKR_Edu', 'CIKR_ECC', 'CIKR_FMTwr', 'CIKR_FrSta', 'CIKR_Hzmt', 'CIKR_HCF', 'CIKR_PkIco', 'CIKR_Pol', 'CIKR_Port', 'CIKR_Rsrvr', 'CIKR_WWF', 'CIKR_Pwr', 'BUS_Banks', 'BUS_Hsptl', 'BUS_GrcStr', 'BUS_PnTSvc', 'BUS_Safety', 'BUS_Util', 'BUS_BldSpl', 'BUS_GasStn', 'BUS_DptStr', 'BUS_Ldging', 'BUS_Other'],
-        "theme": "blue",
-        "embedMapSize": [{
-            "width": "100%",
-            "height": "500px"
-        }, {
-            "width": "100%",
-            "height": "400px"
-        }, {
-            "width": "100%",
-            "height": "300px"
-        }, {
-            "width": "800px",
-            "height": "640px"
-        }, {
-            "width": "640px",
-            "height": "480px"
-        }],
-        "bingmapskey": "",
         //Enter the url to your organizations bing maps key if you want to use bing basemaps
-        "sharinghost": location.protocol + "//" + "www.arcgis.com",
+        "bingmapskey": "",
+        "bitlyLogin": "esri",
+        "bitlyKey": "R_65fd9891cd882e2a96b99d4bda1be00e",
         //Defaults to arcgis.com. Set this value to your portal or organization host name.
-        "facebookURL": "http://www.facebook.com/sharer.php?u=",
-        "twitterURL": " https://twitter.com/share?url=",
-        "emailURL": "mailto:%20?subject=Check%20out%20this%20map!&body=",
-        "googlePlusURL": "https://plus.google.com/share?url=",
-        "TinyURLResponseAttribute": "data.url",
-        "TinyURLServiceURL": "http://api.bit.ly/v3/shorten?login=esri&apiKey=R_65fd9891cd882e2a96b99d4bda1be00e&uri=${0}&format=json"
+        "sharinghost": location.protocol + "//" + "www.arcgis.com"
     };
     return defaults;
 });
