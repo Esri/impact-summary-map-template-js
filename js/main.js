@@ -189,6 +189,7 @@ function(
             var node = dom.byId('title');
             if(node){
                 node.innerHTML = title;
+                domAttr.set(node, "title", title);
             }
             window.document.title = title;
         },
@@ -202,13 +203,12 @@ function(
                     duration: 250,
                     easing: easing.expoOut,
                     onAnimate: lang.hitch(this, function(){
-                        this._bc_outer.layout();
+                        this._fixOuterLayout();
                         domClass.remove(document.body, "drawerOpen");
                     }),
                     onEnd: lang.hitch(this, function(){
                         domStyle.set(this._drawer, 'display', 'none');
-
-                        this._bc_outer.layout();
+                        this._fixLayout();
                         var domSlider = query('.' + this.css.statsPanelSelected + '.animateSlider')[0];
                         if(domSlider) {
                             this._setPanelWidth(domSlider);
@@ -228,7 +228,7 @@ function(
                     duration: 250,
                     easing: easing.expoOut,
                     onAnimate: lang.hitch(this, function(){
-                        this._bc_outer.layout();
+                        this._fixOuterLayout();
                         if(window.innerWidth < 850) {
                             domClass.add(document.body, "drawerOpen");
                             var domSlider = query('.' + this.css.statsPanelSelected + '.animateSlider')[0];
@@ -238,22 +238,23 @@ function(
                         }
                     }),
                     onEnd: lang.hitch(this, function(){
-                        this._bc_outer.layout();
+                        this._fixLayout();
                         this._toggleHamburgerButton();
                         this._setSliderMediaQuery();
-                        domStyle.set(dom.byId("cp_inner_center"), 'height', window.innerHeight - 35 + 'px');
+                        //domStyle.set(dom.byId("cp_inner_center"), 'height', window.innerHeight - 35 + 'px');
                     })
                 }).play();
             }
         },
         _toggleHamburgerButton: function () {
+            var hbNode = dom.byId('hamburger_button');
             if(domStyle.get(this._drawer,'display') === 'block') {
-                if(domClass.contains(dom.byId('hamburger_button'),this.css.toggleBlue)) {
-                    domClass.replace(dom.byId('hamburger_button'),this.css.toggleBlueOn,this.css.toggleBlue);
+                if(domClass.contains(hbNode,this.css.toggleBlue)) {
+                    domClass.replace(hbNode,this.css.toggleBlueOn,this.css.toggleBlue);
                 }
             } else {
-                if(domClass.contains(dom.byId('hamburger_button'),this.css.toggleBlueOn)) {
-                    domClass.replace(dom.byId('hamburger_button'),this.css.toggleBlue,this.css.toggleBlueOn);
+                if(domClass.contains(hbNode,this.css.toggleBlueOn)) {
+                    domClass.replace(hbNode,this.css.toggleBlue,this.css.toggleBlueOn);
                 }
             }
         },
@@ -424,7 +425,6 @@ function(
                         domStyle.set(this._drawer,'display','none');
                         this._setMobileGeocoderVisibility(true);
                     
-                    this._bc_outer.layout();
                 }
             } else {
                 this._setMobileGeocoderVisibility(true);
@@ -434,7 +434,8 @@ function(
             }
             this._setSliderMediaQuery();
             this._toggleHamburgerButton();
-            domStyle.set(dom.byId("cp_inner_center"), 'height', window.innerHeight - 35 + 'px');
+            this._fixLayout();
+            //domStyle.set(dom.byId("cp_inner_center"), 'height', window.innerHeight - 35 + 'px');
         },
         _setSliderMediaQuery: function () {
             if (domStyle.get(this._drawer, 'display') === 'none') {
@@ -603,6 +604,11 @@ function(
                 event.stop(evt);
             }
         },
+        _hideMobileGeocoder: function(){
+            domClass.remove(dom.byId("mobileSearch"),"mobileLocateBoxDisplay");
+            domStyle.set(dom.byId("mobileSearch"),"display","none");
+            domClass.replace(dom.byId("mobileGeocoderIcon"),"toggleSearch","toggle-grey-on");
+        },
         _init: function() {
             var LB = new LocateButton({
                 map: this.map,
@@ -648,7 +654,7 @@ function(
             this._createGeocoder("geocoderSearch");
             this._createGeocoder("geocoderMobile");
 
-            on(dom.byId("mobileGeocoderIcon"),"click",function () {
+            on(dom.byId("mobileGeocoderIcon"),"click",lang.hitch(this, function () {
                 if(domStyle.get(dom.byId("mobileSearch"),"display") === "none") {
                     dom.byId("geocoderMobile_input").value = "";
                     if (domClass.contains(query('#mobileSearch .esriGeocoder')[0], 'esriGeocoderHasValue')) {
@@ -658,17 +664,14 @@ function(
                     domClass.replace(dom.byId("mobileGeocoderIcon"),"toggle-grey-on","toggleSearch");
                 }
                 else {
-                    domClass.remove(dom.byId("mobileSearch"), "mobileLocateBoxDisplay");
-                    domStyle.set(dom.byId("mobileSearch"), "display", "none");
-                    domClass.replace(dom.byId("mobileGeocoderIcon"), "toggleSearch", "toggle-grey-on");
+                    this._hideMobileGeocoder();
                 }
-            });
+            }));
 
-            on(dom.byId("btnCloseGeocoder"),"click",function () {
-                domClass.remove(dom.byId("mobileSearch"),"mobileLocateBoxDisplay");
-                domStyle.set(dom.byId("mobileSearch"),"display","none");
-                domClass.replace(dom.byId("mobileGeocoderIcon"),"toggleSearch","toggle-grey-on");
-            });
+            on(dom.byId("btnCloseGeocoder"),"click",lang.hitch(this, function () {
+                this._hideMobileGeocoder();
+            }));
+            
             /* Start temporary until after JSAPI 3.8 is released */
             var layers = this.map.getLayersVisibleAtScale(this.map.getScale());
             on.once(this.map, 'basemap-change', lang.hitch(this, function(){
@@ -732,10 +735,11 @@ function(
             },dom.byId(container));
             geocoderWidget.startup();
 
-            on(geocoderWidget,'FindResults',lang.hitch(this, function (response) {
+            on(geocoderWidget,'find-results',lang.hitch(this, function (response) {
                 if(!response.results.length) {
                     console.log(this.config.i18n.general.noSearchResult);
                 }
+                this._hideMobileGeocoder()
             }));
         },
 
@@ -755,12 +759,18 @@ function(
         _hideLoadingIndicator: function () {
             domStyle.set(dom.byId("loadingIndicatorDiv"),"display","none");
         },
-
+        _fixOuterLayout: function(){
+            this._bc_outer.layout();
+        },
+        _fixLayout: function(){
+            this._bc_outer.layout();
+            this._bc_inner.layout();
+        },
         //create a map based on the input web map id
         _createWebMap: function() {
+            this._fixLayout();
             // popup dijit
-            var customPopup = new Popup({
-            }, domConstruct.create("div"));
+            var customPopup = new Popup({}, domConstruct.create("div"));
             domClass.add(customPopup.domNode, "calcite");
             //can be defined for the popup like modifying the highlight symbol, margin etc.
             arcgisUtils.createMap(this.config.webmap, "mapDiv", {
@@ -782,7 +792,7 @@ function(
                 if (this.map.loaded) {
                     this._init();
                 } else {
-                    on(this.map, 'load', lang.hitch(this, function() {
+                    on.once(this.map, 'load', lang.hitch(this, function() {
                         this._init();
                     }));
                 }

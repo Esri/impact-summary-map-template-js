@@ -43,7 +43,7 @@ function (
             emailSubject: "Check out this map!",
             emailBody: "View the map here: ",
             googlePlusURL: "https://plus.google.com/share?url=",
-            bitlyUrl: "http://api.bit.ly/v3/shorten",
+            bitlyAPI: "http://api.bit.ly/v3/shorten",
             bitlyLogin: "",
             bitlyKey: "",
             embedSizes: [{
@@ -83,7 +83,7 @@ function (
             this.set("googlePlusURL", defaults.googlePlusURL);
             this.set("emailSubject", defaults.emailSubject);
             this.set("emailBody", defaults.emailBody);
-            this.set("bitlyUrl", defaults.bitlyUrl);
+            this.set("bitlyAPI", defaults.bitlyAPI);
             this.set("bitlyLogin", defaults.bitlyLogin);
             this.set("bitlyKey", defaults.bitlyKey);
             // listeners
@@ -106,7 +106,7 @@ function (
                 shareMapURL: "shareMapURL",
                 iconContainer: "iconContainer",
                 embedMapSizeDropDown: "embedMapSizeDropDown",
-                shareDialogContent: "shareDialogContent",
+                shareDialogContent: "dialogContent",
                 shareDialogSubHeader: "shareDialogSubHeader",
                 shareDialogTextarea: "shareDialogTextarea",
                 mapSizeContainer: "mapSizeContainer",
@@ -188,7 +188,7 @@ function (
             this._comboBoxNode.innerHTML = html;
         },
         _updateUrls: function() {
-            this.set("tinyUrl", null);
+            this.set("bitlyUrl", null);
             this._updateEmbedCode();
             this._shareMapUrlText.value = this.get("url");
         },
@@ -271,9 +271,9 @@ function (
             this._embedNode.innerHTML = entities.encode(es);
         },
         _shareLink: function() {
-            if (this.get("bitlyUrl") && this.get("bitlyLogin") && this.get("bitlyKey")) {
+            if (this.get("bitlyAPI") && this.get("bitlyLogin") && this.get("bitlyKey")) {
                 esriRequest({
-                    url: this.get("bitlyUrl"),
+                    url: this.get("bitlyAPI"),
                     callbackParamName: "callback",
                     content: {
                         uri: this.get("url"),
@@ -283,10 +283,10 @@ function (
                     },
                     load: lang.hitch(this, function(response) {
                         if (response && response.data && response.data.url) {
-                            this.set("tinyUrl") = response.data.url;
+                            this.set("bitlyUrl") = response.data.url;
                         }
-                        if (this.get("tinyUrl")) {
-                            this._shareMapUrlText.value = this.get("tinyUrl");
+                        if (this.get("bitlyUrl")) {
+                            this._shareMapUrlText.value = this.get("bitlyUrl");
                         }
                     }),
                     error: function(error) {
@@ -296,7 +296,7 @@ function (
             }
         },
         _configureShareLink: function(Link, isMail) {
-            var fullLink = Link + (this.get("tinyUrl") ? this.get("tinyUrl") : this.get("url"));
+            var fullLink = Link + (this.get("bitlyUrl") ? this.get("bitlyUrl") : this.get("url"));
             if (isMail) {
                 window.location.href = fullLink;
             } else {

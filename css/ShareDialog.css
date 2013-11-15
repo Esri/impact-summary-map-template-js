@@ -18,9 +18,9 @@
 }
 
 .calcite .shareMapURL {
-	width:auto;
+	width:50%;
 	min-width:30%;
-	max-width:100%;
+	max-width:90%;
 	height:25px;
 	font-size:14px;
 	color:#777;
@@ -41,14 +41,6 @@
 	float:left;
 }
 
-.calcite .shareDialogContent {
-	max-height:400px;
-	width:510px;
-	max-width:510px!important;
-	min-width:240px!important;
-	word-wrap:break-word;
-}
-
 .calcite .shareDialogSubHeader {
 	font-size:19px;
 	margin:0 0 5px;
@@ -57,8 +49,8 @@
 .calcite .shareDialogTextarea {
 	width:auto;
 	max-width:90%;
-	width:80%;
-	height:60px;
+	width:75%;
+	height:75px;
 	font-size:14px;
 	color:#777;
 	border:1px solid #dcdcdc;

@@ -59,7 +59,7 @@ function (
                 buttonSelected: "toggle-grey-on",
                 icon: "icon-info-circled-1",
                 aboutDialogHeader: "aboutDialogHeader",
-                aboutDialogContent: "aboutDialogContent",
+                aboutDialogContent: "dialogContent",
                 nodeDescription: "nodeDescription",
                 headerNodeDescription: "headerNodeDescription",
                 moreInfo: "moreInfo"

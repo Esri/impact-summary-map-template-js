@@ -195,6 +195,10 @@ html,body {
 	line-height:22px;
 	font-size:18px;
 	font-weight:700;
+    max-width:225px;
+    text-overflow:ellipsis;
+	white-space:nowrap;
+	overflow:hidden;
 }
 
 #hamburger_button {
@@ -684,6 +688,10 @@ html,body {
 /*End of style for loading indicator */
 #mobileGeocoderIcon {
 	display:none;
+    padding:6px;
+	line-height:22px;
+	font-size:18px;
+    height:22px;
 }
 
 #geocoderMobile {

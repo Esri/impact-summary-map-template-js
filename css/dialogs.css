@@ -38,6 +38,13 @@
 	padding:20px;
 	margin:0;
 	background:#fff;
+    word-wrap:break-word;
+}
+
+.calcite .dialogContent{
+    width:510px;
+    height:400px;
+    min-width:330px;
 }
 
 .calcite .dijitDialogTitle {
