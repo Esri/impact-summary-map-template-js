@@ -73,12 +73,39 @@ function(
     return declare("", null, {
         config: {},
         constructor: function(config) {
+            this.css = {
+                toggleBlue: 'toggle-grey',
+                toggleBlueOn: 'toggle-grey-on',
+                menuItem: 'item',
+                menuItemSelected: 'item-selected',
+                menuItemFirst: "item-first",
+                menuItemOnly: "only-item",
+                menuPanel: 'panel',
+                menuPanelSelected: 'panel-selected',
+                rendererMenu: 'menuList',
+                rendererMenuItem: 'item',
+                rendererSelected: 'selected',
+                rendererLoading: 'loadingFeatures',
+                rendererContainer: 'item-container',
+                rendererSummarize: 'summarize',
+                stats: 'geoData',
+                statsPanel: 'panel',
+                statsCount: 'count',
+                statsPanelSelected: 'panel-expanded',
+                statsPanelSelectedExpand: "panel-selected-expand",
+                drawerOpen: "drawerOpen",
+                animateSlider: "animateSlider",
+                mobileSearchDisplay: "mobileLocateBoxDisplay",
+                divOuterSliderContainer: "divOuterSliderContainer",
+                divGeoDataHolder: "divGeoDataHolder",
+                divHeaderClose: "divHeaderClose",
+                divSliderContainer: "divSliderContainer"
+            };
             this._containers();
             //config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
             // any url parameters and any application specific configuration information.
             this.config = config;
-            this._cssStyles();
             ready(lang.hitch(this, function() {
                 this._setLanguageStrings();
                 this._createWebMap();
@@ -94,25 +121,6 @@ function(
             if (node) {
                 node.innerHTML = this.config.impact_layer || this.config.i18n.general.impact;
             }
-        },
-        _cssStyles: function() {
-            this.css = {
-                toggleBlue: 'toggle-grey',
-                toggleBlueOn: 'toggle-grey-on',
-                menuItem: 'item',
-                menuItemSelected: 'item-selected',
-                menuPanel: 'panel',
-                menuPanelSelected: 'panel-selected',
-                rendererMenu: 'menuList',
-                rendererMenuItem: 'item',
-                rendererSelected: 'selected',
-                rendererLoading: 'loadingFeatures',
-                rendererContainer: 'item-container',
-                rendererSummarize: 'summarize',
-                stats: 'geoData',
-                statsPanel: 'panel',
-                statsPanelSelected: 'panel-expanded'
-            };
         },
         _containers: function() {
             // outer container
@@ -153,7 +161,7 @@ function(
         },
         _drawerMenu: function() {
             // all menu items
-            var menus = query('.item', dom.byId('drawer_menu'));
+            var menus = query('.' + this.css.menuItem, dom.byId('drawer_menu'));
             // menu item click
             on(menus, 'click', lang.hitch(this, function(evt) {
                 // show drawer panel
@@ -175,6 +183,7 @@ function(
         _toggleDrawer: function() {
             // if drawer is shown
             if (domStyle.get(this._drawer, 'display') === 'block') {
+                domClass.remove(document.body, this.css.drawerOpen);
                 // collapse width
                 fx.animateProperty({
                     node: this._drawer,
@@ -188,12 +197,11 @@ function(
                     easing: easing.expoOut,
                     onAnimate: lang.hitch(this, function() {
                         this._fixLayout();
-                        domClass.remove(document.body, "drawerOpen");
                     }),
                     onEnd: lang.hitch(this, function() {
                         domStyle.set(this._drawer, 'display', 'none');
                         this._fixLayout();
-                        var domSlider = query('.' + this.css.statsPanelSelected + '.animateSlider')[0];
+                        var domSlider = query('.' + this.css.statsPanelSelected + '.' + this.css.animateSlider)[0];
                         if (domSlider) {
                             this._setPanelWidth(domSlider);
                         }
@@ -217,16 +225,16 @@ function(
                     easing: easing.expoOut,
                     onAnimate: lang.hitch(this, function() {
                         this._fixLayout();
+                    }),
+                    onEnd: lang.hitch(this, function() {
+                        this._fixLayout();
                         if (window.innerWidth < 850) {
-                            domClass.add(document.body, "drawerOpen");
-                            var domSlider = query('.' + this.css.statsPanelSelected + '.animateSlider', this.dataNode)[0];
+                            domClass.add(document.body, this.css.drawerOpen);
+                            var domSlider = query('.' + this.css.statsPanelSelected + '.' + this.css.animateSlider, this.dataNode)[0];
                             if (domSlider) {
                                 this._setPanelWidth(domSlider);
                             }
                         }
-                    }),
-                    onEnd: lang.hitch(this, function() {
-                        this._fixLayout();
                         this._toggleHamburgerButton();
                         this._setSliderMediaQuery();
                     })
@@ -247,14 +255,14 @@ function(
         },
         _displayContainer: function(node) {
             domStyle.set(node, 'display', 'block');
-            setTimeout(function() {
-                domClass.add(node, "animateSlider");
-            }, 0);
+            setTimeout(lang.hitch(this, function() {
+                domClass.add(node, this.css.animateSlider);
+            }), 0);
         },
         _hideContainer: function(node) {
-            setTimeout(function() {
-                domClass.remove(node, "animateSlider");
-            }, 0);
+            setTimeout(lang.hitch(this, function() {
+                domClass.remove(node, this.css.animateSlider);
+            }), 0);
             domStyle.set(node, 'display', 'none');
         },
         formatNumber: function(number, decPlaces) {
@@ -319,7 +327,7 @@ function(
                 domStyle.set(this.dataNode, 'display', 'block');
                 var output = Mustache.render(panelsView, sum);
                 var selectedPanel, panelType;
-                selectedPanel = query('.' + this.css.statsPanelSelected + '.animateSlider', this.dataNode)[0];
+                selectedPanel = query('.' + this.css.statsPanelSelected + '.' + this.css.animateSlider, this.dataNode)[0];
                 if (selectedPanel) {
                     panelType = domAttr.get(selectedPanel, 'data-type');
                 }
@@ -327,9 +335,9 @@ function(
                 this._removeSliderEvents();
                 //Create Slider for Geo data panels
                 var slider, objSlider, childNode, divGeoPanel, sliderResizeHandler = null; //resize handler
-                slider = query('.panel-expanded .divOuterSliderContainer', dom.byId('geodata_container'));
+                slider = query('.' + this.css.statsPanelSelected + ' .' + this.css.divOuterSliderContainer, dom.byId('geodata_container'));
                 array.forEach(slider, lang.hitch(this, function(node) {
-                    divGeoPanel = query('.divGeoDataHolder', node)[0];
+                    divGeoPanel = query('.' + this.css.divGeoDataHolder, node)[0];
                     childNode = query('div', divGeoPanel).length;
                     this._setPanelWidth(node.parentElement);
                     if (childNode > 3) {
@@ -359,11 +367,11 @@ function(
                 if (panelType) {
                     this._showExpanded(panelType);
                 }
-                this._panelClick = on(query('.panel', this.dataNode), 'click', lang.hitch(this, function(evt) {
+                this._panelClick = on(query('.' + this.css.menuPanel, this.dataNode), 'click', lang.hitch(this, function(evt) {
                     var type = domAttr.get(evt.currentTarget, 'data-type');
                     this._showExpanded(type);
                 }));
-                this._expandedClick = on(query('.' + this.css.statsPanelSelected + ' .divHeaderClose', this.dataNode), 'click', lang.hitch(this, function(evt) {
+                this._expandedClick = on(query('.' + this.css.statsPanelSelected + ' .' + this.css.divHeaderClose, this.dataNode), 'click', lang.hitch(this, function(evt) {
                     this._hideExpanded(evt.currentTarget);
                 }));
                 // add features to graphics layer
@@ -396,7 +404,7 @@ function(
             }
         },
         _resizeGeoContainer: function(node) {
-            var slider = query('.divSliderContainer', node)[0];
+            var slider = query('.' + this.css.divSliderContainer, node)[0];
             if (slider) {
                 topic.publish("resizeGeoDataSlider", slider.id);
             }
@@ -423,22 +431,22 @@ function(
         },
         _setSliderMediaQuery: function() {
             if (domStyle.get(this._drawer, 'display') === 'none') {
-                domClass.remove(document.body, "drawerOpen");
+                domClass.remove(document.body, this.css.drawerOpen);
             } else {
-                domClass.add(document.body, "drawerOpen");
+                domClass.add(document.body, this.css.drawerOpen);
             }
         },
         _setMobileGeocoderVisibility: function(isVisible) {
             if (isVisible) {
-                if (domClass.contains(dom.byId("mobileGeocoderIcon"), "toggle-grey-on")) {
-                    domClass.add(dom.byId("mobileSearch"), "mobileLocateBoxDisplay");
+                if (domClass.contains(dom.byId("mobileGeocoderIcon"), this.css.toggleBlueOn)) {
+                    domClass.add(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
                 }
             }
         },
         _hideExpanded: function(element) {
             var domSlider, divCount;
             domSlider = element.parentElement.parentElement;
-            divCount = query('.panel .count', dom.byId('geo_panel'));
+            divCount = query('.' + this.css.statsPanel + ' .' + this.css.statsCount, dom.byId('geo_panel'));
             //hide slider
             this._hideContainer(domSlider, 100);
             //display geo-data count panels
@@ -446,24 +454,24 @@ function(
                 domStyle.set(elementCount, 'display', 'block');
             });
             var items = query('.' + this.css.menuPanel, this.dataNode);
-            array.forEach(items, function(elementCount) {
-                domClass.remove(elementCount, 'panel-selected-expand');
-            });
+            array.forEach(items, lang.hitch(this, function(elementCount) {
+                domClass.remove(elementCount, this.css.statsPanelSelectedExpand);
+            }));
         },
         _showExpanded: function(type) {
             var domSlider, divCount;
             domSlider = query('.' + this.css.statsPanelSelected + '[data-type="' + type + '"]', this.dataNode)[0];
             if (domStyle.get(domSlider, 'display') === 'none') {
                 var panels = query('.' + this.css.statsPanelSelected, this.dataNode); 
-                array.forEach(panels, function(elementCount) {
+                array.forEach(panels, lang.hitch(this, function(elementCount) {
                     domStyle.set(elementCount, 'display', 'none');
-                    domClass.remove(elementCount, "animateSlider");
-                });
+                    domClass.remove(elementCount, this.css.animateSlider);
+                }));
                 var items = query('.' + this.css.menuPanel, this.dataNode);
-                array.forEach(items, function(elementCount) {
-                    domClass.remove(elementCount, 'panel-selected-expand');
-                });
-                divCount = query('.panel .count', this.dataNode);
+                array.forEach(items, lang.hitch(this, function(elementCount) {
+                    domClass.remove(elementCount, this.css.statsPanelSelectedExpand);
+                }));
+                divCount = query('.' + this.css.statsPanel + ' .' + this.css.statsCount, this.dataNode);
                 //display slider
                 this._displayContainer(domSlider, 250);
                 //hide geo-data count panels.
@@ -472,7 +480,7 @@ function(
                 });
                 this._setPanelWidth(domSlider);
                 var selected = query('.' + this.css.menuPanel + '[data-type="' + type + '"]', this.dataNode)[0];
-                domClass.add(selected, 'panel-selected-expand');
+                domClass.add(selected, this.css.statsPanelSelectedExpand);
             }
         },
         // get layer of impact area by layer title
@@ -528,7 +536,6 @@ function(
                             var isSummarizeSelected = false;
                             // if not currently selected
                             if (!domClass.contains(evt.currentTarget, this.css.rendererSelected)) {
-                                domStyle.set(dom.byId('geodata_container'), 'display', 'none');
                                 this._clearSelected();
                                 domClass.add(evt.currentTarget, this.css.rendererSelected);
                                 domClass.add(evt.currentTarget, this.css.rendererLoading);
@@ -562,8 +569,6 @@ function(
                             if (window.innerWidth < 850) {
                                 this._toggleDrawer();
                             }
-                            // hide geo
-                            domStyle.set(dom.byId('geodata_container'), 'display', 'none');
                             // remove any selected
                             this._clearSelected();
                             var value = domAttr.get(evt.currentTarget, 'data-value');
@@ -603,8 +608,8 @@ function(
         },
         _hideImpactArea: function() {
             domStyle.set(dom.byId("impact_content"), "display", "none");
-            domClass.add(dom.byId("legend_content"), 'only-item');
-            domClass.remove(dom.byId("legend_name"), 'item-first');
+            domClass.add(dom.byId("legend_content"), this.css.menuItemOnly);
+            domClass.remove(dom.byId("legend_name"), this.css.menuItemFirst);
         },
         _selectEvent: function(evt) {
             if (evt.graphic) {
@@ -614,13 +619,13 @@ function(
             }
         },
         _showMobileGeocoder: function() {
-            domClass.add(dom.byId("mobileSearch"), "mobileLocateBoxDisplay");
-            domClass.replace(dom.byId("mobileGeocoderIconContainer"), "toggle-grey-on", "toggle-grey");
+            domClass.add(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
+            domClass.replace(dom.byId("mobileGeocoderIconContainer"), this.css.toggleBlueOn, this.css.toggleBlue);
         },
         _hideMobileGeocoder: function() {
-            domClass.remove(dom.byId("mobileSearch"), "mobileLocateBoxDisplay");
+            domClass.remove(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
             domStyle.set(dom.byId("mobileSearch"), "display", "none");
-            domClass.replace(dom.byId("mobileGeocoderIconContainer"), "toggle-grey", "toggle-grey-on");
+            domClass.replace(dom.byId("mobileGeocoderIconContainer"), this.css.toggleBlue, this.css.toggleBlueOn);
         },
         _init: function() {
             // locate button
@@ -754,7 +759,7 @@ function(
             // hide loader
             this._hideLoadingIndicator();
             // get  menu
-            var defaultMenu = query('.item', dom.byId('drawer_menu'));
+            var defaultMenu = query('.' + this.css.menuItem, dom.byId('drawer_menu'));
             if (defaultMenu) {
                 // if default panel text matches first
                 if (this.config.defaultPanel === this.config.i18n.general.legend) {

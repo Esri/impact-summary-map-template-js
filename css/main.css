@@ -176,7 +176,7 @@ html,body {
 
 .topBar {
     position:absolute;
-    z-index:20;
+    z-index:36;
     top:0;
     left:0;
     width:100%;
@@ -292,7 +292,7 @@ html,body {
 
 .geoData {
 	position:absolute;
-	z-index:99;
+	z-index:40;
 	bottom:40px;
 	width:100%;
 	-moz-user-select:none;
@@ -471,7 +471,7 @@ html,body {
 }
 
 .divHeader {
-	height:20%;
+	height:26px;
 	line-height:25px;
 	width:100%;
 	border-bottom:1px solid #777;
@@ -524,7 +524,6 @@ html,body {
 	height:30px;
 	word-wrap:break-word;
 	overflow:hidden;
-	cursor:pointer;
 }
 
 .divOuterSliderContainer {
@@ -547,9 +546,14 @@ html,body {
 	width:36px!important;
 	height:40px;
 }
+.leftArrow:hover,.rightArrow:hover {
+    color:#555;
+}
+.leftArrow:active,.rightArrow:active {
+    color:#007ac2;
+}
 
 .disableArrow {
-	color:#ccc;
 	display:none!important;
 	cursor:default!important;
 }
@@ -723,16 +727,16 @@ html,body {
 #mobileSearch {
 	display:none;
 	position:absolute;
-	z-index:99999;
+	z-index:999;
 	left:0;
     top:35px;
-	background:rgba(255,255,255,0.7);
 	width:100%;
 }
 
 #mobileSearch .mobileSearchContainer{
     padding:5px 15px;
     height:32px;
+    background:rgba(255,255,255,0.7);
 }
 
 /* Hiding input fields close icon in IE10 */
