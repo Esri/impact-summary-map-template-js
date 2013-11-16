@@ -220,7 +220,7 @@ html,body {
 }
 
 .toggle-grey-on:hover,.toggle-grey-on:active {
-	color:#333;
+	color:#97cbec;
 }
 
 #title {
@@ -708,6 +708,12 @@ html,body {
 	margin-left:10px;
 	font-size:17px;
 	cursor:pointer;
+}
+#btnCloseGeocoder:hover{
+    color:#555;
+}
+#btnCloseGeocoder:active{
+    color:#007ac2;
 }
 
 .animateSlider {

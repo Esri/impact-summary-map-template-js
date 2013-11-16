@@ -40,6 +40,10 @@
 	color:#000!important;
 }
 
+.esriGeocoderSearch:active,.esriGeocoderIcon:active {
+	color:#007ac2!important;
+}
+
 .esriGeocoder .esriGeocoderClearFloat {
 	clear:both;
 	display:block;
