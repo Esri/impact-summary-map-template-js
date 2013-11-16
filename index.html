@@ -4,8 +4,19 @@
     <title>Local Impact Map</title>
     <meta charset="utf-8">
     <!--Define the versions of IE that will be used to render the page. See Microsoft documentation for details. Optional.-->
-    <meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile -->
     <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+    <!-- End Mobile -->
+    <!-- SEO -->
+    <meta name="Keywords" content="Local Impact Map, Esri Disaster response, DRP, Disaster Response, Esri Disaster Response Program, Crisis mapping, disaster mapping, disaster map">
+    <meta name="Description" content="This map highlights who and what has been impacted by an incident and shows the effects of the disaster, its location, and the potential impact it has caused.">
+    <!-- End SEO -->
+    <!-- Facebook -->
+    <meta property="og:image" content="images/item.png"/>
+    <meta property="og:site_name" content="esri"/>
+    <!-- End Facebook -->
     <!--Use protocol relative urls that way if the browser is viewing the page via HTTPS the js/css file will be requested using the HTTPS protocol-->
 	<link rel="stylesheet" type="text/css" href="//js.arcgis.com/3.7/js/esri/css/esri.css">
 	<!--Load any application specific styles-->
@@ -40,7 +51,7 @@
                         <div class="arrow"></div>
                     </div>
                 </div>
-                <div class="item" data-menu="features_panel" id="imapct_content">
+                <div class="item" data-menu="features_panel" id="impact_content">
                     <div class="item-container">
                         <div id="impact_name" class="title"></div>
                         <div class="arrow"></div>
@@ -58,39 +69,37 @@
             </div>
         </div>
         <div id="cp_outer_center">
-            <div id="bc_inner">
-                <div id="cp_inner_top">
-                    <div class="topBar">
-                        <div id="hamburger_button" class="toggle-grey toggle-grey-on">
-                            <div class="icon-menu-1"></div>
-                        </div>
-                        <div id="title"></div>
-                        <div class="topMenuRight">
-                        <div id="AboutDialog"></div>
-                        <div id="ShareDialog"></div>
-                            <div class="locateBox">
-                                <div id="geocoderSearch"></div>
-                            </div>
-                            <div id="mobileGeocoderIcon" class="icon-right  icon-search-1 toggleSearch">
-                            </div>
-                        </div>
+            <div class="topBar">
+                <div id="hamburger_button" class="toggle-grey toggle-grey-on">
+                    <div class="icon-menu-1"></div>
+                </div>
+                <div id="title"></div>
+                <div class="topMenuRight">
+                    <div id="AboutDialog"></div>
+                    <div id="ShareDialog"></div>
+                    <div class="locateBox">
+                        <div id="geocoderSearch"></div>
                     </div>
+                    <div id="mobileGeocoderIcon" class="icon-right">
+                        <div id="mobileGeocoderIconContainer" class="buttonContainer toggle-grey  icon-search-1"></div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div id="mobileSearch" class="mobileLocateBoxHidden">
+                <div class="mobileSearchContainer">
+                    <div id="geocoderMobile"></div>
+                    <div id="btnCloseGeocoder">Cancel</div>
                     <div class="clear"></div>
                 </div>
-			<div id="cp_inner_center">
-            	<div id="mapButtons">
-                    <div id="LocateButton"></div>
-                    <div id="HomeButton"></div>
-                </div>
-                <div id="BasemapToggle"></div>
-            	<div id="mobileSearch" class="mobileLocateBoxHidden">
-					<div id="geocoderMobile"></div>
-					<div id="btnCloseGeocoder">Cancel</div>
-            	</div>
-            	<div id="geoData"></div>
-            	<div id="mapDiv" dir="ltr"></div>
-            	</div>
             </div>
+            <div id="mapButtons">
+                <div id="LocateButton"></div>
+                <div id="HomeButton"></div>
+            </div>
+            <div id="BasemapToggle"></div>
+            <div id="geoData"></div>
+            <div id="mapDiv" dir="ltr"></div>
         </div>
     </div>
     <script type="text/javascript">
@@ -143,6 +152,18 @@
                 Main(config);
             });
     	});
+    </script>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-215788-4']);
+        //_gaq.push(['_setDomainName', 'esri.com']);
+        _gaq.push(['_trackPageview']);
+        _gaq.push(['_trackPageLoadTime']);
+        (function () {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
     </script>
 </body>
 </html>

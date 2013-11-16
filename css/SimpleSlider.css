@@ -1,4 +1,4 @@
-.esriSimpleSlider {
+.calcite .esriSimpleSlider {
 	position:absolute;
 	text-align:center;
 	border:1px solid #999;
@@ -14,7 +14,7 @@
 	border-radius:1px;
 }
 
-.esriSimpleSlider div {
+.calcite .esriSimpleSlider div {
 	width:22px;
 	height:22px;
 	font-size:22px;
@@ -29,33 +29,33 @@
 	padding:4px;
 }
 
-.esriSimpleSliderVertical .esriSimpleSliderIncrementButton {
+.calcite .esriSimpleSliderVertical .esriSimpleSliderIncrementButton {
 	border-bottom:1px solid #999;
 	-webkit-border-radius:1px 1px 0 0;
 	border-radius:1px 1px 0 0;
 }
 
-.esriSimpleSliderVertical .esriSimpleSliderDecrementButton {
+.calcite .esriSimpleSliderVertical .esriSimpleSliderDecrementButton {
 	-webkit-border-radius:0 0 1px 1px;
 	border-radius:0 0 1px 1px;
 }
 
-.esriSimpleSliderDecrementButton:hover,.esriSimpleSliderIncrementButton:hover {
+.calcite .esriSimpleSliderDecrementButton:hover, .calcite .esriSimpleSliderIncrementButton:hover {
 	background-color:#eee;
 	color:#333;
 }
 
-.esriSimpleSliderDecrementButton:active,.esriSimpleSliderIncrementButton:active {
+.calcite .esriSimpleSliderDecrementButton:active, .calcite .esriSimpleSliderIncrementButton:active {
 	background-color:#ddd;
 	color:#007ac2;
 }
 
-.esriSimpleSliderDisabledButton,.esriSimpleSliderDisabledButton:active,.esriSimpleSliderDisabledButton:hover {
+.calcite .esriSimpleSliderDisabledButton, .calcite .esriSimpleSliderDisabledButton:active, .calcite .esriSimpleSliderDisabledButton:hover {
 	cursor:default;
 	background-color:#f4f4f4;
 	color:#bbb;
 }
 
-.esriSimpleSliderTL {
-	top:20px;
+.calcite .esriSimpleSliderTL {
+    top:55px;
 }

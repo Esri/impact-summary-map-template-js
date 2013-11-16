@@ -28,22 +28,13 @@ html,body {
 .calcite a:active {
 }
 
-#bc_inner,#bc_outer {
+#bc_outer {
 	width:100%;
 	height:100%;
 	padding:0;
 	margin:0;
 	border:0;
-}
-
-#cp_inner_top {
-	width:100%;
-	padding:0;
-	margin:0;
-	border:0;
-	overflow:hidden;
-	z-index:3;
-	background-color:transparent;
+    overflow:hidden;
 }
 
 .drawerOpen #cp_outer_left:before {
@@ -72,16 +63,12 @@ html,body {
 	overflow-x:hidden;
 }
 
-#cp_inner_center,#cp_outer_center {
+#cp_outer_center {
 	width:100%;
 	height:100%;
 	padding:0;
 	margin:0;
 	border:0;
-}
-
-#cp_inner_center {
-	top:35px!important;
 }
 
 #mapDiv {
@@ -94,14 +81,14 @@ html,body {
 
 #BasemapToggle {
 	position:absolute;
-	top:20px;
+	top:55px;
 	right:20px;
 	z-index:35;
 }
 
 #mapButtons {
 	position:absolute;
-	top:92px;
+	top:127px;
 	left:20px;
 	z-index:35;
 }
@@ -145,6 +132,10 @@ html,body {
 	user-select:none;
 }
 
+#drawer_menu .only-item {
+    width:100%;
+}
+
 #drawer_menu .item-container {
 	position:relative;
 	overflow:visible;
@@ -184,6 +175,11 @@ html,body {
 }
 
 .topBar {
+    position:absolute;
+    z-index:20;
+    top:0;
+    left:0;
+    width:100%;
 	background:#f8f8f8;
 	height:34px;
 	border-bottom:1px solid #ddd;
@@ -211,7 +207,7 @@ html,body {
 	line-height:34px;
 }
 
-.toggle-grey,.toggleSearch {
+.toggle-grey {
 	color:#999;
 }
 
@@ -317,6 +313,10 @@ html,body {
 	color:#fff;
 	cursor:pointer;
 	border:none!important;
+}
+
+.geoData .panel-selected-expand{
+    cursor: default;
 }
 
 .geoData .panel-expanded {
@@ -674,11 +674,11 @@ html,body {
 	height:100%;
 	width:100%;
 	display:block;
-	z-index:99999;
+	z-index:999;
 	position:absolute;
-	bottom:0;
 	top:0;
 	left:0;
+    overflow:hidden;
 	background:#eee;
 	background-position:center center;
 	background-image:url(../images/ajax-loader.gif);
@@ -688,15 +688,10 @@ html,body {
 /*End of style for loading indicator */
 #mobileGeocoderIcon {
 	display:none;
-    padding:6px;
-	line-height:22px;
-	font-size:18px;
-    height:22px;
 }
 
 #geocoderMobile {
 	float:left!important;
-	margin-left:15px;
 }
 
 .mobileLocateBoxHidden {
@@ -706,7 +701,7 @@ html,body {
 #btnCloseGeocoder {
 	float:left;
 	width:60px;
-	padding:1px 10px;
+	padding:1px 0;
 	line-height:30px;
 	height:30px;
 	color:#999;
@@ -723,11 +718,15 @@ html,body {
 	display:none;
 	position:absolute;
 	z-index:99999;
-	right:0;
-	padding:5px 4px;
+	left:0;
+    top:35px;
 	background:rgba(255,255,255,0.7);
 	width:100%;
-	height:32px;
+}
+
+#mobileSearch .mobileSearchContainer{
+    padding:5px 15px;
+    height:32px;
 }
 
 /* Hiding input fields close icon in IE10 */
