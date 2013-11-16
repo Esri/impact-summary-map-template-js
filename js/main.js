@@ -130,21 +130,6 @@ function(
             }, dom.byId('cp_outer_left'));
             this._bc_outer.addChild(cp_outer_left);
             this._bc_outer.startup();
-            // inner container
-            this._bc_inner = new BorderContainer({
-                gutters: false
-            }, dom.byId('bc_inner'));
-            // top panel
-            var cp_inner_top = new ContentPane({
-                region: "top"
-            }, dom.byId('cp_inner_top'));
-            this._bc_inner.addChild(cp_inner_top);
-            // center panel
-            var cp_inner_center = new ContentPane({
-                region: "center"
-            }, dom.byId('cp_inner_center'));
-            this._bc_inner.addChild(cp_inner_center);
-            this._bc_inner.startup();
             on(dom.byId('hamburger_button'), 'click', lang.hitch(this, function() {
                 this._toggleDrawer();
             }));
@@ -202,7 +187,7 @@ function(
                     duration: 250,
                     easing: easing.expoOut,
                     onAnimate: lang.hitch(this, function() {
-                        this._fixOuterLayout();
+                        this._fixLayout();
                         domClass.remove(document.body, "drawerOpen");
                     }),
                     onEnd: lang.hitch(this, function() {
@@ -231,7 +216,7 @@ function(
                     duration: 250,
                     easing: easing.expoOut,
                     onAnimate: lang.hitch(this, function() {
-                        this._fixOuterLayout();
+                        this._fixLayout();
                         if (window.innerWidth < 850) {
                             domClass.add(document.body, "drawerOpen");
                             var domSlider = query('.' + this.css.statsPanelSelected + '.animateSlider', this.dataNode)[0];
@@ -629,17 +614,13 @@ function(
             }
         },
         _showMobileGeocoder: function() {
-            dom.byId("geocoderMobile_input").value = "";
-            if (domClass.contains(query('#mobileSearch .esriGeocoder')[0], 'esriGeocoderHasValue')) {
-                domClass.remove(query('#mobileSearch .esriGeocoder')[0], 'esriGeocoderHasValue');
-            }
             domClass.add(dom.byId("mobileSearch"), "mobileLocateBoxDisplay");
-            domClass.replace(dom.byId("mobileGeocoderIcon"), "toggle-grey-on", "toggleSearch");
+            domClass.replace(dom.byId("mobileGeocoderIconContainer"), "toggle-grey-on", "toggle-grey");
         },
         _hideMobileGeocoder: function() {
             domClass.remove(dom.byId("mobileSearch"), "mobileLocateBoxDisplay");
             domStyle.set(dom.byId("mobileSearch"), "display", "none");
-            domClass.replace(dom.byId("mobileGeocoderIcon"), "toggleSearch", "toggle-grey-on");
+            domClass.replace(dom.byId("mobileGeocoderIconContainer"), "toggle-grey", "toggle-grey-on");
         },
         _init: function() {
             // locate button
@@ -684,8 +665,7 @@ function(
             }, "LayerLegend");
             LL.startup();
             // geocoders
-            this._createGeocoder("geocoderSearch");
-            this._createGeocoder("geocoderMobile");
+            this._createGeocoders();
             // mobile geocoder toggle            
             var mobileIcon = dom.byId("mobileGeocoderIcon");
             if (mobileIcon) {
@@ -712,7 +692,7 @@ function(
             })); /* END temporary until after JSAPI 3.8 is released */
             this.dataNode = domConstruct.place(domConstruct.create('div', {
                 className: this.css.stats
-            }), dom.byId('cp_inner_center'), 'first');
+            }), dom.byId('cp_outer_center'), 'first');
             // get layer by id
             this._impactLayer = this.getLayerByTitle(this.map, this.layers, this.config.impact_layer);
             if (this._impactLayer) {
@@ -789,19 +769,39 @@ function(
             }
         },
         // create geocoder widgets
-        _createGeocoder: function(container) {
-            var geocoderWidget = new Geocoder({
+        _createGeocoders: function() {
+            this._geocoder = new Geocoder({
                 map: this.map,
                 theme: 'calite',
                 autoComplete: true
-            }, dom.byId(container));
-            geocoderWidget.startup();
+            }, dom.byId("geocoderSearch"));
+            this._geocoder.startup();
             // geocoder results
-            on(geocoderWidget, 'find-results', lang.hitch(this, function(response) {
+            on(this._geocoder, 'find-results', lang.hitch(this, function(response) {
+                if (!response.results.length) {
+                    console.log(this.config.i18n.general.noSearchResult);
+                }
+            }));
+            this._mobileGeocoder = new Geocoder({
+                map: this.map,
+                theme: 'calite',
+                autoComplete: true
+            }, dom.byId("geocoderMobile"));
+            this._mobileGeocoder.startup();
+            // geocoder results
+            on(this._mobileGeocoder, 'find-results', lang.hitch(this, function(response) {
                 if (!response.results.length) {
                     console.log(this.config.i18n.general.noSearchResult);
                 }
                 this._hideMobileGeocoder();
+            }));
+            // keep geocoder values in sync
+            this._geocoder.watch("value", lang.hitch(this, function(name, oldValue, value){
+                this._mobileGeocoder.set("value", value);
+            }));
+            // keep geocoder values in sync
+            this._mobileGeocoder.watch("value", lang.hitch(this, function(name, oldValue, value){
+                this._geocoder.set("value", value);
             }));
         },
         // clear selected renderer & loading status
@@ -825,16 +825,11 @@ function(
             var indicator = dom.byId("loadingIndicatorDiv");
             if (indicator) {
                 domStyle.set(indicator, "display", "none");
-            }
-        },
-        // fix outer border container
-        _fixOuterLayout: function() {
-            this._bc_outer.layout();
+            }            
         },
         // resize border container layout
         _fixLayout: function() {
             this._bc_outer.layout();
-            this._bc_inner.layout();
         },
         //create a map based on the input web map id
         _createWebMap: function() {
