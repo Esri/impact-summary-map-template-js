@@ -13,7 +13,7 @@ define([
     "dojo/i18n!modules/nls/ShareDialog",
     "dojo/dom-class",
     "dojo/dom-style",
-    "dojox/html/entities",
+    "dojo/dom-attr",
     "esri/request",
     "dijit/Dialog"
 ],
@@ -25,8 +25,7 @@ function (
     _WidgetBase, a11yclick, _TemplatedMixin,
     on,
     dijitTemplate, i18n,
-    domClass, domStyle,
-    entities,
+    domClass, domStyle, domAttr,
     esriRequest,
     Dialog
 ) {
@@ -88,9 +87,11 @@ function (
             this.set("bitlyKey", defaults.bitlyKey);
             // listeners
             this.watch("theme", this._updateThemeWatch);
-            this.watch("url", this._updateUrls);
+            this.watch("url", this._updateUrl);
             this.watch("visible", this._visible);
             this.watch("embedSizes", this._setSizeOptions);
+            this.watch("embed", this._updateEmbed);
+            this.watch("bitlyUrl", this._updateBitlyUrl);
             // classes
             this._css = {
                 container: "buttonContainer",
@@ -188,10 +189,15 @@ function (
             }
             this._comboBoxNode.innerHTML = html;
         },
-        _updateUrls: function() {
+        _updateUrl: function() {
+            // nothing currently shortened
+            this._shortened = null;
+            // no bitly shortened
             this.set("bitlyUrl", null);
-            this._updateEmbedCode();
-            this._shareMapUrlText.value = this.get("url");
+            // reset embed code
+            this._setEmbedCode();
+            // set url value
+            domAttr.set(this._shareMapUrlText, "value", this.get("url"));
         },
         _init: function() {
             // setup events
@@ -215,12 +221,12 @@ function (
             // set visible
             this._visible();
             // set embed url
-            this._updateUrls();
+            this._updateUrl();
             // select menu change
             var selectChange = on(this._comboBoxNode, "change", lang.hitch(this, function(evt) {
                 this.set("embedWidth", this.get("embedSizes")[parseInt(evt.currentTarget.value, 10)].width);
                 this.set("embedHeight", this.get("embedSizes")[parseInt(evt.currentTarget.value, 10)].height);
-                this._updateEmbedCode();
+                this._setEmbedCode();
             }));
             this._events.push(selectChange);
             // facebook click
@@ -266,34 +272,46 @@ function (
             this.set("loaded", true);
             this.emit("load", {});
         },
-        _updateEmbedCode: function() {
+        _updateEmbed: function(){
+            domAttr.set(this._embedNode, "value", this.get("embed"));
+        },
+        _setEmbedCode: function() {
             var es = '<iframe width="' + this.get("embedWidth") + '" height="' + this.get("embedHeight") + '" src="' + this.get("url") + '" frameborder="0" scrolling="no"></iframe>';
             this.set("embed", es);
-            this._embedNode.innerHTML = entities.encode(es);
+        },
+        _updateBitlyUrl: function(){
+            var bitly = this.get("bitlyUrl");
+            if(bitly){
+                domAttr.set(this._shareMapUrlText, "value", bitly);
+            }
         },
         _shareLink: function() {
             if (this.get("bitlyAPI") && this.get("bitlyLogin") && this.get("bitlyKey")) {
-                esriRequest({
-                    url: this.get("bitlyAPI"),
-                    callbackParamName: "callback",
-                    content: {
-                        uri: this.get("url"),
-                        login: this.get("bitlyLogin"),
-                        apiKey: this.get("bitlyKey"),
-                        f: "json"
-                    },
-                    load: lang.hitch(this, function(response) {
-                        if (response && response.data && response.data.url) {
-                            this.set("bitlyUrl") = response.data.url;
+                var currentUrl = this.get("url");
+                // not already shortened
+                if(currentUrl !== this._shortened){
+                    // set shortened
+                    this._shortened = currentUrl;
+                    // make request
+                    esriRequest({
+                        url: this.get("bitlyAPI"),
+                        callbackParamName: "callback",
+                        content: {
+                            uri: currentUrl,
+                            login: this.get("bitlyLogin"),
+                            apiKey: this.get("bitlyKey"),
+                            f: "json"
+                        },
+                        load: lang.hitch(this, function(response) {
+                            if (response && response.data && response.data.url) {
+                                this.set("bitlyUrl", response.data.url);
+                            }                            
+                        }),
+                        error: function(error) {
+                            console.log(error);
                         }
-                        if (this.get("bitlyUrl")) {
-                            this._shareMapUrlText.value = this.get("bitlyUrl");
-                        }
-                    }),
-                    error: function(error) {
-                        console.log(error);
-                    }
-                });
+                    });
+                }
             }
         },
         _configureShareLink: function(Link, isMail) {

@@ -611,14 +611,10 @@ function(
                                 if (!this._impactLayer.visible) {
                                     this._impactLayer.setVisibility(true);
                                 }
-                                var isSummarizeSelected = false;
-                                // if not currently selected
-                                if (!domClass.contains(evt.currentTarget, this.css.rendererSelected)) {
-                                    this._clearSelected();
-                                    domClass.add(evt.currentTarget, this.css.rendererSelected);
-                                    domClass.add(evt.currentTarget, this.css.rendererLoading);
-                                    isSummarizeSelected = true;
-                                }
+                                // remove any selected
+                                this._clearSelected();
+                                domClass.add(evt.currentTarget, this.css.rendererSelected);
+                                domClass.add(evt.currentTarget, this.css.rendererLoading);
                                 // search query
                                 var q = new Query();
                                 q.where = '1 = 1';
@@ -627,9 +623,7 @@ function(
                                 this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
                                     setTimeout(lang.hitch(this, function() {
                                         domClass.remove(ct, this.css.rendererLoading);
-                                        if (isSummarizeSelected) {
-                                            this._displayStats(fs.features);
-                                        }
+                                        this._displayStats(fs.features);
                                         this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
                                     }), 250);
                                 }), lang.hitch(this, function() {
