@@ -36,7 +36,8 @@ define([
     "esri/dijit/BasemapToggle",
     "esri/dijit/Geocoder",
     "modules/Slider",
-    "esri/dijit/Popup"
+    "esri/dijit/Popup",
+    "dojo/Deferred"
 ],
 function(
     ready,
@@ -68,7 +69,8 @@ function(
     HomeButton, LocateButton, BasemapToggle,
     Geocoder,
     Slider,
-    Popup
+    Popup,
+    Deferred
 ) {
     return declare("", null, {
         config: {},
@@ -202,6 +204,7 @@ function(
             window.document.title = title;
         },
         _toggleDrawer: function() {
+            var def = new Deferred();
             // if drawer is shown
             if (domStyle.get(this._drawer, 'display') === 'block') {
                 // remove drawer class
@@ -236,6 +239,7 @@ function(
                         this._setMobileGeocoderVisibility(true);
                         // hamburger button status
                         this._toggleHamburgerButton();
+                        def.resolve();
                     })
                 }).play();
             } else {
@@ -274,9 +278,11 @@ function(
                         this._toggleHamburgerButton();
                         // check if drawer is open
                         this._setSliderMediaQuery();
+                        def.resolve();
                     })
                 }).play();
             }
+            return def.promise;
         },
         _toggleHamburgerButton: function() {
             // hamburger node
@@ -571,6 +577,42 @@ function(
             }
             return false;
         },
+        _queryFeatures: function(node){
+            // show layer if invisible
+            if (!this._impactLayer.visible) {
+                this._impactLayer.setVisibility(true);
+            }
+            // remove any selected
+            this._clearSelected();
+            var value = domAttr.get(node, 'data-value');
+            domClass.add(node, this.css.rendererSelected);
+            domClass.add(node, this.css.rendererLoading);
+            // search query
+            var q = new Query();
+            if(value === "summarize" || !value){
+                q.where = '1 = 1';
+            }
+            else{
+                // match value
+                if (isNaN(value)) {
+                    q.where = this._attributeField + ' = ' + "'" + value + "'";
+                } else {
+                    q.where = this._attributeField + ' = ' + value;
+                }
+            }
+            var ct = node;
+            // query features
+            this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
+                setTimeout(lang.hitch(this, function() {
+                    domClass.remove(ct, this.css.rendererLoading);
+                    this._displayStats(fs.features);
+                    this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
+                }), 250);
+            }), lang.hitch(this, function() {
+                // remove selected
+                this._clearSelected();
+            }));
+        },
         // determines to show renderer if multiple features
         _setValueRange: function() {
             // default not multiple
@@ -599,81 +641,20 @@ function(
                         dom.byId('renderer_menu').innerHTML = output;
                         // display renderer
                         domStyle.set(dom.byId('renderer_menu'), 'display', 'block');
-                        // summarize button click
-                        this._summarizeClick = on(dom.byId('summarize'), 'click', lang.hitch(this, function(evt) {
-                            // current renderer isn't already selected
-                            if(!domClass.contains(evt.currentTarget, this.css.rendererSelected)){
-                                // hide drawer for small res
-                                if (window.innerWidth < this._mobileSizeStart) {
-                                    this._toggleDrawer();
-                                }
-                                // show layer if invisible
-                                if (!this._impactLayer.visible) {
-                                    this._impactLayer.setVisibility(true);
-                                }
-                                // remove any selected
-                                this._clearSelected();
-                                domClass.add(evt.currentTarget, this.css.rendererSelected);
-                                domClass.add(evt.currentTarget, this.css.rendererLoading);
-                                // search query
-                                var q = new Query();
-                                q.where = '1 = 1';
-                                var ct = evt.currentTarget;
-                                // query features
-                                this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
-                                    setTimeout(lang.hitch(this, function() {
-                                        domClass.remove(ct, this.css.rendererLoading);
-                                        this._displayStats(fs.features);
-                                        this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
-                                    }), 250);
-                                }), lang.hitch(this, function() {
-                                    // remove selected
-                                    this._clearSelected();
-                                }));
-                            }
-                        }));
                         // renderer item click
                         on(query('.' + this.css.rendererMenuItem, dom.byId('renderer_menu')), 'click', lang.hitch(this, function(evt) {
+                            var ct = evt.currentTarget;
                             // current renderer isn't already selected
-                            if(!domClass.contains(evt.currentTarget, this.css.rendererSelected)){
-                                // show layer if invisible
-                                if (!this._impactLayer.visible) {
-                                    this._impactLayer.setVisibility(true);
-                                }
+                            if(!domClass.contains(ct, this.css.rendererSelected)){
                                 // hide drawer for small res
                                 if (window.innerWidth < this._mobileSizeStart) {
-                                    this._toggleDrawer();
+                                    this._toggleDrawer().then(lang.hitch(this, function(){
+                                        this._queryFeatures(ct);
+                                    }));
                                 }
-                                // remove any selected
-                                this._clearSelected();
-                                // add selected classes
-                                var value = domAttr.get(evt.currentTarget, 'data-value');
-                                domClass.add(evt.currentTarget, this.css.rendererSelected);
-                                domClass.add(evt.currentTarget, this.css.rendererLoading);
-                                // query info
-                                var q = new Query();
-                                if (value === 0) {
-                                    q.where = '1 = 1';
-                                } else {
-                                    // match value
-                                    if (isNaN(value)) {
-                                        q.where = this._attributeField + ' = ' + "'" + value + "'";
-                                    } else {
-                                        q.where = this._attributeField + ' = ' + value;
-                                    }
+                                else{
+                                    this._queryFeatures(ct);
                                 }
-                                var ct = evt.currentTarget;
-                                // get features
-                                this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
-                                    // todo
-                                    setTimeout(lang.hitch(this, function() {
-                                        domClass.remove(ct, this.css.rendererLoading);
-                                        this._displayStats(fs.features);
-                                        this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
-                                    }), 250);
-                                }), lang.hitch(this, function() {
-                                    this._clearSelected();
-                                }));
                             }
                         }));
                     }
@@ -920,9 +901,6 @@ function(
                     domClass.remove(items[i], this.css.rendererLoading);
                 }
             }
-            // remove summarize classes
-            domClass.remove(dom.byId('summarize'), this.css.rendererSelected);
-            domClass.remove(dom.byId('summarize'), this.css.rendererLoading);
         },
         // hide map loading spinner
         _hideLoadingIndicator: function() {
