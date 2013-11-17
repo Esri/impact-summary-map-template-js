@@ -195,7 +195,7 @@
 }
 
 #geocoderMobile .esriGeocoder input {
-	width:80%!important;
+	width:80%;
 	line-height:25px;
 	height:25px;
 }

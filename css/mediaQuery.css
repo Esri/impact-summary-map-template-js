@@ -230,7 +230,7 @@
 	}
 	
 	#geocoderMobile .esriGeocoder input {
-		width:75%!important;
+		width:70%!important;
 	}
 }
 
@@ -376,7 +376,7 @@
 	}
 }
 
-@media screen and (max-device-aspect-ratio: 400640) {
+@media screen and (max-device-aspect-ratio: 400/640) {
 	.esriSimpleSlider,#BasemapToggle,#title,.geocoderSearch,.locateBox {
 		display:none!important;
 	}
@@ -399,7 +399,7 @@
 	}
 	
 	#geocoderMobile .esriGeocoder input {
-		width:75%!important;
+		width:70%!important;
 		height:30px!important;
 	}
 	
@@ -640,7 +640,7 @@
 	}
 	
 	#geocoderMobile .esriGeocoder input {
-		width:75%!important;
+		width:70%!important;
 		height:30px!important;
 	}
 	
