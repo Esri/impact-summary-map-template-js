@@ -28,6 +28,15 @@
 	margin:0;
 	z-index:20;
 	position:absolute;
+    color:#999;
+}
+
+.calcite .dijitDialogCloseIcon:hover{
+    color:#555;
+}
+
+.calcite .dijitDialogCloseIcon:active{
+    color:#007ac2;
 }
 
 .calcite .dijitDialogPaneContent {
@@ -44,7 +53,6 @@
 .calcite .dialogContent{
     width:510px;
     height:400px;
-    min-width:330px;
 }
 
 .calcite .dijitDialogTitle {

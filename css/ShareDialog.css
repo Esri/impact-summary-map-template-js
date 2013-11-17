@@ -1,5 +1,4 @@
 .calcite .iconContainer {
-	height:40px;
 	margin:10px 0 20px;
 }
 
@@ -11,10 +10,19 @@
 
 .calcite .shareDialogIconClass {
 	font-size:32px;
+    line-height:32px;
 	float:left;
 	color:#007ac2;
 	cursor:pointer;
 	margin:0 10px 0 0;
+}
+
+.calcite .shareDialogIconClass:hover{
+    color:#97cbec;
+}
+
+.calcite .shareDialogIconClass:active{
+    color:#555;
 }
 
 .calcite .shareMapURL {
@@ -33,7 +41,7 @@
 	padding:0 0 20px;
 }
 
-.calcite .embedMapSizeClear {
+.calcite .embedMapSizeClear, .calcite .iconClear {
 	clear:both;
 }
 

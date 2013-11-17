@@ -110,7 +110,8 @@ function (
                 shareDialogSubHeader: "shareDialogSubHeader",
                 shareDialogTextarea: "shareDialogTextarea",
                 mapSizeContainer: "mapSizeContainer",
-                embedMapSizeClear: "embedMapSizeClear"
+                embedMapSizeClear: "embedMapSizeClear",
+                iconClear: "iconClear"
             };
         },
         // bind listener for button to action

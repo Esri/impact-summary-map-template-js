@@ -176,11 +176,12 @@ html,body {
 
 .topBar {
     position:absolute;
-    z-index:20;
+    z-index:36;
     top:0;
     left:0;
     width:100%;
-	background:#f8f8f8;
+	background:#fff;
+    background:rgba(255,255,255,0.9);
 	height:34px;
 	border-bottom:1px solid #ddd;
 }
@@ -220,7 +221,7 @@ html,body {
 }
 
 .toggle-grey-on:hover,.toggle-grey-on:active {
-	color:#333;
+	color:#97cbec;
 }
 
 #title {
@@ -292,7 +293,7 @@ html,body {
 
 .geoData {
 	position:absolute;
-	z-index:99;
+	z-index:40;
 	bottom:40px;
 	width:100%;
 	-moz-user-select:none;
@@ -462,7 +463,12 @@ html,body {
 }
 
 .clear {
-	clear:both;
+	clear: both;
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+    height: 0;
 }
 
 .geoPanel {
@@ -471,7 +477,7 @@ html,body {
 }
 
 .divHeader {
-	height:20%;
+	height:26px;
 	line-height:25px;
 	width:100%;
 	border-bottom:1px solid #777;
@@ -524,7 +530,6 @@ html,body {
 	height:30px;
 	word-wrap:break-word;
 	overflow:hidden;
-	cursor:pointer;
 }
 
 .divOuterSliderContainer {
@@ -534,22 +539,26 @@ html,body {
 	overflow:hidden;
 }
 
-.leftArrow,.rightArrow {
-	position:relative;
-	margin-top:24px;
+.geoData .leftArrow, .geoData .rightArrow {
 	font-size:40px;
-	line-height:30px;
 	cursor:pointer;
 	color:#dddcdc;
 	overflow:hidden;
-	margin-left:0!important;
-	margin-right:0!important;
-	width:36px!important;
-	height:40px;
+    margin:0;
+    padding:0;
+    text-align:center;
+	width:36px;
+	height:100px;
+    line-height:100px;
+}
+.leftArrow:hover,.rightArrow:hover {
+    color:#555;
+}
+.leftArrow:active,.rightArrow:active {
+    color:#007ac2;
 }
 
 .disableArrow {
-	color:#ccc;
 	display:none!important;
 	cursor:default!important;
 }
@@ -565,20 +574,6 @@ html,body {
 	-webkit-transition-delay:0;
 }
 
-.divSliderContainer {
-	z-index:1002;
-	background-color:#fff;
-}
-
-.divInnerSliderContainer {
-	bottom:0;
-	height:100%;
-	width:100%;
-	z-index:1005;
-	position:relative;
-	background:transparent;
-	text-align:center;
-}
 
 .carouselscroll {
 	height:70px;
@@ -626,7 +621,7 @@ html,body {
 	cursor:pointer;
 }
 
-.divGeoDataHolder div {
+.divGeoDataHolder .data-block {
 	float:left;
 	height:75px;
 	width:150px;
@@ -646,7 +641,6 @@ html,body {
 	width:450px;
 	overflow:hidden;
 	float:left;
-	height:100%;
 	position:relative;
 }
 
@@ -709,6 +703,12 @@ html,body {
 	font-size:17px;
 	cursor:pointer;
 }
+#btnCloseGeocoder:hover{
+    color:#555;
+}
+#btnCloseGeocoder:active{
+    color:#007ac2;
+}
 
 .animateSlider {
 	height:130px!important;
@@ -717,16 +717,16 @@ html,body {
 #mobileSearch {
 	display:none;
 	position:absolute;
-	z-index:99999;
+	z-index:999;
 	left:0;
     top:35px;
-	background:rgba(255,255,255,0.7);
 	width:100%;
 }
 
 #mobileSearch .mobileSearchContainer{
     padding:5px 15px;
     height:32px;
+    background:rgba(255,255,255,0.7);
 }
 
 /* Hiding input fields close icon in IE10 */

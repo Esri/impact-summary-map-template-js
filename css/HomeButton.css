@@ -4,10 +4,6 @@
 
 .HomeButtonCalcite .homeContainer {
 	text-align:center;
-	font-size:21px;
-	line-height:22px;
-	width:22px;
-	padding:4px;
 	background-color:#fff;
 	-webkit-user-select:none;
 	-moz-user-select:none;
@@ -33,6 +29,10 @@
 }
 
 .HomeButtonCalcite .home {
+    font-size:21px;
+	line-height:22px;
+	width:22px;
+	padding:4px;
 	font-family:"fontello";
 	font-style:normal;
 	font-weight:400;

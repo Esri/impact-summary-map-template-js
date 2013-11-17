@@ -73,34 +73,14 @@ function(
     return declare("", null, {
         config: {},
         constructor: function(config) {
-            this._containers();
-            //config will contain application and user defined info for the template such as i18n strings, the web map id
-            // and application id
-            // any url parameters and any application specific configuration information.
-            this.config = config;
-            this._cssStyles();
-            ready(lang.hitch(this, function() {
-                this._setLanguageStrings();
-                this._createWebMap();
-            }));
-        },
-        _setLanguageStrings: function() {
-            var node;
-            node = dom.byId('legend_name');
-            if (node) {
-                node.innerHTML = this.config.i18n.general.legend;
-            }
-            node = dom.byId('impact_name');
-            if (node) {
-                node.innerHTML = this.config.impact_layer || this.config.i18n.general.impact;
-            }
-        },
-        _cssStyles: function() {
+            // css classes
             this.css = {
                 toggleBlue: 'toggle-grey',
                 toggleBlueOn: 'toggle-grey-on',
                 menuItem: 'item',
                 menuItemSelected: 'item-selected',
+                menuItemFirst: "item-first",
+                menuItemOnly: "only-item",
                 menuPanel: 'panel',
                 menuPanelSelected: 'panel-selected',
                 rendererMenu: 'menuList',
@@ -111,8 +91,45 @@ function(
                 rendererSummarize: 'summarize',
                 stats: 'geoData',
                 statsPanel: 'panel',
-                statsPanelSelected: 'panel-expanded'
+                statsCount: 'count',
+                statsPanelSelected: 'panel-expanded',
+                statsPanelSelectedExpand: "panel-selected-expand",
+                statsPanelDataBlock: 'data-block',
+                drawerOpen: "drawerOpen",
+                animateSlider: "animateSlider",
+                mobileSearchDisplay: "mobileLocateBoxDisplay",
+                divOuterSliderContainer: "divOuterSliderContainer",
+                divGeoDataHolder: "divGeoDataHolder",
+                divHeaderClose: "divHeaderClose",
+                divSliderContainer: "divSliderContainer"
             };
+            this._mobileSizeStart = 850;
+            // set up border containers
+            this._containers();
+            //config will contain application and user defined info for the template such as i18n strings, the web map id
+            // and application id
+            // any url parameters and any application specific configuration information.
+            this.config = config;
+            // dom ready
+            ready(lang.hitch(this, function() {
+                // set panel names
+                this._setLanguageStrings();
+                // lets get that webmap
+                this._createWebMap();
+            }));
+        },
+        _setLanguageStrings: function() {
+            var node;
+            // legend menu button node
+            node = dom.byId('legend_name');
+            if (node) {
+                node.innerHTML = this.config.i18n.general.legend;
+            }
+            // impact menu button node
+            node = dom.byId('impact_name');
+            if (node) {
+                node.innerHTML = this.config.i18n.general.impact;
+            }
         },
         _containers: function() {
             // outer container
@@ -129,31 +146,43 @@ function(
                 region: "left"
             }, dom.byId('cp_outer_left'));
             this._bc_outer.addChild(cp_outer_left);
+            // start border container
             this._bc_outer.startup();
+            // drawer button
             on(dom.byId('hamburger_button'), 'click', lang.hitch(this, function() {
                 this._toggleDrawer();
             }));
+            // drawer node
             this._drawer = cp_outer_left.domNode;
+            // drawer width
             this._drawerWidth = domStyle.get(this._drawer, 'width');
+            // set drawer menu
             this._drawerMenu();
         },
         _showDrawerPanel: function(buttonNode) {
+            // menu items
             var menus = query('.' + this.css.menuItemSelected, dom.byId('drawer_menu'));
+            // panel items
             var panels = query('.' + this.css.menuPanelSelected, dom.byId('drawer_panels'));
             var i;
+            // remove all selected menu items
             for (i = 0; i < menus.length; i++) {
                 domClass.remove(menus[i], this.css.menuItemSelected);
             }
+            // remove all selected panels
             for (i = 0; i < panels.length; i++) {
                 domClass.remove(panels[i], this.css.menuPanelSelected);
             }
+            // get menu to show
             var menu = domAttr.get(buttonNode, 'data-menu');
+            // set menu button selected
             domClass.add(buttonNode, this.css.menuItemSelected);
+            // set menu selected
             domClass.add(menu, this.css.menuPanelSelected);
         },
         _drawerMenu: function() {
             // all menu items
-            var menus = query('.item', dom.byId('drawer_menu'));
+            var menus = query('.' + this.css.menuItem, dom.byId('drawer_menu'));
             // menu item click
             on(menus, 'click', lang.hitch(this, function(evt) {
                 // show drawer panel
@@ -175,6 +204,8 @@ function(
         _toggleDrawer: function() {
             // if drawer is shown
             if (domStyle.get(this._drawer, 'display') === 'block') {
+                // remove drawer class
+                domClass.remove(document.body, this.css.drawerOpen);
                 // collapse width
                 fx.animateProperty({
                     node: this._drawer,
@@ -187,17 +218,23 @@ function(
                     duration: 250,
                     easing: easing.expoOut,
                     onAnimate: lang.hitch(this, function() {
+                        // render border container
                         this._fixLayout();
-                        domClass.remove(document.body, "drawerOpen");
                     }),
                     onEnd: lang.hitch(this, function() {
+                        // hide drawer
                         domStyle.set(this._drawer, 'display', 'none');
+                        // render border container
                         this._fixLayout();
-                        var domSlider = query('.' + this.css.statsPanelSelected + '.animateSlider')[0];
+                        // get selected slider
+                        // todo
+                        var domSlider = query('.' + this.css.statsPanelSelected + '.' + this.css.animateSlider)[0];
                         if (domSlider) {
                             this._setPanelWidth(domSlider);
                         }
+                        // show mobile button
                         this._setMobileGeocoderVisibility(true);
+                        // hamburger button status
                         this._toggleHamburgerButton();
                     })
                 }).play();
@@ -216,48 +253,65 @@ function(
                     duration: 250,
                     easing: easing.expoOut,
                     onAnimate: lang.hitch(this, function() {
+                        // render border container
                         this._fixLayout();
-                        if (window.innerWidth < 850) {
-                            domClass.add(document.body, "drawerOpen");
-                            var domSlider = query('.' + this.css.statsPanelSelected + '.animateSlider', this.dataNode)[0];
+                    }),
+                    onEnd: lang.hitch(this, function() {
+                        // render border container
+                        this._fixLayout();
+                        // if mobile size
+                        if (window.innerWidth < this._mobileSizeStart) {
+                            // show drawer
+                            domClass.add(document.body, this.css.drawerOpen);
+                            // get selected slider
+                            // todo
+                            var domSlider = query('.' + this.css.statsPanelSelected + '.' + this.css.animateSlider, this.dataNode)[0];
                             if (domSlider) {
                                 this._setPanelWidth(domSlider);
                             }
                         }
-                    }),
-                    onEnd: lang.hitch(this, function() {
-                        this._fixLayout();
+                        // hamburger button status
                         this._toggleHamburgerButton();
+                        // check if drawer is open
                         this._setSliderMediaQuery();
                     })
                 }).play();
             }
         },
         _toggleHamburgerButton: function() {
+            // hamburger node
             var hbNode = dom.byId('hamburger_button');
+            // if drawer is displayed
             if (domStyle.get(this._drawer, 'display') === 'block') {
+                // has normal class
                 if (domClass.contains(hbNode, this.css.toggleBlue)) {
+                    // replace with selected class
                     domClass.replace(hbNode, this.css.toggleBlueOn, this.css.toggleBlue);
                 }
             } else {
+                // has selected class
                 if (domClass.contains(hbNode, this.css.toggleBlueOn)) {
+                    // replace with normal class
                     domClass.replace(hbNode, this.css.toggleBlue, this.css.toggleBlueOn);
                 }
             }
         },
         _displayContainer: function(node) {
+            // show panel
             domStyle.set(node, 'display', 'block');
-            setTimeout(function() {
-                domClass.add(node, "animateSlider");
-            }, 0);
+            // todo
+            setTimeout(lang.hitch(this, function() {
+                domClass.add(node, this.css.animateSlider);
+            }), 0);
         },
         _hideContainer: function(node) {
-            setTimeout(function() {
-                domClass.remove(node, "animateSlider");
-            }, 0);
+            // todo
+            setTimeout(lang.hitch(this, function() {
+                domClass.remove(node, this.css.animateSlider);
+            }), 0);
             domStyle.set(node, 'display', 'none');
         },
-        formatNumber: function(number, decPlaces) {
+        _formatNumber: function(number, decPlaces) {
             decPlaces = Math.pow(10, decPlaces);
             var abbrev = ["k", "m", "b", "t"];
             for (var i = abbrev.length - 1; i >= 0; i--) {
@@ -278,8 +332,8 @@ function(
             var decPlaces;
             if (features && features.length) {
                 var variables = this.config.sum_variables;
-                var sum = {},
-                    i;
+                var sum = {};
+                var i;
                 if (features.length > 1) {
                     for (i = 0; i < features.length; i++) {
                         if (i === 0) {
@@ -313,24 +367,32 @@ function(
                         } else {
                             decPlaces = 2;
                         }
-                        return this.formatNumber(parseInt(render(text)), decPlaces);
+                        return this._formatNumber(parseInt(render(text)), decPlaces);
                     });
                 });
+                // show geo stats
                 domStyle.set(this.dataNode, 'display', 'block');
+                // render html panels
                 var output = Mustache.render(panelsView, sum);
                 var selectedPanel, panelType;
-                selectedPanel = query('.' + this.css.statsPanelSelected + '.animateSlider', this.dataNode)[0];
+                // get selected panel
+                // todo
+                selectedPanel = query('.' + this.css.statsPanelSelected + '.' + this.css.animateSlider, this.dataNode)[0];
                 if (selectedPanel) {
                     panelType = domAttr.get(selectedPanel, 'data-type');
                 }
+                // set panel html
                 this.dataNode.innerHTML = output;
+                // remove exiting slider events
                 this._removeSliderEvents();
                 //Create Slider for Geo data panels
-                var slider, objSlider, childNode, divGeoPanel, sliderResizeHandler = null; //resize handler
-                slider = query('.panel-expanded .divOuterSliderContainer', dom.byId('geodata_container'));
+                var slider, objSlider, childNode, divGeoPanel, sliderResizeHandler = null;
+                // todo
+                slider = query('.' + this.css.statsPanelSelected + ' .' + this.css.divOuterSliderContainer, dom.byId('geodata_container'));
+                // each slider node
                 array.forEach(slider, lang.hitch(this, function(node) {
-                    divGeoPanel = query('.divGeoDataHolder', node)[0];
-                    childNode = query('div', divGeoPanel).length;
+                    divGeoPanel = query('.' + this.css.divGeoDataHolder, node)[0];
+                    childNode = query('.' + this.css.statsPanelDataBlock, divGeoPanel).length;
                     this._setPanelWidth(node.parentElement);
                     if (childNode > 3) {
                         if (divGeoPanel) {
@@ -359,15 +421,18 @@ function(
                 if (panelType) {
                     this._showExpanded(panelType);
                 }
-                this._panelClick = on(query('.panel', this.dataNode), 'click', lang.hitch(this, function(evt) {
+                // panel click
+                this._panelClick = on(query('.' + this.css.menuPanel, this.dataNode), 'click', lang.hitch(this, function(evt) {
                     var type = domAttr.get(evt.currentTarget, 'data-type');
                     this._showExpanded(type);
                 }));
-                this._expandedClick = on(query('.' + this.css.statsPanelSelected + ' .divHeaderClose', this.dataNode), 'click', lang.hitch(this, function(evt) {
+                // expanded panel click
+                this._expandedClick = on(query('.' + this.css.statsPanelSelected + ' .' + this.css.divHeaderClose, this.dataNode), 'click', lang.hitch(this, function(evt) {
                     this._hideExpanded(evt.currentTarget);
                 }));
                 // add features to graphics layer
                 this._selectedGraphics.clear();
+                // each selected feature
                 for (i = 0; i < features.length; i++) {
                     var sls = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255, 1]), 2);
                     var symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, sls, new Color([0, 255, 255, 0]));
@@ -377,6 +442,7 @@ function(
                     }
                 }
             } else {
+                // hide geo stats
                 domStyle.set(this.dataNode, 'display', 'none');
             }
         },
@@ -396,74 +462,92 @@ function(
             }
         },
         _resizeGeoContainer: function(node) {
-            var slider = query('.divSliderContainer', node)[0];
+            // todo
+            var slider = query('.' + this.css.divSliderContainer, node)[0];
             if (slider) {
                 topic.publish("resizeGeoDataSlider", slider.id);
             }
         },
         _setLeftPanelVisibility: function() {
+            // geo stats container
             var gdContainer = dom.byId('geodata_container');
             if (gdContainer) {
+                // show stats
                 domStyle.set(gdContainer, 'display', 'inline-block');
             }
-            if (window.innerWidth < 850) {
+            // mobile size
+            if (window.innerWidth < this._mobileSizeStart) {
+                // if drawer is shown
                 if (domStyle.get(this._drawer, 'display') === 'block') {
+                    // hide drawer
                     domStyle.set(this._drawer, 'display', 'none');
+                    // set mobile geocoder
                     this._setMobileGeocoderVisibility(true);
                 }
             } else {
+                // set mobile geocoder
                 this._setMobileGeocoderVisibility(true);
+                // drawer not shown
                 if (domStyle.get(this._drawer, 'display') === 'none') {
+                    // show drawer
                     this._toggleDrawer();
                 }
             }
+            // check if drawer is open
             this._setSliderMediaQuery();
+            // hamburger button stats
             this._toggleHamburgerButton();
+            // fix border container layout
             this._fixLayout();
         },
         _setSliderMediaQuery: function() {
             if (domStyle.get(this._drawer, 'display') === 'none') {
-                domClass.remove(document.body, "drawerOpen");
+                domClass.remove(document.body, this.css.drawerOpen);
             } else {
-                domClass.add(document.body, "drawerOpen");
+                domClass.add(document.body, this.css.drawerOpen);
             }
         },
         _setMobileGeocoderVisibility: function(isVisible) {
+            // todo
             if (isVisible) {
-                if (domClass.contains(dom.byId("mobileGeocoderIcon"), "toggle-grey-on")) {
-                    domClass.add(dom.byId("mobileSearch"), "mobileLocateBoxDisplay");
+                if (domClass.contains(dom.byId("mobileGeocoderIcon"), this.css.toggleBlueOn)) {
+                    domClass.add(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
                 }
             }
         },
         _hideExpanded: function(element) {
             var domSlider, divCount;
+            // todo
             domSlider = element.parentElement.parentElement;
-            divCount = query('.panel .count', dom.byId('geo_panel'));
+            // todo
+            divCount = query('.' + this.css.statsPanel + ' .' + this.css.statsCount, dom.byId('geo_panel'));
             //hide slider
             this._hideContainer(domSlider, 100);
             //display geo-data count panels
             array.forEach(divCount, function(elementCount) {
                 domStyle.set(elementCount, 'display', 'block');
             });
+            // todo
             var items = query('.' + this.css.menuPanel, this.dataNode);
-            array.forEach(items, function(elementCount) {
-                domClass.remove(elementCount, 'panel-selected-expand');
-            });
+            array.forEach(items, lang.hitch(this, function(elementCount) {
+                domClass.remove(elementCount, this.css.statsPanelSelectedExpand);
+            }));
         },
         _showExpanded: function(type) {
+            // todo
             var domSlider, divCount;
             domSlider = query('.' + this.css.statsPanelSelected + '[data-type="' + type + '"]', this.dataNode)[0];
             if (domStyle.get(domSlider, 'display') === 'none') {
                 var panels = query('.' + this.css.statsPanelSelected, this.dataNode); 
-                array.forEach(panels, function(elementCount) {
+                array.forEach(panels, lang.hitch(this, function(elementCount) {
                     domStyle.set(elementCount, 'display', 'none');
-                    domClass.remove(elementCount, "animateSlider");
-                });
+                    domClass.remove(elementCount, this.css.animateSlider);
+                }));
                 var items = query('.' + this.css.menuPanel, this.dataNode);
-                array.forEach(items, function(elementCount) {
-                    domClass.remove(elementCount, 'panel-selected-expand');
-                });
-                divCount = query('.panel .count', this.dataNode);
+                array.forEach(items, lang.hitch(this, function(elementCount) {
+                    domClass.remove(elementCount, this.css.statsPanelSelectedExpand);
+                }));
+                divCount = query('.' + this.css.statsPanel + ' .' + this.css.statsCount, this.dataNode);
                 //display slider
                 this._displayContainer(domSlider, 250);
                 //hide geo-data count panels.
@@ -472,7 +556,7 @@ function(
                 });
                 this._setPanelWidth(domSlider);
                 var selected = query('.' + this.css.menuPanel + '[data-type="' + type + '"]', this.dataNode)[0];
-                domClass.add(selected, 'panel-selected-expand');
+                domClass.add(selected, this.css.statsPanelSelectedExpand);
             }
         },
         // get layer of impact area by layer title
@@ -517,81 +601,86 @@ function(
                         domStyle.set(dom.byId('renderer_menu'), 'display', 'block');
                         // summarize button click
                         this._summarizeClick = on(dom.byId('summarize'), 'click', lang.hitch(this, function(evt) {
-                            // hide drawer for small res
-                            if (window.innerWidth < 850) {
-                                this._toggleDrawer();
+                            // current renderer isn't already selected
+                            if(!domClass.contains(evt.currentTarget, this.css.rendererSelected)){
+                                // hide drawer for small res
+                                if (window.innerWidth < this._mobileSizeStart) {
+                                    this._toggleDrawer();
+                                }
+                                // show layer if invisible
+                                if (!this._impactLayer.visible) {
+                                    this._impactLayer.setVisibility(true);
+                                }
+                                var isSummarizeSelected = false;
+                                // if not currently selected
+                                if (!domClass.contains(evt.currentTarget, this.css.rendererSelected)) {
+                                    this._clearSelected();
+                                    domClass.add(evt.currentTarget, this.css.rendererSelected);
+                                    domClass.add(evt.currentTarget, this.css.rendererLoading);
+                                    isSummarizeSelected = true;
+                                }
+                                // search query
+                                var q = new Query();
+                                q.where = '1 = 1';
+                                var ct = evt.currentTarget;
+                                // query features
+                                this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
+                                    setTimeout(lang.hitch(this, function() {
+                                        domClass.remove(ct, this.css.rendererLoading);
+                                        if (isSummarizeSelected) {
+                                            this._displayStats(fs.features);
+                                        }
+                                        this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
+                                    }), 250);
+                                }), lang.hitch(this, function() {
+                                    // remove selected
+                                    this._clearSelected();
+                                }));
                             }
-                            // show layer if invisible
-                            if (!this._impactLayer.visible) {
-                                this._impactLayer.setVisibility(true);
-                            }
-                            var isSummarizeSelected = false;
-                            // if not currently selected
-                            if (!domClass.contains(evt.currentTarget, this.css.rendererSelected)) {
-                                domStyle.set(dom.byId('geodata_container'), 'display', 'none');
-                                this._clearSelected();
-                                domClass.add(evt.currentTarget, this.css.rendererSelected);
-                                domClass.add(evt.currentTarget, this.css.rendererLoading);
-                                isSummarizeSelected = true;
-                            }
-                            // search query
-                            var q = new Query();
-                            q.where = '1 = 1';
-                            var ct = evt.currentTarget;
-                            // query features
-                            this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
-                                setTimeout(lang.hitch(this, function() {
-                                    domClass.remove(ct, this.css.rendererLoading);
-                                    if (isSummarizeSelected) {
-                                        this._displayStats(fs.features);
-                                    }
-                                    this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
-                                }), 250);
-                            }), lang.hitch(this, function() {
-                                // remove selected
-                                this._clearSelected();
-                            }));
                         }));
                         // renderer item click
                         on(query('.' + this.css.rendererMenuItem, dom.byId('renderer_menu')), 'click', lang.hitch(this, function(evt) {
-                            // show layer if invisible
-                            if (!this._impactLayer.visible) {
-                                this._impactLayer.setVisibility(true);
-                            }
-                            // hide drawer for small res
-                            if (window.innerWidth < 850) {
-                                this._toggleDrawer();
-                            }
-                            // hide geo
-                            domStyle.set(dom.byId('geodata_container'), 'display', 'none');
-                            // remove any selected
-                            this._clearSelected();
-                            var value = domAttr.get(evt.currentTarget, 'data-value');
-                            domClass.add(evt.currentTarget, this.css.rendererSelected);
-                            domClass.add(evt.currentTarget, this.css.rendererLoading);
-                            // query info
-                            var q = new Query();
-                            if (value === 0) {
-                                q.where = '1 = 1';
-                            } else {
-                                // match value
-                                if (isNaN(value)) {
-                                    q.where = this._attributeField + ' = ' + "'" + value + "'";
-                                } else {
-                                    q.where = this._attributeField + ' = ' + value;
+                            // current renderer isn't already selected
+                            if(!domClass.contains(evt.currentTarget, this.css.rendererSelected)){
+                                // show layer if invisible
+                                if (!this._impactLayer.visible) {
+                                    this._impactLayer.setVisibility(true);
                                 }
-                            }
-                            var ct = evt.currentTarget;
-                            // get features
-                            this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
-                                setTimeout(lang.hitch(this, function() {
-                                    domClass.remove(ct, this.css.rendererLoading);
-                                    this._displayStats(fs.features);
-                                    this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
-                                }), 250);
-                            }), lang.hitch(this, function() {
+                                // hide drawer for small res
+                                if (window.innerWidth < this._mobileSizeStart) {
+                                    this._toggleDrawer();
+                                }
+                                // remove any selected
                                 this._clearSelected();
-                            }));
+                                // add selected classes
+                                var value = domAttr.get(evt.currentTarget, 'data-value');
+                                domClass.add(evt.currentTarget, this.css.rendererSelected);
+                                domClass.add(evt.currentTarget, this.css.rendererLoading);
+                                // query info
+                                var q = new Query();
+                                if (value === 0) {
+                                    q.where = '1 = 1';
+                                } else {
+                                    // match value
+                                    if (isNaN(value)) {
+                                        q.where = this._attributeField + ' = ' + "'" + value + "'";
+                                    } else {
+                                        q.where = this._attributeField + ' = ' + value;
+                                    }
+                                }
+                                var ct = evt.currentTarget;
+                                // get features
+                                this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
+                                    // todo
+                                    setTimeout(lang.hitch(this, function() {
+                                        domClass.remove(ct, this.css.rendererLoading);
+                                        this._displayStats(fs.features);
+                                        this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
+                                    }), 250);
+                                }), lang.hitch(this, function() {
+                                    this._clearSelected();
+                                }));
+                            }
                         }));
                     }
                 } else {
@@ -603,10 +692,11 @@ function(
         },
         _hideImpactArea: function() {
             domStyle.set(dom.byId("impact_content"), "display", "none");
-            domClass.add(dom.byId("legend_content"), 'only-item');
-            domClass.remove(dom.byId("legend_name"), 'item-first');
+            domClass.add(dom.byId("legend_content"), this.css.menuItemOnly);
+            domClass.remove(dom.byId("legend_name"), this.css.menuItemFirst);
         },
         _selectEvent: function(evt) {
+            // graphic selected
             if (evt.graphic) {
                 this._clearSelected();
                 this._displayStats([evt.graphic]);
@@ -614,13 +704,13 @@ function(
             }
         },
         _showMobileGeocoder: function() {
-            domClass.add(dom.byId("mobileSearch"), "mobileLocateBoxDisplay");
-            domClass.replace(dom.byId("mobileGeocoderIconContainer"), "toggle-grey-on", "toggle-grey");
+            domClass.add(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
+            domClass.replace(dom.byId("mobileGeocoderIconContainer"), this.css.toggleBlueOn, this.css.toggleBlue);
         },
         _hideMobileGeocoder: function() {
-            domClass.remove(dom.byId("mobileSearch"), "mobileLocateBoxDisplay");
+            domClass.remove(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
             domStyle.set(dom.byId("mobileSearch"), "display", "none");
-            domClass.replace(dom.byId("mobileGeocoderIconContainer"), "toggle-grey", "toggle-grey-on");
+            domClass.replace(dom.byId("mobileGeocoderIconContainer"), this.css.toggleBlue, this.css.toggleBlueOn);
         },
         _init: function() {
             // locate button
@@ -680,7 +770,9 @@ function(
             // cancel mobile geocoder
             on(dom.byId("btnCloseGeocoder"), "click", lang.hitch(this, function() {
                 this._hideMobileGeocoder();
-            })); /* Start temporary until after JSAPI 3.8 is released */
+            }));
+            // todo
+            /* Start temporary until after JSAPI 3.8 is released */
             var layers = this.map.getLayersVisibleAtScale(this.map.getScale());
             on.once(this.map, 'basemap-change', lang.hitch(this, function() {
                 for (var i = 0; i < layers.length; i++) {
@@ -689,13 +781,16 @@ function(
                         this.map.removeLayer(layer);
                     }
                 }
-            })); /* END temporary until after JSAPI 3.8 is released */
+            }));
+            // todo
+            /* END temporary until after JSAPI 3.8 is released */
             this.dataNode = domConstruct.place(domConstruct.create('div', {
                 className: this.css.stats
             }), dom.byId('cp_outer_center'), 'first');
             // get layer by id
             this._impactLayer = this.getLayerByTitle(this.map, this.layers, this.config.impact_layer);
             if (this._impactLayer) {
+                // selected graphics layer
                 this._selectedGraphics = new GraphicsLayer({
                     id: "selectedArea",
                     visible: this._impactLayer.visible
@@ -754,17 +849,32 @@ function(
             // hide loader
             this._hideLoadingIndicator();
             // get  menu
-            var defaultMenu = query('.item', dom.byId('drawer_menu'));
+            var defaultMenu = query('.' + this.css.menuItem, dom.byId('drawer_menu'));
             if (defaultMenu) {
-                // if default panel text matches first
-                if (this.config.defaultPanel === this.config.i18n.general.legend) {
-                    this._showDrawerPanel(defaultMenu[0]);
-                } else if (this.config.defaultPanel === this.config.i18n.general.impact) {
-                    if (this._impactLayer.renderer && this._impactLayer.renderer.infos && this._impactLayer.renderer.infos.length) {
-                        this._showDrawerPanel(defaultMenu[1]);
-                    } else {
+                // panel config set
+                if (this.config.defaultPanel){
+                    // panel found
+                    var found = false;
+                    // each menu item
+                    for(var i = 0; i < defaultMenu.length; i++){
+                        // get panel attribute
+                        var panelId = domAttr.get(defaultMenu[i], 'data-menu');
+                        if(panelId === this.config.defaultPanel){
+                            this._showDrawerPanel(defaultMenu[i]);
+                            // panel found
+                            found = true;
+                            break;
+                        }
+                    }
+                    // panel not found
+                    if(!found){
+                        // show first panel
                         this._showDrawerPanel(defaultMenu[0]);
                     }
+                }
+                else{
+                    // panel config not set. show first
+                    this._showDrawerPanel(defaultMenu[0]);
                 }
             }
         },
