@@ -94,6 +94,7 @@ function(
                 statsCount: 'count',
                 statsPanelSelected: 'panel-expanded',
                 statsPanelSelectedExpand: "panel-selected-expand",
+                statsPanelDataBlock: 'data-block',
                 drawerOpen: "drawerOpen",
                 animateSlider: "animateSlider",
                 mobileSearchDisplay: "mobileLocateBoxDisplay",
@@ -127,7 +128,7 @@ function(
             // impact menu button node
             node = dom.byId('impact_name');
             if (node) {
-                node.innerHTML = this.config.impact_layer || this.config.i18n.general.impact;
+                node.innerHTML = this.config.i18n.general.impact;
             }
         },
         _containers: function() {
@@ -391,7 +392,7 @@ function(
                 // each slider node
                 array.forEach(slider, lang.hitch(this, function(node) {
                     divGeoPanel = query('.' + this.css.divGeoDataHolder, node)[0];
-                    childNode = query('div', divGeoPanel).length;
+                    childNode = query('.' + this.css.statsPanelDataBlock, divGeoPanel).length;
                     this._setPanelWidth(node.parentElement);
                     if (childNode > 3) {
                         if (divGeoPanel) {
@@ -600,80 +601,86 @@ function(
                         domStyle.set(dom.byId('renderer_menu'), 'display', 'block');
                         // summarize button click
                         this._summarizeClick = on(dom.byId('summarize'), 'click', lang.hitch(this, function(evt) {
-                            // hide drawer for small res
-                            if (window.innerWidth < this._mobileSizeStart) {
-                                this._toggleDrawer();
+                            // current renderer isn't already selected
+                            if(!domClass.contains(evt.currentTarget, this.css.rendererSelected)){
+                                // hide drawer for small res
+                                if (window.innerWidth < this._mobileSizeStart) {
+                                    this._toggleDrawer();
+                                }
+                                // show layer if invisible
+                                if (!this._impactLayer.visible) {
+                                    this._impactLayer.setVisibility(true);
+                                }
+                                var isSummarizeSelected = false;
+                                // if not currently selected
+                                if (!domClass.contains(evt.currentTarget, this.css.rendererSelected)) {
+                                    this._clearSelected();
+                                    domClass.add(evt.currentTarget, this.css.rendererSelected);
+                                    domClass.add(evt.currentTarget, this.css.rendererLoading);
+                                    isSummarizeSelected = true;
+                                }
+                                // search query
+                                var q = new Query();
+                                q.where = '1 = 1';
+                                var ct = evt.currentTarget;
+                                // query features
+                                this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
+                                    setTimeout(lang.hitch(this, function() {
+                                        domClass.remove(ct, this.css.rendererLoading);
+                                        if (isSummarizeSelected) {
+                                            this._displayStats(fs.features);
+                                        }
+                                        this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
+                                    }), 250);
+                                }), lang.hitch(this, function() {
+                                    // remove selected
+                                    this._clearSelected();
+                                }));
                             }
-                            // show layer if invisible
-                            if (!this._impactLayer.visible) {
-                                this._impactLayer.setVisibility(true);
-                            }
-                            var isSummarizeSelected = false;
-                            // if not currently selected
-                            if (!domClass.contains(evt.currentTarget, this.css.rendererSelected)) {
-                                this._clearSelected();
-                                domClass.add(evt.currentTarget, this.css.rendererSelected);
-                                domClass.add(evt.currentTarget, this.css.rendererLoading);
-                                isSummarizeSelected = true;
-                            }
-                            // search query
-                            var q = new Query();
-                            q.where = '1 = 1';
-                            var ct = evt.currentTarget;
-                            // query features
-                            this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
-                                setTimeout(lang.hitch(this, function() {
-                                    domClass.remove(ct, this.css.rendererLoading);
-                                    if (isSummarizeSelected) {
-                                        this._displayStats(fs.features);
-                                    }
-                                    this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
-                                }), 250);
-                            }), lang.hitch(this, function() {
-                                // remove selected
-                                this._clearSelected();
-                            }));
                         }));
                         // renderer item click
                         on(query('.' + this.css.rendererMenuItem, dom.byId('renderer_menu')), 'click', lang.hitch(this, function(evt) {
-                            // show layer if invisible
-                            if (!this._impactLayer.visible) {
-                                this._impactLayer.setVisibility(true);
-                            }
-                            // hide drawer for small res
-                            if (window.innerWidth < this._mobileSizeStart) {
-                                this._toggleDrawer();
-                            }
-                            // remove any selected
-                            this._clearSelected();
-                            // add selected classes
-                            var value = domAttr.get(evt.currentTarget, 'data-value');
-                            domClass.add(evt.currentTarget, this.css.rendererSelected);
-                            domClass.add(evt.currentTarget, this.css.rendererLoading);
-                            // query info
-                            var q = new Query();
-                            if (value === 0) {
-                                q.where = '1 = 1';
-                            } else {
-                                // match value
-                                if (isNaN(value)) {
-                                    q.where = this._attributeField + ' = ' + "'" + value + "'";
-                                } else {
-                                    q.where = this._attributeField + ' = ' + value;
+                            // current renderer isn't already selected
+                            if(!domClass.contains(evt.currentTarget, this.css.rendererSelected)){
+                                // show layer if invisible
+                                if (!this._impactLayer.visible) {
+                                    this._impactLayer.setVisibility(true);
                                 }
-                            }
-                            var ct = evt.currentTarget;
-                            // get features
-                            this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
-                                // todo
-                                setTimeout(lang.hitch(this, function() {
-                                    domClass.remove(ct, this.css.rendererLoading);
-                                    this._displayStats(fs.features);
-                                    this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
-                                }), 250);
-                            }), lang.hitch(this, function() {
+                                // hide drawer for small res
+                                if (window.innerWidth < this._mobileSizeStart) {
+                                    this._toggleDrawer();
+                                }
+                                // remove any selected
                                 this._clearSelected();
-                            }));
+                                // add selected classes
+                                var value = domAttr.get(evt.currentTarget, 'data-value');
+                                domClass.add(evt.currentTarget, this.css.rendererSelected);
+                                domClass.add(evt.currentTarget, this.css.rendererLoading);
+                                // query info
+                                var q = new Query();
+                                if (value === 0) {
+                                    q.where = '1 = 1';
+                                } else {
+                                    // match value
+                                    if (isNaN(value)) {
+                                        q.where = this._attributeField + ' = ' + "'" + value + "'";
+                                    } else {
+                                        q.where = this._attributeField + ' = ' + value;
+                                    }
+                                }
+                                var ct = evt.currentTarget;
+                                // get features
+                                this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
+                                    // todo
+                                    setTimeout(lang.hitch(this, function() {
+                                        domClass.remove(ct, this.css.rendererLoading);
+                                        this._displayStats(fs.features);
+                                        this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
+                                    }), 250);
+                                }), lang.hitch(this, function() {
+                                    this._clearSelected();
+                                }));
+                            }
                         }));
                     }
                 } else {
@@ -844,15 +851,30 @@ function(
             // get  menu
             var defaultMenu = query('.' + this.css.menuItem, dom.byId('drawer_menu'));
             if (defaultMenu) {
-                // if default panel text matches first
-                if (this.config.defaultPanel === this.config.i18n.general.legend) {
-                    this._showDrawerPanel(defaultMenu[0]);
-                } else if (this.config.defaultPanel === this.config.i18n.general.impact) {
-                    if (this._impactLayer.renderer && this._impactLayer.renderer.infos && this._impactLayer.renderer.infos.length) {
-                        this._showDrawerPanel(defaultMenu[1]);
-                    } else {
+                // panel config set
+                if (this.config.defaultPanel){
+                    // panel found
+                    var found = false;
+                    // each menu item
+                    for(var i = 0; i < defaultMenu.length; i++){
+                        // get panel attribute
+                        var panelId = domAttr.get(defaultMenu[i], 'data-menu');
+                        if(panelId === this.config.defaultPanel){
+                            this._showDrawerPanel(defaultMenu[i]);
+                            // panel found
+                            found = true;
+                            break;
+                        }
+                    }
+                    // panel not found
+                    if(!found){
+                        // show first panel
                         this._showDrawerPanel(defaultMenu[0]);
                     }
+                }
+                else{
+                    // panel config not set. show first
+                    this._showDrawerPanel(defaultMenu[0]);
                 }
             }
         },

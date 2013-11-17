@@ -180,7 +180,8 @@ html,body {
     top:0;
     left:0;
     width:100%;
-	background:#f8f8f8;
+	background:#fff;
+    background:rgba(255,255,255,0.9);
 	height:34px;
 	border-bottom:1px solid #ddd;
 }
@@ -462,7 +463,12 @@ html,body {
 }
 
 .clear {
-	clear:both;
+	clear: both;
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+    height: 0;
 }
 
 .geoPanel {
@@ -533,18 +539,17 @@ html,body {
 	overflow:hidden;
 }
 
-.leftArrow,.rightArrow {
-	position:relative;
-	margin-top:24px;
+.geoData .leftArrow, .geoData .rightArrow {
 	font-size:40px;
-	line-height:30px;
 	cursor:pointer;
 	color:#dddcdc;
 	overflow:hidden;
-	margin-left:0!important;
-	margin-right:0!important;
-	width:36px!important;
-	height:40px;
+    margin:0;
+    padding:0;
+    text-align:center;
+	width:36px;
+	height:100px;
+    line-height:100px;
 }
 .leftArrow:hover,.rightArrow:hover {
     color:#555;
@@ -569,20 +574,6 @@ html,body {
 	-webkit-transition-delay:0;
 }
 
-.divSliderContainer {
-	z-index:1002;
-	background-color:#fff;
-}
-
-.divInnerSliderContainer {
-	bottom:0;
-	height:100%;
-	width:100%;
-	z-index:1005;
-	position:relative;
-	background:transparent;
-	text-align:center;
-}
 
 .carouselscroll {
 	height:70px;
@@ -630,7 +621,7 @@ html,body {
 	cursor:pointer;
 }
 
-.divGeoDataHolder div {
+.divGeoDataHolder .data-block {
 	float:left;
 	height:75px;
 	width:150px;
@@ -650,7 +641,6 @@ html,body {
 	width:450px;
 	overflow:hidden;
 	float:left;
-	height:100%;
 	position:relative;
 }
 
