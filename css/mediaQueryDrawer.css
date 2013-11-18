@@ -283,14 +283,8 @@
 	.drawerOpen #geocoderMobile {
 		width:65%!important;
 	}
+
 	
-	.drawerOpen #geocoderMobile .esriGeocoder {
-		height:35px!important;
-	}
-	
-	.drawerOpen #geocoderMobile .esriGeocoderIcon {
-		margin:9px 4px 0!important;
-	}
 	
 	.drawerOpen .esriAttribution {
 		display:none!important;
