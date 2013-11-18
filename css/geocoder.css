@@ -191,15 +191,11 @@
 }
 
 #geocoderMobile .esriGeocoderIcon {
-	margin:7px 4px 0!important;
+	margin:7px 3px;
 }
 
 #geocoderMobile .esriGeocoder input {
 	width:80%;
 	line-height:25px;
 	height:25px;
-}
-
-#geocoderMobile .esriGeocoder {
-	height:30px;
 }
