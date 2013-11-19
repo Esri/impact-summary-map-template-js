@@ -105,6 +105,7 @@
 .LayerLegend .LL_Content {
 	background:#f8f8f8;
 	color:#333;
+    position:relative;
 	max-height:0;
 	_height:0;
 	overflow:auto;
