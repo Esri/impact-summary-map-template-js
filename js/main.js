@@ -236,7 +236,7 @@ function(
                             this._setPanelWidth(domSlider);
                         }
                         // show mobile button
-                        this._setMobileGeocoderVisibility(true);
+                        this._checkMobileGeocoderVisibility();
                         // hamburger button status
                         this._toggleHamburgerButton();
                         def.resolve();
@@ -488,11 +488,11 @@ function(
                     // hide drawer
                     domStyle.set(this._drawer, 'display', 'none');
                     // set mobile geocoder
-                    this._setMobileGeocoderVisibility(true);
+                    this._checkMobileGeocoderVisibility();
                 }
             } else {
                 // set mobile geocoder
-                this._setMobileGeocoderVisibility(true);
+                this._checkMobileGeocoderVisibility();
                 // drawer not shown
                 if (domStyle.get(this._drawer, 'display') === 'none') {
                     // show drawer
@@ -513,12 +513,9 @@ function(
                 domClass.add(document.body, this.css.drawerOpen);
             }
         },
-        _setMobileGeocoderVisibility: function(isVisible) {
-            // todo
-            if (isVisible) {
-                if (domClass.contains(dom.byId("mobileGeocoderIcon"), this.css.toggleBlueOn)) {
-                    domClass.add(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
-                }
+        _checkMobileGeocoderVisibility: function() {
+            if (domClass.contains(dom.byId("mobileGeocoderIcon"), this.css.toggleBlueOn)) {
+                domClass.add(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
             }
         },
         _hideExpanded: function(element) {
@@ -555,7 +552,7 @@ function(
                 }));
                 divCount = query('.' + this.css.statsPanel + ' .' + this.css.statsCount, this.dataNode);
                 //display slider
-                this._displayContainer(domSlider, 250);
+                this._displayContainer(domSlider);
                 //hide geo-data count panels.
                 array.forEach(divCount, function(elementCount) {
                     domStyle.set(elementCount, 'display', 'none');
