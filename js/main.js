@@ -603,11 +603,9 @@ function(
             var ct = node;
             // query features
             this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
-                setTimeout(lang.hitch(this, function() {
-                    domClass.remove(ct, this.css.rendererLoading);
-                    this._displayStats(fs.features);
-                    this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
-                }), 250);
+                domClass.remove(ct, this.css.rendererLoading);
+                this._displayStats(fs.features);
+                this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
             }), lang.hitch(this, function() {
                 // remove selected
                 this._clearSelected();
@@ -649,7 +647,10 @@ function(
                                 // hide drawer for small res
                                 if (window.innerWidth < this._mobileSizeStart) {
                                     this._toggleDrawer().then(lang.hitch(this, function(){
-                                        this._queryFeatures(ct);
+                                        this.map.resize();
+                                        setTimeout(lang.hitch(this, function() {
+                                            this._queryFeatures(ct);
+                                        }), 250);
                                     }));
                                 }
                                 else{
