@@ -239,12 +239,12 @@ function (
                     domConstruct.place(layerDiv, this._layersNode, "first");
                     // title of layer
                     var titleDiv = domConstruct.create("div", {
-                        className: this._css.title,
+                        className: this._css.title
                     });
                     domConstruct.place(titleDiv, layerDiv, "last");
                     // title container
                     var titleContainerDiv = domConstruct.create("div", {
-                        className: this._css.titleContainer,
+                        className: this._css.titleContainer
                     });
                     domConstruct.place(titleContainerDiv, titleDiv, "last");
                     // Title checkbox

@@ -75,7 +75,6 @@
 	height:16px;
 	width:16px;
 	margin:0;
-	display:inline-block;
 	border:1px solid #bababa;
 	margin:12px 8px;
 	vertical-align:middle;
@@ -105,6 +104,7 @@
 .LayerLegend .LL_Content {
 	background:#f8f8f8;
 	color:#333;
+    position:relative;
 	max-height:0;
 	_height:0;
 	overflow:auto;

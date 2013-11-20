@@ -14,6 +14,7 @@ define([
     "dojo/dom-class",
     "dojo/dom-style",
     "dojo/dom-attr",
+    "dojo/dom-construct",
     "esri/request",
     "dijit/Dialog"
 ],
@@ -25,7 +26,7 @@ function (
     _WidgetBase, a11yclick, _TemplatedMixin,
     on,
     dijitTemplate, i18n,
-    domClass, domStyle, domAttr,
+    domClass, domStyle, domAttr, domConstruct,
     esriRequest,
     Dialog
 ) {
@@ -176,7 +177,9 @@ function (
             this._events = [];
         },
         _setSizeOptions: function() {
-            var html = '';
+            // clear select menu
+            this._comboBoxNode.innerHTML = '';
+            // if embed sizes exist
             if (this.get("embedSizes") && this.get("embedSizes").length) {
                 // map sizes
                 for (var i = 0; i < this.get("embedSizes").length; i++) {
@@ -184,10 +187,13 @@ function (
                         this.set("embedWidth", this.get("embedSizes")[i].width);
                         this.set("embedHeight", this.get("embedSizes")[i].height);
                     }
-                    html += '<option value="' + i + '">' + this.get("embedSizes")[i].width + " x " + this.get("embedSizes")[i].height + '</option>';
+                    var option = domConstruct.create("option", {
+                        value: i,
+                        innerHTML: this.get("embedSizes")[i].width + " x " + this.get("embedSizes")[i].height
+                    });
+                    domConstruct.place(option, this._comboBoxNode, "last");
                 }
             }
-            this._comboBoxNode.innerHTML = html;
         },
         _updateUrl: function() {
             // nothing currently shortened

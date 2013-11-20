@@ -38,7 +38,7 @@
     <link href="css/mediaQuery.css" rel="stylesheet" type="text/css" />
     <link href="css/mediaQueryDrawer.css" rel="stylesheet" type="text/css" />
     <!--[if IE 7]><link rel="stylesheet" href="css/fontello-ie7.css"><![endif]-->
-    <!--[if lte IE 11]><link rel="stylesheet" href="css/no-shadow.css"><![endif]-->
+    <!--[if lt IE 11]><link rel="stylesheet" href="css/no-shadow.css"><![endif]-->
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
 </head>
 <body class="claro calcite">
@@ -167,5 +167,6 @@
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
         })();
     </script>
+    <!--[if lt IE 9]><script type="text/javascript" src="js/mediaqueries.js"></script><![endif]-->
 </body>
 </html>

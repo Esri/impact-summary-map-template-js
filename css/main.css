@@ -13,6 +13,8 @@ html,body {
 	-moz-osx-font-smoothing:grayscale;
 }
 
+input[type=text]::-ms-clear { display: none; }
+
 .calcite a {
 	color:#007ac2;
 }
