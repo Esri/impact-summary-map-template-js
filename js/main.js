@@ -207,7 +207,7 @@ function(
             var def = new Deferred();
             // if drawer is shown
             if (domStyle.get(this._drawer, 'display') === 'block') {
-                // remove drawer class
+                // remove class
                 domClass.remove(document.body, this.css.drawerOpen);
                 // collapse width
                 fx.animateProperty({
@@ -227,6 +227,8 @@ function(
                     onEnd: lang.hitch(this, function() {
                         // hide drawer
                         domStyle.set(this._drawer, 'display', 'none');
+                        // check if drawer is open
+                        this._drawerOpenClass();
                         // render border container
                         this._fixLayout();
                         // set panel width for displayed container
@@ -263,8 +265,6 @@ function(
                         this._fixLayout();
                         // if mobile size
                         if (window.innerWidth < this._mobileSizeStart) {
-                            // show drawer
-                            domClass.add(document.body, this.css.drawerOpen);
                             // get selected slider
                             if (this._displayedContainer) {
                                 this._setPanelWidth(this._displayedContainer);
@@ -273,7 +273,7 @@ function(
                         // hamburger button status
                         this._toggleHamburgerButton();
                         // check if drawer is open
-                        this._setSliderMediaQuery();
+                        this._drawerOpenClass();
                         def.resolve();
                     })
                 }).play();
@@ -506,13 +506,13 @@ function(
                 }
             }
             // check if drawer is open
-            this._setSliderMediaQuery();
+            this._drawerOpenClass();
             // hamburger button stats
             this._toggleHamburgerButton();
             // fix border container layout
             this._fixLayout();
         },
-        _setSliderMediaQuery: function() {
+        _drawerOpenClass: function() {
             if (domStyle.get(this._drawer, 'display') === 'block') {
                 domClass.add(document.body, this.css.drawerOpen);
             } else {

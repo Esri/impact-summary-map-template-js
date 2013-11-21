@@ -39,6 +39,19 @@ input[type=text]::-ms-clear { display: none; }
     overflow:hidden;
 }
 
+#cp_outer_left {
+	width:280px;
+	max-width:280px;
+	height:100%;
+	padding:0;
+	margin:0;
+	border:0;
+	display: none;
+	background:#fff;
+	overflow:auto;
+	overflow-x:hidden;
+}
+
 .drawerOpen #cp_outer_left:before {
 	-webkit-box-shadow:inset -1px 0 6px 0 rgba(0,0,0,0.5);
 	box-shadow:inset -1px 0 6px 0 rgba(0,0,0,0.5);
@@ -51,18 +64,6 @@ input[type=text]::-ms-clear { display: none; }
 	content:'';
 	display:block;
 	pointer-events:none;
-}
-
-#cp_outer_left {
-	width:280px;
-	max-width:280px;
-	height:100%;
-	padding:0;
-	margin:0;
-	border:0;
-	background:#fff;
-	overflow:auto;
-	overflow-x:hidden;
 }
 
 #cp_outer_center {
