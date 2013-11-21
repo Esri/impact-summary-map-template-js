@@ -1,4 +1,23 @@
-﻿@media screen and (max-height:250px) {
+﻿@media screen and (max-width:910px) {
+	.geoData .panel .count {
+		font-size:30px;
+		padding:15px 18px;
+		text-align:center;
+	}
+}
+
+@media screen and (max-width:850px) {
+	.geoData .panel .count {
+		padding:15px!important;
+		font-size:30px!important;
+	}
+	
+	#cp_outer_left, .mobileLocateBoxDisplay {
+		display:none !important;
+	}
+}
+
+@media screen and (max-height:250px) {
 	.geoData {
 		display:none!important;
 	}
@@ -19,7 +38,7 @@
 		width:378px!important;
 	}
 	
-	.divGeoDataHolder div {
+	.divGeoDataHolder .data-block {
 		width:126px;
 	}
 	
@@ -80,7 +99,7 @@
 		width:342px!important;
 	}
 	
-	.divGeoDataHolder div {
+	.divGeoDataHolder .data-block {
 		width:114px!important;
 	}
 	
@@ -149,7 +168,7 @@
 		width:291px!important;
 	}
 	
-	.divGeoDataHolder div {
+	.divGeoDataHolder .data-block {
 		width:97px!important;
 	}
 	
@@ -195,7 +214,7 @@
 		width:240px!important;
 	}
 	
-	.divGeoDataHolder div {
+	.divGeoDataHolder .data-block {
 		width:80px!important;
 	}
 	
@@ -257,7 +276,7 @@
 		width:228px!important;
 	}
 	
-	.divGeoDataHolder div {
+	.divGeoDataHolder .data-block {
 		width:76px!important;
 	}
 	
@@ -277,7 +296,7 @@
 		width:228px!important;
 	}
 	
-	.divGeoDataHolder div {
+	.divGeoDataHolder .data-block {
 		width:76px!important;
 	}
 	
@@ -318,7 +337,7 @@
 		width:225px!important;
 	}
 	
-	.divGeoDataHolder div {
+	.divGeoDataHolder .data-block {
 		width:75px!important;
 	}
 }
@@ -420,7 +439,7 @@
 		width:291px!important;
 	}
 	
-	.divGeoDataHolder div {
+	.divGeoDataHolder .data-block {
 		width:97px!important;
 	}
 	
@@ -487,7 +506,7 @@
 		width:342px!important;
 	}
 	
-	.divGeoDataHolder div {
+	.divGeoDataHolder .data-block {
 		width:114px!important;
 	}
 	
@@ -576,7 +595,7 @@
 		width:228px!important;
 	}
 	
-	.divGeoDataHolder div {
+	.divGeoDataHolder .data-block {
 		width:76px!important;
 	}
 	

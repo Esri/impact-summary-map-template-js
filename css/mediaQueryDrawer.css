@@ -14,7 +14,7 @@
 		width:378px!important;
 	}
 	
-	.drawerOpen .divGeoDataHolder div {
+	.drawerOpen .divGeoDataHolder .data-block {
 		width:126px;
 	}
 	
@@ -53,7 +53,7 @@
 		width:378px!important;
 	}
 	
-	.drawerOpen .divGeoDataHolder div {
+	.drawerOpen .divGeoDataHolder .data-block {
 		width:126px;
 	}
 	
@@ -94,7 +94,7 @@
 		width:342px!important;
 	}
 	
-	.drawerOpen .divGeoDataHolder div {
+	.drawerOpen .divGeoDataHolder .data-block {
 		width:114px!important;
 	}
 	
@@ -119,7 +119,7 @@
 		width:291px!important;
 	}
 	
-	.drawerOpen .divGeoDataHolder div {
+	.drawerOpen .divGeoDataHolder .data-block {
 		width:97px!important;
 	}
 	
@@ -148,7 +148,7 @@
 		width:240px!important;
 	}
 	
-	.drawerOpen .divGeoDataHolder div {
+	.drawerOpen .divGeoDataHolder .data-block {
 		width:80px!important;
 	}
 	
@@ -180,7 +180,7 @@
 		width:228px!important;
 	}
 	
-	.drawerOpen .divGeoDataHolder div {
+	.drawerOpen .divGeoDataHolder .data-block {
 		width:76px!important;
 	}
 }
@@ -195,7 +195,7 @@
 		width:228px!important;
 	}
 	
-	.drawerOpen .divGeoDataHolder div {
+	.drawerOpen .divGeoDataHolder .data-block {
 		width:76px!important;
 	}
 	

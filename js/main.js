@@ -229,11 +229,9 @@ function(
                         domStyle.set(this._drawer, 'display', 'none');
                         // render border container
                         this._fixLayout();
-                        // get selected slider
-                        // todo
-                        var domSlider = query('.' + this.css.statsPanelSelected + '.' + this.css.animateSlider)[0];
-                        if (domSlider) {
-                            this._setPanelWidth(domSlider);
+                        // set panel width for displayed container
+                        if (this._displayedContainer) {
+                            this._setPanelWidth(this._displayedContainer);
                         }
                         // show mobile button
                         this._checkMobileGeocoderVisibility();
@@ -268,10 +266,8 @@ function(
                             // show drawer
                             domClass.add(document.body, this.css.drawerOpen);
                             // get selected slider
-                            // todo
-                            var domSlider = query('.' + this.css.statsPanelSelected + '.' + this.css.animateSlider, this.dataNode)[0];
-                            if (domSlider) {
-                                this._setPanelWidth(domSlider);
+                            if (this._displayedContainer) {
+                                this._setPanelWidth(this._displayedContainer);
                             }
                         }
                         // hamburger button status
@@ -309,6 +305,8 @@ function(
             setTimeout(lang.hitch(this, function() {
                 domClass.add(node, this.css.animateSlider);
             }), 0);
+            // set currenlty displayed container
+            this._displayedContainer = node;
         },
         _hideContainer: function(node) {
             // todo
@@ -383,10 +381,8 @@ function(
                 var output = Mustache.render(panelsView, sum);
                 var selectedPanel, panelType;
                 // get selected panel
-                // todo
-                selectedPanel = query('.' + this.css.statsPanelSelected + '.' + this.css.animateSlider, this.dataNode)[0];
-                if (selectedPanel) {
-                    panelType = domAttr.get(selectedPanel, 'data-type');
+                if (this._displayedContainer) {
+                    panelType = domAttr.get(this._displayedContainer, 'data-type');
                 }
                 // set panel html
                 this.dataNode.innerHTML = output;

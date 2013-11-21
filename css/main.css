@@ -735,23 +735,3 @@ input[type=text]::-ms-clear { display: none; }
 input[type=text]::-ms-clear {
 	display:none;
 }
-
-/* End of style for hiding input fields close icon in IE10 */
-@media screen and (max-width:910px) {
-	.geoData .panel .count {
-		font-size:30px;
-		padding:15px 18px;
-		text-align:center;
-	}
-}
-
-@media screen and (max-width:850px) {
-	.geoData .panel .count {
-		padding:15px!important;
-		font-size:30px!important;
-	}
-	
-	#cp_outer_left,.mobileLocateBoxDisplay {
-		display:none;
-	}
-}
