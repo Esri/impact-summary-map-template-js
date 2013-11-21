@@ -550,12 +550,8 @@ function(
             // todo
             var sliders, domSlider, divCount;
             sliders = query('.' + this.css.statsPanelSelected + '[data-type="' + type + '"]', this.dataNode);
-            
-            console.log(sliders);
-            
             if(sliders && sliders.length){
                 domSlider = sliders[0];
-                console.log(domSlider);
                 if (domStyle.get(domSlider, 'display') === 'none') {
                     var panels = query('.' + this.css.statsPanelSelected, this.dataNode); 
                     array.forEach(panels, lang.hitch(this, function(elementCount) {
