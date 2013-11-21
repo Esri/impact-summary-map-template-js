@@ -308,12 +308,14 @@ function(
             // set currenlty displayed container
             this._displayedContainer = node;
         },
-        _hideContainer: function(node) {
-            // todo
-            setTimeout(lang.hitch(this, function() {
-                domClass.remove(node, this.css.animateSlider);
-            }), 0);
-            domStyle.set(node, 'display', 'none');
+        _hideContainer: function() {
+            if(this._currentPanelSlider){
+                // todo
+                setTimeout(lang.hitch(this, function() {
+                    domClass.remove(this._currentPanelSlider, this.css.animateSlider);
+                }), 0);
+                domStyle.set(this._currentPanelSlider, 'display', 'none');
+            }
         },
         _formatNumber: function(number, decPlaces) {
             decPlaces = Math.pow(10, decPlaces);
@@ -527,11 +529,9 @@ function(
         _hideExpanded: function(element) {
             var domSlider, divCount;
             // todo
-            domSlider = element.parentElement.parentElement;
-            // todo
             divCount = query('.' + this.css.statsPanel + ' .' + this.css.statsCount, dom.byId('geo_panel'));
             //hide slider
-            this._hideContainer(domSlider, 100);
+            this._hideContainer();
             //display geo-data count panels
             array.forEach(divCount, function(elementCount) {
                 domStyle.set(elementCount, 'display', 'block');
@@ -548,6 +548,7 @@ function(
             sliders = query('.' + this.css.statsPanelSelected + '[data-type="' + type + '"]', this.dataNode);
             if(sliders && sliders.length){
                 domSlider = sliders[0];
+                this._currentPanelSlider = domSlider;
                 if (domStyle.get(domSlider, 'display') === 'none') {
                     var panels = query('.' + this.css.statsPanelSelected, this.dataNode); 
                     array.forEach(panels, lang.hitch(this, function(elementCount) {
