@@ -340,6 +340,10 @@ input[type=text]::-ms-clear { display: none; }
 	-webkit-transition-duration:.25s;
 }
 
+.geoData .animateSlider {
+	height:130px;
+}
+
 .population {
 	border-bottom:3px solid #da4d1e!important;
 	border-bottom:3px solid rgba(218,77,30,0.80)!important;
@@ -711,10 +715,6 @@ input[type=text]::-ms-clear { display: none; }
 }
 #btnCloseGeocoder:active{
     color:#007ac2;
-}
-
-.animateSlider {
-	height:130px!important;
 }
 
 #mobileSearch {

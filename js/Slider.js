@@ -57,9 +57,7 @@ function (
                 "class": "carousel slidePanel"
             });
             domConstruct.place(sliderContentDiv, sliderDiv, "last");
-            //sliderDiv.appendChild(sliderContentDiv);
             domConstruct.place(this.sliderContent, sliderContentDiv, "last");
-            //sliderContentDiv.appendChild(this.sliderContent);
             sliderRightArrowHolder = domConstruct.create('div', {
                 "class": "divRight"
             }, sliderInnerContainer);
@@ -75,7 +73,6 @@ function (
                 "title": i18n.widgets.Slider.next
             }, sliderRightArrowHolder);
             domConstruct.place(sliderOuterContainer, this.sliderParent, "last");
-            //this.sliderParent.appendChild(sliderOuterContainer);
             this._resizeSlider(sliderOuterContainer.id);
             //change previous/next slide on clicking of left and right arrow.
             on(sliderDivRightArrow, 'click', lang.hitch(this, function() {
@@ -98,7 +95,6 @@ function (
             sliderPaginationHolder = domConstruct.create('div', {
                 "class": "divPagination"
             });
-            //sliderDiv.appendChild(sliderPaginationHolder);
             domConstruct.place(sliderPaginationHolder, sliderDiv, "last");
             // todo 
             //calculate no of possible pages in slider
@@ -112,7 +108,6 @@ function (
                 if (i === 0) {
                     domClass.add(spanPaginationDot, "bgColor");
                 }
-                //sliderPaginationHolder.appendChild(spanPaginationDot);
                 domConstruct.place(spanPaginationDot, sliderPaginationHolder, "last");
                 // pagination event
                 this._createPageEvent(spanPaginationDot, sliderOuterContainer);
