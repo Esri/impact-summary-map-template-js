@@ -13,7 +13,7 @@
 	}
 	
 	#cp_outer_left, .mobileLocateBoxDisplay {
-		display:none !important;
+		display:none;
 	}
 }
 

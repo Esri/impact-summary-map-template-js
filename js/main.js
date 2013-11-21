@@ -513,10 +513,10 @@ function(
             this._fixLayout();
         },
         _setSliderMediaQuery: function() {
-            if (domStyle.get(this._drawer, 'display') === 'none') {
-                domClass.remove(document.body, this.css.drawerOpen);
-            } else {
+            if (domStyle.get(this._drawer, 'display') === 'block') {
                 domClass.add(document.body, this.css.drawerOpen);
+            } else {
+                domClass.remove(document.body, this.css.drawerOpen);
             }
         },
         _checkMobileGeocoderVisibility: function() {
