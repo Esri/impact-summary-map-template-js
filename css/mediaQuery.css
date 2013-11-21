@@ -1,7 +1,7 @@
 ﻿@media screen and (max-height:250px) {
-    .geoData{
-        display:none !important;
-    }
+	.geoData {
+		display:none!important;
+	}
 }
 
 @media screen and (max-width:600px) {
@@ -35,15 +35,15 @@
 	#mobileSearch {
 		display:none;
 	}
-    
-    .calcite  .dialogContent{
-        width:auto;
-        height:auto;
-    }
-    
-    #title{
-        max-width:200px;
-    }
+	
+	.calcite .dialogContent {
+		width:auto;
+		height:auto;
+	}
+	
+	#title {
+		max-width:200px;
+	}
 }
 
 @media only screen and (max-width:510px) {
@@ -333,7 +333,7 @@
 	}
 }
 
-@media screen and (max-device-width: 640px) and (min-device-aspect-ratio: 400640) {
+@media screen and (max-device-width: 640px) and (min-device-aspect-ratio: 400/640) {
 	.esriSimpleSlider,#BasemapToggle,#title,.geocoderSearch,.locateBox {
 		display:none!important;
 	}
@@ -361,8 +361,6 @@
 		line-height:30px!important;
 	}
 	
-
-	
 	#geocoderMobile {
 		width:75%!important;
 	}
@@ -370,7 +368,6 @@
 	#mobileSearch {
 		height:36px!important;
 	}
-
 	
 	.divPagination {
 		visibility:hidden;
@@ -407,9 +404,6 @@
 	#geocoderMobile {
 		width:65%!important;
 	}
-	
-
-	
 	
 	.geoData .panel .count {
 		padding:15px 3px!important;
@@ -505,7 +499,6 @@
 	#geocoderMobile {
 		width:75%!important;
 	}
-
 	
 	#mobileGeocoder,#mobileGeocoderIcon {
 		display:block!important;
@@ -520,8 +513,6 @@
 		line-height:30px;
 		height:30px!important;
 	}
-	
-
 	
 	.esriAttribution {
 		display:none!important;
@@ -634,8 +625,6 @@
 	#geocoderMobile {
 		width:65%!important;
 	}
-	
-	
 	
 	.esriAttribution {
 		display:none!important;

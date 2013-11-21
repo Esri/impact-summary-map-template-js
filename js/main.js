@@ -364,16 +364,17 @@ function(
                 }
                 sum.numFormat = lang.hitch(this, function() {
                     return lang.hitch(this, function(text, render) {
-                        if (render(text).length >= 7) {
+                        var renderedText = render(text);
+                        if (renderedText.length >= 7) {
                             decPlaces = 1;
-                        } else if (render(text).length >= 5) {
+                        } else if (renderedText.length >= 5) {
                             decPlaces = 0;
-                        } else if (render(text).length === 4) {
-                            return number.format(parseInt(render(text), 10));
+                        } else if (renderedText.length === 4) {
+                            return number.format(parseInt(renderedText, 10));
                         } else {
                             decPlaces = 2;
                         }
-                        return this._formatNumber(parseInt(render(text)), decPlaces);
+                        return this._formatNumber(parseInt(renderedText, 10), decPlaces);
                     });
                 });
                 // show geo stats
@@ -392,38 +393,47 @@ function(
                 // remove exiting slider events
                 this._removeSliderEvents();
                 //Create Slider for Geo data panels
-                var slider, objSlider, childNode, divGeoPanel, sliderResizeHandler = null;
+                var sliders, objSlider, childNode, divGeoPanel, sliderResizeHandler = null;
                 // todo
-                slider = query('.' + this.css.statsPanelSelected + ' .' + this.css.divOuterSliderContainer, dom.byId('geodata_container'));
-                // each slider node
-                array.forEach(slider, lang.hitch(this, function(node) {
-                    divGeoPanel = query('.' + this.css.divGeoDataHolder, node)[0];
-                    childNode = query('.' + this.css.statsPanelDataBlock, divGeoPanel).length;
-                    this._setPanelWidth(node.parentElement);
-                    if (childNode > 3) {
-                        if (divGeoPanel) {
-                            objSlider = new Slider({
-                                sliderContent: divGeoPanel,
-                                sliderParent: node
-                            });
-                        }
-                    }
-                    if (!sliderResizeHandler) {
-                        //set slider position on window resize
-                        sliderResizeHandler = on(window, 'resize', lang.hitch(this, function() {
-                            this._setLeftPanelVisibility();
-                            setTimeout(lang.hitch(this, function() {
-                                array.forEach(slider, lang.hitch(this, function(sliderNode) {
-                                    this._setPanelWidth(sliderNode.parentElement);
+                sliders = query('.' + this.css.statsPanelSelected + ' .' + this.css.divOuterSliderContainer, dom.byId('geodata_container'));
+                
+                if(sliders && sliders.length){
+                    // each slider node
+                    array.forEach(sliders, lang.hitch(this, function(node) {
+                        divGeoPanel = query('.' + this.css.divGeoDataHolder, node)[0];
+                        
+                        if(divGeoPanel){
+                            childNode = query('.' + this.css.statsPanelDataBlock, divGeoPanel).length;
+                            this._setPanelWidth(node.parentElement);
+                            if (childNode > 3) {
+                                if (divGeoPanel) {
+                                    objSlider = new Slider({
+                                        sliderContent: divGeoPanel,
+                                        sliderParent: node
+                                    });
+                                }
+                            }
+                            if (!sliderResizeHandler) {
+                                //set slider position on window resize
+                                sliderResizeHandler = on(window, 'resize', lang.hitch(this, function() {
+                                    this._setLeftPanelVisibility();
+                                    setTimeout(lang.hitch(this, function() {
+                                        array.forEach(sliders, lang.hitch(this, function(sliderNode) {
+                                            this._setPanelWidth(sliderNode.parentElement);
+                                        }));
+                                    }), 100);
                                 }));
-                            }), 100);
-                        }));
-                        this._sliderEvents.push(sliderResizeHandler);
-                    }
-                    if (divGeoPanel.lastElementChild) {
-                        domStyle.set(divGeoPanel.lastElementChild, "border", "none");
-                    }
-                }));
+                                this._sliderEvents.push(sliderResizeHandler);
+                            }
+                            var panels = query('.' + this.css.statsPanelDataBlock + ':last-child', divGeoPanel);
+                            if(panels && panels.length){
+                                for(i = 0; i < panels.length; i++){
+                                    domStyle.set(panels[i], 'border', 'none');
+                                }
+                            }
+                        }
+                    }));
+                }
                 if (panelType) {
                     this._showExpanded(panelType);
                 }
@@ -538,28 +548,35 @@ function(
         },
         _showExpanded: function(type) {
             // todo
-            var domSlider, divCount;
-            domSlider = query('.' + this.css.statsPanelSelected + '[data-type="' + type + '"]', this.dataNode)[0];
-            if (domStyle.get(domSlider, 'display') === 'none') {
-                var panels = query('.' + this.css.statsPanelSelected, this.dataNode); 
-                array.forEach(panels, lang.hitch(this, function(elementCount) {
-                    domStyle.set(elementCount, 'display', 'none');
-                    domClass.remove(elementCount, this.css.animateSlider);
-                }));
-                var items = query('.' + this.css.menuPanel, this.dataNode);
-                array.forEach(items, lang.hitch(this, function(elementCount) {
-                    domClass.remove(elementCount, this.css.statsPanelSelectedExpand);
-                }));
-                divCount = query('.' + this.css.statsPanel + ' .' + this.css.statsCount, this.dataNode);
-                //display slider
-                this._displayContainer(domSlider);
-                //hide geo-data count panels.
-                array.forEach(divCount, function(elementCount) {
-                    domStyle.set(elementCount, 'display', 'none');
-                });
-                this._setPanelWidth(domSlider);
-                var selected = query('.' + this.css.menuPanel + '[data-type="' + type + '"]', this.dataNode)[0];
-                domClass.add(selected, this.css.statsPanelSelectedExpand);
+            var sliders, domSlider, divCount;
+            sliders = query('.' + this.css.statsPanelSelected + '[data-type="' + type + '"]', this.dataNode);
+            
+            console.log(sliders);
+            
+            if(sliders && sliders.length){
+                domSlider = sliders[0];
+                console.log(domSlider);
+                if (domStyle.get(domSlider, 'display') === 'none') {
+                    var panels = query('.' + this.css.statsPanelSelected, this.dataNode); 
+                    array.forEach(panels, lang.hitch(this, function(elementCount) {
+                        domStyle.set(elementCount, 'display', 'none');
+                        domClass.remove(elementCount, this.css.animateSlider);
+                    }));
+                    var items = query('.' + this.css.menuPanel, this.dataNode);
+                    array.forEach(items, lang.hitch(this, function(elementCount) {
+                        domClass.remove(elementCount, this.css.statsPanelSelectedExpand);
+                    }));
+                    divCount = query('.' + this.css.statsPanel + ' .' + this.css.statsCount, this.dataNode);
+                    //display slider
+                    this._displayContainer(domSlider);
+                    //hide geo-data count panels.
+                    array.forEach(divCount, function(elementCount) {
+                        domStyle.set(elementCount, 'display', 'none');
+                    });
+                    this._setPanelWidth(domSlider);
+                    var selected = query('.' + this.css.menuPanel + '[data-type="' + type + '"]', this.dataNode)[0];
+                    domClass.add(selected, this.css.statsPanelSelectedExpand);
+                }
             }
         },
         // get layer of impact area by layer title
@@ -586,7 +603,7 @@ function(
             domClass.add(node, this.css.rendererLoading);
             // search query
             var q = new Query();
-            if(value === "summarize" || !value){
+            if(value === "summarize" || value === ""){
                 q.where = '1 = 1';
             }
             else{
