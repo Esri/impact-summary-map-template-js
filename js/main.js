@@ -37,7 +37,8 @@ define([
     "esri/dijit/Geocoder",
     "modules/Slider",
     "esri/dijit/Popup",
-    "dojo/Deferred"
+    "dojo/Deferred",
+    "dojo/window"
 ],
 function(
     ready,
@@ -70,7 +71,8 @@ function(
     Geocoder,
     Slider,
     Popup,
-    Deferred
+    Deferred,
+    win
 ) {
     return declare("", null, {
         config: {},
@@ -97,6 +99,7 @@ function(
                 statsPanelSelected: 'panel-expanded',
                 statsPanelSelectedExpand: "panel-selected-expand",
                 statsPanelDataBlock: 'data-block',
+                statsPanelDataBlockLast: 'data-block-last',
                 drawerOpen: "drawerOpen",
                 animateSlider: "animateSlider",
                 mobileSearchDisplay: "mobileLocateBoxDisplay",
@@ -160,6 +163,27 @@ function(
             this._drawerWidth = domStyle.get(this._drawer, 'width');
             // set drawer menu
             this._drawerMenu();
+            // window size event
+            on(window, 'resize', lang.hitch(this, function(){
+                this._windowResized();
+            }));
+            // check window size
+            this._windowResized();
+        },
+        _windowResized: function(){
+            // view screen
+            var vs = win.getBox();
+            // if window width is less than specified size
+            if (vs.w < this._mobileSizeStart) {
+                // hide drawer
+                domClass.remove(document.body, this.css.drawerOpen);
+            }
+            else{
+                // show drawer
+                domClass.add(document.body, this.css.drawerOpen);
+            }
+            // remove forced open
+            this._checkDrawerStatus();
         },
         _showDrawerPanel: function(buttonNode) {
             // menu items
@@ -203,11 +227,32 @@ function(
             // window title
             window.document.title = title;
         },
+        _forceShowDrawer: function(){
+            domStyle.set(this._drawer, "display", "block");
+        },
+        _checkDrawerStatus: function(){
+            // if mobile size
+            if (this._displayedContainer) {
+                this._setPanelWidth(this._displayedContainer);
+            }
+            // remove display and width styles that exist
+            domStyle.set(this._drawer, "display", "");
+            domStyle.set(this._drawer, "width", "");
+            // border container layout
+            this._fixLayout();
+            // check mobile button status
+            this._checkMobileGeocoderVisibility();
+            // hamburger button status
+            this._toggleHamburgerButton();
+        },
         _toggleDrawer: function() {
+            // deferred to return
             var def = new Deferred();
             // if drawer is shown
-            if (domStyle.get(this._drawer, 'display') === 'block') {
-                // remove drawer class
+            if (domClass.contains(document.body, this.css.drawerOpen)) {
+                // force open drawer
+                this._forceShowDrawer();
+                // remove drawer opened class
                 domClass.remove(document.body, this.css.drawerOpen);
                 // collapse width
                 fx.animateProperty({
@@ -225,24 +270,16 @@ function(
                         this._fixLayout();
                     }),
                     onEnd: lang.hitch(this, function() {
-                        // hide drawer
-                        domStyle.set(this._drawer, 'display', 'none');
-                        // render border container
-                        this._fixLayout();
-                        // set panel width for displayed container
-                        if (this._displayedContainer) {
-                            this._setPanelWidth(this._displayedContainer);
-                        }
-                        // show mobile button
-                        this._checkMobileGeocoderVisibility();
-                        // hamburger button status
-                        this._toggleHamburgerButton();
+                        // remove shown drawer
+                        this._checkDrawerStatus();
+                        // return
                         def.resolve();
                     })
                 }).play();
             } else {
-                // show drawer
-                domStyle.set(this._drawer, 'display', 'block');
+                domStyle.set(this._drawer, "width", "0px");
+                // add drawer
+                this._forceShowDrawer();
                 // expand width
                 fx.animateProperty({
                     node: this._drawer,
@@ -259,21 +296,11 @@ function(
                         this._fixLayout();
                     }),
                     onEnd: lang.hitch(this, function() {
-                        // render border container
-                        this._fixLayout();
-                        // if mobile size
-                        if (window.innerWidth < this._mobileSizeStart) {
-                            // show drawer
-                            domClass.add(document.body, this.css.drawerOpen);
-                            // get selected slider
-                            if (this._displayedContainer) {
-                                this._setPanelWidth(this._displayedContainer);
-                            }
-                        }
-                        // hamburger button status
-                        this._toggleHamburgerButton();
-                        // check if drawer is open
-                        this._setSliderMediaQuery();
+                        // drawer now open
+                        domClass.add(document.body, this.css.drawerOpen);
+                        // remove shown drawer
+                        this._checkDrawerStatus();
+                        // return
                         def.resolve();
                     })
                 }).play();
@@ -284,7 +311,7 @@ function(
             // hamburger node
             var hbNode = dom.byId('hamburger_button');
             // if drawer is displayed
-            if (domStyle.get(this._drawer, 'display') === 'block') {
+            if (domClass.contains(document.body, this.css.drawerOpen)) {
                 // has normal class
                 if (domClass.contains(hbNode, this.css.toggleBlue)) {
                     // replace with selected class
@@ -381,28 +408,24 @@ function(
                 domStyle.set(this.dataNode, 'display', 'block');
                 // render html panels
                 var output = Mustache.render(panelsView, sum);
-                var selectedPanel, panelType;
+                var panelType;
                 // get selected panel
                 if (this._displayedContainer) {
                     panelType = domAttr.get(this._displayedContainer, 'data-type');
                 }
                 // set panel html
                 this.dataNode.innerHTML = output;
-                // remove exiting slider events
-                this._removeSliderEvents();
                 //Create Slider for Geo data panels
-                var sliders, objSlider, childNode, divGeoPanel, sliderResizeHandler = null;
+                var sliders, objSlider, childNode, divGeoPanel;
                 // todo
                 sliders = query('.' + this.css.statsPanelSelected + ' .' + this.css.divOuterSliderContainer, dom.byId('geodata_container'));
-                
+                // sliders
                 if(sliders && sliders.length){
                     // each slider node
                     array.forEach(sliders, lang.hitch(this, function(node) {
                         divGeoPanel = query('.' + this.css.divGeoDataHolder, node)[0];
-                        
                         if(divGeoPanel){
                             childNode = query('.' + this.css.statsPanelDataBlock, divGeoPanel).length;
-                            this._setPanelWidth(node.parentElement);
                             if (childNode > 3) {
                                 if (divGeoPanel) {
                                     objSlider = new Slider({
@@ -411,22 +434,12 @@ function(
                                     });
                                 }
                             }
-                            if (!sliderResizeHandler) {
-                                //set slider position on window resize
-                                sliderResizeHandler = on(window, 'resize', lang.hitch(this, function() {
-                                    this._setLeftPanelVisibility();
-                                    setTimeout(lang.hitch(this, function() {
-                                        array.forEach(sliders, lang.hitch(this, function(sliderNode) {
-                                            this._setPanelWidth(sliderNode.parentElement);
-                                        }));
-                                    }), 100);
-                                }));
-                                this._sliderEvents.push(sliderResizeHandler);
-                            }
+                            // todo
                             var panels = query('.' + this.css.statsPanelDataBlock + ':last-child', divGeoPanel);
                             if(panels && panels.length){
                                 for(i = 0; i < panels.length; i++){
-                                    domStyle.set(panels[i], 'border', 'none');
+                                    // last item class
+                                    domClass.add(panels[i], this.css.statsPanelDataBlockLast);
                                 }
                             }
                         }
@@ -441,8 +454,8 @@ function(
                     this._showExpanded(type);
                 }));
                 // expanded panel click
-                this._expandedClick = on(query('.' + this.css.statsPanelSelected + ' .' + this.css.divHeaderClose, this.dataNode), 'click', lang.hitch(this, function(evt) {
-                    this._hideExpanded(evt.currentTarget);
+                this._expandedClick = on(query('.' + this.css.statsPanelSelected + ' .' + this.css.divHeaderClose, this.dataNode), 'click', lang.hitch(this, function() {
+                    this._hideExpanded();
                 }));
                 // add features to graphics layer
                 this._selectedGraphics.clear();
@@ -460,14 +473,6 @@ function(
                 domStyle.set(this.dataNode, 'display', 'none');
             }
         },
-        _removeSliderEvents: function() {
-            if (this._sliderEvents && this._sliderEvents.length) {
-                for (var i = 0; i < this._sliderEvents.length; i++) {
-                    this._sliderEvents[i].remove();
-                }
-            }
-            this._sliderEvents = [];
-        },
         _setPanelWidth: function(node) {
             if (node) {
                 var sliderWidth = dom.byId('geo_panel').offsetWidth;
@@ -482,52 +487,13 @@ function(
                 topic.publish("resizeGeoDataSlider", slider.id);
             }
         },
-        _setLeftPanelVisibility: function() {
-            // geo stats container
-            var gdContainer = dom.byId('geodata_container');
-            if (gdContainer) {
-                // show stats
-                domStyle.set(gdContainer, 'display', 'inline-block');
-            }
-            // mobile size
-            if (window.innerWidth < this._mobileSizeStart) {
-                // if drawer is shown
-                if (domStyle.get(this._drawer, 'display') === 'block') {
-                    // hide drawer
-                    domStyle.set(this._drawer, 'display', 'none');
-                    // set mobile geocoder
-                    this._checkMobileGeocoderVisibility();
-                }
-            } else {
-                // set mobile geocoder
-                this._checkMobileGeocoderVisibility();
-                // drawer not shown
-                if (domStyle.get(this._drawer, 'display') === 'none') {
-                    // show drawer
-                    this._toggleDrawer();
-                }
-            }
-            // check if drawer is open
-            this._setSliderMediaQuery();
-            // hamburger button stats
-            this._toggleHamburgerButton();
-            // fix border container layout
-            this._fixLayout();
-        },
-        _setSliderMediaQuery: function() {
-            if (domStyle.get(this._drawer, 'display') === 'none') {
-                domClass.remove(document.body, this.css.drawerOpen);
-            } else {
-                domClass.add(document.body, this.css.drawerOpen);
-            }
-        },
         _checkMobileGeocoderVisibility: function() {
             if (domClass.contains(dom.byId("mobileGeocoderIcon"), this.css.toggleBlueOn)) {
                 domClass.add(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
             }
         },
-        _hideExpanded: function(element) {
-            var domSlider, divCount;
+        _hideExpanded: function() {
+            var divCount;
             // todo
             divCount = query('.' + this.css.statsPanel + ' .' + this.css.statsCount, dom.byId('geo_panel'));
             //hide slider
@@ -597,6 +563,7 @@ function(
             // search query
             var q = new Query();
             if(value === "summarize" || value === ""){
+                // results
                 q.where = '1 = 1';
             }
             else{
@@ -610,8 +577,11 @@ function(
             var ct = node;
             // query features
             this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
+                // remove current renderer
                 domClass.remove(ct, this.css.rendererLoading);
+                // display geo stats
                 this._displayStats(fs.features);
+                // set extent for features
                 this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
             }), lang.hitch(this, function() {
                 // remove selected
@@ -651,8 +621,10 @@ function(
                             var ct = evt.currentTarget;
                             // current renderer isn't already selected
                             if(!domClass.contains(ct, this.css.rendererSelected)){
+                                // view screen
+                                var vs = win.getBox();
                                 // hide drawer for small res
-                                if (window.innerWidth < this._mobileSizeStart) {
+                                if (vs.w < this._mobileSizeStart) {
                                     this._toggleDrawer().then(lang.hitch(this, function(){
                                         this.map.resize();
                                         setTimeout(lang.hitch(this, function() {
@@ -815,17 +787,28 @@ function(
                     // if not visible
                     if (!evt.visible) {
                         // hide stats
-                        domStyle.set(dom.byId('geodata_container'), 'display', 'none');
+                        this._hideGeoDataContainer();
                     } else {
                         // show stats
-                        domStyle.set(dom.byId('geodata_container'), 'display', 'inline-block');
+                        this._showGeoDataContainer();
                     }
                 }));
             }
-            // set drawer visibility
-            this._setLeftPanelVisibility();
+            this._showGeoDataContainer();
             // display menu panel for drawer
             this._displayMenu();
+        },
+        _showGeoDataContainer: function(){
+            var node = dom.byId('geodata_container');
+            if(node){
+                domStyle.set(node, 'display', 'inline-block');
+            }
+        },
+        _hideGeoDataContainer: function(){
+            var node = dom.byId('geodata_container');
+            if(node){
+                domStyle.set(node, 'display', 'none');
+            }
         },
         // display menu panel for drawer
         _displayMenu: function() {
@@ -923,9 +906,11 @@ function(
         },
         //create a map based on the input web map id
         _createWebMap: function() {
+            // border container sizing
             this._fixLayout();
             // popup dijit
             var customPopup = new Popup({}, domConstruct.create("div"));
+            // add popup theme
             domClass.add(customPopup.domNode, "calcite");
             //can be defined for the popup like modifying the highlight symbol, margin etc.
             arcgisUtils.createMap(this.config.webmap, "mapDiv", {

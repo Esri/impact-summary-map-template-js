@@ -39,6 +39,23 @@ input[type=text]::-ms-clear { display: none; }
     overflow:hidden;
 }
 
+#cp_outer_left {
+	width:280px;
+	max-width:280px;
+	height:100%;
+	padding:0;
+	margin:0;
+	border:0;
+	background:#fff;
+	overflow:auto;
+	overflow-x:hidden;
+    display:none;
+}
+
+.drawerOpen #cp_outer_left{
+    display:block;
+}
+
 .drawerOpen #cp_outer_left:before {
 	-webkit-box-shadow:inset -1px 0 6px 0 rgba(0,0,0,0.5);
 	box-shadow:inset -1px 0 6px 0 rgba(0,0,0,0.5);
@@ -51,18 +68,6 @@ input[type=text]::-ms-clear { display: none; }
 	content:'';
 	display:block;
 	pointer-events:none;
-}
-
-#cp_outer_left {
-	width:280px;
-	max-width:280px;
-	height:100%;
-	padding:0;
-	margin:0;
-	border:0;
-	background:#fff;
-	overflow:auto;
-	overflow-x:hidden;
 }
 
 #cp_outer_center {
@@ -635,6 +640,10 @@ input[type=text]::-ms-clear { display: none; }
 	overflow:hidden;
 }
 
+.divGeoDataHolder .data-block-last {
+    border-right:0;
+}
+
 .divLeft {
 	float:left;
 }
@@ -728,6 +737,7 @@ input[type=text]::-ms-clear { display: none; }
 
 #mobileSearch .mobileSearchContainer{
     padding:5px 15px;
+    background:#fff;
     background:rgba(255,255,255,0.7);
 }
 
