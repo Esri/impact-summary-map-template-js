@@ -17,7 +17,7 @@
 	}
 }
 
-@media screen and (max-height:349px) {
+@media screen and (max-height:315px) {
 	.geoData {
 		display:none!important;
 	}
