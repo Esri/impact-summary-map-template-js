@@ -327,24 +327,17 @@ function(
         },
         _displayContainer: function(node) {
             // show panel
-            domStyle.set(node, 'display', 'block');
-            // todo
-            setTimeout(lang.hitch(this, function() {
-                domClass.add(node, this.css.animateSlider);
-            }), 0);
+            domClass.add(node, this.css.animateSlider);
             // set currenlty displayed container
             this._displayedContainer = node;
         },
         _hideContainer: function() {
             if(this._currentPanelSlider){
-                // todo
-                setTimeout(lang.hitch(this, function() {
-                    domClass.remove(this._currentPanelSlider, this.css.animateSlider);
-                }), 0);
-                domStyle.set(this._currentPanelSlider, 'display', 'none');
+                domClass.remove(this._currentPanelSlider, this.css.animateSlider);
             }
         },
         _formatNumber: function(number, decPlaces) {
+            // format large numbers
             decPlaces = Math.pow(10, decPlaces);
             var abbrev = ["k", "m", "b", "t"];
             for (var i = abbrev.length - 1; i >= 0; i--) {
@@ -364,14 +357,19 @@ function(
         _displayStats: function(features) {
             var decPlaces;
             if (features && features.length) {
+                // all variables to summarize
                 var variables = this.config.sum_variables;
                 var sum = {};
                 var i;
+                // multiple features
                 if (features.length > 1) {
+                    // each feature
                     for (i = 0; i < features.length; i++) {
+                        // feature is zero
                         if (i === 0) {
                             sum = features[0].attributes;
                         } else {
+                            // lets add each variable
                             for (var j = 0; j < variables.length; j++) {
                                 if (features[i].attributes.hasOwnProperty(variables[j])) {
                                     sum[variables[j]] += features[i].attributes[variables[j]];
@@ -380,15 +378,18 @@ function(
                         }
                     }
                 } else {
+                    // single feature
                     sum = features[0].attributes;
                     if (features[0].attributes.hasOwnProperty(this._attributeField)) {
                         var value = features[0].attributes[this._attributeField];
                         var item = query('[data-value=' + value + ']', dom.byId('renderer_menu'));
-                        if (item.length) {
+                        // select renderer menu item
+                        if (item && item.length) {
                             domClass.add(item[0], this.css.rendererSelected);
                         }
                     }
                 }
+                // format number in stats
                 sum.numFormat = lang.hitch(this, function() {
                     return lang.hitch(this, function(text, render) {
                         var renderedText = render(text);
@@ -461,10 +462,14 @@ function(
                 this._selectedGraphics.clear();
                 // each selected feature
                 for (i = 0; i < features.length; i++) {
+                    // selected line symbol
                     var sls = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255, 1]), 2);
+                    // selected fill symbol
                     var symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, sls, new Color([0, 255, 255, 0]));
+                    // selected graphic
                     var g = new Graphic(features[i].geometry, symbol, features[i].attributes, null);
                     if (g) {
+                        // add graphic to layer
                         this._selectedGraphics.add(g);
                     }
                 }
@@ -474,7 +479,9 @@ function(
             }
         },
         _setPanelWidth: function(node) {
+            // todo
             if (node) {
+                // todo get content box?
                 var sliderWidth = dom.byId('geo_panel').offsetWidth;
                 domStyle.set(node, 'width', sliderWidth + 'px');
                 this._resizeGeoContainer(node);
@@ -488,14 +495,14 @@ function(
             }
         },
         _checkMobileGeocoderVisibility: function() {
+            // check if mobile icon needs to be selected
             if (domClass.contains(dom.byId("mobileGeocoderIcon"), this.css.toggleBlueOn)) {
                 domClass.add(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
             }
         },
         _hideExpanded: function() {
-            var divCount;
             // todo
-            divCount = query('.' + this.css.statsPanel + ' .' + this.css.statsCount, dom.byId('geo_panel'));
+            var divCount = query('.' + this.css.statsPanel + ' .' + this.css.statsCount, dom.byId('geo_panel'));
             //hide slider
             this._hideContainer();
             //display geo-data count panels
@@ -515,10 +522,11 @@ function(
             if(sliders && sliders.length){
                 domSlider = sliders[0];
                 this._currentPanelSlider = domSlider;
-                if (domStyle.get(domSlider, 'display') === 'none') {
+                
+                //if (domStyle.get(domSlider, 'display') === 'none') {
                     var panels = query('.' + this.css.statsPanelSelected, this.dataNode); 
                     array.forEach(panels, lang.hitch(this, function(elementCount) {
-                        domStyle.set(elementCount, 'display', 'none');
+                        //domStyle.set(elementCount, 'display', 'none');
                         domClass.remove(elementCount, this.css.animateSlider);
                     }));
                     var items = query('.' + this.css.menuPanel, this.dataNode);
@@ -535,7 +543,7 @@ function(
                     this._setPanelWidth(domSlider);
                     var selected = query('.' + this.css.menuPanel + '[data-type="' + type + '"]', this.dataNode)[0];
                     domClass.add(selected, this.css.statsPanelSelectedExpand);
-                }
+                //}
             }
         },
         // get layer of impact area by layer title
@@ -626,27 +634,35 @@ function(
                                 // hide drawer for small res
                                 if (vs.w < this._mobileSizeStart) {
                                     this._toggleDrawer().then(lang.hitch(this, function(){
+                                        // resize map
                                         this.map.resize();
+                                        // wait for map to be resized
                                         setTimeout(lang.hitch(this, function() {
+                                            // get features
                                             this._queryFeatures(ct);
                                         }), 250);
                                     }));
                                 }
                                 else{
+                                    // get features
                                     this._queryFeatures(ct);
                                 }
                             }
                         }));
                     }
                 } else {
+                    // hide impact area panel
                     this._hideImpactArea();
                 }
             } else {
+                // hide impact area panel
                 this._hideImpactArea();
             }
         },
         _hideImpactArea: function() {
+            // remove area panel node
             domConstruct.destroy(dom.byId("area_content"));
+            // remove area button node
             domConstruct.destroy(dom.byId("areas"));
         },
         _selectEvent: function(evt) {
@@ -743,6 +759,7 @@ function(
             }), dom.byId('cp_outer_center'), 'first');
             // get layer by id
             this._impactLayer = this.getLayerByTitle(this.map, this.layers, this.config.impact_layer);
+            // impact layer found
             if (this._impactLayer) {
                 // selected graphics layer
                 this._selectedGraphics = new GraphicsLayer({

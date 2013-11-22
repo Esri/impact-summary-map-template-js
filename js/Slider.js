@@ -31,6 +31,7 @@ function (
             this.displayPageCount = 3;
             this._createSlider();
             topic.subscribe("resizeGeoDataSlider", lang.hitch(this, function(sliderId) {
+                // todo
                 setTimeout(lang.hitch(this, function() {
                     this._resizeSlider(sliderId);
                 }), 0);

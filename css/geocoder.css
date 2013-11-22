@@ -32,7 +32,7 @@
 	display:block;
 	overflow:hidden;
 	margin:3px;
-	font-size:17px!important;
+	font-size:16px!important;
 	color:#999;
 }
 
@@ -196,6 +196,6 @@
 
 #geocoderMobile .esriGeocoder input {
 	width:80%;
-	line-height:25px;
-	height:25px;
+	line-height:24px;
+	height:24px;
 }

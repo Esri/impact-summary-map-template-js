@@ -336,13 +336,9 @@ input[type=text]::-ms-clear { display: none; }
 }
 
 .geoData .panel-expanded {
-	display:none;
 	text-align:center;
 	color:#777;
 	padding:0;
-	margin:5px 0;
-	border:1px solid #777;
-	border-top:none;
 	position:absolute;
 	bottom:30px;
 	height:0;
@@ -355,26 +351,29 @@ input[type=text]::-ms-clear { display: none; }
 
 .geoData .animateSlider {
 	height:130px;
+	border:1px solid #777;
+	border-top:none;
+    border-bottom:3px solid;
 }
 
 .population {
-	border-bottom:3px solid #da4d1e!important;
-	border-bottom:3px solid rgba(218,77,30,0.80)!important;
+	border-bottom-color: #da4d1e!important;
+	border-bottom-color: rgba(218,77,30,0.80)!important;
 }
 
 .households {
-	border-bottom:3px solid #004575!important;
-	border-bottom:3px solid rgba(0,69,117,0.80)!important;
+	border-bottom-color: #004575!important;
+	border-bottom-color: rgba(0,69,117,0.80)!important;
 }
 
 .critical_infrastructure {
-	border-bottom:3px solid #35ac46;
-	border-bottom:3px solid rgba(42,116,51,0.80)!important;
+	border-bottom-color: #35ac46;
+	border-bottom-color: rgba(42,116,51,0.80)!important;
 }
 
 .businesses {
-	border-bottom:3px solid #6b1978!important;
-	border-bottom:3px solid rgba(107,25,120,0.80)!important;
+	border-bottom-color: #6b1978!important;
+	border-bottom-color: rgba(107,25,120,0.80)!important;
 }
 
 .geoData .count {
@@ -493,6 +492,8 @@ input[type=text]::-ms-clear { display: none; }
 .geoPanel {
 	height:auto;
 	display:inline-block;
+    position:relative;
+    z-index:2;
 }
 
 .divHeader {
@@ -500,6 +501,11 @@ input[type=text]::-ms-clear { display: none; }
 	line-height:25px;
 	width:100%;
 	border-bottom:1px solid #777;
+    display:none;
+}
+
+.animateSlider .divHeader{
+    display:block;
 }
 
 .divHeaderTitle {
@@ -747,6 +753,7 @@ input[type=text]::-ms-clear { display: none; }
     padding:5px 15px;
     background:#fff;
     background:rgba(255,255,255,0.7);
+    height:32px;
 }
 
 /* Hiding input fields close icon in IE10 */
