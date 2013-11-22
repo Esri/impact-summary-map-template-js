@@ -84,7 +84,7 @@ function(
                 menuItem: 'item',
                 menuItemSelected: 'item-selected',
                 menuItemFirst: "item-first",
-                menuItemOnly: "only-item",
+                menuItemOnly: "item-only",
                 menuPanel: 'panel',
                 menuPanelSelected: 'panel-selected',
                 rendererMenu: 'menuList',
@@ -646,9 +646,8 @@ function(
             }
         },
         _hideImpactArea: function() {
-            domStyle.set(dom.byId("impact_content"), "display", "none");
-            domClass.add(dom.byId("legend_content"), this.css.menuItemOnly);
-            domClass.remove(dom.byId("legend_name"), this.css.menuItemFirst);
+            domConstruct.destroy(dom.byId("area_content"));
+            domConstruct.destroy(dom.byId("areas"));
         },
         _selectEvent: function(evt) {
             // graphic selected
@@ -816,7 +815,12 @@ function(
             this._hideLoadingIndicator();
             // get  menu
             var defaultMenu = query('.' + this.css.menuItem, dom.byId('drawer_menu'));
+            // menus array
             if (defaultMenu) {
+                // only one menu
+                if(defaultMenu.length === 1){
+                    domClass.add(defaultMenu[0], this.css.menuItemOnly);
+                }
                 // panel config set
                 if (this.config.defaultPanel){
                     // panel found
@@ -825,6 +829,7 @@ function(
                     for(var i = 0; i < defaultMenu.length; i++){
                         // get panel attribute
                         var panelId = domAttr.get(defaultMenu[i], 'data-menu');
+                        // menu matches
                         if(panelId === this.config.defaultPanel){
                             this._showDrawerPanel(defaultMenu[i]);
                             // panel found

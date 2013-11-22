@@ -139,7 +139,7 @@ input[type=text]::-ms-clear { display: none; }
 	user-select:none;
 }
 
-#drawer_menu .only-item {
+#drawer_menu .item-only {
     width:100%;
 }
 
@@ -161,6 +161,10 @@ input[type=text]::-ms-clear { display: none; }
 	border-right:1px solid #5fa8d4;
 }
 
+#drawer_menu .item-only .title {
+    border-right:0;
+}
+
 #drawer_menu .item-selected {
 	color:#fff;
 	cursor:default;
@@ -179,6 +183,10 @@ input[type=text]::-ms-clear { display: none; }
 	height:9px;
 	width:100%;
 	background:url(../images/selected-arrow.png) no-repeat center bottom;
+}
+
+#drawer_menu .item-only .arrow{
+    display:none;
 }
 
 .topBar {
