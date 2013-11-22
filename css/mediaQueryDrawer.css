@@ -277,7 +277,6 @@
 	
 	.drawerOpen #geocoderMobile .esriGeocoder input {
 		width:75%!important;
-		height:30px!important;
 	}
 	
 	.drawerOpen #geocoderMobile {
@@ -294,9 +293,6 @@
 		visibility:hidden;
 	}
 	
-	.drawerOpen #mobileSearch {
-		height:36px!important;
-	}
 	
 	.drawerOpen #geocoderMobile .esriGeocoderResults,.drawerOpen #geocoderMobile .esriGeocoder input .esriGeocoderContainer ul li {
 		font-size:15px!important;
