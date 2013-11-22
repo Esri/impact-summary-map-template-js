@@ -294,7 +294,7 @@
 	}
 	
 	
-	.drawerOpen #geocoderMobile .esriGeocoderResults,.drawerOpen #geocoderMobile .esriGeocoder input .esriGeocoderContainer ul li {
+	.drawerOpen #geocoderMobile .esriGeocoderResults,.drawerOpen #geocoderMobile .esriGeocoder input, .drawerOpen #geocoderMobile .esriGeocoderContainer ul li {
 		font-size:15px!important;
 	}
 }

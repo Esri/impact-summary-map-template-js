@@ -137,7 +137,7 @@
 		width:365px!important;
 	}
 	
-	#geocoderMobile.esriGeocoder input {
+	#geocoderMobile .esriGeocoder input {
 		width:80%!important;
 	}
 	
@@ -238,7 +238,7 @@
 		width:250px!important;
 	}
 	
-	#geocoderMobile.esriGeocoder input {
+	#geocoderMobile .esriGeocoder input {
 		width:75%!important;
 	}
 }
@@ -374,7 +374,7 @@
 		width:auto!important;
 	}
 	
-	#geocoderMobile.esriGeocoder input {
+	#geocoderMobile .esriGeocoder input {
 		width:90%!important;
 	}
 	
@@ -545,7 +545,7 @@
 	}
 	
 	
-	#geocoderMobile .esriGeocoderResults,#geocoderMobile .esriGeocoder input.esriGeocoderContainer ul li {
+	#geocoderMobile .esriGeocoderResults,#geocoderMobile .esriGeocoder input, #geocoderMobile .esriGeocoderContainer ul li {
 		font-size:15px!important;
 	}
 }
@@ -649,7 +649,7 @@
 	}
 
 	
-	#geocoderMobile .esriGeocoderResults,#geocoderMobile .esriGeocoder input .esriGeocoderContainer ul li {
+	#geocoderMobile .esriGeocoderResults, #geocoderMobile .esriGeocoder input, #geocoderMobile .esriGeocoderContainer ul li {
 		font-size:15px!important;
 	}
 }

@@ -721,6 +721,10 @@ input[type=text]::-ms-clear { display: none; }
 	display:none;
 }
 
+#geocoderMobile.esriGeocoder input {
+    width:70%;
+}
+
 #btnCloseGeocoder {
 	float:left;
 	width:60px;
