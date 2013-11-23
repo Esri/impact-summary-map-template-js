@@ -328,7 +328,6 @@ input[type=text]::-ms-clear { display: none; }
 	float:left;
 	color:#fff;
 	cursor:pointer;
-	border:none!important;
 }
 
 .geoData .panel-selected-expand{
@@ -538,7 +537,7 @@ input[type=text]::-ms-clear { display: none; }
 	float:right;
 	height:25px;
 	border:1px solid #777;
-	border-bottom:1px solid #fff!important;
+	border-bottom:1px solid #fff;
 	border-right:none;
 	border-collapse:collapse;
 	padding:0 5px;
@@ -588,9 +587,9 @@ input[type=text]::-ms-clear { display: none; }
     color:#007ac2;
 }
 
-.disableArrow {
-	display:none!important;
-	cursor:default!important;
+#geoData .disableArrow {
+	display:none;
+	cursor:default;
 }
 
 .slidePanel {
@@ -620,10 +619,6 @@ input[type=text]::-ms-clear { display: none; }
 	overflow:hidden;
 }
 
-.esriGeocoderResults {
-	position:relative!important;
-}
-
 .topMenuRight {
 	position:relative;
 	top:0;
@@ -639,7 +634,7 @@ input[type=text]::-ms-clear { display: none; }
 }
 
 .paginationDot {
-	display:inline-block!important;
+	display:inline-block;
 	width:7px;
 	height:8px;
 	position:relative;
@@ -718,7 +713,7 @@ input[type=text]::-ms-clear { display: none; }
 }
 
 #geocoderMobile {
-	float:left!important;
+	float:left;
 }
 
 .mobileLocateBoxHidden {
