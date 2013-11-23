@@ -38,7 +38,8 @@ define([
     "modules/Slider",
     "esri/dijit/Popup",
     "dojo/Deferred",
-    "dojo/window"
+    "dojo/window",
+    "dojo/dom-geometry"
 ],
 function(
     ready,
@@ -72,7 +73,8 @@ function(
     Slider,
     Popup,
     Deferred,
-    win
+    win,
+    domGeom
 ) {
     return declare("", null, {
         config: {},
@@ -484,7 +486,8 @@ function(
             // todo
             if (node) {
                 // todo get content box?
-                var sliderWidth = dom.byId('geo_panel').offsetWidth;
+                var mb = domGeom.getMarginBox(dom.byId('geo_panel'));
+                var sliderWidth = mb.w;
                 domStyle.set(node, 'width', sliderWidth + 'px');
                 this._resizeGeoContainer(node);
             }
