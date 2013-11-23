@@ -337,6 +337,7 @@ function(
             if(this._currentPanelSlider){
                 domClass.remove(this._currentPanelSlider, this.css.animateSlider);
             }
+            this._displayedContainer = null;
         },
         _formatNumber: function(number, decPlaces) {
             // format large numbers
