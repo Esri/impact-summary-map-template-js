@@ -4,7 +4,7 @@ This interactive map highlights who and what has been impacted by this incident 
 
 [View it live](http://driskull.github.io/local-impact-map-template-js/)
 
-![App](https://raw.github.com/driskull/local-impact-map-template-js/master/images/item.png)
+![App](https://raw.github.com/driskull/local-impact-map-template-js/master/resources/item.png)
 
 ## Features
 TBD
