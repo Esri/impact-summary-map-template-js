@@ -97,7 +97,6 @@ function (
                 "class": "divPagination"
             });
             domConstruct.place(sliderPaginationHolder, sliderDiv, "last");
-            // todo 
             //calculate no of possible pages in slider
             var geoChildren = query('.data-block', this.sliderContent);
             pageCount = Math.ceil(geoChildren.length / this.displayPageCount);
@@ -181,11 +180,9 @@ function (
         },
         //display selected slider page
         _showSelectedPage: function(sliderId, page) {
-            var sliderContent, carousel, pageIndex, newLeft;
+            var sliderContent, carousel, pageIndex = 0, newLeft;
             sliderContent = query('#' + sliderId + ' .divSliderContent')[0];
             carousel = query('#' + sliderId + ' .carousel')[0];
-            var pages = query('.paginationDot', sliderContent);
-            var pageIndex = 0;
             if (page) {
                 pageIndex = parseInt(domAttr.get(page, "index"), 10);
             }
