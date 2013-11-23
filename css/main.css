@@ -356,24 +356,24 @@ input[type=text]::-ms-clear { display: none; }
     border-bottom:3px solid;
 }
 
-.population {
-	border-bottom-color: #da4d1e!important;
-	border-bottom-color: rgba(218,77,30,0.80)!important;
+.geoData .population {
+	border-bottom-color: #da4d1e;
+	border-bottom-color: rgba(218,77,30,0.80);
 }
 
-.households {
-	border-bottom-color: #004575!important;
-	border-bottom-color: rgba(0,69,117,0.80)!important;
+.geoData .households {
+	border-bottom-color: #004575;
+	border-bottom-color: rgba(0,69,117,0.80);
 }
 
-.critical_infrastructure {
+.geoData .critical_infrastructure {
 	border-bottom-color: #35ac46;
-	border-bottom-color: rgba(42,116,51,0.80)!important;
+	border-bottom-color: rgba(42,116,51,0.80);
 }
 
-.businesses {
-	border-bottom-color: #6b1978!important;
-	border-bottom-color: rgba(107,25,120,0.80)!important;
+.geoData .businesses {
+	border-bottom-color: #6b1978;
+	border-bottom-color: rgba(107,25,120,0.80);
 }
 
 .geoData .count {
@@ -394,88 +394,88 @@ input[type=text]::-ms-clear { display: none; }
 	display:block;
 }
 
-.geoData .panel .title {
+.geoData .geoPanel .panel .title {
 	margin:0;
 	padding:3px 22px;
 	font-size:14px;
 }
 
-.geoData .population .count {
+.geoData .geoPanel .population .count {
 	background-color:#f36f20;
 	background-color:rgba(243,111,32,0.80);
 }
 
-.geoData .population .title,.population .bgColor {
+.geoData .geoPanel .population .title,.population .bgColor {
 	background-color:#da4d1e;
 	background-color:rgba(218,77,30,0.80);
 }
 
-.geoData .population:hover .count {
+.geoData .geoPanel .population:hover .count {
 	background-color:#f36f20;
 	background-color:rgba(243,111,32,0.70);
 }
 
-.geoData .population:hover .title {
+.geoData .geoPanel .population:hover .title {
 	background-color:#da4d1e;
 	background-color:rgba(218,77,30,0.70);
 }
 
-.geoData .households .count {
+.geoData .geoPanel .households .count {
 	background-color:#007ac2;
 	background-color:rgba(0,122,194,0.80);
 }
 
-.geoData .households .title,.households .bgColor {
+.geoData .geoPanel .households .title,.households .bgColor {
 	background-color:#004575;
 	background-color:rgba(0,69,117,0.80);
 }
 
-.geoData .households:hover .count {
+.geoData .geoPanel .households:hover .count {
 	background-color:#007ac2;
 	background-color:rgba(0,122,194,0.70);
 }
 
-.geoData .households:hover .title {
+.geoData .geoPanel .households:hover .title {
 	background-color:#004575;
 	background-color:rgba(0,69,117,0.70);
 }
 
-.geoData .critical_infrastructure .count {
+.geoData .geoPanel .critical_infrastructure .count {
 	background-color:#35ac46;
 	background-color:rgba(53,172,70,0.80);
 }
 
-.geoData .critical_infrastructure .title,.critical_infrastructure .bgColor {
+.geoData .geoPanel .critical_infrastructure .title,.critical_infrastructure .bgColor {
 	background-color:#2a7433;
 	background-color:rgba(42,116,51,0.80);
 }
 
-.geoData .critical_infrastructure:hover .count {
+.geoData .geoPanel .critical_infrastructure:hover .count {
 	background-color:#35ac46;
 	background-color:rgba(53,172,70,0.70);
 }
 
-.geoData .critical_infrastructure:hover .title {
+.geoData .geoPanel .critical_infrastructure:hover .title {
 	background-color:#2a7433;
 	background-color:rgba(42,116,51,0.70);
 }
 
-.geoData .businesses .count {
+.geoData .geoPanel .businesses .count {
 	background-color:#8f499c;
 	background-color:rgba(143,73,156,0.80);
 }
 
-.geoData .businesses .title,.businesses .bgColor {
+.geoData .geoPanel .businesses .title,.businesses .bgColor {
 	background-color:#6b1978;
 	background-color:rgba(107,25,120,0.80);
 }
 
-.geoData .businesses:hover .count {
+.geoData .geoPanel .businesses:hover .count {
 	background-color:#8f499c;
 	background-color:rgba(143,73,156,0.70);
 }
 
-.geoData .businesses:hover .title {
+.geoData .geoPanel .businesses:hover .title {
 	background-color:#6b1978;
 	background-color:rgba(107,25,120,0.70);
 }
@@ -562,6 +562,11 @@ input[type=text]::-ms-clear { display: none; }
 	width:100%;
 	height:79%;
 	overflow:hidden;
+    display:none;
+}
+
+.animateSlider .divOuterSliderContainer{
+    display:block;
 }
 
 .geoData .leftArrow, .geoData .rightArrow {
@@ -684,8 +689,7 @@ input[type=text]::-ms-clear { display: none; }
 	position:relative;
 }
 
-.divGeoDataHolder .count,.divGeoDataHolder .title {
-	background-color:#fff!important;
+.divGeoDataHolder .count, .divGeoDataHolder .title {
 	display:block;
 	text-align:left;
 	margin-left:40px;

@@ -354,6 +354,9 @@ function(
             }
             return number;
         },
+        _hideInfoWindow: function(){
+            this.map.infoWindow.hide();
+        },
         _displayStats: function(features) {
             var decPlaces;
             if (features && features.length) {
@@ -436,12 +439,10 @@ function(
                                 }
                             }
                             // todo
-                            var panels = query('.' + this.css.statsPanelDataBlock + ':last-child', divGeoPanel);
+                            var panels = query('.' + this.css.statsPanelDataBlock, divGeoPanel);
                             if(panels && panels.length){
-                                for(i = 0; i < panels.length; i++){
-                                    // last item class
-                                    domClass.add(panels[i], this.css.statsPanelDataBlockLast);
-                                }
+                                // last item class
+                                domClass.add(panels[panels.length - 1], this.css.statsPanelDataBlockLast);
                             }
                         }
                     }));
@@ -451,6 +452,7 @@ function(
                 }
                 // panel click
                 this._panelClick = on(query('.' + this.css.menuPanel, this.dataNode), 'click', lang.hitch(this, function(evt) {
+                    this._hideInfoWindow();
                     var type = domAttr.get(evt.currentTarget, 'data-type');
                     this._showExpanded(type);
                 }));
@@ -626,6 +628,7 @@ function(
                         domStyle.set(dom.byId('renderer_menu'), 'display', 'block');
                         // renderer item click
                         on(query('.' + this.css.rendererMenuItem, dom.byId('renderer_menu')), 'click', lang.hitch(this, function(evt) {
+                            this._hideInfoWindow();
                             var ct = evt.currentTarget;
                             // current renderer isn't already selected
                             if(!domClass.contains(ct, this.css.rendererSelected)){
@@ -755,6 +758,7 @@ function(
             // todo
             /* END temporary until after JSAPI 3.8 is released */
             this.dataNode = domConstruct.place(domConstruct.create('div', {
+                id: 'geoData',
                 className: this.css.stats
             }), dom.byId('cp_outer_center'), 'first');
             // get layer by id
@@ -790,10 +794,12 @@ function(
                 }));
                 // selected poly from graphics layer
                 on(this._selectedGraphics, 'click', lang.hitch(this, function(evt) {
+                    this._hideInfoWindow();
                     this._selectEvent(evt);
                 }));
                 // selected poly from impact layer
                 on(this._impactLayer, 'click', lang.hitch(this, function(evt) {
+                    this._hideInfoWindow();
                     this._selectEvent(evt);
                 }));
                 // impact layer show/hide

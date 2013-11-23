@@ -39,7 +39,7 @@ function (
         },
         //function to create slider based on content
         _createSlider: function() {
-            var sliderOuterContainer, sliderInnerContainer, sliderLeftArrowHolder, sliderRightArrowHolder, sliderDivLeftArrow, sliderDiv, sliderContentDiv, sliderDivRightArrow;
+            var sliderOuterContainer, sliderInnerContainer, sliderLeftArrowHolder, sliderRightArrowHolder, sliderDivLeftArrow, sliderDiv, sliderContentDiv, sliderDivRightArrow, sliderDivClear;
             sliderOuterContainer = domConstruct.create('div', {
                 "id": "slider" + this.sliderContent.id,
                 "class": "divSliderContainer"
@@ -61,6 +61,9 @@ function (
             domConstruct.place(this.sliderContent, sliderContentDiv, "last");
             sliderRightArrowHolder = domConstruct.create('div', {
                 "class": "divRight"
+            }, sliderInnerContainer);
+            sliderDivClear = domConstruct.create('div', {
+                "class": "clear"
             }, sliderInnerContainer);
             sliderDivLeftArrow = domConstruct.create('div', {
                 "id": this.sliderContent.id + "leftArrow",
