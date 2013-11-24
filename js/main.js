@@ -827,7 +827,7 @@ function(
         _showGeoDataContainer: function(){
             var node = dom.byId('geodata_container');
             if(node){
-                domStyle.set(node, 'display', 'inline-block');
+                domStyle.set(node, 'display', 'block');
             }
         },
         _hideGeoDataContainer: function(){

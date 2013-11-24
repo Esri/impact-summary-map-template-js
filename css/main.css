@@ -319,7 +319,11 @@ input[type=text]::-ms-clear { display: none; }
 }
 
 .geodata-container {
-	display:inline-block;
+	display:block;
+}
+
+.geoPanelExpanded{
+    display:inline-block;
 }
 
 .geoData .panel {
