@@ -39,7 +39,17 @@ function (
             this._i18n = i18n;
             // classes
             this._css = {
-                
+                divSliderContainer: "divSliderContainer",
+                divInnerSliderContainer: "divInnerSliderContainer",
+                divLeft: "divLeft",
+                divRight: "divRight",
+                leftArrow: "leftArrow",
+                rightArrow: "rightArrow",
+                disableArrow: "disableArrow",
+                divSliderContent: "divSliderContent",
+                carousel: "carousel",
+                slidePanel: "slidePanel",
+                clear: "clear"
             };
             //set no of slide to display
             this.displayPageCount = 3;
@@ -84,64 +94,56 @@ function (
             this._removeEvents();
             
             
-            this._createSlider();
+            domConstruct.place(this.sliderContent, this._sliderContent, "last");
             
+            this._createPagination(this._sliderContentContainer, this._sliderContainer);
+            
+            domConstruct.place(this._sliderContainer, this.sliderParent, "last");
+            
+            this._resizeSlider(sliderOuterContainer.id);
+            
+            
+
+            
+            //change previous/next slide on clicking of left and right arrow.
+            var pageRight = on(sliderDivRightArrow, 'click', lang.hitch(this, function() {
+                this._slide(sliderOuterContainer.id, true);
+            }));
+            this._events.push(pageRight);
+            //change previous/next slide on clicking of left and right arrow.
+            var pageLeft = on(sliderDivLeftArrow, 'click', lang.hitch(this, function() {
+                this._slide(sliderOuterContainer.id, false);
+            }));
+            this._events.push(pageRight);
+            // ready
             this.set("loaded", true);
             this.emit("load", {});
         },
-        //function to create slider based on content
-        _createSlider: function() {
-            var sliderOuterContainer, sliderInnerContainer, sliderLeftArrowHolder, sliderRightArrowHolder, sliderDivLeftArrow, sliderDiv, sliderContentDiv, sliderDivRightArrow, sliderDivClear;
-            sliderOuterContainer = domConstruct.create('div', {
-                "id": "slider" + this.sliderContent.id,
-                "class": "divSliderContainer"
-            });
-            sliderInnerContainer = domConstruct.create('div', {
-                "class": "divInnerSliderContainer"
-            }, sliderOuterContainer);
-            sliderLeftArrowHolder = domConstruct.create('div', {
-                "class": "divLeft"
-            }, sliderInnerContainer);
-            sliderDiv = domConstruct.create('div', {
-                "id": "divSlider" + this.sliderContent.id,
-                "class": "divSliderContent"
-            }, sliderInnerContainer);
-            sliderContentDiv = domConstruct.create('div', {
-                "class": "carousel slidePanel"
-            });
-            domConstruct.place(sliderContentDiv, sliderDiv, "last");
-            domConstruct.place(this.sliderContent, sliderContentDiv, "last");
-            sliderRightArrowHolder = domConstruct.create('div', {
-                "class": "divRight"
-            }, sliderInnerContainer);
-            sliderDivClear = domConstruct.create('div', {
-                "class": "clear"
-            }, sliderInnerContainer);
-            sliderDivLeftArrow = domConstruct.create('div', {
-                "id": this.sliderContent.id + "leftArrow",
-                "class": "leftArrow disableArrow",
-                "title": i18n.widgets.Slider.previous
-            }, sliderLeftArrowHolder);
-            this._createPagination(sliderDiv, sliderOuterContainer);
-            sliderDivRightArrow = domConstruct.create('div', {
-                "id": this.sliderContent.id + "rightArrow",
-                "class": "rightArrow",
-                "title": i18n.widgets.Slider.next
-            }, sliderRightArrowHolder);
-            domConstruct.place(sliderOuterContainer, this.sliderParent, "last");
-            this._resizeSlider(sliderOuterContainer.id);
-            //change previous/next slide on clicking of left and right arrow.
-            on(sliderDivRightArrow, 'click', lang.hitch(this, function() {
-                this._slide(sliderOuterContainer.id, true);
-            }));
-            on(sliderDivLeftArrow, 'click', lang.hitch(this, function() {
-                this._slide(sliderOuterContainer.id, false);
-            }));
+        //resize slider contents
+        _resizeSlider: function() {
+            var sliderContentHolder, sliderTableWidth, selectedPage;
+            
+            
+            sliderContentHolder = query('.divGeoDataHolder', this._sliderContent)[0];
+            if (sliderContentHolder) {
+                var geoChildren = query('.data-block', sliderContentHolder);
+                if (geoChildren && geoChildren[0]) {
+                    sliderTableWidth = (domStyle.get(geoChildren[0], 'width') + 1) * geoChildren.length;
+                }
+                domStyle.set(sliderContentHolder, 'width', sliderTableWidth + 'px');
+            }
+            
+            domStyle.set(this._sliderContent, 'width', sliderTableWidth + 'px');
+            
+            selectedPage = query('.bgColor', this._sliderContent)[0];
+            
+            
+            this._showSelectedPage(sliderId, selectedPage);
         },
         _createPageEvent: function(spanPaginationDot, sliderOuterContainer) {
             //Go to slider page on selecting its corresponding pagination dot
             on(spanPaginationDot, 'click', lang.hitch(this, function(evt) {
-                this._showSelectedPage(sliderOuterContainer.id, evt.currentTarget);
+                this._showSelectedPage(evt.currentTarget);
                 this._setArrowVisibility(sliderOuterContainer.id);
             }));
         },
@@ -215,29 +217,12 @@ function (
                 domClass.add(paginationDot, "bgColor");
             }
         },
-        //resize slider contents
-        _resizeSlider: function(sliderId) {
-            var carousel, sliderContentHolder, sliderTableWidth, selectedPage;
-            carousel = query('#' + sliderId + ' .carousel')[0];
-            sliderContentHolder = query('#' + sliderId + ' .divGeoDataHolder')[0];
-            if (sliderContentHolder) {
-                var geoChildren = query('.data-block', sliderContentHolder);
-                if (geoChildren && geoChildren[0]) {
-                    sliderTableWidth = (domStyle.get(geoChildren[0], 'width') + 1) * geoChildren.length;
-                }
-                domStyle.set(sliderContentHolder, 'width', sliderTableWidth + 'px');
-            }
-            if (carousel) {
-                domStyle.set(carousel, 'width', sliderTableWidth + 'px');
-            }
-            selectedPage = query('#' + sliderId + ' .bgColor')[0];
-            this._showSelectedPage(sliderId, selectedPage);
-        },
+        
         //display selected slider page
-        _showSelectedPage: function(sliderId, page) {
+        _showSelectedPage: function(page) {
             var sliderContent, carousel, pageIndex = 0, newLeft;
-            sliderContent = query('#' + sliderId + ' .divSliderContent')[0];
-            carousel = query('#' + sliderId + ' .carousel')[0];
+            sliderContent = query(' divSliderContent', this._sliderContent)[0];
+            carousel = query('.carousel', this._sliderContent)[0];
             if (page) {
                 pageIndex = parseInt(domAttr.get(page, "index"), 10);
             }
@@ -247,7 +232,7 @@ function (
             if (carousel) {
                 domStyle.set(carousel, 'left', newLeft + "px");
             }
-            var bgColor = query('#' + sliderId + ' .bgColor')[0];
+            var bgColor = query('.bgColor', this._sliderContent)[0];
             if (bgColor) {
                 domClass.remove(bgColor, "bgColor");
             }
