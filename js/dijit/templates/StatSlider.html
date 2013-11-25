@@ -1,4 +1,4 @@
-<div>
+<div class="${this._css.divOuterSliderContainer}">
     <div data-dojo-attach-point="_sliderContainer" class="${_css.divSliderContainer}">
         <div class="${_css.divInnerSliderContainer}">
             <div class="${_css.divLeft}">
@@ -6,6 +6,7 @@
             </div>
             <div data-dojo-attach-point="_sliderContentContainer" class="${_css.divSliderContent}">
                 <div data-dojo-attach-point="_sliderContent" class="${_css.carousel} ${_css.slidePanel}"></div>
+                <div data-dojo-attach-point="_sliderPagination" class="${_css.divPagination}"></div>
             </div>
             <div class="${_css.divRight}">
                 <div data-dojo-attach-point="_sliderPageRight" class="${_css.rightArrow} ${_css.disableArrow}" title="$(_i18n.widgets.Slider.next}"></div>

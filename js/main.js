@@ -31,6 +31,7 @@ define([
     "modules/LayerLegend",
     "modules/AboutDialog",
     "modules/ShareDialog",
+    "modules/StatSlider",
     "esri/dijit/HomeButton",
     "esri/dijit/LocateButton",
     "esri/dijit/BasemapToggle",
@@ -68,6 +69,7 @@ function(
     fx,
     easing,
     LayerLegend, AboutDialog, ShareDialog,
+    StatSlider,
     HomeButton, LocateButton, BasemapToggle,
     Geocoder,
     Slider,
@@ -435,10 +437,16 @@ function(
                             childNode = query('.' + this.css.statsPanelDataBlock, divGeoPanel).length;
                             if (childNode > 3) {
                                 if (divGeoPanel) {
-                                    objSlider = new Slider({
+                                    /*objSlider = new Slider({
                                         sliderContent: divGeoPanel,
                                         sliderParent: node
                                     });
+                                    */
+                                    var tst = new StatSlider({
+                                        content: divGeoPanel
+                                    }, node);
+                                    tst.startup();
+                                    
                                 }
                             }
                             // todo
