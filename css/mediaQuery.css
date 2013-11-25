@@ -653,3 +653,13 @@
 		font-size:15px!important;
 	}
 }
+
+@media screen and (max-device-width:320px) and (orientation:landscape) {
+    #geocoderMobile {
+		width:auto!important;
+	}
+	
+	#geocoderMobile .esriGeocoder input {
+		width:70%!important;
+	}
+}
