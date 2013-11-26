@@ -1,5 +1,8 @@
 <div class="geodata-container" id="geodata_container">
     <div class="geoPanelExpanded" id="geo_panel_expanded">
+        <div class="dataSourceUrl">
+            <a href="{{dataSourceUrl}}" target="_blank">Source</a>
+        </div>
         <div class="panel-expanded population" data-type="population" id="panelPopulation">
             <div class="divHeader">
                 <div class="bgColor divHeaderTitle"><span class="hTitle">Population:</span><span class="hNumber">{{#numFormat}}{{TOTPOP_CY}}{{/numFormat}}</span></div>
@@ -53,12 +56,16 @@
                         <div class="count">{{#numFormat}}{{CIKR_AMTwr}}{{/numFormat}}</div>
                         <div class="title"title="AM Towers">AM Towers</div>
                     </div>
-                    {{/CIKR_AMTwr}} {{#CIKR_BrTn}}
+                    {{/CIKR_AMTwr}}
+                    <!--
+                    {{#CIKR_BrTn}}
                     <div class="data-block">
                         <div class="count">{{#numFormat}}{{CIKR_BrTn}}{{/numFormat}}</div>
                         <div class="title" title="Bridges and Tunnels">Bridges and Tunnels</div>
                     </div>
-                    {{/CIKR_BrTn}} {{#CIKR_Dam}}
+                    {{/CIKR_BrTn}}
+                    -->
+                    {{#CIKR_Dam}}
                     <div class="data-block">
                         <div class="count">{{#numFormat}}{{CIKR_Dam}}{{/numFormat}}</div>
                         <div class="title" title="Dams">Dams</div>

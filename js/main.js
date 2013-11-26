@@ -98,6 +98,7 @@ function(
                 rendererContainer: 'item-container',
                 rendererSummarize: 'summarize',
                 stats: 'geoData',
+                statsOpen: 'geoDataExpanded',
                 statsPanel: 'panel',
                 statsCount: 'count',
                 statsPanelSelected: 'panel-expanded',
@@ -413,6 +414,7 @@ function(
                         return this._formatNumber(parseInt(renderedText, 10), decPlaces);
                     });
                 });
+                sum.dataSourceUrl = this.config.dataSourceUrl;
                 // show geo stats
                 domStyle.set(this.dataNode, 'display', 'block');
                 // render html panels
@@ -515,6 +517,7 @@ function(
             }
         },
         _hideExpanded: function() {
+            domClass.remove(this.dataNode, this.css.statsOpen);
             // todo
             var divCount = query('.' + this.css.statsPanel + ' .' + this.css.statsCount, dom.byId('geo_panel'));
             //hide slider
@@ -530,6 +533,9 @@ function(
             }));
         },
         _showExpanded: function(type) {
+            
+            domClass.add(this.dataNode, this.css.statsOpen);
+            
             // todo
             var sliders, domSlider, divCount;
             sliders = query('.' + this.css.statsPanelSelected + '[data-type="' + type + '"]', this.dataNode);

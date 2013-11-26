@@ -17,11 +17,13 @@ define([], function() {
         //you could define the default here and setup configuration settings to allow users to choose a different
         //color theme.
         "impact_layer": "Impact Area",
+        // Data Source Link
+        "dataSourceUrl": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Data_Apportionment/02r30000021s000000/",
         // "legend" or "areas"
         "defaultPanel": "areas",
         // overwritten by renderer info
         "impact_field": "GRID_CODE",
-        "sum_variables": ['TOTPOP_CY', 'TOTHH_CY', 'CIKR_Total', 'BUS_Total', 'POP15_CY', 'POP65U_CY', 'OWNER_CY', 'RENTER_CY', 'CIKR_AMTwr', 'CIKR_BrTn', 'CIKR_Dam', 'CIKR_Edu', 'CIKR_ECC', 'CIKR_FMTwr', 'CIKR_FrSta', 'CIKR_Hzmt', 'CIKR_HCF', 'CIKR_PkIco', 'CIKR_Pol', 'CIKR_Port', 'CIKR_Rsrvr', 'CIKR_WWF', 'CIKR_Pwr', 'BUS_Banks', 'BUS_Hsptl', 'BUS_GrcStr', 'BUS_PnTSvc', 'BUS_Safety', 'BUS_Util', 'BUS_BldSpl', 'BUS_GasStn', 'BUS_DptStr', 'BUS_Ldging', 'BUS_Other'],
+        "sum_variables": ['TOTPOP_CY', 'TOTHH_CY', 'CIKR_Total', 'BUS_Total', 'POP15_CY', 'POP65U_CY', 'OWNER_CY', 'RENTER_CY', 'CIKR_AMTwr', /*'CIKR_BrTn',*/ 'CIKR_Dam', 'CIKR_Edu', 'CIKR_ECC', 'CIKR_FMTwr', 'CIKR_FrSta', 'CIKR_Hzmt', 'CIKR_HCF', 'CIKR_PkIco', 'CIKR_Pol', 'CIKR_Port', 'CIKR_Rsrvr', 'CIKR_WWF', 'CIKR_Pwr', 'BUS_Banks', 'BUS_Hsptl', 'BUS_GrcStr', 'BUS_PnTSvc', 'BUS_Safety', 'BUS_Util', 'BUS_BldSpl', 'BUS_GasStn', 'BUS_DptStr', 'BUS_Ldging', 'BUS_Other'],
         //Enter the url to your organizations bing maps key if you want to use bing basemaps
         "bingmapskey": "",
         "bitlyLogin": "esri",
