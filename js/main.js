@@ -2,14 +2,11 @@ define([
     "dojo/ready",
     "dojo/_base/declare",
     "dojo/_base/lang",
-    "dojo/_base/array",
     "esri/arcgis/utils",
     "esri/graphicsUtils",
     "dojo/dom-construct",
     "dojo/dom",
     "dojo/on",
-    "dojo/topic",
-    "dojo/number",
     "dojo/dom-style",
     "dojo/dom-attr",
     "esri/tasks/query",
@@ -19,7 +16,6 @@ define([
     "esri/symbols/SimpleLineSymbol",
     "dojo/_base/Color",
     "application/Mustache",
-    "dojo/text!views/panels.html",
     "dojo/text!views/renderer.html",
     "dojo/_base/event",
     "esri/graphic",
@@ -31,29 +27,24 @@ define([
     "modules/LayerLegend",
     "modules/AboutDialog",
     "modules/ShareDialog",
-    "modules/StatSlider",
     "esri/dijit/HomeButton",
     "esri/dijit/LocateButton",
     "esri/dijit/BasemapToggle",
     "esri/dijit/Geocoder",
-    "modules/Slider",
+    "modules/StatsBlock",
     "esri/dijit/Popup",
     "dojo/Deferred",
-    "dojo/window",
-    "dojo/dom-geometry"
+    "dojo/window"
 ],
 function(
     ready,
     declare,
     lang,
-    array,
     arcgisUtils,
     graphicsUtils,
     domConstruct,
     dom,
     on,
-    topic,
-    number,
     domStyle,
     domAttr,
     Query,
@@ -62,21 +53,19 @@ function(
     SimpleFillSymbol, SimpleLineSymbol,
     Color,
     Mustache,
-    panelsView, rendererView,
+    rendererView,
     event,
     Graphic, GraphicsLayer,
     BorderContainer, ContentPane,
     fx,
     easing,
     LayerLegend, AboutDialog, ShareDialog,
-    StatSlider,
     HomeButton, LocateButton, BasemapToggle,
     Geocoder,
-    Slider,
+    StatsBlock,
     Popup,
     Deferred,
-    win,
-    domGeom
+    win
 ) {
     return declare("", null, {
         config: {},
@@ -236,10 +225,6 @@ function(
             domStyle.set(this._drawer, "display", "block");
         },
         _checkDrawerStatus: function(){
-            // if mobile size
-            if (this._displayedContainer) {
-                this._setPanelWidth(this._displayedContainer);
-            }
             // remove display and width styles that exist
             domStyle.set(this._drawer, "display", "");
             domStyle.set(this._drawer, "width", "");
@@ -277,6 +262,7 @@ function(
                     onEnd: lang.hitch(this, function() {
                         // remove shown drawer
                         this._checkDrawerStatus();
+                        this._sb.resize();
                         // return
                         def.resolve();
                     })
@@ -305,6 +291,7 @@ function(
                         domClass.add(document.body, this.css.drawerOpen);
                         // remove shown drawer
                         this._checkDrawerStatus();
+                        this._sb.resize();
                         // return
                         def.resolve();
                     })
@@ -330,153 +317,15 @@ function(
                 }
             }
         },
-        _displayContainer: function(node) {
-            // show panel
-            domClass.add(node, this.css.animateSlider);
-            // set currenlty displayed container
-            this._displayedContainer = node;
-        },
-        _hideContainer: function() {
-            if(this._currentPanelSlider){
-                domClass.remove(this._currentPanelSlider, this.css.animateSlider);
-            }
-            this._displayedContainer = null;
-        },
-        _formatNumber: function(number, decPlaces) {
-            // format large numbers
-            decPlaces = Math.pow(10, decPlaces);
-            var abbrev = ["k", "m", "b", "t"];
-            for (var i = abbrev.length - 1; i >= 0; i--) {
-                var size = Math.pow(10, (i + 1) * 3);
-                if (size <= number) {
-                    number = Math.round(number * decPlaces / size) / decPlaces;
-                    if ((number === 1000) && (i < abbrev.length - 1)) {
-                        number = 1;
-                        i++;
-                    }
-                    number += abbrev[i];
-                    break;
-                }
-            }
-            return number;
-        },
         _hideInfoWindow: function(){
             this.map.infoWindow.hide();
         },
-        _displayStats: function(features) {
-            var decPlaces;
+        _selectFeatures: function(features){
             if (features && features.length) {
-                // all variables to summarize
-                var variables = this.config.sum_variables;
-                var sum = {};
-                var i;
-                // multiple features
-                if (features.length > 1) {
-                    // each feature
-                    for (i = 0; i < features.length; i++) {
-                        // feature is zero
-                        if (i === 0) {
-                            sum = features[0].attributes;
-                        } else {
-                            // lets add each variable
-                            for (var j = 0; j < variables.length; j++) {
-                                if (features[i].attributes.hasOwnProperty(variables[j])) {
-                                    sum[variables[j]] += features[i].attributes[variables[j]];
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    // single feature
-                    sum = features[0].attributes;
-                    if (features[0].attributes.hasOwnProperty(this._attributeField)) {
-                        var value = features[0].attributes[this._attributeField];
-                        var item = query('[data-value=' + value + ']', dom.byId('renderer_menu'));
-                        // select renderer menu item
-                        if (item && item.length) {
-                            domClass.add(item[0], this.css.rendererSelected);
-                        }
-                    }
-                }
-                // format number in stats
-                sum.numFormat = lang.hitch(this, function() {
-                    return lang.hitch(this, function(text, render) {
-                        var renderedText = render(text);
-                        if (renderedText.length >= 7) {
-                            decPlaces = 1;
-                        } else if (renderedText.length >= 5) {
-                            decPlaces = 0;
-                        } else if (renderedText.length === 4) {
-                            return number.format(parseInt(renderedText, 10));
-                        } else {
-                            decPlaces = 2;
-                        }
-                        return this._formatNumber(parseInt(renderedText, 10), decPlaces);
-                    });
-                });
-                sum.dataSourceUrl = this.config.dataSourceUrl;
-                // show geo stats
-                domStyle.set(this.dataNode, 'display', 'block');
-                // render html panels
-                var output = Mustache.render(panelsView, sum);
-                var panelType;
-                // get selected panel
-                if (this._displayedContainer) {
-                    panelType = domAttr.get(this._displayedContainer, 'data-type');
-                }
-                // set panel html
-                this.dataNode.innerHTML = output;
-                //Create Slider for Geo data panels
-                var sliders, objSlider, childNode, divGeoPanel;
-                // todo
-                sliders = query('.' + this.css.statsPanelSelected + ' .' + this.css.divOuterSliderContainer, dom.byId('geodata_container'));
-                // sliders
-                if(sliders && sliders.length){
-                    // each slider node
-                    array.forEach(sliders, lang.hitch(this, function(node) {
-                        divGeoPanel = query('.' + this.css.divGeoDataHolder, node)[0];
-                        if(divGeoPanel){
-                            childNode = query('.' + this.css.statsPanelDataBlock, divGeoPanel).length;
-                            if (childNode > 3) {
-                                if (divGeoPanel) {
-                                    /*objSlider = new Slider({
-                                        sliderContent: divGeoPanel,
-                                        sliderParent: node
-                                    });
-                                    */
-                                    var tst = new StatSlider({
-                                        content: divGeoPanel
-                                    }, node);
-                                    tst.startup();
-                                    
-                                }
-                            }
-                            // todo
-                            var panels = query('.' + this.css.statsPanelDataBlock, divGeoPanel);
-                            if(panels && panels.length){
-                                // last item class
-                                domClass.add(panels[panels.length - 1], this.css.statsPanelDataBlockLast);
-                            }
-                        }
-                    }));
-                }
-                if (panelType) {
-                    this._showExpanded(panelType);
-                }
-                // panel click
-                this._panelClick = on(query('.' + this.css.menuPanel, this.dataNode), 'click', lang.hitch(this, function(evt) {
-                    this._hideInfoWindow();
-                    var type = domAttr.get(evt.currentTarget, 'data-type');
-                    this._showExpanded(type);
-                }));
-                // expanded panel click
-                this._expandedClick = on(query('.' + this.css.statsPanelSelected + ' .' + this.css.divHeaderClose, this.dataNode), 'click', lang.hitch(this, function() {
-                    this._hideExpanded();
-                }));
                 // add features to graphics layer
                 this._selectedGraphics.clear();
                 // each selected feature
-                for (i = 0; i < features.length; i++) {
+                for (var i = 0; i < features.length; i++) {
                     // selected line symbol
                     var sls = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255, 1]), 2);
                     // selected fill symbol
@@ -488,82 +337,23 @@ function(
                         this._selectedGraphics.add(g);
                     }
                 }
-            } else {
-                // hide geo stats
-                domStyle.set(this.dataNode, 'display', 'none');
-            }
-        },
-        _setPanelWidth: function(node) {
-            // todo
-            if (node) {
-                // todo get content box?
-                var mb = domGeom.getMarginBox(dom.byId('geo_panel'));
-                var sliderWidth = mb.w;
-                domStyle.set(node, 'width', sliderWidth + 'px');
-                this._resizeGeoContainer(node);
-            }
-        },
-        _resizeGeoContainer: function(node) {
-            // todo
-            var slider = query('.' + this.css.divSliderContainer, node)[0];
-            if (slider) {
-                topic.publish("resizeGeoDataSlider", slider.id);
+                if (features.length === 1) {
+                    // single feature
+                    if (features[0].attributes.hasOwnProperty(this._attributeField)) {
+                        var value = features[0].attributes[this._attributeField];
+                        var item = query('[data-value=' + value + ']', dom.byId('renderer_menu'));
+                        // select renderer menu item
+                        if (item && item.length) {
+                            domClass.add(item[0], this.css.rendererSelected);
+                        }
+                    }
+                }
             }
         },
         _checkMobileGeocoderVisibility: function() {
             // check if mobile icon needs to be selected
             if (domClass.contains(dom.byId("mobileGeocoderIcon"), this.css.toggleBlueOn)) {
                 domClass.add(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
-            }
-        },
-        _hideExpanded: function() {
-            domClass.remove(this.dataNode, this.css.statsOpen);
-            // todo
-            var divCount = query('.' + this.css.statsPanel + ' .' + this.css.statsCount, dom.byId('geo_panel'));
-            //hide slider
-            this._hideContainer();
-            //display geo-data count panels
-            array.forEach(divCount, function(elementCount) {
-                domStyle.set(elementCount, 'display', 'block');
-            });
-            // todo
-            var items = query('.' + this.css.menuPanel, this.dataNode);
-            array.forEach(items, lang.hitch(this, function(elementCount) {
-                domClass.remove(elementCount, this.css.statsPanelSelectedExpand);
-            }));
-        },
-        _showExpanded: function(type) {
-            
-            domClass.add(this.dataNode, this.css.statsOpen);
-            
-            // todo
-            var sliders, domSlider, divCount;
-            sliders = query('.' + this.css.statsPanelSelected + '[data-type="' + type + '"]', this.dataNode);
-            if(sliders && sliders.length){
-                domSlider = sliders[0];
-                this._currentPanelSlider = domSlider;
-                
-                //if (domStyle.get(domSlider, 'display') === 'none') {
-                    var panels = query('.' + this.css.statsPanelSelected, this.dataNode); 
-                    array.forEach(panels, lang.hitch(this, function(elementCount) {
-                        //domStyle.set(elementCount, 'display', 'none');
-                        domClass.remove(elementCount, this.css.animateSlider);
-                    }));
-                    var items = query('.' + this.css.menuPanel, this.dataNode);
-                    array.forEach(items, lang.hitch(this, function(elementCount) {
-                        domClass.remove(elementCount, this.css.statsPanelSelectedExpand);
-                    }));
-                    divCount = query('.' + this.css.statsPanel + ' .' + this.css.statsCount, this.dataNode);
-                    //display slider
-                    this._displayContainer(domSlider);
-                    //hide geo-data count panels.
-                    array.forEach(divCount, function(elementCount) {
-                        domStyle.set(elementCount, 'display', 'none');
-                    });
-                    this._setPanelWidth(domSlider);
-                    var selected = query('.' + this.css.menuPanel + '[data-type="' + type + '"]', this.dataNode)[0];
-                    domClass.add(selected, this.css.statsPanelSelectedExpand);
-                //}
             }
         },
         // get layer of impact area by layer title
@@ -608,7 +398,8 @@ function(
                 // remove current renderer
                 domClass.remove(ct, this.css.rendererLoading);
                 // display geo stats
-                this._displayStats(fs.features);
+                this._sb.set("features", fs.features);
+                this._selectFeatures(fs.features);
                 // set extent for features
                 this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
             }), lang.hitch(this, function() {
@@ -690,7 +481,8 @@ function(
             // graphic selected
             if (evt.graphic) {
                 this._clearSelected();
-                this._displayStats([evt.graphic]);
+                this._sb.set("features", [evt.graphic]);
+                this._selectFeatures([evt.graphic]);
                 event.stop(evt);
             }
         },
@@ -776,8 +568,7 @@ function(
             // todo
             /* END temporary until after JSAPI 3.8 is released */
             this.dataNode = domConstruct.place(domConstruct.create('div', {
-                id: 'geoData',
-                className: this.css.stats
+                id: 'geoData'
             }), dom.byId('cp_outer_center'), 'first');
             // get layer by id
             this._impactLayer = this.getLayerByTitle(this.map, this.layers, this.config.impact_layer);
@@ -807,7 +598,14 @@ function(
                     // features were returned
                     if (fs.features && fs.features.length) {
                         // display stats
-                        this._displayStats([fs.features[0]]);
+                        this._sb = new StatsBlock({
+                            features: [fs.features[0]],
+                            variables: this.config.sum_variables,
+                            dataSourceUrl: this.config.dataSourceUrl
+                        }, this.dataNode);
+                        this._sb.startup();
+                        // selected features
+                        this._selectFeatures([fs.features[0]]);
                     }
                 }));
                 // selected poly from graphics layer
