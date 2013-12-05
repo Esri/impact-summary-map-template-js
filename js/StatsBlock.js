@@ -125,34 +125,38 @@ function (
             this.set("loaded", true);
             this.emit("load", {});
         },
-        _formatNumber: function(number, decPlaces) {
+        _formatNumber: function(n, decPlaces) {
             // format large numbers
             decPlaces = Math.pow(10, decPlaces);
             var abbrev = ["k", "m", "b", "t"];
             for (var i = abbrev.length - 1; i >= 0; i--) {
                 var size = Math.pow(10, (i + 1) * 3);
-                if (size <= number) {
-                    number = Math.round(number * decPlaces / size) / decPlaces;
-                    if ((number === 1000) && (i < abbrev.length - 1)) {
-                        number = 1;
+                if (size <= n) {
+                    n = Math.round(n * decPlaces / size) / decPlaces;
+                    if ((n === 1000) && (i < abbrev.length - 1)) {
+                        n = 1;
                         i++;
                     }
-                    number += abbrev[i];
+                    n += abbrev[i];
                     break;
                 }
             }
-            return number;
+            return n;
         },
         _decPlaces: function(n){
+        
+            console.log(n);
+        
             if(!n){
                 n = 0;
             }
             var decPlaces;
-            if (n.length >= 7) {
+            var nStr = n.toString();
+            if (nStr.length >= 7) {
                 decPlaces = 1;
-            } else if (n.length >= 5) {
+            } else if (nStr.length >= 5) {
                 decPlaces = 0;
-            } else if (n.length === 4) {
+            } else if (nStr.length === 4) {
                 return number.format(n);
             } else {
                 decPlaces = 2;
@@ -169,38 +173,35 @@ function (
                 var config = this.get("config");
                 var stats = {};
                 var i;
-                // multiple features
-                if (features.length > 1) {
-                    // each feature
-                    for (i = 0; i < features.length; i++) {
-                        // feature is zero
-                        if (i === 0) {
-                            stats = features[0].attributes;
-                        } else {
-                            // lets add each variable
-                            for (var j = 0; j < config.length; j++) {
-                                if (features[i].attributes.hasOwnProperty(config[j].attribute)) {
-                                    stats[config[j].attribute] += features[i].attributes[config[j].attribute];
-                                }
-                                for (var k = 0; k < config[j].children.length; k++) {
-                                    stats[config[j].children[k].attribute] += features[i].attributes[config[j].children[k].attribute];
-                                }
+                // each feature
+                for (i = 0; i < features.length; i++) {
+                    // feature is zero
+                    if (i === 0) {
+                        // lets add each variable
+                        for (var j = 0; j < config.length; j++) {
+                            if (features[i].attributes.hasOwnProperty(config[j].attribute)) {
+                                stats[config[j].attribute] = features[i].attributes[config[j].attribute];
+                            }
+                            for (var k = 0; k < config[j].children.length; k++) {
+                                stats[config[j].children[k].attribute] = features[i].attributes[config[j].children[k].attribute];
+                            }
+                        }
+                    } else {
+                        // lets add each variable
+                        for (var j = 0; j < config.length; j++) {
+                            if (features[i].attributes.hasOwnProperty(config[j].attribute)) {
+                                stats[config[j].attribute] += features[i].attributes[config[j].attribute];
+                            }
+                            for (var k = 0; k < config[j].children.length; k++) {
+                                stats[config[j].children[k].attribute] += features[i].attributes[config[j].children[k].attribute];
                             }
                         }
                     }
-                } else {
-                    // single feature
-                    stats = features[0].attributes;
                 }
                 
                 console.log('what');
                 
-                
-                for(var l in stats){
-                    if(stats.hasOwnProperty(l)){
-                        stats[l] = this._decPlaces(stats[l]);
-                    }
-                }
+       
                 
                 
                 
@@ -290,7 +291,7 @@ function (
             
             var count = domConstruct.create('div', {
                 className:"count",
-                innerHTML: stats[obj.attribute]
+                innerHTML: this._decPlaces(stats[obj.attribute])
             });
             domConstruct.place(count, container, 'last');
             
@@ -329,7 +330,7 @@ function (
             
             var headerSpanNumber = domConstruct.create('span', {
                 className:"hNumber",
-                innerHTML: stats[obj.attribute]
+                innerHTML: this._decPlaces(stats[obj.attribute])
             });
             domConstruct.place(headerSpanNumber, headerTitle, 'last');
             
@@ -401,7 +402,7 @@ function (
             
             var count = domConstruct.create('div', {
                 className:"count",
-                innerHTML: stats[obj.attribute]
+                innerHTML: this._decPlaces(stats[obj.attribute])
             });
             domConstruct.place(count, container, 'last');
             
