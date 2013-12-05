@@ -264,15 +264,22 @@ function (
                 }
                 */
                 
-                // panel click
-                this._panelClick = on(query('.' + this.css.menuPanel, this.domNode), 'click', lang.hitch(this, function(evt) {
-                    var type = 'businesses';
-                    this._showExpanded(type);
-                }));
-                // expanded panel click
-                this._expandedClick = on(query('.' + this.css.statsPanelSelected + ' .' + this.css.divHeaderClose, this.domNode), 'click', lang.hitch(this, function() {
-                    this._hideExpanded();
-                }));
+                
+                for(var i = 0; i < this._panelNodes.length; i++){
+                    // panel click
+                    this._panelClick = on(this._panelNodes[i], 'click', lang.hitch(this, function(evt) {
+                        this._showExpanded(i);
+                    }));
+                }
+                
+                for(var i = 0; i < this._closePanelNodes.length; i++){
+                    // expanded panel click
+                    this._expandedClick = on(this._closePanelNodes[i], 'click', lang.hitch(this, function() {
+                        this._hideExpanded();
+                    }));    
+                }
+                
+                
                 
                 console.log('boo');
                 
@@ -286,7 +293,7 @@ function (
             var stats = this.get("stats");
             
             var container = domConstruct.create('div', {
-                className: "panel population"
+                className: "panel " + obj.theme
             });
             
             var count = domConstruct.create('div', {
@@ -294,6 +301,8 @@ function (
                 innerHTML: this._decPlaces(stats[obj.attribute])
             });
             domConstruct.place(count, container, 'last');
+            this._countNodes.push(count);
+            
             
             var title = domConstruct.create('div', {
                 className:"title",
@@ -308,7 +317,7 @@ function (
             var stats = this.get("stats");
             
             var container = domConstruct.create('div', {
-                className: "panel-expanded population"
+                className: "panel-expanded " + obj.theme
             });
             
             // header
@@ -339,6 +348,9 @@ function (
                 title: "close"
             });
             domConstruct.place(headerClose, header, 'last');
+            
+            this._closePanelNodes.push(headerClose);
+            
             
             var headerClear = domConstruct.create('div', {
                 className:"clear"
@@ -421,16 +433,26 @@ function (
             this._geoPanelsNode.innerHTML = '';
             this._geoDataPanelsExpandedNode.innerHTML = '';
             
-            for(var i = 0; i < config.length; i++){
             
+            var themes = ['theme_1','theme_2','theme_3','theme_4'];
+            
+            this._panelNodes = [];
+            this._panelExpandedNodes = [];
+            this._closePanelNodes = [];
+            this._countNodes = [];
+            
+            for(var i = 0; i < config.length && i < themes.length; i++){
+            
+                config[i].theme = themes[i];
                 
                 var panelNode = this._createPanelNode(config[i]);
                 domConstruct.place(panelNode, this._geoPanelsNode, 'last');
+                this._panelNodes.push(panelNode);
                 
                 
                 var panelExpandedNode = this._createExpandedPanelNode(config[i]);
                 domConstruct.place(panelExpandedNode, this._geoDataPanelsExpandedNode, 'last');
-                
+                this._panelExpandedNodes.push(panelExpandedNode);
                 
                 
                 
@@ -481,39 +503,40 @@ function (
                 domClass.remove(elementCount, this.css.statsPanelSelectedExpand);
             }));
         },
-        _showExpanded: function(type) {
+        _showExpanded: function(index) {
             
             domClass.add(this.domNode, this.css.statsOpen);
             
             // todo
             var sliders, domSlider, divCount;
-            sliders = query('.' + this.css.statsPanelSelected + '[data-type="' + type + '"]', this.domNode);
-            if(sliders && sliders.length){
-                domSlider = sliders[0];
+
+                domSlider = this._panelExpandedNodes[index];
                 this._currentPanelSlider = domSlider;
                 
-                //if (domStyle.get(domSlider, 'display') === 'none') {
-                    var panels = query('.' + this.css.statsPanelSelected, this.domNode); 
-                    array.forEach(panels, lang.hitch(this, function(elementCount) {
+   
+        
+                    array.forEach(this._panelExpandedNodes, lang.hitch(this, function(e) {
                         //domStyle.set(elementCount, 'display', 'none');
-                        domClass.remove(elementCount, this.css.animateSlider);
+                        domClass.remove(e, this.css.animateSlider);
                     }));
-                    var items = query('.' + this.css.menuPanel, this.domNode);
-                    array.forEach(items, lang.hitch(this, function(elementCount) {
+                    
+    
+                    array.forEach(this._panelNodes, lang.hitch(this, function(elementCount) {
                         domClass.remove(elementCount, this.css.statsPanelSelectedExpand);
                     }));
-                    divCount = query('.' + this.css.statsPanel + ' .' + this.css.statsCount, this.domNode);
+                    
+                    
                     //display slider
                     this._displayContainer(domSlider);
                     //hide geo-data count panels.
-                    array.forEach(divCount, function(elementCount) {
+                    array.forEach(this._countNodes, function(elementCount) {
                         domStyle.set(elementCount, 'display', 'none');
                     });
                     this._setPanelWidth(domSlider);
-                    var selected = query('.' + this.css.menuPanel + '[data-type="' + type + '"]', this.domNode)[0];
-                    domClass.add(selected, this.css.statsPanelSelectedExpand);
-                //}
-            }
+                    
+                    
+                    domClass.add(domSlider, this.css.statsPanelSelectedExpand);
+
         },
         _displayContainer: function(node) {
             // show panel
