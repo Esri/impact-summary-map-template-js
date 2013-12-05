@@ -1,5 +1,5 @@
 define([], function() {
-    //Default configuration settings for the applciation. This is where you'll define things like a bing maps key,
+    //Default configuration settings for the applciation. This is where you"ll define things like a bing maps key,
     //default web map, default app color theme and more. These values can be overwritten by template configuration settings
     //and url parameters.
     var defaults = {
@@ -10,20 +10,163 @@ define([], function() {
         //"AFTKRmv16wj14N3z",
         //Group templates must support a group url parameter. This will contain the id of the group.
         //group: "",
-        //Enter the url to the proxy if needed by the applcation. See the 'Using the proxy page' help topic for details
+        //Enter the url to the proxy if needed by the applcation. See the "Using the proxy page" help topic for details
         //http://developers.arcgis.com/en/javascript/jshelp/ags_proxy.html
         "proxyurl": "",
         //Example of a template specific property. If your template had several color schemes
         //you could define the default here and setup configuration settings to allow users to choose a different
         //color theme.
-        "impact_layer": "Impact Area",
-        // Data Source Link
-        "dataSourceUrl": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Data_Apportionment/02r30000021s000000/",
+        "impact_layer_id":"",
+        "impact_layer_title": "Impact Area",
         // "legend" or "areas"
         "defaultPanel": "areas",
         // overwritten by renderer info
-        "impact_field": "GRID_CODE",
-        "sum_variables": ['TOTPOP_CY', 'TOTHH_CY', 'CIKR_Total', 'BUS_Total', 'POP15_CY', 'POP65U_CY', 'OWNER_CY', 'RENTER_CY', 'CIKR_AMTwr', /*'CIKR_BrTn',*/ 'CIKR_Dam', 'CIKR_Edu', 'CIKR_ECC', 'CIKR_FMTwr', 'CIKR_FrSta', 'CIKR_Hzmt', 'CIKR_HCF', 'CIKR_PkIco', 'CIKR_Pol', 'CIKR_Port', 'CIKR_Rsrvr', 'CIKR_WWF', 'CIKR_Pwr', 'BUS_Banks', 'BUS_Hsptl', 'BUS_GrcStr', 'BUS_PnTSvc', 'BUS_Safety', 'BUS_Util', 'BUS_BldSpl', 'BUS_GasStn', 'BUS_DptStr', 'BUS_Ldging', 'BUS_Other'],
+        "impact_attributes": [
+           {
+              "attribute":"TOTPOP_CY",
+              "label":"Population",
+              "dataSourceUrl": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Data_Apportionment/02r30000021s000000/",
+              "children":[
+                 {
+                    "attribute":"POP15_CY",
+                    "label":"Under 16"
+                 },
+                 {
+                    "attribute":"POP65U_CY",
+                    "label":"Over 64"
+                 }
+              ]
+           },
+           {
+              "attribute":"TOTHH_CY",
+              "label":"Households",
+              "dataSourceUrl": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Data_Apportionment/02r30000021s000000/",
+              "children":[
+                 {
+                    "attribute":"OWNER_CY",
+                    "label":"Owners"
+                 },
+                 {
+                    "attribute":"RENTER_CY",
+                    "label":"Renters"
+                 }
+              ]
+           },
+           {
+              "attribute":"CIKR_Total",
+              "label":"Critical Infrastructures",
+              "dataSourceUrl": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Data_Apportionment/02r30000021s000000/",
+              "children":[
+                 {
+                    "attribute":"CIKR_AMTwr",
+                    "label":"AM Towers"
+                 },
+                 {
+                    "attribute":"CIKR_Dam",
+                    "label":"Dams"
+                 },
+                 {
+                    "attribute":"CIKR_Edu",
+                    "label":"Education Facilities"
+                 },
+                 {
+                    "attribute":"CIKR_ECC",
+                    "label":"Emergency Communications Centers"
+                 },
+                 {
+                    "attribute":"CIKR_FMTwr",
+                    "label":"FM Towers"
+                 },
+                 {
+                    "attribute":"CIKR_FrSta",
+                    "label":"Fire Stations"
+                 },
+                 {
+                    "attribute":"CIKR_Hzmt",
+                    "label":"Hazmat Facilities"
+                 },
+                 {
+                    "attribute":"CIKR_HCF",
+                    "label":"Healthcare Facilities"
+                 },
+                 {
+                    "attribute":"CIKR_PkIco",
+                    "label":"Parks and Icons"
+                 },
+                 {
+                    "attribute":"CIKR_Pol",
+                    "label":"Police Stations"
+                 },
+                 {
+                    "attribute":"CIKR_Port",
+                    "label":"Port Facilities"
+                 },
+                 {
+                    "attribute":"CIKR_Rsrvr",
+                    "label":"Reservoirs"
+                 },
+                 {
+                    "attribute":"CIKR_WWF",
+                    "label":"Wastewater Facilities"
+                 },
+                 {
+                    "attribute":"CIKR_Pwr",
+                    "label":"Energy Facilities"
+                 }
+              ]
+           },
+           {
+              "attribute":"BUS_Total",
+              "label":"Businesses",
+              "dataSourceUrl": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Data_Apportionment/02r30000021s000000/",
+              "children":[
+                 {
+                    "attribute":"BUS_Banks",
+                    "label":"Banks and Financial Services"
+                 },
+                 {
+                    "attribute":"BUS_Hsptl",
+                    "label":"Hospitals"
+                 },
+                 {
+                    "attribute":"BUS_GrcStr",
+                    "label":"Grocery and Convenience Stores"
+                 },
+                 {
+                    "attribute":"BUS_PnTSvc",
+                    "label":"Professional and Technical Services"
+                 },
+                 {
+                    "attribute":"BUS_Safety",
+                    "label":"Public Safety and Justice"
+                 },
+                 {
+                    "attribute":"BUS_Util",
+                    "label":"Utilities"
+                 },
+                 {
+                    "attribute":"BUS_BldSpl",
+                    "label":"Building Supplies"
+                 },
+                 {
+                    "attribute":"BUS_GasStn",
+                    "label":"Gas Stations"
+                 },
+                 {
+                    "attribute":"BUS_DptStr",
+                    "label":"Discount and Department Stores"
+                 },
+                 {
+                    "attribute":"BUS_Ldging",
+                    "label":"Lodging"
+                 },
+                 {
+                    "attribute":"BUS_Other",
+                    "label":"Other"
+                 }
+              ]
+           }
+        ],
         //Enter the url to your organizations bing maps key if you want to use bing basemaps
         "bingmapskey": "",
         "bitlyLogin": "esri",

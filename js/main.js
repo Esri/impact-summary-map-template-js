@@ -339,7 +339,7 @@ function(
                 }
                 if (features.length === 1) {
                     // single feature
-                    if (features[0].attributes.hasOwnProperty(this._attributeField)) {
+                    if (this._attributeField && features[0].attributes.hasOwnProperty(this._attributeField)) {
                         var value = features[0].attributes[this._attributeField];
                         var item = query('[data-value=' + value + ']', dom.byId('renderer_menu'));
                         // select renderer menu item
@@ -356,15 +356,30 @@ function(
                 domClass.add(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
             }
         },
-        // get layer of impact area by layer title
-        getLayerByTitle: function(map, layers, title) {
-            for (var i = 0; i < layers.length; i++) {
-                var layer = layers[i];
-                if (layer.title.toLowerCase() === title.toLowerCase()) {
-                    var mapLayer = map.getLayer(layer.id);
-                    mapLayer.layerIndex = i;
-                    return mapLayer;
-                }
+        // get layer of impact
+        getImpactLayer: function(obj) {
+            var mapLayer, layer, i;
+            // if we have a layer id
+            if(obj.id){
+                for (i = 0; i < obj.layers.length; i++) {
+                    layer = obj.layers[i];
+                    if (layer.id === obj.id) {
+                        mapLayer = obj.map.getLayer(layer.id);
+                        mapLayer.layerIndex = i;
+                        return mapLayer;
+                    }
+                } 
+            }
+            else if(obj.title){
+                // use layer title
+                for (i = 0; i < obj.layers.length; i++) {
+                    layer = obj.layers[i];
+                    if (layer.title.toLowerCase() === obj.title.toLowerCase()) {
+                        mapLayer = obj.map.getLayer(layer.id);
+                        mapLayer.layerIndex = i;
+                        return mapLayer;
+                    }
+                }   
             }
             return false;
         },
@@ -380,6 +395,7 @@ function(
             domClass.add(node, this.css.rendererLoading);
             // search query
             var q = new Query();
+            q.returnGeometry = true;
             if(value === "summarize" || value === ""){
                 // results
                 q.where = '1 = 1';
@@ -413,8 +429,10 @@ function(
             this._multiple = false;
             // layer renderer
             var renderer = this._impactLayer.renderer;
-            // attribute info
-            this._attributeField = renderer ? renderer.attributeField : this.config.impact_field;
+            if(renderer){
+                // attribute info
+                this._attributeField = renderer.attributeField;
+            }
             // renderer exists
             if (renderer) {
                 // renderer layer infos
@@ -571,7 +589,12 @@ function(
                 id: 'geoData'
             }), dom.byId('cp_outer_center'), 'first');
             // get layer by id
-            this._impactLayer = this.getLayerByTitle(this.map, this.layers, this.config.impact_layer);
+            this._impactLayer = this.getImpactLayer({
+                map: this.map,
+                layers: this.layers,
+                title: this.config.impact_layer_title,
+                id: this.config.impact_layer_id
+            });
             // impact layer found
             if (this._impactLayer) {
                 // selected graphics layer
@@ -585,12 +608,16 @@ function(
             this._setValueRange();
             // features query
             var q = new Query();
+            q.returnGeometry = true;
             q.where = '1=1';
             // if multiple features. (determined by renderer)
-            if (this._multiple) {
+            if (this._multiple && this._attributeField) {
                 // order by attribute field
                 q.orderByFields = [this._attributeField + ' DESC'];
             }
+            
+            console.log('test');
+            
             // if impact layer exists
             if (this._impactLayer) {
                 // get impact features
@@ -600,7 +627,7 @@ function(
                         // display stats
                         this._sb = new StatsBlock({
                             features: [fs.features[0]],
-                            variables: this.config.sum_variables,
+                            config: this.config.impact_attributes,
                             dataSourceUrl: this.config.dataSourceUrl
                         }, this.dataNode);
                         this._sb.startup();
@@ -625,28 +652,16 @@ function(
                     // if not visible
                     if (!evt.visible) {
                         // hide stats
-                        this._hideGeoDataContainer();
+                        this._sb.hide();
                     } else {
                         // show stats
-                        this._showGeoDataContainer();
+                        this._sb.show();
                     }
                 }));
             }
-            this._showGeoDataContainer();
+            this._sb.show();
             // display menu panel for drawer
             this._displayMenu();
-        },
-        _showGeoDataContainer: function(){
-            var node = dom.byId('geodata_container');
-            if(node){
-                domStyle.set(node, 'display', 'block');
-            }
-        },
-        _hideGeoDataContainer: function(){
-            var node = dom.byId('geodata_container');
-            if(node){
-                domStyle.set(node, 'display', 'none');
-            }
         },
         // display menu panel for drawer
         _displayMenu: function() {

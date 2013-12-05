@@ -6,7 +6,6 @@
     "dojo/has",
     "esri/kernel",
     "dijit/_WidgetBase",
-    "dijit/a11yclick",
     "dijit/_TemplatedMixin",
     "dojo/on",
     "dojo/query",
@@ -15,10 +14,9 @@
     "dojo/text!modules/dijit/templates/StatsBlock.html",
     "dojo/i18n!modules/nls/StatsBlock",
     "dojo/number",
-    "dojo/dom",
+    "dojo/dom-construct",
     "dojo/dom-class",
     "dojo/dom-style",
-    "dojo/dom-attr",
     "dojo/dom-geometry",
     "modules/StatSlider"
 ],
@@ -27,12 +25,12 @@ function (
     declare,
     lang, array,
     has, esriNS,
-    _WidgetBase, a11yclick, _TemplatedMixin,
+    _WidgetBase, _TemplatedMixin,
     on, query,
     topic,
     dijitTemplate, i18n,
     number,
-    dom, domClass, domStyle, domAttr, domGeom,
+    domConstruct, domClass, domStyle, domGeom,
     StatSlider
 ) {
     var Widget = declare([_WidgetBase, _TemplatedMixin, Evented], {
@@ -40,8 +38,7 @@ function (
         templateString: dijitTemplate,
         options: {
             features: null,
-            variables: null,
-            dataSourceUrl: null,
+            config: null,
             stats: null
         },
         // lifecycle: 1
@@ -49,8 +46,7 @@ function (
             // mix in settings and defaults
             var defaults = lang.mixin({}, this.options, options);
             this.set("features", defaults.features);
-            this.set("variables", defaults.variables);
-            this.set("dataSourceUrl", defaults.dataSourceUrl);
+            this.set("config", defaults.config);
             this.set("stats", defaults.stats);
             this.watch("features", this._displayStats);
             // widget node
@@ -102,6 +98,12 @@ function (
             if (this._displayedContainer) {
                 this._setPanelWidth(this._displayedContainer);
             }
+        },
+        show: function(){
+            domStyle.set(this._geoDataContainerNode, 'display', 'block');
+        },
+        hide: function(){
+            domStyle.set(this._geoDataContainerNode, 'display', 'none');
         },
         
         /* ---------------- */
@@ -160,9 +162,9 @@ function (
                 
                 console.log('who');
                 
-                // all variables to summarize
-                var variables = this.get("variables");
-                var sum = {};
+                // all config to summarize
+                var config = this.get("config");
+                var stats = {};
                 var i;
                 // multiple features
                 if (features.length > 1) {
@@ -170,70 +172,61 @@ function (
                     for (i = 0; i < features.length; i++) {
                         // feature is zero
                         if (i === 0) {
-                            sum = features[0].attributes;
+                            stats = features[0].attributes;
                         } else {
                             // lets add each variable
-                            for (var j = 0; j < variables.length; j++) {
-                                if (features[i].attributes.hasOwnProperty(variables[j])) {
-                                    sum[variables[j]] += features[i].attributes[variables[j]];
+                            for (var j = 0; j < config.length; j++) {
+                                if (features[i].attributes.hasOwnProperty(config[j].attribute)) {
+                                    stats[config[j].attribute] += features[i].attributes[config[j].attribute];
+                                }
+                                for (var k = 0; k < config[j].children.length; k++) {
+                                    stats[config[j].children[k].attribute] += features[i].attributes[config[j].children[k].attribute];
                                 }
                             }
                         }
                     }
                 } else {
                     // single feature
-                    sum = features[0].attributes;
+                    stats = features[0].attributes;
                 }
                 
                 console.log('what');
                 
                 
-                for(var k in sum){
-                    if(sum.hasOwnProperty(k)){
-                        sum[k] = this._decPlaces(sum[k]);
+                for(var l in stats){
+                    if(stats.hasOwnProperty(l)){
+                        stats[l] = this._decPlaces(stats[l]);
                     }
                 }
                 
-                /*
                 
-                // format number in stats
-                sum.numFormat = lang.hitch(this, function() {
-                    return lang.hitch(this, function(text, render) {
-                        var renderedText = render(text);
-                        if (renderedText.length >= 7) {
-                            decPlaces = 1;
-                        } else if (renderedText.length >= 5) {
-                            decPlaces = 0;
-                        } else if (renderedText.length === 4) {
-                            return number.format(parseInt(renderedText, 10));
-                        } else {
-                            decPlaces = 2;
-                        }
-                        return this._formatNumber(parseInt(renderedText, 10), decPlaces);
-                    });
-                });
-                */
                 
-                sum.dataSourceUrl = this.get("dataSourceUrl");
+            
+                this.set("stats", stats);
+                this._createPanels();
                 
-                this.set("stats", sum);
-                
-                console.log(sum);
+                console.log(stats);
                 
                 
                 // show geo stats
-                domStyle.set(this.domNode, 'display', 'block');
-
+                this.show();
+                
+                console.log('ya');
+                
+                
+                
+                /*
                 var panelType;
                 // get selected panel
                 if (this._displayedContainer) {
                     panelType = domAttr.get(this._displayedContainer, 'data-type');
                 }
+                */
   
                 //Create Slider for Geo data panels
                 var sliders, childNode, divGeoPanel;
                 // todo
-                sliders = query('.' + this.css.statsPanelSelected + ' .' + this.css.divOuterSliderContainer, dom.byId('geodata_container'));
+                sliders = query('.' + this.css.statsPanelSelected + ' .' + this.css.divOuterSliderContainer, this._geoDataContainerNode);
                 // sliders
                 if(sliders && sliders.length){
                     // each slider node
@@ -243,11 +236,7 @@ function (
                             childNode = query('.' + this.css.statsPanelDataBlock, divGeoPanel).length;
                             if (childNode > 3) {
                                 if (divGeoPanel) {
-                                    /* var objSlider = new Slider({
-                                        sliderContent: divGeoPanel,
-                                        sliderParent: node
-                                    });
-                                    */
+                                    
                                     var tst = new StatSlider({
                                         content: divGeoPanel
                                     }, node);
@@ -264,23 +253,187 @@ function (
                         }
                     }));
                 }
+                
+                /*
                 if (panelType) {
                     this._showExpanded(panelType);
                 }
+                */
+                
                 // panel click
                 this._panelClick = on(query('.' + this.css.menuPanel, this.domNode), 'click', lang.hitch(this, function(evt) {
                     this._hideInfoWindow();
-                    var type = domAttr.get(evt.currentTarget, 'data-type');
+                    var type = 'businesses';
                     this._showExpanded(type);
                 }));
                 // expanded panel click
                 this._expandedClick = on(query('.' + this.css.statsPanelSelected + ' .' + this.css.divHeaderClose, this.domNode), 'click', lang.hitch(this, function() {
                     this._hideExpanded();
-                }));        
+                }));
+                
+                
+                
             } else {
-                // hide geo stats
-                domStyle.set(this.domNode, 'display', 'none');
+                this.hide();
             }
+        },
+        _createPanelNode: function(obj){
+            var stats = this.get("stats");
+            
+            var container = domConstruct.create('div', {
+                className: "panel population"
+            });
+            
+            var count = domConstruct.create('div', {
+                className:"count",
+                innerHTML: stats[obj.attribute]
+            });
+            domConstruct.place(count, container, 'last');
+            
+            var title = domConstruct.create('div', {
+                className:"title",
+                innerHTML: obj.label
+            });
+            domConstruct.place(title, container, 'last');
+            
+            return container;
+            
+        },
+        _createExpandedPanelNode: function(obj){
+            var stats = this.get("stats");
+            
+            var container = domConstruct.create('div', {
+                className: "panel-expanded population"
+            });
+            
+            // header
+            var header = domConstruct.create('div', {
+                className:"divHeader"
+            });
+            domConstruct.place(header, container, 'last');
+            
+            var headerTitle = domConstruct.create('div', {
+                className:"bgColor divHeaderTitle"
+            });
+            domConstruct.place(headerTitle, header, 'last');
+            
+            var headerSpanTitle = domConstruct.create('span', {
+                className:"hTitle",
+                innerHTML:obj.label
+            });
+            domConstruct.place(headerSpanTitle, headerTitle, 'last');
+            
+            var headerSpanNumber = domConstruct.create('span', {
+                className:"hNumber",
+                innerHTML: stats[obj.attribute]
+            });
+            domConstruct.place(headerSpanNumber, headerTitle, 'last');
+            
+            var headerClose = domConstruct.create('div', {
+                className:"divHeaderClose icon-cancel-1",
+                title: "close"
+            });
+            domConstruct.place(headerClose, header, 'last');
+            
+            var headerClear = domConstruct.create('div', {
+                className:"clear"
+            });
+            domConstruct.place(headerClear, header, 'last');
+            
+            
+            
+            var sliderContainer = domConstruct.create('div', {
+                className:"divOuterSliderContainer"
+            });
+            domConstruct.place(sliderContainer, container, 'last');
+            
+            var sliderDataHolder = domConstruct.create('div', {
+                className:"divGeoDataHolder"
+            });
+            domConstruct.place(sliderDataHolder, sliderContainer, 'last');
+            
+            
+            if(obj.children && obj.children.length){
+                for(var i = 0; i < obj.children.length; i++){
+                    
+                    console.log(obj);
+                    
+                    var dataBlock = this._createPanelBlockNodes(obj.children[i]);
+                    
+                    console.log(dataBlock);
+                    
+                    domConstruct.place(dataBlock, sliderDataHolder, 'last');
+                }
+            }
+            var clearBlocks = domConstruct.create('div', {
+                className:"clear"
+            });
+            domConstruct.place(clearBlocks, sliderDataHolder, 'last');
+
+            
+            var sliderDataSource = domConstruct.create('div', {
+                className:"dataSourceUrl"
+            });
+            domConstruct.place(sliderDataSource, sliderContainer, 'last');
+            
+            console.log(sliderDataSource);
+            
+            var sliderDataSourceAnchor = domConstruct.create('a', {
+                innerHTML:"source",
+                href: obj.dataSourceUrl,
+                target:"_blank"
+            });
+            domConstruct.place(sliderDataSourceAnchor, sliderDataSource, 'last');
+            
+            
+            return container;
+        },
+        _createPanelBlockNodes: function(obj){
+            var stats = this.get("stats");
+            
+            var container = domConstruct.create('div', {
+                className: "data-block"
+            });
+            
+            var count = domConstruct.create('div', {
+                className:"count",
+                innerHTML: stats[obj.attribute]
+            });
+            domConstruct.place(count, container, 'last');
+            
+            var title = domConstruct.create('div', {
+                className:"title",
+                title: obj.label,
+                innerHTML: obj.label
+            });
+            domConstruct.place(title, container, 'last');
+            
+            return container;
+        },
+        _createPanels: function(){
+            var config = this.get("config");
+            
+            for(var i = 0; i < config.length; i++){
+            
+                var panelNode = this._createPanelNode(config[i]);
+                domConstruct.place(panelNode, this._geoPanelsNode, 'last');
+                var clear = domConstruct.create('div', {
+                    className:"clear"
+                });
+                domConstruct.place(clear, this._geoPanelsNode, 'last');
+                
+                var panelExpandedNode = this._createExpandedPanelNode(config[i]);
+                domConstruct.place(panelExpandedNode, this._geoDataPanelsExpandedNode, 'last');
+                
+                var clear2 = domConstruct.create('div', {
+                    className:"clear"
+                });
+                domConstruct.place(clear2, this._geoDataPanelsExpandedNode, 'last');
+                
+                
+                
+            }
+            
         },
         _hideInfoWindow: function(){
             this.map.infoWindow.hide();
@@ -290,7 +443,7 @@ function (
             // need to do this on window resize
             if (node) {
                 // todo get content box?
-                var mb = domGeom.getMarginBox(dom.byId('geo_panel'));
+                var mb = domGeom.getMarginBox(this._geoPanelsNode);
                 var sliderWidth = mb.w;
                 domStyle.set(node, 'width', sliderWidth + 'px');
                 this._resizeGeoContainer(node);
@@ -306,7 +459,7 @@ function (
         _hideExpanded: function() {
             domClass.remove(this.domNode, this.css.statsOpen);
             // todo
-            var divCount = query('.' + this.css.statsPanel + ' .' + this.css.statsCount, dom.byId('geo_panel'));
+            var divCount = query('.' + this.css.statsPanel + ' .' + this.css.statsCount, this._geoPanelsNode);
             //hide slider
             this._hideContainer();
             //display geo-data count panels
