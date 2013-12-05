@@ -322,7 +322,7 @@ function (
             domConstruct.place(headerSpanNumber, headerTitle, 'last');
             var headerClose = domConstruct.create('div', {
                 className: this.css.divHeaderClose + " " + this.css.iconCancel,
-                title: "close"
+                title: this._i18n.StatsBlock.close
             });
             domConstruct.place(headerClose, header, 'last');
             this._closePanelNodes.push(headerClose);

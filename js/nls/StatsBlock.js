@@ -1,9 +1,7 @@
 ﻿define({
     "root": ({
-        "widgets": {
-            "StatsBlock": {
-                "test": ""
-            }
+        "StatsBlock": {
+            "close": "close"
         }
     })
 });
