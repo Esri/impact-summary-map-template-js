@@ -144,9 +144,6 @@ function (
             return n;
         },
         _decPlaces: function(n){
-        
-            console.log(n);
-        
             if(!n){
                 n = 0;
             }
@@ -166,9 +163,6 @@ function (
         _displayStats: function() {
             var features = this.get("features");
             if (features && features.length) {
-                
-                console.log('who');
-                
                 // all config to summarize
                 var config = this.get("config");
                 var stats = {};
@@ -199,33 +193,20 @@ function (
                     }
                 }
                 
-                console.log('what');
-                
-       
-                
-                
-                
             
                 this.set("stats", stats);
                 this._createPanels();
                 
-                console.log(stats);
-                
+     
                 
                 // show geo stats
                 this.show();
                 
-                console.log('ya');
                 
                 
                 
-                /*
-                var panelType;
-                // get selected panel
-                if (this._displayedContainer) {
-                    panelType = domAttr.get(this._displayedContainer, 'data-type');
-                }
-                */
+                
+
   
                 //Create Slider for Geo data panels
                 var sliders, childNode, divGeoPanel;
@@ -258,25 +239,19 @@ function (
                     }));
                 }
                 
-                /*
-                if (panelType) {
-                    this._showExpanded(panelType);
+                
+                if (this._displayedContainer) {
+                    this._showExpanded(this._displayedIndex);
                 }
-                */
+                
                 
                 
                 for(var i = 0; i < this._panelNodes.length; i++){
-                    // panel click
-                    this._panelClick = on(this._panelNodes[i], 'click', lang.hitch(this, function(evt) {
-                        this._showExpanded(i);
-                    }));
+                    this._panelClickEvent(this._panelNodes[i], i);
                 }
                 
                 for(var i = 0; i < this._closePanelNodes.length; i++){
-                    // expanded panel click
-                    this._expandedClick = on(this._closePanelNodes[i], 'click', lang.hitch(this, function() {
-                        this._hideExpanded();
-                    }));    
+                    this._panelCloseEvent(this._closePanelNodes[i]);
                 }
                 
                 
@@ -288,6 +263,17 @@ function (
             } else {
                 this.hide();
             }
+        },
+        _panelCloseEvent: function(node){
+            var expandedClick = on(node, 'click', lang.hitch(this, function() {
+                this._hideExpanded();
+            })); 
+        },
+        _panelClickEvent: function(node, index){
+            // panel click
+            var panelClick = on(node, 'click', lang.hitch(this, function() {
+                this._showExpanded(index);
+            }));
         },
         _createPanelNode: function(obj){
             var stats = this.get("stats");
@@ -490,16 +476,17 @@ function (
         _hideExpanded: function() {
             domClass.remove(this.domNode, this.css.statsOpen);
             // todo
-            var divCount = query('.' + this.css.statsPanel + ' .' + this.css.statsCount, this._geoPanelsNode);
             //hide slider
             this._hideContainer();
             //display geo-data count panels
-            array.forEach(divCount, function(elementCount) {
+            array.forEach(this._countNodes, function(elementCount) {
                 domStyle.set(elementCount, 'display', 'block');
             });
+            
+            
             // todo
             var items = query('.' + this.css.menuPanel, this.domNode);
-            array.forEach(items, lang.hitch(this, function(elementCount) {
+            array.forEach(this._panelNodes, lang.hitch(this, function(elementCount) {
                 domClass.remove(elementCount, this.css.statsPanelSelectedExpand);
             }));
         },
@@ -508,15 +495,16 @@ function (
             domClass.add(this.domNode, this.css.statsOpen);
             
             // todo
-            var sliders, domSlider, divCount;
 
-                domSlider = this._panelExpandedNodes[index];
-                this._currentPanelSlider = domSlider;
+             
+                // set currenlty displayed container
+                this._displayedContainer = this._panelExpandedNodes[index];
+                this._displayedIndex = index;
                 
+                console.log(index);
    
         
                     array.forEach(this._panelExpandedNodes, lang.hitch(this, function(e) {
-                        //domStyle.set(elementCount, 'display', 'none');
                         domClass.remove(e, this.css.animateSlider);
                     }));
                     
@@ -525,30 +513,28 @@ function (
                         domClass.remove(elementCount, this.css.statsPanelSelectedExpand);
                     }));
                     
+    
+                    // show panel
+                    domClass.add(this._displayedContainer, this.css.animateSlider);
                     
-                    //display slider
-                    this._displayContainer(domSlider);
+
                     //hide geo-data count panels.
                     array.forEach(this._countNodes, function(elementCount) {
                         domStyle.set(elementCount, 'display', 'none');
                     });
-                    this._setPanelWidth(domSlider);
+                    
+                    this._setPanelWidth(this._displayedContainer);
                     
                     
-                    domClass.add(domSlider, this.css.statsPanelSelectedExpand);
+                    domClass.add(this._panelNodes[index], this.css.statsPanelSelectedExpand);
 
         },
-        _displayContainer: function(node) {
-            // show panel
-            domClass.add(node, this.css.animateSlider);
-            // set currenlty displayed container
-            this._displayedContainer = node;
-        },
         _hideContainer: function() {
-            if(this._currentPanelSlider){
-                domClass.remove(this._currentPanelSlider, this.css.animateSlider);
+            if(this._displayedContainer){
+                domClass.remove(this._displayedContainer, this.css.animateSlider);
             }
             this._displayedContainer = null;
+            this._displayedIndex = null;
         }
     });
     if (has("extend-esri")) {
