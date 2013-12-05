@@ -177,7 +177,7 @@ function (
                 for (i = 0; i < features.length; i++) {
                     // feature is zero
                     if (i === 0) {
-                        // lets add each variable
+                        // lets add 1st variable
                         for (var j = 0; j < config.length; j++) {
                             if (features[i].attributes.hasOwnProperty(config[j].attribute)) {
                                 stats[config[j].attribute] = features[i].attributes[config[j].attribute];
