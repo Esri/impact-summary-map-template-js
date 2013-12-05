@@ -144,6 +144,9 @@ function (
             return number;
         },
         _decPlaces: function(n){
+            if(!n){
+                n = 0;
+            }
             var decPlaces;
             if (n.length >= 7) {
                 decPlaces = 1;
@@ -262,7 +265,6 @@ function (
                 
                 // panel click
                 this._panelClick = on(query('.' + this.css.menuPanel, this.domNode), 'click', lang.hitch(this, function(evt) {
-                    this._hideInfoWindow();
                     var type = 'businesses';
                     this._showExpanded(type);
                 }));
@@ -443,9 +445,6 @@ function (
             });
             domConstruct.place(clear2, this._geoDataPanelsExpandedNode, 'last');
             
-        },
-        _hideInfoWindow: function(){
-            this.map.infoWindow.hide();
         },
         _setPanelWidth: function(node) {
             // todo
