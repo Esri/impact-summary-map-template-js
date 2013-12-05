@@ -402,6 +402,10 @@ input[type=text]::-ms-clear { display: none; }
 	text-align:center;
 }
 
+.geoDataExpanded .panel .count{
+    display: none;
+}
+
 .divGeoDataHolder .count {
 	font-size:32px;
 	margin-top:0;

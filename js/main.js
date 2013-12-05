@@ -628,8 +628,7 @@ function(
                 q.orderByFields = [this._attributeField + ' DESC'];
             }
             
-            console.log('test');
-            
+      
             // if impact layer exists
             if (this._impactLayer) {
                 // get impact features
