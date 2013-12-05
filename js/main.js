@@ -262,7 +262,9 @@ function(
                     onEnd: lang.hitch(this, function() {
                         // remove shown drawer
                         this._checkDrawerStatus();
-                        this._sb.resize();
+                        if(this._sb){
+                            this._sb.resize();
+                        }
                         // return
                         def.resolve();
                     })
@@ -291,7 +293,9 @@ function(
                         domClass.add(document.body, this.css.drawerOpen);
                         // remove shown drawer
                         this._checkDrawerStatus();
-                        this._sb.resize();
+                        if(this._sb){
+                            this._sb.resize();
+                        }
                         // return
                         def.resolve();
                     })
@@ -555,6 +559,7 @@ function(
                 layers: this.layers
             }, "LayerLegend");
             LL.startup();
+            
             // geocoders
             this._createGeocoders();
             // mobile geocoder toggle            
@@ -588,6 +593,13 @@ function(
             this.dataNode = domConstruct.place(domConstruct.create('div', {
                 id: 'geoData'
             }), dom.byId('cp_outer_center'), 'first');
+            
+            
+            this._sb = new StatsBlock({
+                config: this.config.impact_attributes
+            }, this.dataNode);
+            this._sb.startup();
+            
             // get layer by id
             this._impactLayer = this.getImpactLayer({
                 map: this.map,
@@ -625,11 +637,7 @@ function(
                     // features were returned
                     if (fs.features && fs.features.length) {
                         // display stats
-                        this._sb = new StatsBlock({
-                            features: [fs.features[0]],
-                            config: this.config.impact_attributes,
-                            dataSourceUrl: this.config.dataSourceUrl
-                        }, this.dataNode);
+                        this._sb.set("features",[fs.features[0]]);
                         this._sb.startup();
                         // selected features
                         this._selectFeatures([fs.features[0]]);

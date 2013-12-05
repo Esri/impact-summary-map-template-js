@@ -271,6 +271,8 @@ function (
                     this._hideExpanded();
                 }));
                 
+                console.log('boo');
+                
                 
                 
             } else {
@@ -413,26 +415,33 @@ function (
         _createPanels: function(){
             var config = this.get("config");
             
+            this._geoPanelsNode.innerHTML = '';
+            this._geoDataPanelsExpandedNode.innerHTML = '';
+            
             for(var i = 0; i < config.length; i++){
             
+                
                 var panelNode = this._createPanelNode(config[i]);
                 domConstruct.place(panelNode, this._geoPanelsNode, 'last');
-                var clear = domConstruct.create('div', {
-                    className:"clear"
-                });
-                domConstruct.place(clear, this._geoPanelsNode, 'last');
+                
                 
                 var panelExpandedNode = this._createExpandedPanelNode(config[i]);
                 domConstruct.place(panelExpandedNode, this._geoDataPanelsExpandedNode, 'last');
                 
-                var clear2 = domConstruct.create('div', {
-                    className:"clear"
-                });
-                domConstruct.place(clear2, this._geoDataPanelsExpandedNode, 'last');
+                
                 
                 
                 
             }
+            var clear = domConstruct.create('div', {
+                className:"clear"
+            });
+            domConstruct.place(clear, this._geoPanelsNode, 'last');
+            
+            var clear2 = domConstruct.create('div', {
+                className:"clear"
+            });
+            domConstruct.place(clear2, this._geoDataPanelsExpandedNode, 'last');
             
         },
         _hideInfoWindow: function(){

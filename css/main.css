@@ -314,7 +314,6 @@ input[type=text]::-ms-clear { display: none; }
 	-moz-user-select:none;
 	-webkit-user-select:none;
 	user-select:none;
-	display:none;
 	text-align:center;
 }
 
