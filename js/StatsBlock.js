@@ -77,8 +77,21 @@ function (
                 iconCancel: "icon-cancel-1",
                 divSliderContainer: "divSliderContainer",
                 dataSourceUrl: "dataSourceUrl",
+                divInnerSliderContainer: "divInnerSliderContainer",
+                divLeft: "divLeft",
+                divRight: "divRight",
+                leftArrow: "leftArrow",
+                rightArrow: "rightArrow",
+                disableArrow: "disableArrow",
+                divSliderContent: "divSliderContent",
+                carousel: "carousel",
+                slidePanel: "slidePanel",
+                divPagination: "divPagination",
+                paginationDot: "paginationDot",                
                 clear: "clear"
             };
+            //set no of slide to display
+            this.displayPageCount = 3;
         },
         // start widget. called by user
         startup: function() {
