@@ -309,7 +309,9 @@ function(
             }
         },
         _hideInfoWindow: function(){
-            this.map.infoWindow.hide();
+            if(this.map && this.map.infoWindow){
+                this.map.infoWindow.hide();
+            }
         },
         _selectFeatures: function(features){
             if (features && features.length) {

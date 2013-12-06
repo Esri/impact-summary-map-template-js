@@ -207,7 +207,7 @@ input[type=text]::-ms-clear { display: none; }
 	line-height:22px;
 	font-size:18px;
 	font-weight:700;
-    max-width:225px;
+    max-width:40%;
     text-overflow:ellipsis;
 	white-space:nowrap;
 	overflow:hidden;

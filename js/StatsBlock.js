@@ -264,13 +264,10 @@ function (
                 if (this._displayedContainer) {
                     this._showExpanded(this._displayedIndex);
                 }
-                // create panel click events
-                for (i = 0; i < this._panelNodes.length; i++) {
-                    this._panelClickEvent(this._panelNodes[i], i);
-                }
-                // create panel close events
-                for (i = 0; i < this._closePanelNodes.length; i++) {
-                    this._panelCloseEvent(this._closePanelNodes[i]);
+                // create panel events
+                for (i = 0; i < this._nodes.length; i++) {
+                    this._panelClickEvent(this._nodes[i].panel, i);
+                    this._panelCloseEvent(this._nodes[i].detailedPanelHeaderClose);
                 }
             } else {
                 this.hide();
@@ -289,34 +286,43 @@ function (
             }));
             this._events.push(panelClick);
         },
-        _createPanelNode: function(obj) {
+        _createPanelNode: function(index) {
             var stats = this.get("stats");
+            var config = this.get("config");
+            var item = config[index];
             // panel container
             var container = domConstruct.create('div', {
-                className: this.css.statsPanel + " " + obj.theme
+                className: this.css.statsPanel + " " + item.theme
             });
+            domConstruct.place(container, this._geoPanelsNode, 'last');
             // panel number
             var count = domConstruct.create('div', {
                 className: this.css.statsCount,
-                innerHTML: this._decPlaces(stats[obj.attribute])
+                innerHTML: this._decPlaces(stats[item.attribute])
             });
             domConstruct.place(count, container, 'last');
-            this._countNodes.push(count);
             // panel title
             var title = domConstruct.create('div', {
                 className: this.css.statsTitle,
-                innerHTML: obj.label
+                innerHTML: item.label
             });
             domConstruct.place(title, container, 'last');
-            // return node
-            return container;
+            // save references to these nodes
+            this._nodes[index] = lang.mixin(this._nodes[index], {
+                panel: container,
+                panelCount: count,
+                panelTitle: title
+            });
         },
-        _createExpandedPanelNode: function(obj) {
+        _createExpandedPanelNode: function(index) {
+            var config = this.get("config");
+            var item = config[index];
             var stats = this.get("stats");
             // expanded panel container
             var container = domConstruct.create('div', {
-                className: this.css.statsPanelSelected + " " + obj.theme
+                className: this.css.statsPanelSelected + " " + item.theme
             });
+            domConstruct.place(container, this._geoDataPanelsExpandedNode, 'last');
             // header
             var header = domConstruct.create('div', {
                 className: this.css.divHeader
@@ -328,12 +334,12 @@ function (
             domConstruct.place(headerTitle, header, 'last');
             var headerSpanTitle = domConstruct.create('span', {
                 className: this.css.hTitle,
-                innerHTML: obj.label
+                innerHTML: item.label
             });
             domConstruct.place(headerSpanTitle, headerTitle, 'last');
             var headerSpanNumber = domConstruct.create('span', {
                 className: this.css.hNumber,
-                innerHTML: this._decPlaces(stats[obj.attribute])
+                innerHTML: this._decPlaces(stats[item.attribute])
             });
             domConstruct.place(headerSpanNumber, headerTitle, 'last');
             var headerClose = domConstruct.create('div', {
@@ -341,7 +347,6 @@ function (
                 title: this._i18n.StatsBlock.close
             });
             domConstruct.place(headerClose, header, 'last');
-            this._closePanelNodes.push(headerClose);
             var headerClear = domConstruct.create('div', {
                 className: this.css.clear
             });
@@ -357,37 +362,37 @@ function (
             
             
             
-            var sliderContainer2, sliderDataHolder;
             
-            if (obj.children && obj.children.length && obj.children.length > 3) {
+            var sliderContainer2, sliderInnerContainer, divLeft, leftArrow, divSliderContent, carousel, sliderDataHolder, divPagination, divRight, rightArrow, clearSliderContent;
+            
+            if (item.children && item.children.length && item.children.length > 3) {
                 // slider container
                 sliderContainer2 = domConstruct.create('div', {
                     className: this.css.divSliderContainer
                 }); 
                 // slider container
-                var sliderInnerContainer = domConstruct.create('div', {
+                sliderInnerContainer = domConstruct.create('div', {
                     className: this.css.divInnerSliderContainer
                 });
                 domConstruct.place(sliderInnerContainer, sliderContainer2, 'last'); 
                 // paginate left
-                var divLeft = domConstruct.create('div', {
+                divLeft = domConstruct.create('div', {
                     className: this.css.divLeft
                 });
                 domConstruct.place(divLeft, sliderInnerContainer, 'last');
                 // left arrow button
-                var leftArrow = domConstruct.create('div', {
+                leftArrow = domConstruct.create('div', {
                     className: this.css.leftArrow + " " + this.css.disableArrow,
                     title: this._i18n.StatsBlock.previous
                 });
                 domConstruct.place(leftArrow, divLeft, 'last');
-
                 // another inner container
-                var divSliderContent = domConstruct.create('div', {
+                divSliderContent = domConstruct.create('div', {
                     className: this.css.divSliderContent
                 });
                 domConstruct.place(divSliderContent, sliderInnerContainer, 'last');
                 // carousel holder
-                var carousel = domConstruct.create('div', {
+                carousel = domConstruct.create('div', {
                     className: this.css.carousel + " " + this.css.slidePanel
                 });
                 domConstruct.place(carousel, divSliderContent, 'last');
@@ -397,23 +402,23 @@ function (
                 });
                 domConstruct.place(sliderDataHolder, carousel, 'last');
                 // pagination
-                var divPagination = domConstruct.create('div', {
+                divPagination = domConstruct.create('div', {
                     className: this.css.divPagination
                 });
                 domConstruct.place(divPagination, divSliderContent, 'last');
                 // right paginate
-                var divRight = domConstruct.create('div', {
+                divRight = domConstruct.create('div', {
                     className: this.css.divRight
                 });
                 domConstruct.place(divRight, sliderInnerContainer, 'last');
                 // right arrow button
-                var rightArrow = domConstruct.create('div', {
+                rightArrow = domConstruct.create('div', {
                     className: this.css.rightArrow + " " + this.css.disableArrow,
                     title: this._i18n.StatsBlock.next
                 });
                 domConstruct.place(rightArrow, divLeft, 'last');
                 // clear slider
-                var clearSliderContent = domConstruct.create('div', {
+                clearSliderContent = domConstruct.create('div', {
                     className: this.css.clear
                 });
                 domConstruct.place(clearSliderContent, sliderInnerContainer, 'last');
@@ -426,20 +431,16 @@ function (
                 sliderDataHolder = sliderContainer2;
             }
             domConstruct.place(sliderContainer2, sliderContainer, 'last');
-            
-      
-      
-      
-      
+
             
             // create all children stats
-            if (obj.children && obj.children.length) {
-                for (var i = 0; i < obj.children.length; i++) {
+            if (item.children && item.children.length) {
+                for (var i = 0; i < item.children.length; i++) {
                     // if last child
-                    if(i === obj.children.length - 1){
-                        obj.children[i].last = true;
+                    if(i === item.children.length - 1){
+                        item.children[i].last = true;
                     }
-                    var dataBlock = this._createPanelBlockNodes(obj.children[i]);
+                    var dataBlock = this._createPanelBlockNodes(index, i);
                     domConstruct.place(dataBlock, sliderDataHolder, 'last');
                 }
             }
@@ -454,17 +455,48 @@ function (
             domConstruct.place(sliderDataSource, sliderContainer, 'last');
             var sliderDataSourceAnchor = domConstruct.create('a', {
                 innerHTML: "source",
-                href: obj.dataSourceUrl,
+                href: item.dataSourceUrl,
                 target: "_blank"
             });
             domConstruct.place(sliderDataSourceAnchor, sliderDataSource, 'last');
-            return container;
+            
+            
+            // save references to these nodes
+            this._nodes[index] = lang.mixin(this._nodes[index], {
+                detailedPanel: container,
+                detailedPanelHeader: header,
+                detailedPanelHeaderTitle: headerTitle,
+                detailedPanelHeaderSpanTitle: headerSpanTitle,
+                detailedPanelHeaderSpanNumber:headerSpanNumber,
+                detailedPanelHeaderClose: headerClose,
+                detailedPanelHeaderClear: headerClear,
+                detailedOuterContainer: sliderContainer,
+                detailedContainer: sliderContainer2,
+                detailedInnerContainer: sliderInnerContainer,
+                detailedInnerContainer2: divSliderContent,
+                detailedLeft: divLeft,
+                detailedLeftArrow: leftArrow,
+                detailedCarousel: carousel,
+                detailedData: sliderDataHolder,
+                detailedPagination: divPagination,
+                detailedRight: divRight,
+                detailedRightArrow: rightArrow,
+                clearDetailedData: clearSliderContent,
+                detailedDataSource: sliderDataSource,
+                detailedDataSourceAnchor: sliderDataSourceAnchor,
+                clearBlocks: clearBlocks
+            });
+            
         },
-        _createPanelBlockNodes: function(obj) {
+        _createPanelBlockNodes: function(parentIndex, childIndex) {
+            var config = this.get("config");
+            var item = config[parentIndex];
+            var childItem = item.children[childIndex];
             var stats = this.get("stats");
+            
             // last block
             var lastBlock = "";
-            if(obj.last){
+            if(childItem.last){
                 lastBlock = " " + this.css.statsPanelDataBlockLast;
             }
             // data block children stats
@@ -474,14 +506,14 @@ function (
             // child count
             var count = domConstruct.create('div', {
                 className: this.css.statsCount,
-                innerHTML: this._decPlaces(stats[obj.attribute])
+                innerHTML: this._decPlaces(stats[childItem.attribute])
             });
             domConstruct.place(count, container, 'last');
             // child label
             var title = domConstruct.create('div', {
                 className: this.css.statsTitle,
-                title: obj.label,
-                innerHTML: obj.label
+                title: childItem.label,
+                innerHTML: childItem.label
             });
             domConstruct.place(title, container, 'last');
             return container;
@@ -496,23 +528,26 @@ function (
             // block themes
             var themes = ['theme_1', 'theme_2', 'theme_3', 'theme_4'];
             // node variables
-            this._panelNodes = [];
-            this._panelExpandedNodes = [];
-            this._closePanelNodes = [];
-            this._countNodes = [];
+            this._nodes = [];
+            
+            
             // create each block
             for (var i = 0; i < config.length && i < themes.length; i++) {
+                // panel node references
+                this._nodes[i] = {};
                 // assign theme
                 config[i].theme = themes[i];
+                config.index = i;
                 // block node
-                var panelNode = this._createPanelNode(config[i]);
-                domConstruct.place(panelNode, this._geoPanelsNode, 'last');
-                this._panelNodes.push(panelNode);
+                this._createPanelNode(i);
                 // expnaded node
-                var panelExpandedNode = this._createExpandedPanelNode(config[i]);
-                domConstruct.place(panelExpandedNode, this._geoDataPanelsExpandedNode, 'last');
-                this._panelExpandedNodes.push(panelExpandedNode);
+                this._createExpandedPanelNode(i);
+                
             }
+            
+            
+            console.log(this._nodes);
+            
             // clear blocks
             var clear = domConstruct.create('div', {
                 className: this.css.clear
@@ -544,12 +579,9 @@ function (
         },
         _removeExpandedClass: function() {
             // remove stats panel expanded class from all panels
-            array.forEach(this._panelNodes, lang.hitch(this, function(elementCount) {
-                domClass.remove(elementCount, this.css.statsPanelSelectedExpand);
-            }));
-            // remove expanded panel class from all expanded panels
-            array.forEach(this._panelExpandedNodes, lang.hitch(this, function(e) {
-                domClass.remove(e, this.css.animateSlider);
+            array.forEach(this._nodes, lang.hitch(this, function(item) {
+                domClass.remove(item.panel, this.css.statsPanelSelectedExpand);
+                domClass.remove(item.detailedPanel, this.css.animateSlider);
             }));
             // set variables null
             this._displayedContainer = null;
@@ -566,14 +598,14 @@ function (
             // add expanded class to widget
             domClass.add(this.domNode, this.css.statsOpen);
             // set currenlty displayed container
-            this._displayedContainer = this._panelExpandedNodes[index];
+            this._displayedContainer = this._nodes[index].detailedPanel;
             this._displayedIndex = index;
             // show panel
             domClass.add(this._displayedContainer, this.css.animateSlider);
             // set width of panel
             this._setPanelWidth(this._displayedContainer);
             // add expanded class
-            domClass.add(this._panelNodes[index], this.css.statsPanelSelectedExpand);
+            domClass.add(this._nodes[index].panel, this.css.statsPanelSelectedExpand);
         }
     });
     if (has("extend-esri")) {
