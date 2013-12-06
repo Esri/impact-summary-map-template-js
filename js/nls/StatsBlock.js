@@ -1,7 +1,9 @@
 ﻿define({
     "root": ({
         "StatsBlock": {
-            "close": "close"
+            "close": "close",
+            "next": "Next",
+            "previous": "Previous"
         }
     })
 });

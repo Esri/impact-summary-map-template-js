@@ -86,21 +86,8 @@ function(
                 rendererLoading: 'loadingFeatures',
                 rendererContainer: 'item-container',
                 rendererSummarize: 'summarize',
-                stats: 'geoData',
-                statsOpen: 'geoDataExpanded',
-                statsPanel: 'panel',
-                statsCount: 'count',
-                statsPanelSelected: 'panel-expanded',
-                statsPanelSelectedExpand: "panel-selected-expand",
-                statsPanelDataBlock: 'data-block',
-                statsPanelDataBlockLast: 'data-block-last',
                 drawerOpen: "drawerOpen",
-                animateSlider: "animateSlider",
-                mobileSearchDisplay: "mobileLocateBoxDisplay",
-                divOuterSliderContainer: "divOuterSliderContainer",
-                divGeoDataHolder: "divGeoDataHolder",
-                divHeaderClose: "divHeaderClose",
-                divSliderContainer: "divSliderContainer"
+                mobileSearchDisplay: "mobileLocateBoxDisplay"
             };
             this._mobileSizeStart = 850;
             // set up border containers
