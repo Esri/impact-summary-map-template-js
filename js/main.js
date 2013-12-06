@@ -620,7 +620,7 @@ function(
             this._setValueRange();
             // features query
             var q = new Query();
-            q.returnGeometry = true;
+            q.returnGeometry = false;
             q.where = '1=1';
             // if multiple features. (determined by renderer)
             if (this._multiple && this._attributeField) {
