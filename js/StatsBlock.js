@@ -436,10 +436,6 @@ function (
             // create all children stats
             if (item.children && item.children.length) {
                 for (var i = 0; i < item.children.length; i++) {
-                    // if last child
-                    if(i === item.children.length - 1){
-                        item.children[i].last = true;
-                    }
                     var dataBlock = this._createPanelBlockNodes(index, i);
                     domConstruct.place(dataBlock, sliderDataHolder, 'last');
                 }
@@ -496,7 +492,7 @@ function (
             
             // last block
             var lastBlock = "";
-            if(childItem.last){
+            if((item.children.length - 1) === childIndex){
                 lastBlock = " " + this.css.statsPanelDataBlockLast;
             }
             // data block children stats
