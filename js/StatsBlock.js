@@ -440,6 +440,7 @@ function (
                     domConstruct.place(dataBlock, sliderDataHolder, 'last');
                 }
             }
+            
             var clearBlocks = domConstruct.create('div', {
                 className: this.css.clear
             });
