@@ -359,7 +359,7 @@ input[type=text]::-ms-clear { display: none; }
 }
 
 .geoData .panel-expanded .dataSourceUrl{
-    position:relative;
+    position:absolute;
 	bottom:9px;
 	right: 0;
 	z-index: 2;

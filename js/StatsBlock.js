@@ -90,6 +90,7 @@ function (
             };
             //set no of slide to display
             this.displayPageCount = 3;
+            this.blockThemes = ['theme_1', 'theme_2', 'theme_3', 'theme_4'];
         },
         // start widget. called by user
         startup: function() {
@@ -130,6 +131,16 @@ function (
             this._events = [];
         },
         _init: function() {
+            
+            
+            this._resizeSlider();
+            var winResize = on(window, 'resize', lang.hitch(this, function() {
+                this._resizeSlider();
+            }));
+            
+            
+            
+            
             // setup events
             this._displayStats();
             // ready
@@ -290,230 +301,242 @@ function (
             var stats = this.get("stats");
             var config = this.get("config");
             var item = config[index];
+            // node variables
+            var panel, panelCount, panelTitle, clearPanel;
             // panel container
-            var container = domConstruct.create('div', {
-                className: this.css.statsPanel + " " + item.theme
+            panel = domConstruct.create('div', {
+                className: this.css.statsPanel + " " + this.blockThemes[index]
             });
-            domConstruct.place(container, this._geoPanelsNode, 'last');
+            domConstruct.place(panel, this._geoPanelsNode, 'last');
             // panel number
-            var count = domConstruct.create('div', {
+            panelCount = domConstruct.create('div', {
                 className: this.css.statsCount,
                 innerHTML: this._decPlaces(stats[item.attribute])
             });
-            domConstruct.place(count, container, 'last');
+            domConstruct.place(panelCount, panel, 'last');
             // panel title
-            var title = domConstruct.create('div', {
+            panelTitle = domConstruct.create('div', {
                 className: this.css.statsTitle,
                 innerHTML: item.label
             });
-            domConstruct.place(title, container, 'last');
+            domConstruct.place(panelTitle, panel, 'last');
+            // if last item
+            if(index === (config.length - 1)){
+                // clear blocks
+                clearPanel = domConstruct.create('div', {
+                    className: this.css.clear
+                });
+                domConstruct.place(clearPanel, this._geoPanelsNode, 'last');
+            }
             // save references to these nodes
             this._nodes[index] = lang.mixin(this._nodes[index], {
-                panel: container,
-                panelCount: count,
-                panelTitle: title
+                panel: panel,
+                panelCount: panelCount,
+                panelTitle: panelTitle,
+                clearPanel: clearPanel
             });
         },
         _createExpandedPanelNode: function(index) {
             var config = this.get("config");
             var item = config[index];
             var stats = this.get("stats");
+            // expanded nodes
+            var detailedContainer, detailedLeft, detailedLeftArrow, detailedInnerContainer, detailedCarousel, detailedData, detailedPagination, detailedRight, detailedRightArrow, clearDetailedData, detailedPanel, detailedPanelHeader, detailedPanelHeaderTitle, detailedPanelHeaderSpanTitle, detailedPanelHeaderSpanNumber, detailedPanelHeaderClose, detailedPanelHeaderClear, detailedOuterContainer, detailedDataSource, detailedDataSourceAnchor, clearExpandedPanels;
             // expanded panel container
-            var container = domConstruct.create('div', {
-                className: this.css.statsPanelSelected + " " + item.theme
+            detailedPanel = domConstruct.create('div', {
+                className: this.css.statsPanelSelected + " " + this.blockThemes[index]
             });
-            domConstruct.place(container, this._geoDataPanelsExpandedNode, 'last');
+            domConstruct.place(detailedPanel, this._geoDataPanelsExpandedNode, 'last');
             // header
-            var header = domConstruct.create('div', {
+            detailedPanelHeader = domConstruct.create('div', {
                 className: this.css.divHeader
             });
-            domConstruct.place(header, container, 'last');
-            var headerTitle = domConstruct.create('div', {
+            domConstruct.place(detailedPanelHeader, detailedPanel, 'last');
+            // header title
+            detailedPanelHeaderTitle = domConstruct.create('div', {
                 className: this.css.bgColor + " " + this.css.divHeaderTitle
             });
-            domConstruct.place(headerTitle, header, 'last');
-            var headerSpanTitle = domConstruct.create('span', {
+            domConstruct.place(detailedPanelHeaderTitle, detailedPanelHeader, 'last');
+            // header span title
+            detailedPanelHeaderSpanTitle = domConstruct.create('span', {
                 className: this.css.hTitle,
                 innerHTML: item.label
             });
-            domConstruct.place(headerSpanTitle, headerTitle, 'last');
-            var headerSpanNumber = domConstruct.create('span', {
+            domConstruct.place(detailedPanelHeaderSpanTitle, detailedPanelHeaderTitle, 'last');
+            // header number
+            detailedPanelHeaderSpanNumber = domConstruct.create('span', {
                 className: this.css.hNumber,
                 innerHTML: this._decPlaces(stats[item.attribute])
             });
-            domConstruct.place(headerSpanNumber, headerTitle, 'last');
-            var headerClose = domConstruct.create('div', {
+            domConstruct.place(detailedPanelHeaderSpanNumber, detailedPanelHeaderTitle, 'last');
+            // header close
+            detailedPanelHeaderClose = domConstruct.create('div', {
                 className: this.css.divHeaderClose + " " + this.css.iconCancel,
                 title: this._i18n.StatsBlock.close
             });
-            domConstruct.place(headerClose, header, 'last');
-            var headerClear = domConstruct.create('div', {
+            domConstruct.place(detailedPanelHeaderClose, detailedPanelHeader, 'last');
+            // header clear
+            detailedPanelHeaderClear = domConstruct.create('div', {
                 className: this.css.clear
             });
-            domConstruct.place(headerClear, header, 'last');
+            domConstruct.place(detailedPanelHeaderClear, detailedPanelHeader, 'last');
             // slider container
-            var sliderContainer = domConstruct.create('div', {
+            detailedOuterContainer = domConstruct.create('div', {
                 className: this.css.divOuterSliderContainer
             });
-            domConstruct.place(sliderContainer, container, 'last');
-            
-            
-            
-            
-            
-            
-            
-            var sliderContainer2, sliderInnerContainer, divLeft, leftArrow, divSliderContent, carousel, sliderDataHolder, divPagination, divRight, rightArrow, clearSliderContent;
-            
+            domConstruct.place(detailedOuterContainer, detailedPanel, 'last');
+            // if we have children
             if (item.children && item.children.length && item.children.length > 3) {
                 // slider container
-                sliderContainer2 = domConstruct.create('div', {
+                detailedContainer = domConstruct.create('div', {
                     className: this.css.divSliderContainer
-                }); 
-                // slider container
-                sliderInnerContainer = domConstruct.create('div', {
-                    className: this.css.divInnerSliderContainer
-                });
-                domConstruct.place(sliderInnerContainer, sliderContainer2, 'last'); 
+                });  
                 // paginate left
-                divLeft = domConstruct.create('div', {
+                detailedLeft = domConstruct.create('div', {
                     className: this.css.divLeft
                 });
-                domConstruct.place(divLeft, sliderInnerContainer, 'last');
+                domConstruct.place(detailedLeft, detailedContainer, 'last');
                 // left arrow button
-                leftArrow = domConstruct.create('div', {
+                detailedLeftArrow = domConstruct.create('div', {
                     className: this.css.leftArrow + " " + this.css.disableArrow,
                     title: this._i18n.StatsBlock.previous
                 });
-                domConstruct.place(leftArrow, divLeft, 'last');
+                domConstruct.place(detailedLeftArrow, detailedLeft, 'last');
                 // another inner container
-                divSliderContent = domConstruct.create('div', {
+                detailedInnerContainer = domConstruct.create('div', {
                     className: this.css.divSliderContent
                 });
-                domConstruct.place(divSliderContent, sliderInnerContainer, 'last');
+                domConstruct.place(detailedInnerContainer, detailedContainer, 'last');
                 // carousel holder
-                carousel = domConstruct.create('div', {
+                detailedCarousel = domConstruct.create('div', {
                     className: this.css.carousel + " " + this.css.slidePanel
                 });
-                domConstruct.place(carousel, divSliderContent, 'last');
+                domConstruct.place(detailedCarousel, detailedInnerContainer, 'last');
                 // container for data
-                sliderDataHolder = domConstruct.create('div', {
+                detailedData = domConstruct.create('div', {
                     className: this.css.divGeoDataHolder
                 });
-                domConstruct.place(sliderDataHolder, carousel, 'last');
+                domConstruct.place(detailedData, detailedCarousel, 'last');
                 // pagination
-                divPagination = domConstruct.create('div', {
+                detailedPagination = domConstruct.create('div', {
                     className: this.css.divPagination
                 });
-                domConstruct.place(divPagination, divSliderContent, 'last');
+                domConstruct.place(detailedPagination, detailedInnerContainer, 'last');
                 // right paginate
-                divRight = domConstruct.create('div', {
+                detailedRight = domConstruct.create('div', {
                     className: this.css.divRight
                 });
-                domConstruct.place(divRight, sliderInnerContainer, 'last');
+                domConstruct.place(detailedRight, detailedContainer, 'last');
                 // right arrow button
-                rightArrow = domConstruct.create('div', {
+                detailedRightArrow = domConstruct.create('div', {
                     className: this.css.rightArrow + " " + this.css.disableArrow,
                     title: this._i18n.StatsBlock.next
                 });
-                domConstruct.place(rightArrow, divLeft, 'last');
-                // clear slider
-                clearSliderContent = domConstruct.create('div', {
-                    className: this.css.clear
-                });
-                domConstruct.place(clearSliderContent, sliderInnerContainer, 'last');
+                domConstruct.place(detailedRightArrow, detailedRight, 'last');
             }
             else{
                 // container for data
-                sliderContainer2 = domConstruct.create('div', {
+                detailedContainer = domConstruct.create('div', {
                     className: this.css.divGeoDataHolder
                 });
-                sliderDataHolder = sliderContainer2;
+                detailedData = detailedContainer;
             }
-            domConstruct.place(sliderContainer2, sliderContainer, 'last');
-
-            
-            // create all children stats
-            if (item.children && item.children.length) {
-                for (var i = 0; i < item.children.length; i++) {
-                    var dataBlock = this._createPanelBlockNodes(index, i);
-                    domConstruct.place(dataBlock, sliderDataHolder, 'last');
-                }
-            }
-            
-            var clearBlocks = domConstruct.create('div', {
-                className: this.css.clear
-            });
-            domConstruct.place(clearBlocks, sliderDataHolder, 'last');
+            domConstruct.place(detailedContainer, detailedOuterContainer, 'last');
             // source link
-            var sliderDataSource = domConstruct.create('div', {
+            detailedDataSource = domConstruct.create('div', {
                 className: this.css.dataSourceUrl
             });
-            domConstruct.place(sliderDataSource, sliderContainer, 'last');
-            var sliderDataSourceAnchor = domConstruct.create('a', {
+            domConstruct.place(detailedDataSource, detailedOuterContainer, 'last');
+            // data source link a tag
+            detailedDataSourceAnchor = domConstruct.create('a', {
                 innerHTML: "source",
                 href: item.dataSourceUrl,
                 target: "_blank"
             });
-            domConstruct.place(sliderDataSourceAnchor, sliderDataSource, 'last');
-            
-            
+            domConstruct.place(detailedDataSourceAnchor, detailedDataSource, 'last');
+            // if last expanded panel
+            if(index === (config.length - 1)){
+                // clear expanded
+                clearExpandedPanels = domConstruct.create('div', {
+                    className: this.css.clear
+                });
+                domConstruct.place(clearExpandedPanels, this._geoDataPanelsExpandedNode, 'last');
+            }
             // save references to these nodes
             this._nodes[index] = lang.mixin(this._nodes[index], {
-                detailedPanel: container,
-                detailedPanelHeader: header,
-                detailedPanelHeaderTitle: headerTitle,
-                detailedPanelHeaderSpanTitle: headerSpanTitle,
-                detailedPanelHeaderSpanNumber:headerSpanNumber,
-                detailedPanelHeaderClose: headerClose,
-                detailedPanelHeaderClear: headerClear,
-                detailedOuterContainer: sliderContainer,
-                detailedContainer: sliderContainer2,
-                detailedInnerContainer: sliderInnerContainer,
-                detailedInnerContainer2: divSliderContent,
-                detailedLeft: divLeft,
-                detailedLeftArrow: leftArrow,
-                detailedCarousel: carousel,
-                detailedData: sliderDataHolder,
-                detailedPagination: divPagination,
-                detailedRight: divRight,
-                detailedRightArrow: rightArrow,
-                clearDetailedData: clearSliderContent,
-                detailedDataSource: sliderDataSource,
-                detailedDataSourceAnchor: sliderDataSourceAnchor,
-                clearBlocks: clearBlocks
+                detailedPanel: detailedPanel,
+                detailedPanelHeader: detailedPanelHeader,
+                detailedPanelHeaderTitle: detailedPanelHeaderTitle,
+                detailedPanelHeaderSpanTitle: detailedPanelHeaderSpanTitle,
+                detailedPanelHeaderSpanNumber:detailedPanelHeaderSpanNumber,
+                detailedPanelHeaderClose: detailedPanelHeaderClose,
+                detailedPanelHeaderClear: detailedPanelHeaderClear,
+                detailedOuterContainer: detailedOuterContainer,
+                detailedContainer: detailedContainer,
+                detailedInnerContainer: detailedInnerContainer,
+                detailedLeft: detailedLeft,
+                detailedLeftArrow: detailedLeftArrow,
+                detailedCarousel: detailedCarousel,
+                detailedData: detailedData,
+                detailedPagination: detailedPagination,
+                detailedRight: detailedRight,
+                detailedRightArrow: detailedRightArrow,
+                detailedDataSource: detailedDataSource,
+                detailedDataSourceAnchor: detailedDataSourceAnchor,
+                clearExpandedPanels: clearExpandedPanels
             });
-            
+            // create all children stats
+            if (item.children && item.children.length) {
+                for (var i = 0; i < item.children.length; i++) {
+                    this._createPanelBlockNodes(index, i);
+                }
+            }
         },
         _createPanelBlockNodes: function(parentIndex, childIndex) {
             var config = this.get("config");
             var item = config[parentIndex];
             var childItem = item.children[childIndex];
             var stats = this.get("stats");
-            
-            // last block
+            // node variables
+            var detailedChild, detailedChildCount, detailedChildTitle, clearDetailedData;
+            // last block class
             var lastBlock = "";
             if((item.children.length - 1) === childIndex){
                 lastBlock = " " + this.css.statsPanelDataBlockLast;
             }
             // data block children stats
-            var container = domConstruct.create('div', {
+            detailedChild = domConstruct.create('div', {
                 className: this.css.statsPanelDataBlock + lastBlock
             });
+            domConstruct.place(detailedChild, this._nodes[parentIndex].detailedData, 'last');
             // child count
-            var count = domConstruct.create('div', {
+            detailedChildCount = domConstruct.create('div', {
                 className: this.css.statsCount,
                 innerHTML: this._decPlaces(stats[childItem.attribute])
             });
-            domConstruct.place(count, container, 'last');
+            domConstruct.place(detailedChildCount, detailedChild, 'last');
             // child label
-            var title = domConstruct.create('div', {
+            detailedChildTitle = domConstruct.create('div', {
                 className: this.css.statsTitle,
                 title: childItem.label,
                 innerHTML: childItem.label
             });
-            domConstruct.place(title, container, 'last');
-            return container;
+            domConstruct.place(detailedChildTitle, detailedChild, 'last');
+            // last data item
+            if((item.children.length - 1) === childIndex){
+                // clear slider
+                clearDetailedData = domConstruct.create('div', {
+                    className: this.css.clear
+                });
+                domConstruct.place(clearDetailedData, this._nodes[parentIndex].detailedData, 'last');
+            }
+            // save references to nodes
+            this._nodes[parentIndex].children[childIndex] = {
+                detailedChild: detailedChild,
+                detailedChildCount: detailedChildCount,
+                detailedChildTitle: detailedChildTitle,
+                clearDetailedData: clearDetailedData
+            };
         },
         _createPanels: function() {
             var config = this.get("config");
@@ -522,39 +545,111 @@ function (
             // clear previous html
             this._geoPanelsNode.innerHTML = '';
             this._geoDataPanelsExpandedNode.innerHTML = '';
-            // block themes
-            var themes = ['theme_1', 'theme_2', 'theme_3', 'theme_4'];
             // node variables
             this._nodes = [];
-            
-            
             // create each block
-            for (var i = 0; i < config.length && i < themes.length; i++) {
+            for (var i = 0; i < config.length && i < this.blockThemes.length; i++) {
                 // panel node references
-                this._nodes[i] = {};
-                // assign theme
-                config[i].theme = themes[i];
-                config.index = i;
+                this._nodes[i] = {
+                    children: [],
+                    pagination: []
+                };
                 // block node
                 this._createPanelNode(i);
                 // expnaded node
                 this._createExpandedPanelNode(i);
-                
+                // pagination
+                this._createPagination(i);
+            }
+        },
+        _createPagination: function(index) {
+            var children = this._nodes[index].children;
+            if(children.length > this.displayPageCount){
+                console.log('fail');
+                var pageCount = Math.ceil(children.length / this.displayPageCount);
+                for (var i = 0; i < pageCount; i++) {
+                    var spanPaginationDot = domConstruct.create("span", {
+                        className: this.css.paginationDot
+                    });
+                    if (i === 0) {
+                        domClass.add(spanPaginationDot, this.css.bgColor);
+                        this._selectedPage = spanPaginationDot;
+                        this._selectedPageIndex = 0;
+                    }
+                    domConstruct.place(spanPaginationDot, this._nodes[index].detailedPagination, "last");
+                    // pagination event
+                    // todo
+                    //this._createPageEvent(index, i);
+                    this._nodes[index].pagination[i] = spanPaginationDot;
+                }
+                this._setArrowVisibility(index);
+            }
+        },
+        _createPageEvent: function(parentIndex, childIndex) {
+            var node = this._nodes[parentIndex].pagination[childIndex];
+            //Go to slider page on selecting its corresponding pagination dot
+            var pageDot = on(node, 'click', lang.hitch(this, function(evt) {
+                this._showSelectedPage(parentIndex, childIndex);
+                this._setArrowVisibility();
+            }));
+            this._events.push(pageDot);
+        },
+        //display selected slider page
+        _showSelectedPage: function(parentIndex, childIndex) {
+            var newLeft;
+            // todo
+            var pageIndex = childIndex;
+            this._selectedPage = page;
+            this._selectedPageIndex = childIndex;
+            newLeft = -(domStyle.get(this._sliderContentContainer, 'width') + this.displayPageCount) * pageIndex;
+            domStyle.set(this._sliderContent, 'left', newLeft + "px");
+            for (var i = 0; i < this._paginationNodes.length; i++) {
+                if (i === pageIndex) {
+                    domClass.add(this._paginationNodes[i], "bgColor");
+                } else {
+                    domClass.remove(this._paginationNodes[i], "bgColor");
+                }
+            }
+        },
+        //handle left/right arrow visibility
+        _setArrowVisibility: function(index) {
+            if (this._selectedPageIndex === 0) {
+                domClass.add(this._nodes[index].detailedLeftArrow, this.css.disableArrow);
+                domClass.remove(this._nodes[index].detailedRightArrow, this.css.disableArrow);
+            } else if (this._selectedPageIndex < this._nodes[index].pagination.length - 1) {
+                domClass.remove(this._nodes[index].detailedLeftArrow, this.css.disableArrow);
+                domClass.remove(this._nodes[index].detailedRightArrow, this.css.disableArrow);
+            } else if (this._selectedPageIndex === this._nodes[index].pagination.length - 1) {
+                domClass.add(this._nodes[index].detailedRightArrow, this.css.disableArrow);
+                domClass.remove(this._nodes[index].detailedLeftArrow, this.css.disableArrow);
+            }
+        },
+        _resizeSlider: function() {
+            if(this._nodes && this._nodes.length){
+                for(var i = 0; i < this._nodes.length; i++){
+                    var node = this._nodes[i].detailedData;
+                    if(node){
+                        var children = this._nodes[i].children;
+                        if(children.length){
+                            var w = (domStyle.get(children[0], 'width') + 1) * children.length;
+                        }
+                        domStyle.set(node, 'width', w + 'px');
+                    }
+                    
+                    
+                    var node2 = this._nodes[i].detailedInnerContainer;
+                    domStyle.set(node2, 'width',  w + 'px');
+                    
+                    this._showSelectedPage(i, 0);
+                    
+                    
+                }
             }
             
             
-            console.log(this._nodes);
             
-            // clear blocks
-            var clear = domConstruct.create('div', {
-                className: this.css.clear
-            });
-            domConstruct.place(clear, this._geoPanelsNode, 'last');
-            // clear expanded
-            var clear2 = domConstruct.create('div', {
-                className: this.css.clear
-            });
-            domConstruct.place(clear2, this._geoDataPanelsExpandedNode, 'last');
+            
+
         },
         _setPanelWidth: function(node) {
             // todo
