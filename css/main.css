@@ -307,6 +307,7 @@ input[type=text]::-ms-clear { display: none; }
 }
 
 .geoData {
+    display:none;
 	position:absolute;
 	z-index:40;
 	bottom:40px;

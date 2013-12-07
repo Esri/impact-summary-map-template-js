@@ -8,8 +8,6 @@
     "dijit/_WidgetBase",
     "dijit/_TemplatedMixin",
     "dojo/on",
-    "dojo/query",
-    "dojo/topic",
     // load template
     "dojo/text!modules/dijit/templates/StatsBlock.html",
     "dojo/i18n!modules/nls/StatsBlock",
@@ -25,8 +23,7 @@ function (
     lang, array,
     has, esriNS,
     _WidgetBase, _TemplatedMixin,
-    on, query,
-    topic,
+    on,
     dijitTemplate, i18n,
     number,
     domConstruct, domClass, domStyle, domGeom
@@ -108,9 +105,8 @@ function (
         /* Public Functions */
         /* ---------------- */
         resize: function() {
-            if (this._displayedContainer) {
-                this._setPanelWidth(this._displayedContainer);
-            }
+            this._resizeSliders();
+            this._setPanelWidth();
         },
         show: function() {
             domStyle.set(this.domNode, 'display', 'block');
@@ -130,16 +126,9 @@ function (
             this._events = [];
         },
         _init: function() {
-            
-            
-            
-            var winResize = on(window, 'resize', lang.hitch(this, function() {
-                this._resizeSlider();
+            on(window, 'resize', lang.hitch(this, function() {
+                this.resize();
             }));
-            
-            
-            
-            
             // setup events
             this._displayStats();
             // ready
@@ -227,51 +216,7 @@ function (
                 // create panels from stats
                 this._createPanels();
                 // resize
-                this._resizeSlider();
-                // show geo stats
-                this.show();
-                
-                
-                
-                /*
-                
-                // todo
-                //Create Slider for Geo data panels
-                var sliders, childNode, divGeoPanel;
-                // todo
-                sliders = query('.' + this.css.statsPanelSelected + ' .' + this.css.divOuterSliderContainer, this._geoDataContainerNode);
-                // sliders
-                if (sliders && sliders.length) {
-                
-                
-                    
-                
-                    // each slider node
-                    array.forEach(sliders, lang.hitch(this, function(node) {
-                        divGeoPanel = query('.' + this.css.divGeoDataHolder, node)[0];
-                        if (divGeoPanel) {
-                            childNode = query('.' + this.css.statsPanelDataBlock, divGeoPanel).length;
-                            if (childNode > 3) {
-                                if (divGeoPanel) {
-                                    var tst = new StatSlider({
-                                        content: divGeoPanel
-                                    }, node);
-                                    tst.startup();
-                                }
-                            }
-                            // todo
-                            var panels = query('.' + this.css.statsPanelDataBlock, divGeoPanel);
-                            if (panels && panels.length) {
-                                // last item class
-                                domClass.add(panels[panels.length - 1], this.css.statsPanelDataBlockLast);
-                            }
-                        }
-                    }));
-                }
-                
-                */
-                
-                
+                this.resize();
                 // if panel is expanded already
                 if (this._displayedContainer) {
                     this._showExpanded(this._displayedIndex);
@@ -281,6 +226,8 @@ function (
                     this._panelClickEvent(this._nodes[i].panel, i);
                     this._panelCloseEvent(this._nodes[i].detailedPanelHeaderClose);
                 }
+                // show geo stats
+                this.show();
             } else {
                 this.hide();
             }
@@ -342,7 +289,7 @@ function (
             var item = config[index];
             var stats = this.get("stats");
             // expanded nodes
-            var detailedContainer, detailedLeft, detailedLeftArrow, detailedInnerContainer, detailedCarousel, detailedData, detailedPagination, detailedRight, detailedRightArrow, clearDetailedData, detailedPanel, detailedPanelHeader, detailedPanelHeaderTitle, detailedPanelHeaderSpanTitle, detailedPanelHeaderSpanNumber, detailedPanelHeaderClose, detailedPanelHeaderClear, detailedOuterContainer, detailedDataSource, detailedDataSourceAnchor, clearExpandedPanels;
+            var detailedContainer, detailedLeft, detailedLeftArrow, detailedInnerContainer, detailedCarousel, detailedData, detailedPagination, detailedRight, detailedRightArrow, detailedPanel, detailedPanelHeader, detailedPanelHeaderTitle, detailedPanelHeaderSpanTitle, detailedPanelHeaderSpanNumber, detailedPanelHeaderClose, detailedPanelHeaderClear, detailedOuterContainer, detailedDataSource, detailedDataSourceAnchor, clearExpandedPanels;
             // expanded panel container
             detailedPanel = domConstruct.create('div', {
                 className: this.css.statsPanelSelected + " " + this.blockThemes[index]
@@ -604,12 +551,9 @@ function (
                     });
                     if (i === 0) {
                         domClass.add(spanPaginationDot, this.css.bgColor);
-                        //this._selectedPage[index] = spanPaginationDot;
                         this._selectedPageIndex[index] = 0;
                     }
                     domConstruct.place(spanPaginationDot, this._nodes[index].detailedPagination, "last");
-                    // pagination event
-                    // todo
                     this._nodes[index].pagination[i] = spanPaginationDot;
                     this._createPageEvent(index, i);
                 }
@@ -619,7 +563,7 @@ function (
         _createPageEvent: function(parentIndex, childIndex) {
             var node = this._nodes[parentIndex].pagination[childIndex];
             //Go to slider page on selecting its corresponding pagination dot
-            var pageDot = on(node, 'click', lang.hitch(this, function(evt) {
+            var pageDot = on(node, 'click', lang.hitch(this, function() {
                 this._showSelectedPage(parentIndex, childIndex);
                 this._setArrowVisibility(parentIndex);
             }));
@@ -628,9 +572,6 @@ function (
         //display selected slider page
         _showSelectedPage: function(parentIndex, childIndex) {
             var newLeft;
-            // todo
-
-            //this._selectedPage = page;
             this._selectedPageIndex[parentIndex] = childIndex;
             
             newLeft = -(domStyle.get(this._nodes[parentIndex].detailedInnerContainer, 'width') + this.displayPageCount) * childIndex;
@@ -646,6 +587,15 @@ function (
             }
             
         },
+        _setPanelWidth: function() {
+            if(this._nodes && this._nodes.length){
+                var mb = domGeom.getContentBox(this._geoPanelsNode);
+                var sliderWidth = mb.w;
+                for(var i = 0; i < this._nodes.length; i++){
+                    domStyle.set(this._nodes[i].detailedPanel, 'width', sliderWidth + 'px');
+                }
+            }
+        },
         //handle left/right arrow visibility
         _setArrowVisibility: function(index) {
             if (this._selectedPageIndex[index] === 0) {
@@ -659,17 +609,15 @@ function (
                 domClass.remove(this._nodes[index].detailedLeftArrow, this.css.disableArrow);
             }
         },
-        _resizeSlider: function() {
+        _resizeSliders: function() {
             if(this._nodes && this._nodes.length){
                 for(var i = 0; i < this._nodes.length; i++){   
                     var node = this._nodes[i].detailedData;
                     if(node){
                         var children = this._nodes[i].children;
                         if(children && children.length && children.length > this.displayPageCount){
-                            if(children[0]){
-                                var w = (domStyle.get(children[0].detailedChild, 'width') + 1) * children.length;
-                                domStyle.set(node, 'width', w + 'px');
-                            }
+                            var w = (domStyle.get(children[0].detailedChild, 'width') + 1) * children.length;
+                            domStyle.set(node, 'width', w + 'px');
                             var node2 = this._nodes[i].detailedCarousel;
                             if(node2){
                                 domStyle.set(node2, 'width',  w + 'px');
@@ -681,24 +629,6 @@ function (
                     }
  
                 }
-            }
-        },
-        _setPanelWidth: function(node) {
-            // todo
-            // need to do this on window resize
-            if (node) {
-                // todo get content box?
-                var mb = domGeom.getMarginBox(this._geoPanelsNode);
-                var sliderWidth = mb.w;
-                domStyle.set(node, 'width', sliderWidth + 'px');
-                this._resizeGeoContainer(node);
-            }
-        },
-        _resizeGeoContainer: function(node) {
-            // todo
-            var slider = query('.' + this.css.divSliderContainer, node)[0];
-            if (slider) {
-                topic.publish("resizeGeoDataSlider", slider.id);
             }
         },
         _removeExpandedClass: function() {
@@ -726,10 +656,9 @@ function (
             this._displayedIndex = index;
             // show panel
             domClass.add(this._displayedContainer, this.css.animateSlider);
-            // set width of panel
-            this._setPanelWidth(this._displayedContainer);
             // add expanded class
             domClass.add(this._nodes[index].panel, this.css.statsPanelSelectedExpand);
+            this._setPanelWidth();
         }
     });
     if (has("extend-esri")) {
