@@ -17,8 +17,7 @@
     "dojo/dom-construct",
     "dojo/dom-class",
     "dojo/dom-style",
-    "dojo/dom-geometry",
-    "modules/StatSlider"
+    "dojo/dom-geometry"
 ],
 function (
     Evented,
@@ -30,8 +29,7 @@ function (
     topic,
     dijitTemplate, i18n,
     number,
-    domConstruct, domClass, domStyle, domGeom,
-    StatSlider
+    domConstruct, domClass, domStyle, domGeom
 ) {
     var Widget = declare([_WidgetBase, _TemplatedMixin, Evented], {
         declaredClass: "esri.dijit.StatsBlock",
@@ -599,7 +597,6 @@ function (
         _createPagination: function(index) {
             var children = this._nodes[index].children;
             if(children.length > this.displayPageCount){
-                console.log('fail');
                 var pageCount = Math.ceil(children.length / this.displayPageCount);
                 for (var i = 0; i < pageCount; i++) {
                     var spanPaginationDot = domConstruct.create("span", {
@@ -671,10 +668,7 @@ function (
                         if(children && children.length && children.length > this.displayPageCount){
                             if(children[0]){
                                 var w = (domStyle.get(children[0].detailedChild, 'width') + 1) * children.length;
-                                console.log(w);
-                                
                                 domStyle.set(node, 'width', w + 'px');
-                            
                             }
                             var node2 = this._nodes[i].detailedCarousel;
                             if(node2){
