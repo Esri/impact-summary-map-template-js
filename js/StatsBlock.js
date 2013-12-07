@@ -91,6 +91,7 @@ function (
             //set no of slide to display
             this.displayPageCount = 3;
             this.blockThemes = ['theme_1', 'theme_2', 'theme_3', 'theme_4'];
+            this._selectedPageIndex = [];
         },
         // start widget. called by user
         startup: function() {
@@ -133,7 +134,7 @@ function (
         _init: function() {
             
             
-            this._resizeSlider();
+            
             var winResize = on(window, 'resize', lang.hitch(this, function() {
                 this._resizeSlider();
             }));
@@ -227,6 +228,8 @@ function (
                 this.set("stats", stats);
                 // create panels from stats
                 this._createPanels();
+                // resize
+                this._resizeSlider();
                 // show geo stats
                 this.show();
                 
@@ -560,7 +563,38 @@ function (
                 this._createExpandedPanelNode(i);
                 // pagination
                 this._createPagination(i);
+                this._pageRightEvent(i);
+                this._pageLeftEvent(i);
             }
+        },
+        _pageRightEvent: function(index){
+            if(this._nodes[index].detailedRightArrow){
+                //change previous/next slide on clicking of left and right arrow.
+                var pageRight = on(this._nodes[index].detailedRightArrow, 'click', lang.hitch(this, function() {
+                    this._moveSliderPage(index, true);
+                }));
+                this._events.push(pageRight);
+            }
+        },
+        _pageLeftEvent: function(index){
+            if(this._nodes[index].detailedLeftArrow){
+                //change previous/next slide on clicking of left and right arrow.
+                var pageLeft = on(this._nodes[index].detailedLeftArrow, 'click', lang.hitch(this, function() {
+                    this._moveSliderPage(index, false);
+                }));
+                this._events.push(pageLeft);
+            }
+        },
+        //display next/previous slider page
+        _moveSliderPage: function(index, isSlideRight) {
+            var nxtPageId = this._selectedPageIndex[index];
+            if (isSlideRight) {
+                nxtPageId++;
+            } else {
+                nxtPageId--;
+            }
+            this._showSelectedPage(index, nxtPageId);
+            this._setArrowVisibility(index);
         },
         _createPagination: function(index) {
             var children = this._nodes[index].children;
@@ -573,14 +607,14 @@ function (
                     });
                     if (i === 0) {
                         domClass.add(spanPaginationDot, this.css.bgColor);
-                        this._selectedPage = spanPaginationDot;
-                        this._selectedPageIndex = 0;
+                        //this._selectedPage[index] = spanPaginationDot;
+                        this._selectedPageIndex[index] = 0;
                     }
                     domConstruct.place(spanPaginationDot, this._nodes[index].detailedPagination, "last");
                     // pagination event
                     // todo
-                    //this._createPageEvent(index, i);
                     this._nodes[index].pagination[i] = spanPaginationDot;
+                    this._createPageEvent(index, i);
                 }
                 this._setArrowVisibility(index);
             }
@@ -590,7 +624,7 @@ function (
             //Go to slider page on selecting its corresponding pagination dot
             var pageDot = on(node, 'click', lang.hitch(this, function(evt) {
                 this._showSelectedPage(parentIndex, childIndex);
-                this._setArrowVisibility();
+                this._setArrowVisibility(parentIndex);
             }));
             this._events.push(pageDot);
         },
@@ -598,58 +632,62 @@ function (
         _showSelectedPage: function(parentIndex, childIndex) {
             var newLeft;
             // todo
-            var pageIndex = childIndex;
-            this._selectedPage = page;
-            this._selectedPageIndex = childIndex;
-            newLeft = -(domStyle.get(this._sliderContentContainer, 'width') + this.displayPageCount) * pageIndex;
-            domStyle.set(this._sliderContent, 'left', newLeft + "px");
-            for (var i = 0; i < this._paginationNodes.length; i++) {
-                if (i === pageIndex) {
-                    domClass.add(this._paginationNodes[i], "bgColor");
+
+            //this._selectedPage = page;
+            this._selectedPageIndex[parentIndex] = childIndex;
+            
+            newLeft = -(domStyle.get(this._nodes[parentIndex].detailedInnerContainer, 'width') + this.displayPageCount) * childIndex;
+            domStyle.set(this._nodes[parentIndex].detailedCarousel, 'left', newLeft + "px");
+            
+            
+            for (var i = 0; i < this._nodes[parentIndex].pagination.length; i++) {
+                if (i === childIndex) {
+                    domClass.add(this._nodes[parentIndex].pagination[i], "bgColor");
                 } else {
-                    domClass.remove(this._paginationNodes[i], "bgColor");
+                    domClass.remove(this._nodes[parentIndex].pagination[i], "bgColor");
                 }
             }
+            
         },
         //handle left/right arrow visibility
         _setArrowVisibility: function(index) {
-            if (this._selectedPageIndex === 0) {
+            if (this._selectedPageIndex[index] === 0) {
                 domClass.add(this._nodes[index].detailedLeftArrow, this.css.disableArrow);
                 domClass.remove(this._nodes[index].detailedRightArrow, this.css.disableArrow);
-            } else if (this._selectedPageIndex < this._nodes[index].pagination.length - 1) {
+            } else if (this._selectedPageIndex[index] < this._nodes[index].pagination.length - 1) {
                 domClass.remove(this._nodes[index].detailedLeftArrow, this.css.disableArrow);
                 domClass.remove(this._nodes[index].detailedRightArrow, this.css.disableArrow);
-            } else if (this._selectedPageIndex === this._nodes[index].pagination.length - 1) {
+            } else if (this._selectedPageIndex[index] === this._nodes[index].pagination.length - 1) {
                 domClass.add(this._nodes[index].detailedRightArrow, this.css.disableArrow);
                 domClass.remove(this._nodes[index].detailedLeftArrow, this.css.disableArrow);
             }
         },
         _resizeSlider: function() {
             if(this._nodes && this._nodes.length){
-                for(var i = 0; i < this._nodes.length; i++){
+                for(var i = 0; i < this._nodes.length; i++){   
                     var node = this._nodes[i].detailedData;
                     if(node){
                         var children = this._nodes[i].children;
-                        if(children.length){
-                            var w = (domStyle.get(children[0], 'width') + 1) * children.length;
+                        if(children && children.length && children.length > this.displayPageCount){
+                            if(children[0]){
+                                var w = (domStyle.get(children[0].detailedChild, 'width') + 1) * children.length;
+                                console.log(w);
+                                
+                                domStyle.set(node, 'width', w + 'px');
+                            
+                            }
+                            var node2 = this._nodes[i].detailedCarousel;
+                            if(node2){
+                                domStyle.set(node2, 'width',  w + 'px');
+                                
+                                this._showSelectedPage(i, 0);
+                            }
                         }
-                        domStyle.set(node, 'width', w + 'px');
+ 
                     }
-                    
-                    
-                    var node2 = this._nodes[i].detailedInnerContainer;
-                    domStyle.set(node2, 'width',  w + 'px');
-                    
-                    this._showSelectedPage(i, 0);
-                    
-                    
+ 
                 }
             }
-            
-            
-            
-            
-
         },
         _setPanelWidth: function(node) {
             // todo
