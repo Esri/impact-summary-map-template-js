@@ -548,7 +548,6 @@ function(
                 layers: this.layers
             }, "LayerLegend");
             LL.startup();
-            
             // geocoders
             this._createGeocoders();
             // mobile geocoder toggle            
@@ -567,7 +566,7 @@ function(
                 this._hideMobileGeocoder();
             }));
             // todo
-            /* Start temporary until after JSAPI 3.8 is released */
+            /* Start temporary until after JSAPI 3.9 is released */
             var layers = this.map.getLayersVisibleAtScale(this.map.getScale());
             on.once(this.map, 'basemap-change', lang.hitch(this, function() {
                 for (var i = 0; i < layers.length; i++) {
@@ -578,17 +577,15 @@ function(
                 }
             }));
             // todo
-            /* END temporary until after JSAPI 3.8 is released */
+            /* END temporary until after JSAPI 3.9 is released */
             this.dataNode = domConstruct.place(domConstruct.create('div', {
                 id: 'geoData'
             }), dom.byId('cp_outer_center'), 'first');
-            
-            
+            // stats block
             this._sb = new StatsBlock({
                 config: this.config.impact_attributes
             }, this.dataNode);
             this._sb.startup();
-            
             // get layer by id
             this._impactLayer = this.getImpactLayer({
                 map: this.map,
@@ -616,8 +613,6 @@ function(
                 // order by attribute field
                 q.orderByFields = [this._attributeField + ' DESC'];
             }
-            
-      
             // if impact layer exists
             if (this._impactLayer) {
                 // get impact features
