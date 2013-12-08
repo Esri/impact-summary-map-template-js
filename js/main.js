@@ -15,8 +15,6 @@ define([
     "esri/symbols/SimpleFillSymbol",
     "esri/symbols/SimpleLineSymbol",
     "dojo/_base/Color",
-    "application/Mustache",
-    "dojo/text!views/renderer.html",
     "dojo/_base/event",
     "esri/graphic",
     "esri/layers/GraphicsLayer",
@@ -52,8 +50,6 @@ function(
     query,
     SimpleFillSymbol, SimpleLineSymbol,
     Color,
-    Mustache,
-    rendererView,
     event,
     Graphic, GraphicsLayer,
     BorderContainer, ContentPane,
@@ -376,14 +372,13 @@ function(
             }
             return false;
         },
-        _queryFeatures: function(node){
+        _queryFeatures: function(node, value){
             // show layer if invisible
             if (!this._impactLayer.visible) {
                 this._impactLayer.setVisibility(true);
             }
             // remove any selected
             this._clearSelected();
-            var value = domAttr.get(node, 'data-value');
             domClass.add(node, this.css.rendererSelected);
             domClass.add(node, this.css.rendererLoading);
             // search query
@@ -416,6 +411,78 @@ function(
                 this._clearSelected();
             }));
         },
+        _createRendererItemClick: function(node, value){
+            // renderer item click
+            on(node, 'click', lang.hitch(this, function(evt) {
+                this._hideInfoWindow();
+                var ct = evt.currentTarget;
+                // current renderer isn't already selected
+                if(!domClass.contains(ct, this.css.rendererSelected)){
+                    // view screen
+                    var vs = win.getBox();
+                    // hide drawer for small res
+                    if (vs.w < this._mobileSizeStart) {
+                        this._toggleDrawer().then(lang.hitch(this, function(){
+                            // resize map
+                            this.map.resize();
+                            // wait for map to be resized
+                            setTimeout(lang.hitch(this, function() {
+                                // get features
+                                this._queryFeatures(ct, value);
+                            }), 250);
+                        }));
+                    }
+                    else{
+                        // get features
+                        this._queryFeatures(ct, value);
+                    }
+                }
+            }));
+        },
+        _createRendererItems: function(infos){
+            // create list 
+            var ulList = domConstruct.create('ul', {
+                className: this.css.rendererMenu
+            });
+            // create select all item
+            var selectAll = domConstruct.create('li', {
+                className: this.css.rendererMenuItem + " " + this.css.rendererSummarize
+            });
+            // create select all item container
+            domConstruct.create('div', {
+                className: this.css.rendererContainer,
+                innerHTML: this.config.i18n.general.summarize
+            }, selectAll);
+            // select all click event
+            this._createRendererItemClick(selectAll, "summarize");
+            // place item
+            domConstruct.place(selectAll, ulList, 'last');
+            // each renderer item
+            for(var i = 0; i < infos.length; i++){
+                // create list item
+                var liItem = domConstruct.create('li', {
+                    className: this.css.rendererMenuItem
+                });
+                // create list container
+                domConstruct.create('div', {
+                    className: this.css.rendererContainer,
+                    style: 'border-left-color:rgb(' +infos[i].symbol.color.r + ',' +infos[i].symbol.color.g + ',' +infos[i].symbol.color.b + '); border-left-color:rgba(' +infos[i].symbol.color.r + ',' +infos[i].symbol.color.g + ',' +infos[i].symbol.color.b + ',' +infos[i].symbol.color.a + ');',
+                    innerHTML: infos[i].label
+                }, liItem);
+                // value
+                var value = infos[i].maxValue || infos[i].value || ""; 
+                // click event
+                this._createRendererItemClick(liItem, value);
+                // place item
+                domConstruct.place(liItem, ulList, 'last');
+            }
+            // renderer dom node
+            var rendererMenu = dom.byId('renderer_menu');
+            // place
+            domConstruct.place(ulList, rendererMenu);
+            // display renderer
+            domStyle.set(rendererMenu, 'display', 'block');
+        },
         // determines to show renderer if multiple features
         _setValueRange: function() {
             // default not multiple
@@ -433,46 +500,8 @@ function(
                 if (infos && infos.length) {
                     // multiple polygon impact
                     this._multiple = true;
-                    // template data
-                    var data = {
-                        i18n: this.config.i18n,
-                        css: this.css,
-                        infos: infos
-                    };
-                    // render mustache html
-                    var output = Mustache.render(rendererView, data);
-                    if (output) {
-                        // set html
-                        dom.byId('renderer_menu').innerHTML = output;
-                        // display renderer
-                        domStyle.set(dom.byId('renderer_menu'), 'display', 'block');
-                        // renderer item click
-                        on(query('.' + this.css.rendererMenuItem, dom.byId('renderer_menu')), 'click', lang.hitch(this, function(evt) {
-                            this._hideInfoWindow();
-                            var ct = evt.currentTarget;
-                            // current renderer isn't already selected
-                            if(!domClass.contains(ct, this.css.rendererSelected)){
-                                // view screen
-                                var vs = win.getBox();
-                                // hide drawer for small res
-                                if (vs.w < this._mobileSizeStart) {
-                                    this._toggleDrawer().then(lang.hitch(this, function(){
-                                        // resize map
-                                        this.map.resize();
-                                        // wait for map to be resized
-                                        setTimeout(lang.hitch(this, function() {
-                                            // get features
-                                            this._queryFeatures(ct);
-                                        }), 250);
-                                    }));
-                                }
-                                else{
-                                    // get features
-                                    this._queryFeatures(ct);
-                                }
-                            }
-                        }));
-                    }
+                    // create renderer menu
+                    this._createRendererItems(infos);
                 } else {
                     // hide impact area panel
                     this._hideImpactArea();
