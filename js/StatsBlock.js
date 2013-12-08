@@ -95,6 +95,7 @@ function (
         // connections/subscriptions will be cleaned up during the destroy() lifecycle phase
         destroy: function() {
             this._removeEvents();
+            this._removeWidgetEvents();
             this.inherited(arguments);
         },
         /* ---------------- */
@@ -125,10 +126,22 @@ function (
             }
             this._events = [];
         },
+        _removeWidgetEvents: function() {
+            if (this._widgetEvents && this._widgetEvents.length) {
+                for (var i = 0; i < this._widgetEvents.length; i++) {
+                    this._widgetEvents[i].remove();
+                }
+            }
+            this._widgetEvents = [];
+        },
         _init: function() {
-            on(window, 'resize', lang.hitch(this, function() {
+            // remove widget events
+            this._removeWidgetEvents();
+            // window resize event
+            var winResize = on(window, 'resize', lang.hitch(this, function() {
                 this.resize();
             }));
+            this._widgetEvents.push(winResize);
             // setup events
             this._displayStats();
             // ready
@@ -539,57 +552,75 @@ function (
                 nxtPageId--;
             }
             this._showSelectedPage(index, nxtPageId);
-            this._setArrowVisibility(index);
         },
         _createPagination: function(index) {
+            // all child stats
             var children = this._nodes[index].children;
             if(children.length > this.displayPageCount){
+                // count of pages
                 var pageCount = Math.ceil(children.length / this.displayPageCount);
+                // each page
                 for (var i = 0; i < pageCount; i++) {
+                    // create dot
                     var spanPaginationDot = domConstruct.create("span", {
                         className: this.css.paginationDot
                     });
+                    // if first dot
                     if (i === 0) {
+                        // set selected
                         domClass.add(spanPaginationDot, this.css.bgColor);
                         this._selectedPageIndex[index] = 0;
                     }
+                    // place dot
                     domConstruct.place(spanPaginationDot, this._nodes[index].detailedPagination, "last");
                     this._nodes[index].pagination[i] = spanPaginationDot;
+                    // setup event
                     this._createPageEvent(index, i);
                 }
+                // set arrows
                 this._setArrowVisibility(index);
             }
         },
         _createPageEvent: function(parentIndex, childIndex) {
+            // child pagination node
             var node = this._nodes[parentIndex].pagination[childIndex];
             //Go to slider page on selecting its corresponding pagination dot
             var pageDot = on(node, 'click', lang.hitch(this, function() {
                 this._showSelectedPage(parentIndex, childIndex);
-                this._setArrowVisibility(parentIndex);
             }));
             this._events.push(pageDot);
         },
         //display selected slider page
         _showSelectedPage: function(parentIndex, childIndex) {
-            var newLeft;
+            // set selected page index
             this._selectedPageIndex[parentIndex] = childIndex;
-            
-            newLeft = -(domStyle.get(this._nodes[parentIndex].detailedInnerContainer, 'width') + this.displayPageCount) * childIndex;
+            // margin box
+            var mb = domGeom.getMarginBox(this._nodes[parentIndex].detailedInnerContainer);
+            // width of inner container
+            var sliderWidth = mb.w;
+            // left offset
+            var newLeft = -(sliderWidth + this.displayPageCount) * childIndex;
+            // set left offset
             domStyle.set(this._nodes[parentIndex].detailedCarousel, 'left', newLeft + "px");
-            
-            
+            // each pagination node
             for (var i = 0; i < this._nodes[parentIndex].pagination.length; i++) {
+                // if current selected
                 if (i === childIndex) {
+                    // set selected class
                     domClass.add(this._nodes[parentIndex].pagination[i], "bgColor");
                 } else {
+                    // remove selected class
                     domClass.remove(this._nodes[parentIndex].pagination[i], "bgColor");
                 }
             }
-            
+            // reset arrow visibility
+            this._setArrowVisibility(parentIndex);
         },
         _setPanelWidth: function() {
+            // if nodes are set
             if(this._nodes && this._nodes.length){
-                var mb = domGeom.getContentBox(this._geoPanelsNode);
+                // get width
+                var mb = domGeom.getMarginBox(this._geoPanelsNode);
                 var sliderWidth = mb.w;
                 for(var i = 0; i < this._nodes.length; i++){
                     domStyle.set(this._nodes[i].detailedPanel, 'width', sliderWidth + 'px');
@@ -611,31 +642,36 @@ function (
         },
         _resizeSliders: function() {
             if(this._nodes && this._nodes.length){
-                for(var i = 0; i < this._nodes.length; i++){   
-                    var node = this._nodes[i].detailedData;
-                    if(node){
+                // each panel
+                for(var i = 0; i < this._nodes.length; i++){  
+                    // get data node
+                    var dataNode = this._nodes[i].detailedData;
+                    if(dataNode){
                         var children = this._nodes[i].children;
                         if(children && children.length && children.length > this.displayPageCount){
+                            // get width of first child
                             var w = (domStyle.get(children[0].detailedChild, 'width') + 1) * children.length;
-                            domStyle.set(node, 'width', w + 'px');
-                            var node2 = this._nodes[i].detailedCarousel;
-                            if(node2){
-                                domStyle.set(node2, 'width',  w + 'px');
-                                
+                            // set width
+                            domStyle.set(dataNode, 'width', w + 'px');
+                            // carousel node
+                            var carouselNode = this._nodes[i].detailedCarousel;
+                            if(carouselNode){
+                                // set carousel width
+                                domStyle.set(carouselNode, 'width',  w + 'px');
+                                // show first page
                                 this._showSelectedPage(i, 0);
                             }
                         }
  
                     }
- 
                 }
             }
         },
         _removeExpandedClass: function() {
             // remove stats panel expanded class from all panels
-            array.forEach(this._nodes, lang.hitch(this, function(item) {
-                domClass.remove(item.panel, this.css.statsPanelSelectedExpand);
-                domClass.remove(item.detailedPanel, this.css.animateSlider);
+            array.forEach(this._nodes, lang.hitch(this, function(obj) {
+                domClass.remove(obj.panel, this.css.statsPanelSelectedExpand);
+                domClass.remove(obj.detailedPanel, this.css.animateSlider);
             }));
             // set variables null
             this._displayedContainer = null;
@@ -648,6 +684,7 @@ function (
             this._removeExpandedClass();
         },
         _showExpanded: function(index) {
+            // remove any expanded classes
             this._removeExpandedClass();
             // add expanded class to widget
             domClass.add(this.domNode, this.css.statsOpen);
@@ -658,6 +695,7 @@ function (
             domClass.add(this._displayedContainer, this.css.animateSlider);
             // add expanded class
             domClass.add(this._nodes[index].panel, this.css.statsPanelSelectedExpand);
+            // set width of panels
             this._setPanelWidth();
         }
     });
