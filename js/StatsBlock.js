@@ -622,7 +622,9 @@ function (
                 // get width
                 var mb = domGeom.getMarginBox(this._geoPanelsNode);
                 var sliderWidth = mb.w;
+                // each panel
                 for(var i = 0; i < this._nodes.length; i++){
+                    // set panel width
                     domStyle.set(this._nodes[i].detailedPanel, 'width', sliderWidth + 'px');
                 }
             }
@@ -648,6 +650,7 @@ function (
                     var dataNode = this._nodes[i].detailedData;
                     if(dataNode){
                         var children = this._nodes[i].children;
+                        // if enough children for slider
                         if(children && children.length && children.length > this.displayPageCount){
                             // get width of first child
                             var w = (domStyle.get(children[0].detailedChild, 'width') + 1) * children.length;
