@@ -582,6 +582,7 @@ input[type=text]::-ms-clear { display: none; }
 	height:79%;
 	overflow:hidden;
     display:none;
+    position:relative;
 }
 
 .animateSlider .divOuterSliderContainer{

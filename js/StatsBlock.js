@@ -302,7 +302,7 @@ function (
             var item = config[index];
             var stats = this.get("stats");
             // expanded nodes
-            var detailedContainer, detailedLeft, detailedLeftArrow, detailedInnerContainer, detailedCarousel, detailedData, detailedPagination, detailedRight, detailedRightArrow, detailedPanel, detailedPanelHeader, detailedPanelHeaderTitle, detailedPanelHeaderSpanTitle, detailedPanelHeaderSpanNumber, detailedPanelHeaderClose, detailedPanelHeaderClear, detailedOuterContainer, detailedDataSource, detailedDataSourceAnchor, clearExpandedPanels;
+            var detailedContainer, detailedLeft, detailedLeftArrow, detailedInnerContainer, detailedCarousel, detailedData, detailedPagination, detailedRight, detailedRightArrow, detailedPanel, detailedPanelHeader, detailedPanelHeaderTitle, detailedPanelHeaderSpanTitle, detailedPanelHeaderSpanNumber, detailedPanelHeaderClose, detailedPanelHeaderClear, detailedOuterContainer, detailedDataSource, detailedDataSourceAnchor, clearExpandedPanels, clearDetailedContainer;
             // expanded panel container
             detailedPanel = domConstruct.create('div', {
                 className: this.css.statsPanelSelected + " " + this.blockThemes[index]
@@ -408,6 +408,11 @@ function (
                 className: this.css.dataSourceUrl
             });
             domConstruct.place(detailedDataSource, detailedOuterContainer, 'last');
+            // clear expanded
+            clearDetailedContainer = domConstruct.create('div', {
+                className: this.css.clear
+            });
+            domConstruct.place(clearDetailedContainer, detailedContainer, 'last');
             // data source link a tag
             detailedDataSourceAnchor = domConstruct.create('a', {
                 innerHTML: "source",
@@ -433,6 +438,7 @@ function (
                 detailedPanelHeaderClose: detailedPanelHeaderClose,
                 detailedPanelHeaderClear: detailedPanelHeaderClear,
                 detailedOuterContainer: detailedOuterContainer,
+                clearDetailedContainer: clearDetailedContainer,
                 detailedContainer: detailedContainer,
                 detailedInnerContainer: detailedInnerContainer,
                 detailedLeft: detailedLeft,
