@@ -472,10 +472,13 @@ function(
                 var liItem = domConstruct.create('li', {
                     className: this.css.rendererMenuItem
                 });
+                // symbol color
+                var symbolColor = infos[i].symbol.color;
+                var hex = symbolColor.toHex();
                 // create list container
                 domConstruct.create('div', {
                     className: this.css.rendererContainer,
-                    style: 'border-left-color:rgb(' +infos[i].symbol.color.r + ',' +infos[i].symbol.color.g + ',' +infos[i].symbol.color.b + '); border-left-color:rgba(' +infos[i].symbol.color.r + ',' +infos[i].symbol.color.g + ',' +infos[i].symbol.color.b + ',' +infos[i].symbol.color.a + ');',
+                    style: 'border-left-color:' + hex + '; border-left-color:rgb(' + symbolColor.r + ',' + symbolColor.g + ',' + symbolColor.b + '); border-left-color:rgba(' + symbolColor.r + ',' + symbolColor.g + ',' + symbolColor.b + ',' + symbolColor.a + ');',
                     innerHTML: infos[i].label
                 }, liItem);
                 // value
@@ -739,6 +742,7 @@ function(
         },
         // create geocoder widgets
         _createGeocoders: function() {
+            // desktop size geocoder
             this._geocoder = new Geocoder({
                 map: this.map,
                 theme: 'calite',
@@ -751,6 +755,7 @@ function(
                     console.log(this.config.i18n.general.noSearchResult);
                 }
             }));
+            // mobile sized geocoder
             this._mobileGeocoder = new Geocoder({
                 map: this.map,
                 theme: 'calite',
