@@ -100,19 +100,6 @@ function(
                 this._createWebMap();
             }));
         },
-        _setLanguageStrings: function() {
-            var node;
-            // legend menu button node
-            node = dom.byId('legend_name');
-            if (node) {
-                node.innerHTML = this.config.i18n.general.legend;
-            }
-            // impact menu button node
-            node = dom.byId('impact_name');
-            if (node) {
-                node.innerHTML = this.config.i18n.general.impact;
-            }
-        },
         _containers: function() {
             // outer container
             this._bc_outer = new BorderContainer({
@@ -147,6 +134,10 @@ function(
             // check window size
             this._windowResized();
         },
+        // resize border container layout
+        _fixLayout: function() {
+            this._bc_outer.layout();
+        },
         _windowResized: function(){
             // view screen
             var vs = win.getBox();
@@ -161,51 +152,6 @@ function(
             }
             // remove forced open
             this._checkDrawerStatus();
-        },
-        _showDrawerPanel: function(buttonNode) {
-            // menu items
-            var menus = query('.' + this.css.menuItemSelected, dom.byId('drawer_menu'));
-            // panel items
-            var panels = query('.' + this.css.menuPanelSelected, dom.byId('drawer_panels'));
-            var i;
-            // remove all selected menu items
-            for (i = 0; i < menus.length; i++) {
-                domClass.remove(menus[i], this.css.menuItemSelected);
-            }
-            // remove all selected panels
-            for (i = 0; i < panels.length; i++) {
-                domClass.remove(panels[i], this.css.menuPanelSelected);
-            }
-            // get menu to show
-            var menu = domAttr.get(buttonNode, 'data-menu');
-            // set menu button selected
-            domClass.add(buttonNode, this.css.menuItemSelected);
-            // set menu selected
-            domClass.add(menu, this.css.menuPanelSelected);
-        },
-        _drawerMenu: function() {
-            // all menu items
-            var menus = query('.' + this.css.menuItem, dom.byId('drawer_menu'));
-            // menu item click
-            on(menus, 'click', lang.hitch(this, function(evt) {
-                // show drawer panel
-                this._showDrawerPanel(evt.currentTarget);
-            }));
-        },
-        _setTitle: function(title) {
-            // map title node
-            var node = dom.byId('title');
-            if (node) {
-                // set title
-                node.innerHTML = title;
-                // title attribute
-                domAttr.set(node, "title", title);
-            }
-            // window title
-            window.document.title = title;
-        },
-        _forceShowDrawer: function(){
-            domStyle.set(this._drawer, "display", "block");
         },
         _checkDrawerStatus: function(){
             // remove display and width styles that exist
@@ -286,6 +232,9 @@ function(
             }
             return def.promise;
         },
+        _forceShowDrawer: function(){
+            domStyle.set(this._drawer, "display", "block");
+        },
         _toggleHamburgerButton: function() {
             // hamburger node
             var hbNode = dom.byId('hamburger_button');
@@ -304,11 +253,100 @@ function(
                 }
             }
         },
-        _hideInfoWindow: function(){
-            if(this.map && this.map.infoWindow){
-                this.map.infoWindow.hide();
+        
+        
+        
+        
+        
+        _showDrawerPanel: function(buttonNode) {
+            // menu items
+            var menus = query('.' + this.css.menuItemSelected, dom.byId('drawer_menu'));
+            // panel items
+            var panels = query('.' + this.css.menuPanelSelected, dom.byId('drawer_panels'));
+            var i;
+            // remove all selected menu items
+            for (i = 0; i < menus.length; i++) {
+                domClass.remove(menus[i], this.css.menuItemSelected);
+            }
+            // remove all selected panels
+            for (i = 0; i < panels.length; i++) {
+                domClass.remove(panels[i], this.css.menuPanelSelected);
+            }
+            // get menu to show
+            var menu = domAttr.get(buttonNode, 'data-menu');
+            // set menu button selected
+            domClass.add(buttonNode, this.css.menuItemSelected);
+            // set menu selected
+            domClass.add(menu, this.css.menuPanelSelected);
+        },
+        _setLanguageStrings: function() {
+            var node;
+            // legend menu button node
+            node = dom.byId('legend_name');
+            if (node) {
+                node.innerHTML = this.config.i18n.general.legend;
+            }
+            // impact menu button node
+            node = dom.byId('impact_name');
+            if (node) {
+                node.innerHTML = this.config.i18n.general.impact;
             }
         },
+        _drawerMenu: function() {
+            // all menu items
+            var menus = query('.' + this.css.menuItem, dom.byId('drawer_menu'));
+            // menu item click
+            on(menus, 'click', lang.hitch(this, function(evt) {
+                // show drawer panel
+                this._showDrawerPanel(evt.currentTarget);
+            }));
+        },
+        // display menu panel for drawer
+        _displayMenu: function() {
+            // hide loader
+            this._hideLoadingIndicator();
+            // get  menu
+            var defaultMenu = query('.' + this.css.menuItem, dom.byId('drawer_menu'));
+            // menus array
+            if (defaultMenu) {
+                // only one menu
+                if(defaultMenu.length === 1){
+                    domClass.add(defaultMenu[0], this.css.menuItemOnly);
+                }
+                // panel config set
+                if (this.config.defaultPanel){
+                    // panel found
+                    var found = false;
+                    // each menu item
+                    for(var i = 0; i < defaultMenu.length; i++){
+                        // get panel attribute
+                        var panelId = domAttr.get(defaultMenu[i], 'data-menu');
+                        // menu matches
+                        if(panelId === this.config.defaultPanel){
+                            this._showDrawerPanel(defaultMenu[i]);
+                            // panel found
+                            found = true;
+                            break;
+                        }
+                    }
+                    // panel not found
+                    if(!found){
+                        // show first panel
+                        this._showDrawerPanel(defaultMenu[0]);
+                    }
+                }
+                else{
+                    // panel config not set. show first
+                    this._showDrawerPanel(defaultMenu[0]);
+                }
+            }
+        },
+        
+        
+        
+        
+        
+        
         _selectFeatures: function(features){
             if (features && features.length) {
                 // add features to graphics layer
@@ -346,14 +384,8 @@ function(
                 }
             }
         },
-        _checkMobileGeocoderVisibility: function() {
-            // check if mobile icon needs to be selected
-            if (domClass.contains(dom.byId("mobileGeocoderIcon"), this.css.toggleBlueOn)) {
-                domClass.add(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
-            }
-        },
         // get layer of impact
-        getImpactLayer: function(obj) {
+        _getImpactLayer: function(obj) {
             var mapLayer, layer, i;
             // if we have a layer id
             if(obj.id){
@@ -528,6 +560,17 @@ function(
                 this._hideImpactArea();
             }
         },
+        // clear selected renderer & loading status
+        _clearSelected: function() {
+            // if items are there
+            if (this._rendererNodes && this._rendererNodes.length) {
+                // remove classes from each item
+                for (var i = 0; i < this._rendererNodes.length; i++) {
+                    domClass.remove(this._rendererNodes[i].node, this.css.rendererSelected);
+                    domClass.remove(this._rendererNodes[i].node, this.css.rendererLoading);
+                }
+            }
+        },
         _hideImpactArea: function() {
             // remove area panel node
             domConstruct.destroy(dom.byId("area_content"));
@@ -543,15 +586,11 @@ function(
                 event.stop(evt);
             }
         },
-        _showMobileGeocoder: function() {
-            domClass.add(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
-            domClass.replace(dom.byId("mobileGeocoderIconContainer"), this.css.toggleBlueOn, this.css.toggleBlue);
-        },
-        _hideMobileGeocoder: function() {
-            domClass.remove(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
-            domStyle.set(dom.byId("mobileSearch"), "display", "none");
-            domClass.replace(dom.byId("mobileGeocoderIconContainer"), this.css.toggleBlue, this.css.toggleBlueOn);
-        },
+        
+        
+        
+        
+        
         _init: function() {
             // locate button
             var LB = new LocateButton({
@@ -633,7 +672,7 @@ function(
             }, this.dataNode);
             this._sb.startup();
             // get layer by id
-            this._impactLayer = this.getImpactLayer({
+            this._impactLayer = this._getImpactLayer({
                 map: this.map,
                 layers: this.layers,
                 title: this.config.impact_layer_title,
@@ -700,45 +739,32 @@ function(
             // display menu panel for drawer
             this._displayMenu();
         },
-        // display menu panel for drawer
-        _displayMenu: function() {
-            // hide loader
-            this._hideLoadingIndicator();
-            // get  menu
-            var defaultMenu = query('.' + this.css.menuItem, dom.byId('drawer_menu'));
-            // menus array
-            if (defaultMenu) {
-                // only one menu
-                if(defaultMenu.length === 1){
-                    domClass.add(defaultMenu[0], this.css.menuItemOnly);
-                }
-                // panel config set
-                if (this.config.defaultPanel){
-                    // panel found
-                    var found = false;
-                    // each menu item
-                    for(var i = 0; i < defaultMenu.length; i++){
-                        // get panel attribute
-                        var panelId = domAttr.get(defaultMenu[i], 'data-menu');
-                        // menu matches
-                        if(panelId === this.config.defaultPanel){
-                            this._showDrawerPanel(defaultMenu[i]);
-                            // panel found
-                            found = true;
-                            break;
-                        }
-                    }
-                    // panel not found
-                    if(!found){
-                        // show first panel
-                        this._showDrawerPanel(defaultMenu[0]);
-                    }
-                }
-                else{
-                    // panel config not set. show first
-                    this._showDrawerPanel(defaultMenu[0]);
-                }
+        _checkMobileGeocoderVisibility: function() {
+            // check if mobile icon needs to be selected
+            if (domClass.contains(dom.byId("mobileGeocoderIcon"), this.css.toggleBlueOn)) {
+                domClass.add(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
             }
+        },
+        _showMobileGeocoder: function() {
+            domClass.add(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
+            domClass.replace(dom.byId("mobileGeocoderIconContainer"), this.css.toggleBlueOn, this.css.toggleBlue);
+        },
+        _hideMobileGeocoder: function() {
+            domClass.remove(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
+            domStyle.set(dom.byId("mobileSearch"), "display", "none");
+            domClass.replace(dom.byId("mobileGeocoderIconContainer"), this.css.toggleBlue, this.css.toggleBlueOn);
+        },
+        _setTitle: function(title) {
+            // map title node
+            var node = dom.byId('title');
+            if (node) {
+                // set title
+                node.innerHTML = title;
+                // title attribute
+                domAttr.set(node, "title", title);
+            }
+            // window title
+            window.document.title = title;
         },
         // create geocoder widgets
         _createGeocoders: function() {
@@ -778,17 +804,6 @@ function(
                 this._geocoder.set("value", value);
             }));
         },
-        // clear selected renderer & loading status
-        _clearSelected: function() {
-            // if items are there
-            if (this._rendererNodes && this._rendererNodes.length) {
-                // remove classes from each item
-                for (var i = 0; i < this._rendererNodes.length; i++) {
-                    domClass.remove(this._rendererNodes[i].node, this.css.rendererSelected);
-                    domClass.remove(this._rendererNodes[i].node, this.css.rendererLoading);
-                }
-            }
-        },
         // hide map loading spinner
         _hideLoadingIndicator: function() {
             var indicator = dom.byId("loadingIndicatorDiv");
@@ -796,9 +811,10 @@ function(
                 domStyle.set(indicator, "display", "none");
             }            
         },
-        // resize border container layout
-        _fixLayout: function() {
-            this._bc_outer.layout();
+        _hideInfoWindow: function(){
+            if(this.map && this.map.infoWindow){
+                this.map.infoWindow.hide();
+            }
         },
         //create a map based on the input web map id
         _createWebMap: function() {
