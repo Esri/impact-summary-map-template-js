@@ -326,14 +326,21 @@ function(
                         this._selectedGraphics.add(g);
                     }
                 }
+                // single fature
                 if (features.length === 1) {
-                    // single feature
+                    // has attribute field for renderer
                     if (this._attributeField && features[0].attributes.hasOwnProperty(this._attributeField)) {
                         var value = features[0].attributes[this._attributeField];
-                        var item = query('[data-value=' + value + ']', dom.byId('renderer_menu'));
-                        // select renderer menu item
-                        if (item && item.length) {
-                            domClass.add(item[0], this.css.rendererSelected);
+                        if(this._rendererNodes && this._rendererNodes.length){
+                            // each renderer nodes
+                            for (i = 0; i < this._rendererNodes.length; i++){
+                                // value matches
+                                if(this._rendererNodes[i].value === value){
+                                    // set selected
+                                    domClass.add(this._rendererNodes[i].node, this.css.rendererSelected);
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
@@ -457,6 +464,8 @@ function(
             this._createRendererItemClick(selectAll, "summarize");
             // place item
             domConstruct.place(selectAll, ulList, 'last');
+            // renderer node items created
+            this._rendererNodes = [];
             // each renderer item
             for(var i = 0; i < infos.length; i++){
                 // create list item
@@ -475,6 +484,11 @@ function(
                 this._createRendererItemClick(liItem, value);
                 // place item
                 domConstruct.place(liItem, ulList, 'last');
+                // save node for reference
+                this._rendererNodes.push({
+                    value: value,
+                    node: liItem
+                });
             }
             // renderer dom node
             var rendererMenu = dom.byId('renderer_menu');
@@ -761,14 +775,12 @@ function(
         },
         // clear selected renderer & loading status
         _clearSelected: function() {
-            // get all renderer items
-            var items = query('.' + this.css.rendererMenuItem, dom.byId('renderer_menu'));
             // if items are there
-            if (items && items.length) {
+            if (this._rendererNodes && this._rendererNodes.length) {
                 // remove classes from each item
-                for (var i = 0; i < items.length; i++) {
-                    domClass.remove(items[i], this.css.rendererSelected);
-                    domClass.remove(items[i], this.css.rendererLoading);
+                for (var i = 0; i < this._rendererNodes.length; i++) {
+                    domClass.remove(this._rendererNodes[i].node, this.css.rendererSelected);
+                    domClass.remove(this._rendererNodes[i].node, this.css.rendererLoading);
                 }
             }
         },
