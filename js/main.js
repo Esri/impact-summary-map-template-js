@@ -608,8 +608,7 @@ function(
             var BT = new BasemapToggle({
                 map: this.map,
                 basemap: "hybrid",
-                defaultBasemap: "topo",
-                theme: "BasemapToggleCalcite"
+                defaultBasemap: "topo"
             }, 'BasemapToggle');
             BT.startup();
             // about dialog

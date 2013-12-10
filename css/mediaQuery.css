@@ -663,3 +663,304 @@
 		width:70%!important;
 	}
 }
+
+@media screen and (max-width:850px) {
+	.drawerOpen .geoData .panel .title {
+		margin:0;
+		padding:3px 15px!important;
+		font-size:14px;
+	}
+	
+	.drawerOpen .geoData .panel .count {
+		padding:12px 8px!important;
+		font-size:25px!important;
+	}
+	
+	.drawerOpen .divSliderContent {
+		width:378px!important;
+	}
+	
+	.drawerOpen .divGeoDataHolder .data-block {
+		width:126px;
+	}
+	
+	.drawerOpen .divGeoDataHolder .title,.drawerOpen .divGeoDataHolder .count {
+		width:80px!important;
+		margin-left:35px;
+	}
+	
+	.drawerOpen .divGeoDataHolder .count {
+		font-size:24px!important;
+	}
+    
+    .drawerOpen  .calcite .dialogContent{
+        width:auto;
+        height:auto;
+    }
+    
+    #title{
+        max-width:30%;
+    }
+}
+
+@media screen and (max-width:800px) {
+	.drawerOpen .geoData .panel .title {
+		margin:0;
+		padding:3px 15px!important;
+		font-size:14px;
+	}
+	
+	.drawerOpen .geoData .panel .count {
+		padding:12px 8px!important;
+		font-size:25px!important;
+	}
+	
+	.drawerOpen .divSliderContent {
+		width:378px!important;
+	}
+	
+	.drawerOpen .divGeoDataHolder .data-block {
+		width:126px;
+	}
+	
+	.drawerOpen .divGeoDataHolder .title,.drawerOpen .divGeoDataHolder .count {
+		width:80px!important;
+		margin-left:35px;
+	}
+	
+	.drawerOpen .divGeoDataHolder .count {
+		font-size:24px!important;
+	}
+	
+	.drawerOpen #title {
+		display:none;
+	}
+}
+
+@media screen and (max-width:780px) {
+	.drawerOpen .geoData .panel .count {
+		padding:12px 5px!important;
+		font-size:20px!important;
+	}
+	
+	.drawerOpen .divGeoDataHolder .count {
+		font-size:22px!important;
+	}
+	
+	.drawerOpen .divGeoDataHolder .title {
+		font-size:12px!important;
+	}
+	
+	.drawerOpen .geoData .panel .title {
+		padding:3px 10px!important;
+		font-size:14px!important;
+	}
+	
+	.drawerOpen .divSliderContent {
+		width:342px!important;
+	}
+	
+	.drawerOpen .divGeoDataHolder .data-block {
+		width:114px!important;
+	}
+	
+	.drawerOpen .divGeoDataHolder .title,.drawerOpen .divGeoDataHolder .count {
+		width:80px!important;
+		margin-left:30px!important;
+	}
+}
+
+@media screen and (max-width:730px) {
+	.drawerOpen .geoData .panel .count {
+		padding:15px 3px!important;
+		font-size:15px!important;
+	}
+	
+	.drawerOpen .geoData .panel .title {
+		padding:3px 10px!important;
+		font-size:12px!important;
+	}
+	
+	.drawerOpen .divSliderContent {
+		width:291px!important;
+	}
+	
+	.drawerOpen .divGeoDataHolder .data-block {
+		width:97px!important;
+	}
+	
+	.drawerOpen .divGeoDataHolder .title,.drawerOpen .divGeoDataHolder .count {
+		margin-left:10px!important;
+		width:70px!important;
+	}
+	
+	.drawerOpen .divGeoDataHolder .title {
+		font-size:12px!important;
+		height:40px!important;
+	}
+	
+	.drawerOpen .divGeoDataHolder .count {
+		font-size:20px!important;
+	}
+}
+
+@media screen and (max-width:680px) {
+	.drawerOpen .geoData .panel .title {
+		padding:4px 8px!important;
+		font-size:10px!important;
+	}
+	
+	.drawerOpen .divSliderContent {
+		width:240px!important;
+	}
+	
+	.drawerOpen .divGeoDataHolder .data-block {
+		width:80px!important;
+	}
+	
+	.drawerOpen .divGeoDataHolder .title {
+		width:60px!important;
+		font-size:11px!important;
+	}
+	
+	.drawerOpen .divGeoDataHolder .count {
+		font-size:18px!important;
+	}
+	
+	.drawerOpen .leftArrow,.drawerOpen .rightArrow {
+		font-size:35px!important;
+	}
+	
+	.drawerOpen .divLeft,.drawerOpen .divRight {
+		width:35px!important;
+	}
+}
+
+@media screen and (max-width:650px) {
+	.drawerOpen .geoData .panel .title {
+		padding:4px 7px!important;
+		font-size:10px!important;
+	}
+	
+	.drawerOpen .divSliderContent {
+		width:228px!important;
+	}
+	
+	.drawerOpen .divGeoDataHolder .data-block {
+		width:76px!important;
+	}
+}
+
+@media screen and (max-width:600px) {
+	.drawerOpen .geoData .panel .title {
+		padding:3px 7px!important;
+		font-size:10px!important;
+	}
+	
+	.drawerOpen .divSliderContent {
+		width:228px!important;
+	}
+	
+	.drawerOpen .divGeoDataHolder .data-block {
+		width:76px!important;
+	}
+	
+	.drawerOpen .divGeoDataHolder .count {
+		font-size:15px!important;
+	}
+	
+	.drawerOpen .divGeoDataHolder .title,.drawerOpen .divGeoDataHolder .count {
+		margin-left:10px!important;
+		width:60px!important;
+	}
+	
+	.drawerOpen .divGeoDataHolder .title {
+		font-size:11px!important;
+	}
+	
+	.drawerOpen .esriSimpleSlider,.drawerOpen #mapButtons,.drawerOpen #BasemapToggle,.drawerOpen #title,.drawerOpen .esriAttribution,.drawerOpen .locateBox {
+		display:none!important;
+	}
+	
+	.drawerOpen .mobileLocateBoxDisplay {
+		display:block!important;
+	}
+	
+	.drawerOpen #mobileGeocoderIcon,.drawerOpen #geocoderMobile {
+		display:block!important;
+	}
+	
+	.drawerOpen .geocoderSearch {
+		display:none!important;
+	}
+	
+	.drawerOpen #geocoderMobile .esriGeocoderContainer {
+		width:190px!important;
+	}
+	
+	.drawerOpen #geocoderMobile .esriGeocoder input {
+		width:70%!important;
+	}
+}
+
+@media screen and (max-width:595px) {
+	.drawerOpen .geoData {
+		display:none!important;
+	}
+}
+
+@media screen and (max-width:580px) {
+	.drawerOpen .geoData,.drawerOpen .topMenuRight,.drawerOpen #mobileSearch {
+		display:none!important;
+	}
+}
+
+@media screen and (min-device-width:481px) and (max-device-width: 640px) and (orientation: landscape) {
+	.drawerOpen .mobileLocateBoxDisplay {
+		display:block!important;
+	}
+	
+	.drawerOpen .divLeft,.drawerOpen .divRight {
+		width:34px!important;
+	}
+	
+	.drawerOpen #mapButtons {
+		top:55px!important;
+		display:block!important;
+	}
+	
+	.drawerOpen .esriSimpleSlider,.drawerOpen #BasemapToggle,.drawerOpen #title,.drawerOpen .geocoderSearch,.drawerOpen .locateBox {
+		display:none!important;
+	}
+	
+	.drawerOpen #mobileGeocoderIcon,#geocoderMobile {
+		display:block!important;
+	}
+	
+	.drawerOpen #geocoderMobile .esriGeocoderContainer {
+		width:auto!important;
+	}
+	
+	.drawerOpen #geocoderMobile .esriGeocoder input {
+		width:75%!important;
+	}
+	
+	.drawerOpen #geocoderMobile {
+		width:65%!important;
+	}
+
+	
+	
+	.drawerOpen .esriAttribution {
+		display:none!important;
+	}
+	
+	.drawerOpen .divPagination {
+		visibility:hidden;
+	}
+	
+	
+	.drawerOpen #geocoderMobile .esriGeocoderResults,.drawerOpen #geocoderMobile .esriGeocoder input, .drawerOpen #geocoderMobile .esriGeocoderContainer ul li {
+		font-size:15px!important;
+	}
+}
