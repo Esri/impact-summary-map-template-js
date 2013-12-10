@@ -366,8 +366,7 @@ input[type=text]::-ms-clear { display: none; }
 	z-index: 2;
 	font-size: 11px;
 	line-height: 11px;
-	width: 96%;
-	padding:0 2%;
+	padding:0 10px 0 0;
 	text-align: right;
 }
 
