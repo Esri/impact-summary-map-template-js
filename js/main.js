@@ -474,6 +474,9 @@ function(
             }));
         },
         _createRendererItems: function(infos){
+            // renderer node items created
+            this._rendererNodes = [];
+            var selectAllValue = "summarize";
             // create list 
             var ulList = domConstruct.create('ul', {
                 className: this.css.rendererMenu
@@ -488,11 +491,14 @@ function(
                 innerHTML: this.config.i18n.general.summarize
             }, selectAll);
             // select all click event
-            this._createRendererItemClick(selectAll, "summarize");
+            this._createRendererItemClick(selectAll, selectAllValue);
             // place item
             domConstruct.place(selectAll, ulList, 'last');
-            // renderer node items created
-            this._rendererNodes = [];
+            // save reference to select all node
+            this._rendererNodes.push({
+                value: selectAllValue,
+                node: selectAll
+            });
             // each renderer item
             for(var i = 0; i < infos.length; i++){
                 // create list item
