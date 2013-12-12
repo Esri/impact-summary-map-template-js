@@ -1,5 +1,4 @@
 define([
-    "dojo/ready",
     "dojo/_base/declare",
     "dojo/_base/lang",
     "esri/arcgis/utils",
@@ -35,7 +34,6 @@ define([
     "dojo/window"
 ],
 function(
-    ready,
     declare,
     lang,
     arcgisUtils,
@@ -92,13 +90,10 @@ function(
             // and application id
             // any url parameters and any application specific configuration information.
             this.config = config;
-            // dom ready
-            ready(lang.hitch(this, function() {
-                // set panel names
-                this._setLanguageStrings();
-                // lets get that webmap
-                this._createWebMap();
-            }));
+            // set panel names
+            this._setLanguageStrings();
+            // lets get that webmap
+            this._createWebMap();
         },
         _containers: function() {
             // outer container
