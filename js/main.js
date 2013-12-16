@@ -100,6 +100,9 @@ function(
             
             // set drawer menu
             this._drawerMenu(); // todo
+            
+            
+            
             //config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
             // any url parameters and any application specific configuration information.
@@ -202,6 +205,7 @@ function(
                 }
             }
         },
+        
         
         
         
@@ -322,7 +326,7 @@ function(
                     var vs = win.getBox();
                     // hide drawer for small res
                     if (vs.w < this._mobileSizeStart) {
-                        this._toggleDrawer().then(lang.hitch(this, function(){
+                        this._drawer.toggle().then(lang.hitch(this, function(){
                             // resize map
                             this.map.resize();
                             // wait for map to be resized
