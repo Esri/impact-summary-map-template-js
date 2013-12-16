@@ -17,10 +17,6 @@ define([
     "dojo/_base/event",
     "esri/graphic",
     "esri/layers/GraphicsLayer",
-    "dijit/layout/BorderContainer",
-    "dijit/layout/ContentPane",
-    "dojo/_base/fx",
-    "dojo/fx/easing",
     "modules/LayerLegend",
     "modules/AboutDialog",
     "modules/ShareDialog",
@@ -31,7 +27,6 @@ define([
     "esri/dijit/Geocoder",
     "modules/StatsBlock",
     "esri/dijit/Popup",
-    "dojo/Deferred",
     "dojo/window"
 ],
 function(
@@ -51,15 +46,11 @@ function(
     Color,
     event,
     Graphic, GraphicsLayer,
-    BorderContainer, ContentPane,
-    fx,
-    easing,
     LayerLegend, AboutDialog, ShareDialog, Drawer,
     HomeButton, LocateButton, BasemapToggle,
     Geocoder,
     StatsBlock,
     Popup,
-    Deferred,
     win
 ) {
     return declare("", null, {
