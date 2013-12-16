@@ -24,6 +24,7 @@ define([
     "modules/LayerLegend",
     "modules/AboutDialog",
     "modules/ShareDialog",
+    "modules/Drawer",
     "esri/dijit/HomeButton",
     "esri/dijit/LocateButton",
     "esri/dijit/BasemapToggle",
@@ -53,7 +54,7 @@ function(
     BorderContainer, ContentPane,
     fx,
     easing,
-    LayerLegend, AboutDialog, ShareDialog,
+    LayerLegend, AboutDialog, ShareDialog, Drawer,
     HomeButton, LocateButton, BasemapToggle,
     Geocoder,
     StatsBlock,
@@ -80,12 +81,34 @@ function(
                 rendererLoading: 'loadingFeatures',
                 rendererContainer: 'item-container',
                 rendererSummarize: 'summarize',
-                drawerOpen: "drawerOpen",
                 mobileSearchDisplay: "mobileLocateBoxDisplay"
             };
+            // mobile size switch domClass
             this._mobileSizeStart = 850;
-            // set up border containers
-            this._containers();
+            // drawer
+            this._drawer = new Drawer({
+                size: this._mobileSizeStart,
+                container: dom.byId('bc_outer'),
+                contentCenter: dom.byId('cp_outer_center'),
+                contentLeft: dom.byId('cp_outer_left'),
+                toggleButton: dom.byId('hamburger_button')
+            });
+            // drawer resize event
+            on(this._drawer, 'resize', lang.hitch(this, function(){
+                // check mobile button status
+                this._checkMobileGeocoderVisibility();
+                // resize stats block
+                if(this._sb){
+                    this._sb.resize();
+                }
+            }));
+            // startup drawer
+            this._drawer.startup();
+            
+            
+            
+            // set drawer menu
+            this._drawerMenu(); // todo
             //config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
             // any url parameters and any application specific configuration information.
@@ -95,159 +118,11 @@ function(
             // lets get that webmap
             this._createWebMap();
         },
-        _containers: function() {
-            // outer container
-            this._bc_outer = new BorderContainer({
-                gutters: false
-            }, dom.byId('bc_outer'));
-            // center panel
-            var cp_outer_center = new ContentPane({
-                region: "center"
-            }, dom.byId('cp_outer_center'));
-            this._bc_outer.addChild(cp_outer_center);
-            // left panel
-            var cp_outer_left = new ContentPane({
-                region: "left"
-            }, dom.byId('cp_outer_left'));
-            this._bc_outer.addChild(cp_outer_left);
-            // start border container
-            this._bc_outer.startup();
-            // drawer button
-            on(dom.byId('hamburger_button'), 'click', lang.hitch(this, function() {
-                this._toggleDrawer();
-            }));
-            // drawer node
-            this._drawer = cp_outer_left.domNode;
-            // drawer width
-            this._drawerWidth = domStyle.get(this._drawer, 'width');
-            // set drawer menu
-            this._drawerMenu();
-            // window size event
-            on(window, 'resize', lang.hitch(this, function(){
-                this._windowResized();
-            }));
-            // check window size
-            this._windowResized();
-        },
-        // resize border container layout
-        _fixLayout: function() {
-            this._bc_outer.layout();
-        },
-        _windowResized: function(){
-            // view screen
-            var vs = win.getBox();
-            // if window width is less than specified size
-            if (vs.w < this._mobileSizeStart) {
-                // hide drawer
-                domClass.remove(document.body, this.css.drawerOpen);
-            }
-            else{
-                // show drawer
-                domClass.add(document.body, this.css.drawerOpen);
-            }
-            // remove forced open
-            this._checkDrawerStatus();
-        },
-        _checkDrawerStatus: function(){
-            // remove display and width styles that exist
-            domStyle.set(this._drawer, "display", "");
-            domStyle.set(this._drawer, "width", "");
-            // border container layout
-            this._fixLayout();
-            // check mobile button status
-            this._checkMobileGeocoderVisibility();
-            // hamburger button status
-            this._toggleHamburgerButton();
-        },
-        _toggleDrawer: function() {
-            // deferred to return
-            var def = new Deferred();
-            // if drawer is shown
-            if (domClass.contains(document.body, this.css.drawerOpen)) {
-                // force open drawer
-                this._forceShowDrawer();
-                // remove drawer opened class
-                domClass.remove(document.body, this.css.drawerOpen);
-                // collapse width
-                fx.animateProperty({
-                    node: this._drawer,
-                    properties: {
-                        width: {
-                            start: this._drawerWidth,
-                            end: 0
-                        }
-                    },
-                    duration: 250,
-                    easing: easing.expoOut,
-                    onAnimate: lang.hitch(this, function() {
-                        // render border container
-                        this._fixLayout();
-                    }),
-                    onEnd: lang.hitch(this, function() {
-                        // remove shown drawer
-                        this._checkDrawerStatus();
-                        if(this._sb){
-                            this._sb.resize();
-                        }
-                        // return
-                        def.resolve();
-                    })
-                }).play();
-            } else {
-                domStyle.set(this._drawer, "width", "0px");
-                // add drawer
-                this._forceShowDrawer();
-                // expand width
-                fx.animateProperty({
-                    node: this._drawer,
-                    properties: {
-                        width: {
-                            start: 0,
-                            end: this._drawerWidth
-                        }
-                    },
-                    duration: 250,
-                    easing: easing.expoOut,
-                    onAnimate: lang.hitch(this, function() {
-                        // render border container
-                        this._fixLayout();
-                    }),
-                    onEnd: lang.hitch(this, function() {
-                        // drawer now open
-                        domClass.add(document.body, this.css.drawerOpen);
-                        // remove shown drawer
-                        this._checkDrawerStatus();
-                        if(this._sb){
-                            this._sb.resize();
-                        }
-                        // return
-                        def.resolve();
-                    })
-                }).play();
-            }
-            return def.promise;
-        },
-        _forceShowDrawer: function(){
-            domStyle.set(this._drawer, "display", "block");
-        },
-        _toggleHamburgerButton: function() {
-            // hamburger node
-            var hbNode = dom.byId('hamburger_button');
-            // if drawer is displayed
-            if (domClass.contains(document.body, this.css.drawerOpen)) {
-                // has normal class
-                if (domClass.contains(hbNode, this.css.toggleBlue)) {
-                    // replace with selected class
-                    domClass.replace(hbNode, this.css.toggleBlueOn, this.css.toggleBlue);
-                }
-            } else {
-                // has selected class
-                if (domClass.contains(hbNode, this.css.toggleBlueOn)) {
-                    // replace with normal class
-                    domClass.replace(hbNode, this.css.toggleBlue, this.css.toggleBlueOn);
-                }
-            }
-        },
+        
+        
+        
+        
+        
         
         
         
@@ -818,8 +693,6 @@ function(
         },
         //create a map based on the input web map id
         _createWebMap: function() {
-            // border container sizing
-            this._fixLayout();
             // popup dijit
             var customPopup = new Popup({}, domConstruct.create("div"));
             // add popup theme
