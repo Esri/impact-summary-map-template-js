@@ -373,94 +373,12 @@ function(
                 event.stop(evt);
             }
         },
-        
-        
-        
-        
-        
-        
-        
-        
-        _init: function() {
-            // drawer size check
-            this._drawer.resize();
-            // locate button
-            var LB = new LocateButton({
-                map: this.map,
-                theme: "LocateButtonCalcite"
-            }, 'LocateButton');
-            LB.startup();
-            // home button
-            var HB = new HomeButton({
-                map: this.map,
-                theme: "HomeButtonCalcite"
-            }, 'HomeButton');
-            HB.startup();
-            // basemap toggle
-            var BT = new BasemapToggle({
-                map: this.map,
-                basemap: "hybrid",
-                defaultBasemap: "topo"
-            }, 'BasemapToggle');
-            BT.startup();
-            // about dialog
-            this._AboutDialog = new AboutDialog({
-                theme: "icon-right",
-                item: this.item,
-                sharinghost: this.config.sharinghost
-            }, 'AboutDialog');
-            this._AboutDialog.startup();
-            // share dialog
-            this._ShareDialog = new ShareDialog({
-                theme: "icon-right",
-                bitlyLogin: this.config.bitlyLogin,
-                bitlyKey: this.config.bitlyKey,
-                map: this.map
-            }, 'ShareDialog');
-            this._ShareDialog.startup();
-            // toc
-            var LL = new LayerLegend({
-                map: this.map,
-                layers: this.layers
-            }, "LayerLegend");
-            LL.startup();
-            // geocoders
-            this._createGeocoders();
-            // mobile geocoder toggle            
-            var mobileIcon = dom.byId("mobileGeocoderIcon");
-            if (mobileIcon) {
-                on(mobileIcon, "click", lang.hitch(this, function() {
-                    if (domStyle.get(dom.byId("mobileSearch"), "display") === "none") {
-                        this._showMobileGeocoder();
-                    } else {
-                        this._hideMobileGeocoder();
-                    }
-                }));
+        _hideInfoWindow: function(){
+            if(this.map && this.map.infoWindow){
+                this.map.infoWindow.hide();
             }
-            // cancel mobile geocoder
-            on(dom.byId("btnCloseGeocoder"), "click", lang.hitch(this, function() {
-                this._hideMobileGeocoder();
-            }));
-            // todo
-            /* Start temporary until after JSAPI 3.9 is released */
-            var layers = this.map.getLayersVisibleAtScale(this.map.getScale());
-            on.once(this.map, 'basemap-change', lang.hitch(this, function() {
-                for (var i = 0; i < layers.length; i++) {
-                    if (layers[i]._basemapGalleryLayerType) {
-                        var layer = this.map.getLayer(layers[i].id);
-                        this.map.removeLayer(layer);
-                    }
-                }
-            }));
-            // todo
-            /* END temporary until after JSAPI 3.9 is released */
-            // geo data node
-            this.dataNode = dom.byId('geoData');
-            // stats block
-            this._sb = new StatsBlock({
-                config: this.config.impact_attributes
-            }, this.dataNode);
-            this._sb.startup();
+        },
+        _initImpact: function(){
             // get layer by id
             this._impactLayer = this._getImpactLayer({
                 map: this.map,
@@ -526,6 +444,85 @@ function(
                 }));
             }
             this._sb.show();
+        },
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        _init: function() {
+            // drawer size check
+            this._drawer.resize();
+            // locate button
+            var LB = new LocateButton({
+                map: this.map,
+                theme: "LocateButtonCalcite"
+            }, 'LocateButton');
+            LB.startup();
+            // home button
+            var HB = new HomeButton({
+                map: this.map,
+                theme: "HomeButtonCalcite"
+            }, 'HomeButton');
+            HB.startup();
+            // basemap toggle
+            var BT = new BasemapToggle({
+                map: this.map,
+                basemap: "hybrid",
+                defaultBasemap: "topo"
+            }, 'BasemapToggle');
+            BT.startup();
+            // about dialog
+            this._AboutDialog = new AboutDialog({
+                theme: "icon-right",
+                item: this.item,
+                sharinghost: this.config.sharinghost
+            }, 'AboutDialog');
+            this._AboutDialog.startup();
+            // share dialog
+            this._ShareDialog = new ShareDialog({
+                theme: "icon-right",
+                bitlyLogin: this.config.bitlyLogin,
+                bitlyKey: this.config.bitlyKey,
+                map: this.map
+            }, 'ShareDialog');
+            this._ShareDialog.startup();
+            // toc
+            var LL = new LayerLegend({
+                map: this.map,
+                layers: this.layers
+            }, "LayerLegend");
+            LL.startup();
+            // geocoders
+            this._createGeocoders();
+            
+            // todo
+            /* Start temporary until after JSAPI 3.9 is released */
+            var layers = this.map.getLayersVisibleAtScale(this.map.getScale());
+            on.once(this.map, 'basemap-change', lang.hitch(this, function() {
+                for (var i = 0; i < layers.length; i++) {
+                    if (layers[i]._basemapGalleryLayerType) {
+                        var layer = this.map.getLayer(layers[i].id);
+                        this.map.removeLayer(layer);
+                    }
+                }
+            }));
+            // todo
+            /* END temporary until after JSAPI 3.9 is released */
+            // stats block
+            this._sb = new StatsBlock({
+                config: this.config.impact_attributes
+            }, dom.byId('geoData'));
+            this._sb.startup();
+            // init impact layer
+            this._initImpact();
+            // hide loading div
             this._hideLoadingIndicator();
         },
         _checkMobileGeocoderVisibility: function() {
@@ -592,6 +589,21 @@ function(
             this._mobileGeocoder.watch("value", lang.hitch(this, function(name, oldValue, value){
                 this._geocoder.set("value", value);
             }));
+            // mobile geocoder toggle            
+            var mobileIcon = dom.byId("mobileGeocoderIcon");
+            if (mobileIcon) {
+                on(mobileIcon, "click", lang.hitch(this, function() {
+                    if (domStyle.get(dom.byId("mobileSearch"), "display") === "none") {
+                        this._showMobileGeocoder();
+                    } else {
+                        this._hideMobileGeocoder();
+                    }
+                }));
+            }
+            // cancel mobile geocoder
+            on(dom.byId("btnCloseGeocoder"), "click", lang.hitch(this, function() {
+                this._hideMobileGeocoder();
+            }));
         },
         // hide map loading spinner
         _hideLoadingIndicator: function() {
@@ -599,11 +611,6 @@ function(
             if (indicator) {
                 domStyle.set(indicator, "display", "none");
             }            
-        },
-        _hideInfoWindow: function(){
-            if(this.map && this.map.infoWindow){
-                this.map.infoWindow.hide();
-            }
         },
         //create a map based on the input web map id
         _createWebMap: function() {
