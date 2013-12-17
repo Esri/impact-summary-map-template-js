@@ -10,8 +10,6 @@ define([
     "dojo/dom-style",
     "dijit/layout/BorderContainer",
     "dijit/layout/ContentPane",
-    "dojo/_base/fx",
-    "dojo/fx/easing",
     "dojo/Deferred",
     "dojo/window"
 ],
@@ -24,7 +22,6 @@ function (
     on,
     domClass, domStyle,
     BorderContainer, ContentPane,
-    fx, easing,
     Deferred,
     win
 ) {
@@ -51,7 +48,8 @@ function (
             this.css = {
                 toggleBlue: 'toggle-grey',
                 toggleBlueOn: 'toggle-grey-on',
-                drawerOpen: "drawerOpen"
+                drawerOpen: "drawerOpen",
+                drawerOpenShadow: "drawerOpenShadow"
             };
         },
         // start widget. called by user
@@ -79,66 +77,60 @@ function (
         /* ---------------- */
         /* Public Functions */
         /* ---------------- */
-        toggle: function() {
+        toggle: function(add) {
             // deferred to return
             var def = new Deferred();
-            // if drawer is shown
-            if (domClass.contains(document.body, this.css.drawerOpen)) {
-                // force open drawer
-                this._forceShowDrawer();
-                // remove drawer opened class
-                domClass.remove(document.body, this.css.drawerOpen);
-                // collapse width
-                fx.animateProperty({
-                    node: this._drawer,
-                    properties: {
-                        width: {
-                            start: this._drawerWidth,
-                            end: 0
-                        }
-                    },
-                    duration: 250,
-                    easing: easing.expoOut,
-                    onAnimate: lang.hitch(this, function() {
-                        // render border container
-                        this.resize();
-                    }),
-                    onEnd: lang.hitch(this, function() {
-                        // remove shown drawer
-                        this._checkDrawerStatus();
-                        // return
-                        def.resolve();
-                    })
-                }).play();
-            } else {
-                domStyle.set(this._drawer, "width", "0px");
-                // add drawer
-                this._forceShowDrawer();
-                // expand width
-                fx.animateProperty({
-                    node: this._drawer,
-                    properties: {
-                        width: {
-                            start: 0,
-                            end: this._drawerWidth
-                        }
-                    },
-                    duration: 250,
-                    easing: easing.expoOut,
-                    onAnimate: lang.hitch(this, function() {
-                        // render border container
-                        this.resize();
-                    }),
-                    onEnd: lang.hitch(this, function() {
-                        // drawer now open
-                        domClass.add(document.body, this.css.drawerOpen);
-                        // remove shown drawer
-                        this._checkDrawerStatus();
-                        // return
-                        def.resolve();
-                    })
-                }).play();
+            // true if drawer is opened
+            var currentlyOpen = domClass.contains(document.body, this.css.drawerOpen);
+            // if already open or already closed and asked to do the same
+            if(currentlyOpen && add === true || !currentlyOpen && add === false){
+                // return
+                return def.promise;
             }
+            // whether drawer is now opened or closed
+            var nowOpen;                           
+            // if add is set
+            if(typeof add !== 'undefined'){
+                nowOpen = domClass.toggle(document.body, this.css.drawerOpen, add);    
+            }
+            else{
+                nowOpen = domClass.toggle(document.body, this.css.drawerOpen, !currentlyOpen);    
+            }
+            // remove shadow
+            domClass.remove(document.body, this.css.drawerOpenShadow);
+            // if steps animation exists
+            if(this._animationSteps){
+                clearInterval(this._animationSteps);
+                this._animationSteps = null;
+            }
+            // resize during animation
+            this._animationSteps = setInterval(lang.hitch(this, function(){
+                // resize border container
+                this.resize();
+            }), 25);
+            // remove timeout if exists
+            if(this._animationTimeout){
+                clearTimeout(this._animationTimeout);
+                this._animationTimeout = null;
+            }
+            // wait for animation to finish
+            this._animationTimeout = setTimeout(lang.hitch(this, function(){
+                // resize border container
+                this.resize();
+                // remove shown drawer
+                this._checkDrawerStatus();
+                // stop resizing container
+                clearInterval(this._animationSteps);
+                this._animationSteps = null;
+                // now drawer is open
+                if(nowOpen){
+                    // add shadow
+                    domClass.add(document.body, this.css.drawerOpenShadow);
+                }
+                // return
+                def.resolve();
+            }), 260);
+            // return when done
             return def.promise;
         },
         /* ---------------- */
@@ -209,26 +201,20 @@ function (
             // if window width is less than specified size
             if (vs.w < this.get("size")) {
                 // hide drawer
-                domClass.remove(document.body, this.css.drawerOpen);
+                this.toggle(false);
             }
             else{
                 // show drawer
-                domClass.add(document.body, this.css.drawerOpen);
+                this.toggle(true);
             }
             // remove forced open
             this._checkDrawerStatus();
         },
         _checkDrawerStatus: function(){
-            // remove display and width styles that exist
-            domStyle.set(this._drawer, "display", "");
-            domStyle.set(this._drawer, "width", "");
             // border container layout
             this.resize();
             // hamburger button toggle
             this._toggleButton();
-        },
-        _forceShowDrawer: function(){
-            domStyle.set(this._drawer, "display", "block");
         },
         _toggleButton: function() {
             // if drawer is displayed

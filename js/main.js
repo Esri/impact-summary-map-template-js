@@ -382,6 +382,8 @@ function(
         
         
         _init: function() {
+            // drawer size check
+            this._drawer.resize();
             // locate button
             var LB = new LocateButton({
                 map: this.map,

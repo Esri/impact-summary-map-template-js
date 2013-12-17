@@ -12,7 +12,11 @@
 		font-size:30px!important;
 	}
 	
-	#cp_outer_left, .mobileLocateBoxDisplay {
+    #cp_outer_left{
+        width:0px;
+    }
+
+	.mobileLocateBoxDisplay {
 		display:none;
 	}
 }
@@ -528,9 +532,9 @@
 		display:none!important;
 	}
 	
-	#cp_outer_left {
-		display:none;
-	}
+	#cp_outer_left{
+        width:0px;
+    }
 	
 	.geoData {
 		bottom:5px!important;
@@ -636,9 +640,9 @@
 		display:none!important;
 	}
 	
-	#cp_outer_left {
-		display:none;
-	}
+	#cp_outer_left{
+        width:0px;
+    }
 	
 	.divGeoDataHolder {
 		margin-top:15px!important;
