@@ -378,6 +378,9 @@ function(
         
         
         
+        
+        
+        
         _init: function() {
             // locate button
             var LB = new LocateButton({

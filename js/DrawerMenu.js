@@ -66,6 +66,7 @@ function (
         /* Public Events */
         /* ---------------- */
         // load
+        // select
         /* ---------------- */
         /* Public Functions */
         /* ---------------- */
@@ -80,6 +81,12 @@ function (
                 domClass.add(this._nodes[index].button, this.css.menuItemSelected);
                 // set menu selected
                 domClass.add(this._nodes[index].content, this.css.menuPanelSelected);
+                // menu selected
+                this.emit('select', {
+                    index: index,
+                    menu: this.get("menus")[index],
+                    nodes: this._nodes[index]
+                });
             }
         },
         /* ---------------- */
