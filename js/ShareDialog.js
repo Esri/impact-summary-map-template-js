@@ -94,7 +94,7 @@ function (
             this.watch("embed", this._updateEmbed);
             this.watch("bitlyUrl", this._updateBitlyUrl);
             // classes
-            this._css = {
+            this.css = {
                 container: "buttonContainer",
                 embed: "embedPage",
                 button: "toggle-grey",
@@ -147,7 +147,7 @@ function (
             this.set("visible", false);
         },
         open: function() {
-            domClass.add(this._buttonNode, this._css.buttonSelected);
+            domClass.add(this._buttonNode, this.css.buttonSelected);
             this.get("dialog").show();
             this.emit("open", {});
             this._shareLink();
@@ -221,7 +221,7 @@ function (
             }
             // dialog hide
             var dialogHide = on(this.get("dialog"), 'hide', lang.hitch(this, function() {
-                domClass.remove(this._buttonNode, this._css.buttonSelected);
+                domClass.remove(this._buttonNode, this.css.buttonSelected);
             }));
             this._events.push(dialogHide);
             // set visible

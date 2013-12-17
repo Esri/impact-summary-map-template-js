@@ -10,7 +10,6 @@ define([
     "dojo/dom-attr",
     "esri/tasks/query",
     "dojo/dom-class",
-    "dojo/query",
     "esri/symbols/SimpleFillSymbol",
     "esri/symbols/SimpleLineSymbol",
     "dojo/_base/Color",
@@ -21,6 +20,7 @@ define([
     "modules/AboutDialog",
     "modules/ShareDialog",
     "modules/Drawer",
+    "modules/DrawerMenu",
     "esri/dijit/HomeButton",
     "esri/dijit/LocateButton",
     "esri/dijit/BasemapToggle",
@@ -41,12 +41,11 @@ function(
     domAttr,
     Query,
     domClass,
-    query,
     SimpleFillSymbol, SimpleLineSymbol,
     Color,
     event,
     Graphic, GraphicsLayer,
-    LayerLegend, AboutDialog, ShareDialog, Drawer,
+    LayerLegend, AboutDialog, ShareDialog, Drawer, DrawerMenu,
     HomeButton, LocateButton, BasemapToggle,
     Geocoder,
     StatsBlock,
@@ -56,16 +55,14 @@ function(
     return declare("", null, {
         config: {},
         constructor: function(config) {
+            //config will contain application and user defined info for the template such as i18n strings, the web map id
+            // and application id
+            // any url parameters and any application specific configuration information.
+            this.config = config;
             // css classes
             this.css = {
                 toggleBlue: 'toggle-grey',
                 toggleBlueOn: 'toggle-grey-on',
-                menuItem: 'item',
-                menuItemSelected: 'item-selected',
-                menuItemFirst: "item-first",
-                menuItemOnly: "item-only",
-                menuPanel: 'panel',
-                menuPanelSelected: 'panel-selected',
                 rendererMenu: 'menuList',
                 rendererMenuItem: 'item',
                 rendererSelected: 'selected',
@@ -95,20 +92,21 @@ function(
             }));
             // startup drawer
             this._drawer.startup();
-            
-            
-            
-            // set drawer menu
-            this._drawerMenu(); // todo
-            
-            
-            
-            //config will contain application and user defined info for the template such as i18n strings, the web map id
-            // and application id
-            // any url parameters and any application specific configuration information.
-            this.config = config;
-            // set panel names
-            this._setLanguageStrings();
+            // menu panels
+            var menus = [
+                {
+                    label: this.config.i18n.general.impact,
+                    content: '<div id="renderer_menu"></div>'
+                },
+                {
+                    label: this.config.i18n.general.legend,
+                    content: '<div id="LayerLegend"></div>'
+                }
+            ];
+            this._drawerMenu = new DrawerMenu({
+                menus: menus
+            }, dom.byId("drawer_menus"));
+            this._drawerMenu.startup();
             // lets get that webmap
             this._createWebMap();
         },
@@ -122,89 +120,7 @@ function(
         
         
         
-        _showDrawerPanel: function(buttonNode) {
-            // menu items
-            var menus = query('.' + this.css.menuItemSelected, dom.byId('drawer_menu'));
-            // panel items
-            var panels = query('.' + this.css.menuPanelSelected, dom.byId('drawer_panels'));
-            var i;
-            // remove all selected menu items
-            for (i = 0; i < menus.length; i++) {
-                domClass.remove(menus[i], this.css.menuItemSelected);
-            }
-            // remove all selected panels
-            for (i = 0; i < panels.length; i++) {
-                domClass.remove(panels[i], this.css.menuPanelSelected);
-            }
-            // get menu to show
-            var menu = domAttr.get(buttonNode, 'data-menu');
-            // set menu button selected
-            domClass.add(buttonNode, this.css.menuItemSelected);
-            // set menu selected
-            domClass.add(menu, this.css.menuPanelSelected);
-        },
-        _setLanguageStrings: function() {
-            var node;
-            // legend menu button node
-            node = dom.byId('legend_name');
-            if (node) {
-                node.innerHTML = this.config.i18n.general.legend;
-            }
-            // impact menu button node
-            node = dom.byId('impact_name');
-            if (node) {
-                node.innerHTML = this.config.i18n.general.impact;
-            }
-        },
-        _drawerMenu: function() {
-            // all menu items
-            var menus = query('.' + this.css.menuItem, dom.byId('drawer_menu'));
-            // menu item click
-            on(menus, 'click', lang.hitch(this, function(evt) {
-                // show drawer panel
-                this._showDrawerPanel(evt.currentTarget);
-            }));
-        },
-        // display menu panel for drawer
-        _displayMenu: function() {
-            // hide loader
-            this._hideLoadingIndicator();
-            // get  menu
-            var defaultMenu = query('.' + this.css.menuItem, dom.byId('drawer_menu'));
-            // menus array
-            if (defaultMenu) {
-                // only one menu
-                if(defaultMenu.length === 1){
-                    domClass.add(defaultMenu[0], this.css.menuItemOnly);
-                }
-                // panel config set
-                if (this.config.defaultPanel){
-                    // panel found
-                    var found = false;
-                    // each menu item
-                    for(var i = 0; i < defaultMenu.length; i++){
-                        // get panel attribute
-                        var panelId = domAttr.get(defaultMenu[i], 'data-menu');
-                        // menu matches
-                        if(panelId === this.config.defaultPanel){
-                            this._showDrawerPanel(defaultMenu[i]);
-                            // panel found
-                            found = true;
-                            break;
-                        }
-                    }
-                    // panel not found
-                    if(!found){
-                        // show first panel
-                        this._showDrawerPanel(defaultMenu[0]);
-                    }
-                }
-                else{
-                    // panel config not set. show first
-                    this._showDrawerPanel(defaultMenu[0]);
-                }
-            }
-        },
+        
         
         
         
@@ -533,9 +449,8 @@ function(
             }));
             // todo
             /* END temporary until after JSAPI 3.9 is released */
-            this.dataNode = domConstruct.place(domConstruct.create('div', {
-                id: 'geoData'
-            }), dom.byId('cp_outer_center'), 'first');
+            // geo data node
+            this.dataNode = dom.byId('geoData');
             // stats block
             this._sb = new StatsBlock({
                 config: this.config.impact_attributes
@@ -606,8 +521,7 @@ function(
                 }));
             }
             this._sb.show();
-            // display menu panel for drawer
-            this._displayMenu();
+            this._hideLoadingIndicator();
         },
         _checkMobileGeocoderVisibility: function() {
             // check if mobile icon needs to be selected

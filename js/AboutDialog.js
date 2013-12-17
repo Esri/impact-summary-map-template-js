@@ -53,7 +53,7 @@ function (
             this.watch("theme", this._updateThemeWatch);
             this.watch("visible", this._visible);
             // classes
-            this._css = {
+            this.css = {
                 container: "buttonContainer",
                 button: "toggle-grey",
                 buttonSelected: "toggle-grey-on",
@@ -96,7 +96,7 @@ function (
             this.set("visible", false);
         },
         open: function() {
-            domClass.add(this._buttonNode, this._css.buttonSelected);
+            domClass.add(this._buttonNode, this.css.buttonSelected);
             this.get("dialog").show();
             this.emit("open", {});
         },
@@ -138,7 +138,7 @@ function (
             this._removeEvents();
             // hide event
             var dialogHide = on(this.get("dialog"), 'hide', lang.hitch(this, function() {
-                domClass.remove(this._buttonNode, this._css.buttonSelected);
+                domClass.remove(this._buttonNode, this.css.buttonSelected);
             }));
             this._events.push(dialogHide);
             // rotate event

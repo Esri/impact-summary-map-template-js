@@ -108,17 +108,17 @@ input[type=text]::-ms-clear { display: none; }
 /*Example of a rule that will be applied if the app is viewed in a browser wtih a RTL locale like Hebrew or Arabic.*/
 }
 
-#drawer_panels .panel {
+.drawer-menu-panels .panel {
 	display:none;
 	width:100%;
 }
 
-#drawer_panels .panel-selected {
+.drawer-menu-panels .panel-selected {
 	display:block;
 	width:100%;
 }
 
-#drawer_menu {
+.drawer-menu-buttons {
 	background-color:#007ac2;
 	font-size:18px;
 	line-height:18px;
@@ -128,7 +128,7 @@ input[type=text]::-ms-clear { display: none; }
 	width:100%;
 }
 
-#drawer_menu .item {
+.drawer-menu-buttons .item {
 	width:50%;
 	text-align:center;
 	color:#97cbec;
@@ -139,17 +139,17 @@ input[type=text]::-ms-clear { display: none; }
 	user-select:none;
 }
 
-#drawer_menu .item-only {
+.drawer-menu-buttons .item-only {
     width:100%;
 }
 
-#drawer_menu .item-container {
+.drawer-menu-buttons .item-container {
 	position:relative;
 	overflow:visible;
 	padding:7px 0;
 }
 
-#drawer_menu .item .title {
+.drawer-menu-buttons .item .title {
 	padding:7px 0;
 	white-space:nowrap;
 	text-overflow:ellipsis;
@@ -157,24 +157,24 @@ input[type=text]::-ms-clear { display: none; }
 	width:90%;
 }
 
-#drawer_menu .item-first .title {
+.drawer-menu-buttons .item-first .title {
 	border-right:1px solid #5fa8d4;
 }
 
-#drawer_menu .item-only .title {
+.drawer-menu-buttons .item-only .title {
     border-right:0;
 }
 
-#drawer_menu .item-selected {
+.drawer-menu-buttons .item-selected {
 	color:#fff;
 	cursor:default;
 }
 
-#drawer_menu .arrow {
+.drawer-menu-buttons .arrow {
 	display:none;
 }
 
-#drawer_menu .item-selected .arrow {
+.drawer-menu-buttons .item-selected .arrow {
 	display:block;
 	position:absolute;
 	bottom:-2px;
@@ -185,7 +185,7 @@ input[type=text]::-ms-clear { display: none; }
 	background:url(../images/selected-arrow.png) no-repeat center bottom;
 }
 
-#drawer_menu .item-only .arrow{
+.drawer-menu-buttons .item-only .arrow{
     display:none;
 }
 
