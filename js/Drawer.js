@@ -28,7 +28,7 @@ function (
     var Widget = declare([_WidgetBase, Evented], {
         declaredClass: "esri.dijit.Drawer",
         options: {
-            size: 850,
+            showDrawerSize: 850,
             container: null,
             contentCenter: null,
             contentLeft: null,
@@ -39,7 +39,7 @@ function (
             // mix in settings and defaults
             var defaults = lang.mixin({}, this.options, options);
             // properties
-            this.set("size", defaults.size);
+            this.set("showDrawerSize", defaults.showDrawerSize);
             this.set("container", defaults.container);
             this.set("contentCenter", defaults.contentCenter);
             this.set("contentLeft", defaults.contentLeft);
@@ -199,7 +199,7 @@ function (
             // view screen
             var vs = win.getBox();
             // if window width is less than specified size
-            if (vs.w < this.get("size")) {
+            if (vs.w < this.get("showDrawerSize")) {
                 // hide drawer
                 this.toggle(false);
             }

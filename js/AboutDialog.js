@@ -34,6 +34,7 @@ function (
             visible: true,
             info: null,
             sharinghost: "http://www.arcgis.com",
+            itemPage: "/home/item.html?id=",
             dialog: null
         },
         // lifecycle: 1
@@ -48,6 +49,7 @@ function (
             this.set("visible", defaults.visible);
             this.set("dialog", defaults.dialog);
             this.set("item", defaults.item);
+            this.set("itemPage", defaults.itemPage);
             this.set("sharinghost", defaults.sharinghost);
             // listeners
             this.watch("theme", this._updateThemeWatch);
@@ -129,8 +131,7 @@ function (
             if (!this.get("dialog")) {
                 var dialog = new Dialog({
                     title: i18n.widgets.AboutDialog.title,
-                    draggable: false,
-                    style: "max-width: 550px;"
+                    draggable: false
                 }, this._dialogNode);
                 this.set("dialog", dialog);
             }
@@ -166,7 +167,7 @@ function (
                 // license
                 this._licenseInfoNode.innerHTML = item.licenseInfo;
                 // more info link
-                this._moreInfoNode.innerHTML = '<a target="_blank" href="' + this.get("sharinghost") + '/home/item.html?id=' + item.id + '">' + i18n.widgets.AboutDialog.itemInfo + '</a> ' + i18n.widgets.AboutDialog.itemInfoLink;
+                this._moreInfoNode.innerHTML = '<a target="_blank" href="' + this.get("sharinghost") + this.get("itemPage") + item.id + '">' + i18n.widgets.AboutDialog.itemInfo + '</a> ' + i18n.widgets.AboutDialog.itemInfoLink;
             }
         },
         _updateThemeWatch: function(attr, oldVal, newVal) {

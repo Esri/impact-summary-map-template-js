@@ -54,7 +54,7 @@ function(
 ) {
     return declare("", null, {
         config: {},
-        constructor: function(config) {
+        constructor: function (config) {
             //config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
             // any url parameters and any application specific configuration information.
@@ -72,63 +72,31 @@ function(
                 mobileSearchDisplay: "mobileLocateBoxDisplay"
             };
             // mobile size switch domClass
-            this._mobileSizeStart = 850;
+            this._showDrawerSize = 850;
+            this._entireAreaValue = "summarize";
             // drawer
             this._drawer = new Drawer({
-                size: this._mobileSizeStart,
+                showDrawerSize: this._showDrawerSize,
                 container: dom.byId('bc_outer'),
                 contentCenter: dom.byId('cp_outer_center'),
                 contentLeft: dom.byId('cp_outer_left'),
                 toggleButton: dom.byId('hamburger_button')
             });
             // drawer resize event
-            on(this._drawer, 'resize', lang.hitch(this, function(){
+            on(this._drawer, 'resize', lang.hitch(this, function () {
                 // check mobile button status
                 this._checkMobileGeocoderVisibility();
                 // resize stats block
-                if(this._sb){
+                if (this._sb) {
                     this._sb.resize();
                 }
             }));
             // startup drawer
             this._drawer.startup();
-            // menu panels
-            var menus = [
-                {
-                    label: this.config.i18n.general.impact,
-                    content: '<div id="renderer_menu"></div>'
-                },
-                {
-                    label: this.config.i18n.general.legend,
-                    content: '<div id="LayerLegend"></div>'
-                }
-            ];
-            this._drawerMenu = new DrawerMenu({
-                menus: menus
-            }, dom.byId("drawer_menus"));
-            this._drawerMenu.startup();
             // lets get that webmap
             this._createWebMap();
         },
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        _selectFeatures: function(features){
+        _selectFeatures: function (features) {
             if (features && features.length) {
                 // add features to graphics layer
                 this._selectedGraphics.clear();
@@ -150,11 +118,11 @@ function(
                     // has attribute field for renderer
                     if (this._attributeField && features[0].attributes.hasOwnProperty(this._attributeField)) {
                         var value = features[0].attributes[this._attributeField];
-                        if(this._rendererNodes && this._rendererNodes.length){
+                        if (this._rendererNodes && this._rendererNodes.length) {
                             // each renderer nodes
-                            for (i = 0; i < this._rendererNodes.length; i++){
+                            for (i = 0; i < this._rendererNodes.length; i++) {
                                 // value matches
-                                if(this._rendererNodes[i].value === value){
+                                if (this._rendererNodes[i].value === value) {
                                     // set selected
                                     domClass.add(this._rendererNodes[i].node, this.css.rendererSelected);
                                     break;
@@ -166,10 +134,10 @@ function(
             }
         },
         // get layer of impact
-        _getImpactLayer: function(obj) {
+        _getImpactLayer: function (obj) {
             var mapLayer, layer, i;
             // if we have a layer id
-            if(obj.id){
+            if (obj.id) {
                 for (i = 0; i < obj.layers.length; i++) {
                     layer = obj.layers[i];
                     if (layer.id === obj.id) {
@@ -177,9 +145,8 @@ function(
                         mapLayer.layerIndex = i;
                         return mapLayer;
                     }
-                } 
-            }
-            else if(obj.title){
+                }
+            } else if (obj.title) {
                 // use layer title
                 for (i = 0; i < obj.layers.length; i++) {
                     layer = obj.layers[i];
@@ -188,11 +155,11 @@ function(
                         mapLayer.layerIndex = i;
                         return mapLayer;
                     }
-                }   
+                }
             }
             return false;
         },
-        _queryFeatures: function(node, value){
+        _queryFeatures: function (node, value) {
             // show layer if invisible
             if (!this._impactLayer.visible) {
                 this._impactLayer.setVisibility(true);
@@ -204,11 +171,10 @@ function(
             // search query
             var q = new Query();
             q.returnGeometry = true;
-            if(value === "summarize" || value === ""){
+            if (value === this._entireAreaValue || value === "") {
                 // results
                 q.where = '1 = 1';
-            }
-            else{
+            } else {
                 // match value
                 if (isNaN(value)) {
                     q.where = this._attributeField + ' = ' + "'" + value + "'";
@@ -218,7 +184,7 @@ function(
             }
             var ct = node;
             // query features
-            this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
+            this._impactLayer.queryFeatures(q, lang.hitch(this, function (fs) {
                 // remove current renderer
                 domClass.remove(ct, this.css.rendererLoading);
                 // display geo stats
@@ -226,43 +192,41 @@ function(
                 this._selectFeatures(fs.features);
                 // set extent for features
                 this.map.setExtent(graphicsUtils.graphicsExtent(fs.features), true);
-            }), lang.hitch(this, function() {
+            }), lang.hitch(this, function () {
                 // remove selected
                 this._clearSelected();
             }));
         },
-        _createRendererItemClick: function(node, value){
+        _createRendererItemClick: function (node, value) {
             // renderer item click
-            on(node, 'click', lang.hitch(this, function(evt) {
+            on(node, 'click', lang.hitch(this, function (evt) {
                 this._hideInfoWindow();
                 var ct = evt.currentTarget;
                 // current renderer isn't already selected
-                if(!domClass.contains(ct, this.css.rendererSelected)){
+                if (!domClass.contains(ct, this.css.rendererSelected)) {
                     // view screen
                     var vs = win.getBox();
                     // hide drawer for small res
-                    if (vs.w < this._mobileSizeStart) {
-                        this._drawer.toggle().then(lang.hitch(this, function(){
+                    if (vs.w < this._showDrawerSize) {
+                        this._drawer.toggle().then(lang.hitch(this, function () {
                             // resize map
                             this.map.resize();
                             // wait for map to be resized
-                            setTimeout(lang.hitch(this, function() {
+                            setTimeout(lang.hitch(this, function () {
                                 // get features
                                 this._queryFeatures(ct, value);
                             }), 250);
                         }));
-                    }
-                    else{
+                    } else {
                         // get features
                         this._queryFeatures(ct, value);
                     }
                 }
             }));
         },
-        _createRendererItems: function(infos){
+        _createRendererItems: function (infos) {
             // renderer node items created
             this._rendererNodes = [];
-            var selectAllValue = "summarize";
             // create list 
             var ulList = domConstruct.create('ul', {
                 className: this.css.rendererMenu
@@ -277,16 +241,16 @@ function(
                 innerHTML: this.config.i18n.general.summarize
             }, selectAll);
             // select all click event
-            this._createRendererItemClick(selectAll, selectAllValue);
+            this._createRendererItemClick(selectAll, this._entireAreaValue);
             // place item
             domConstruct.place(selectAll, ulList, 'last');
             // save reference to select all node
             this._rendererNodes.push({
-                value: selectAllValue,
+                value: this._entireAreaValue,
                 node: selectAll
             });
             // each renderer item
-            for(var i = 0; i < infos.length; i++){
+            for (var i = 0; i < infos.length; i++) {
                 // create list item
                 var liItem = domConstruct.create('li', {
                     className: this.css.rendererMenuItem
@@ -301,7 +265,7 @@ function(
                     innerHTML: infos[i].label
                 }, liItem);
                 // value
-                var value = infos[i].maxValue || infos[i].value || ""; 
+                var value = infos[i].maxValue || infos[i].value || "";
                 // click event
                 this._createRendererItemClick(liItem, value);
                 // place item
@@ -314,41 +278,30 @@ function(
             }
             // renderer dom node
             var rendererMenu = dom.byId('renderer_menu');
-            // place
-            domConstruct.place(ulList, rendererMenu);
-            // display renderer
-            domStyle.set(rendererMenu, 'display', 'block');
-        },
-        // determines to show renderer if multiple features
-        _setValueRange: function() {
-            // default not multiple
-            this._multiple = false;
-            // layer renderer
-            var renderer = this._impactLayer.renderer;
-            if(renderer){
-                // attribute info
-                this._attributeField = renderer.attributeField;
+            if (rendererMenu) {
+                // place
+                domConstruct.place(ulList, rendererMenu);
+                // display renderer
+                domStyle.set(rendererMenu, 'display', 'block');
             }
+        },
+        _getLayerInfos: function () {
+            this._multiple = false;
+            // multiple polygons
+            var renderer = this._impactLayer.renderer;
             // renderer exists
             if (renderer) {
+                this._attributeField = renderer.attributeField;
                 // renderer layer infos
                 var infos = renderer.infos;
                 if (infos && infos.length) {
-                    // multiple polygon impact
                     this._multiple = true;
-                    // create renderer menu
-                    this._createRendererItems(infos);
-                } else {
-                    // hide impact area panel
-                    this._hideImpactArea();
+                    this._impactInfos = infos;
                 }
-            } else {
-                // hide impact area panel
-                this._hideImpactArea();
             }
         },
         // clear selected renderer & loading status
-        _clearSelected: function() {
+        _clearSelected: function () {
             // if items are there
             if (this._rendererNodes && this._rendererNodes.length) {
                 // remove classes from each item
@@ -358,13 +311,7 @@ function(
                 }
             }
         },
-        _hideImpactArea: function() {
-            // remove area panel node
-            domConstruct.destroy(dom.byId("area_content"));
-            // remove area button node
-            domConstruct.destroy(dom.byId("areas"));
-        },
-        _selectEvent: function(evt) {
+        _selectEvent: function (evt) {
             // graphic selected
             if (evt.graphic) {
                 this._clearSelected();
@@ -373,19 +320,12 @@ function(
                 event.stop(evt);
             }
         },
-        _hideInfoWindow: function(){
-            if(this.map && this.map.infoWindow){
+        _hideInfoWindow: function () {
+            if (this.map && this.map.infoWindow) {
                 this.map.infoWindow.hide();
             }
         },
-        _initImpact: function(){
-            // get layer by id
-            this._impactLayer = this._getImpactLayer({
-                map: this.map,
-                layers: this.layers,
-                title: this.config.impact_layer_title,
-                id: this.config.impact_layer_id
-            });
+        _initImpact: function () {
             // impact layer found
             if (this._impactLayer) {
                 // selected graphics layer
@@ -395,8 +335,11 @@ function(
                 });
                 this.map.addLayer(this._selectedGraphics, (this._impactLayer.layerIndex + 1));
             }
-            // set renderer stuff
-            this._setValueRange();
+            // renderer layer infos
+            if (this._impactInfos) {
+                // create renderer menu
+                this._createRendererItems(this._impactInfos);
+            }
             // features query
             var q = new Query();
             q.returnGeometry = false;
@@ -409,28 +352,28 @@ function(
             // if impact layer exists
             if (this._impactLayer) {
                 // get impact features
-                this._impactLayer.queryFeatures(q, lang.hitch(this, function(fs) {
+                this._impactLayer.queryFeatures(q, lang.hitch(this, function (fs) {
                     // features were returned
                     if (fs.features && fs.features.length) {
                         // display stats
-                        this._sb.set("features",[fs.features[0]]);
+                        this._sb.set("features", [fs.features[0]]);
                         this._sb.startup();
                         // selected features
                         this._selectFeatures([fs.features[0]]);
                     }
                 }));
                 // selected poly from graphics layer
-                on(this._selectedGraphics, 'click', lang.hitch(this, function(evt) {
+                on(this._selectedGraphics, 'click', lang.hitch(this, function (evt) {
                     this._hideInfoWindow();
                     this._selectEvent(evt);
                 }));
                 // selected poly from impact layer
-                on(this._impactLayer, 'click', lang.hitch(this, function(evt) {
+                on(this._impactLayer, 'click', lang.hitch(this, function (evt) {
                     this._hideInfoWindow();
                     this._selectEvent(evt);
                 }));
                 // impact layer show/hide
-                on(this._impactLayer, 'visibility-change', lang.hitch(this, function(evt) {
+                on(this._impactLayer, 'visibility-change', lang.hitch(this, function (evt) {
                     // set visibility of graphics layer
                     this._selectedGraphics.setVisibility(evt.visible);
                     // if not visible
@@ -445,20 +388,39 @@ function(
             }
             this._sb.show();
         },
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        _init: function() {
+        _init: function () {
+            // get layer by id
+            this._impactLayer = this._getImpactLayer({
+                map: this.map,
+                layers: this.layers,
+                title: this.config.impact_layer_title,
+                id: this.config.impact_layer_id
+            });
+            // get impact layer infos
+            this._getLayerInfos();
             // drawer size check
             this._drawer.resize();
+            // menu panels
+            var menus = [];
+            // multiple polygons
+            if (this._multiple) {
+                menus.push({
+                    label: this.config.i18n.general.impact,
+                    content: '<div id="renderer_menu"></div>'
+                });
+            }
+            // legend menu
+            menus.push({
+                label: this.config.i18n.general.legend,
+                content: '<div id="LayerLegend"></div>'
+            });
+            console.log(2);
+            // menus
+            this._drawerMenu = new DrawerMenu({
+                menus: menus
+            }, dom.byId("drawer_menus"));
+            this._drawerMenu.startup();
+            console.log(3);
             // locate button
             var LB = new LocateButton({
                 map: this.map,
@@ -493,19 +455,22 @@ function(
                 map: this.map
             }, 'ShareDialog');
             this._ShareDialog.startup();
-            // toc
-            var LL = new LayerLegend({
-                map: this.map,
-                layers: this.layers
-            }, "LayerLegend");
-            LL.startup();
+            // Legend table of contents
+            var legendNode = dom.byId('LayerLegend');
+            if (legendNode) {
+                var LL = new LayerLegend({
+                    map: this.map,
+                    layers: this.layers
+                }, legendNode);
+                LL.startup();
+            }
+            console.log(4);
             // geocoders
             this._createGeocoders();
-            
             // todo
             /* Start temporary until after JSAPI 3.9 is released */
             var layers = this.map.getLayersVisibleAtScale(this.map.getScale());
-            on.once(this.map, 'basemap-change', lang.hitch(this, function() {
+            on.once(this.map, 'basemap-change', lang.hitch(this, function () {
                 for (var i = 0; i < layers.length; i++) {
                     if (layers[i]._basemapGalleryLayerType) {
                         var layer = this.map.getLayer(layers[i].id);
@@ -525,22 +490,22 @@ function(
             // hide loading div
             this._hideLoadingIndicator();
         },
-        _checkMobileGeocoderVisibility: function() {
+        _checkMobileGeocoderVisibility: function () {
             // check if mobile icon needs to be selected
             if (domClass.contains(dom.byId("mobileGeocoderIcon"), this.css.toggleBlueOn)) {
                 domClass.add(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
             }
         },
-        _showMobileGeocoder: function() {
+        _showMobileGeocoder: function () {
             domClass.add(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
             domClass.replace(dom.byId("mobileGeocoderIconContainer"), this.css.toggleBlueOn, this.css.toggleBlue);
         },
-        _hideMobileGeocoder: function() {
+        _hideMobileGeocoder: function () {
             domClass.remove(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
             domStyle.set(dom.byId("mobileSearch"), "display", "none");
             domClass.replace(dom.byId("mobileGeocoderIconContainer"), this.css.toggleBlue, this.css.toggleBlueOn);
         },
-        _setTitle: function(title) {
+        _setTitle: function (title) {
             // map title node
             var node = dom.byId('title');
             if (node) {
@@ -553,7 +518,7 @@ function(
             window.document.title = title;
         },
         // create geocoder widgets
-        _createGeocoders: function() {
+        _createGeocoders: function () {
             // desktop size geocoder
             this._geocoder = new Geocoder({
                 map: this.map,
@@ -562,7 +527,7 @@ function(
             }, dom.byId("geocoderSearch"));
             this._geocoder.startup();
             // geocoder results
-            on(this._geocoder, 'find-results', lang.hitch(this, function(response) {
+            on(this._geocoder, 'find-results', lang.hitch(this, function (response) {
                 if (!response.results.length) {
                     console.log(this.config.i18n.general.noSearchResult);
                 }
@@ -575,24 +540,24 @@ function(
             }, dom.byId("geocoderMobile"));
             this._mobileGeocoder.startup();
             // geocoder results
-            on(this._mobileGeocoder, 'find-results', lang.hitch(this, function(response) {
+            on(this._mobileGeocoder, 'find-results', lang.hitch(this, function (response) {
                 if (!response.results.length) {
                     console.log(this.config.i18n.general.noSearchResult);
                 }
                 this._hideMobileGeocoder();
             }));
             // keep geocoder values in sync
-            this._geocoder.watch("value", lang.hitch(this, function(name, oldValue, value){
+            this._geocoder.watch("value", lang.hitch(this, function (name, oldValue, value) {
                 this._mobileGeocoder.set("value", value);
             }));
             // keep geocoder values in sync
-            this._mobileGeocoder.watch("value", lang.hitch(this, function(name, oldValue, value){
+            this._mobileGeocoder.watch("value", lang.hitch(this, function (name, oldValue, value) {
                 this._geocoder.set("value", value);
             }));
             // mobile geocoder toggle            
             var mobileIcon = dom.byId("mobileGeocoderIcon");
             if (mobileIcon) {
-                on(mobileIcon, "click", lang.hitch(this, function() {
+                on(mobileIcon, "click", lang.hitch(this, function () {
                     if (domStyle.get(dom.byId("mobileSearch"), "display") === "none") {
                         this._showMobileGeocoder();
                     } else {
@@ -601,19 +566,19 @@ function(
                 }));
             }
             // cancel mobile geocoder
-            on(dom.byId("btnCloseGeocoder"), "click", lang.hitch(this, function() {
+            on(dom.byId("btnCloseGeocoder"), "click", lang.hitch(this, function () {
                 this._hideMobileGeocoder();
             }));
         },
         // hide map loading spinner
-        _hideLoadingIndicator: function() {
+        _hideLoadingIndicator: function () {
             var indicator = dom.byId("loadingIndicatorDiv");
             if (indicator) {
                 domStyle.set(indicator, "display", "none");
-            }            
+            }
         },
         //create a map based on the input web map id
-        _createWebMap: function() {
+        _createWebMap: function () {
             // popup dijit
             var customPopup = new Popup({}, domConstruct.create("div"));
             // add popup theme
@@ -626,7 +591,7 @@ function(
                     //turn the slider off, display info windows, disable wraparound 180, slider position and more.
                 },
                 bingMapsKey: this.config.bingmapskey
-            }).then(lang.hitch(this, function(response) {
+            }).then(lang.hitch(this, function (response) {
                 //Once the map is created we get access to the response which provides important info
                 //such as the map, operational layers, popup info and more. This object will also contain
                 //any custom options you defined for the template. In this example that is the 'theme' property.
@@ -638,11 +603,11 @@ function(
                 if (this.map.loaded) {
                     this._init();
                 } else {
-                    on.once(this.map, 'load', lang.hitch(this, function() {
+                    on.once(this.map, 'load', lang.hitch(this, function () {
                         this._init();
                     }));
                 }
-            }), lang.hitch(this, function(error) {
+            }), lang.hitch(this, function (error) {
                 //an error occurred - notify the user. In this example we pull the string from the
                 //resource.js file located in the nls folder because we've set the application up
                 //for localization. If you don't need to support multiple languages you can hardcode the
