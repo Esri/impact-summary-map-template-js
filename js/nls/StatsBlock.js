@@ -1,9 +1,10 @@
-﻿define({
+define({
     "root": ({
         "StatsBlock": {
             "close": "close",
             "next": "Next",
-            "previous": "Previous"
+            "previous": "Previous",
+            "source":"Data source"
         }
     })
 });

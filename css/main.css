@@ -81,6 +81,7 @@ input[type=text]::-ms-clear {
     margin: 0;
 }
 .application-description{
+    color:#666;
     padding:20px 10px;
 }
 
@@ -387,10 +388,13 @@ input[type=text]::-ms-clear {
     bottom: 9px;
     right: 0;
     z-index: 2;
-    font-size: 11px;
-    line-height: 11px;
+    font-size: 16px;
+    line-height: 16px;
     padding: 0 10px 0 0;
     text-align: right;
+}
+.geoData .panel-expanded .dataSourceUrl a{
+    text-decoration:none;
 }
 .geoData .theme_1 {
     border-bottom-color: #da4d1e;

@@ -1,4 +1,4 @@
-﻿define([
+define([
     "dojo/Evented",
     "dojo/_base/declare",
     "dojo/_base/lang",
@@ -58,6 +58,7 @@ function (
                 statsPanelSelectedExpand: "panel-selected-expand",
                 statsPanelDataBlock: 'data-block',
                 statsPanelDataBlockLast: 'data-block-last',
+                statsSourceInfo: 'icon-info-circled-1',
                 animateSlider: "animateSlider",
                 divOuterSliderContainer: "divOuterSliderContainer",
                 divHeader: "divHeader",
@@ -403,23 +404,27 @@ function (
                 detailedData = detailedContainer;
             }
             domConstruct.place(detailedContainer, detailedOuterContainer, 'last');
-            // source link
-            detailedDataSource = domConstruct.create('div', {
-                className: this.css.dataSourceUrl
-            });
-            domConstruct.place(detailedDataSource, detailedOuterContainer, 'last');
+            // source link is set
+            if(item.dataSourceUrl){
+                // source link
+                detailedDataSource = domConstruct.create('div', {
+                    className: this.css.dataSourceUrl
+                });
+                domConstruct.place(detailedDataSource, detailedOuterContainer, 'last');
+                // data source link a tag
+                detailedDataSourceAnchor = domConstruct.create('a', {
+                    title: this._i18n.StatsBlock.source,
+                    className: this.css.statsSourceInfo,
+                    href: item.dataSourceUrl,
+                    target: "_blank"
+                });
+                domConstruct.place(detailedDataSourceAnchor, detailedDataSource, 'last');
+            }
             // clear expanded
             clearDetailedContainer = domConstruct.create('div', {
                 className: this.css.clear
             });
             domConstruct.place(clearDetailedContainer, detailedContainer, 'last');
-            // data source link a tag
-            detailedDataSourceAnchor = domConstruct.create('a', {
-                innerHTML: "source",
-                href: item.dataSourceUrl,
-                target: "_blank"
-            });
-            domConstruct.place(detailedDataSourceAnchor, detailedDataSource, 'last');
             // if last expanded panel
             if(index === (config.length - 1)){
                 // clear expanded
