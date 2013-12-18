@@ -69,7 +69,8 @@ function(
                 rendererLoading: 'loadingFeatures',
                 rendererContainer: 'item-container',
                 rendererSummarize: 'summarize',
-                mobileSearchDisplay: "mobileLocateBoxDisplay"
+                mobileSearchDisplay: "mobileLocateBoxDisplay",
+                description: "application-description"
             };
             // mobile size switch domClass
             this._showDrawerSize = 850;
@@ -415,7 +416,7 @@ function(
             if (this._multiple && this.config.showAreas) {
                 menus.push({
                     label: this.config.i18n.general.impact,
-                    content: '<div id="renderer_menu"></div>'
+                    content: '<div class="' + this.css.description + '" id="description"></div><div id="renderer_menu"></div>'
                 });
             }
             if(this.config.showLegend){
@@ -537,6 +538,14 @@ function(
             // window title
             window.document.title = title;
         },
+        _setDescription: function(description){
+            // map title node
+            var node = dom.byId('description');
+            if (node) {
+                // set title
+                node.innerHTML = description;
+            }
+        },
         // create geocoder widgets
         _createGeocoders: function () {
             // desktop size geocoder
@@ -621,6 +630,9 @@ function(
                 // if title is enabled
                 if(this.config.showTitle){
                     this._setTitle(this.config.title || response.itemInfo.item.title);
+                }
+                if(this.config.showDescription){
+                    this._setDescription(this.config.description || response.itemInfo.item.summary);
                 }
                 this.item = response.itemInfo.item;
                 if (this.map.loaded) {

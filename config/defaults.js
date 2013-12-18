@@ -18,6 +18,7 @@ define([], function() {
         "impact_layer_id":"",
         "impact_layer_title": "Impact Area",
         "showTitle":true,
+        "showDescription":true,
         "showAreas": true,
         "showLegend": true,
         "showHomeButton": true,
