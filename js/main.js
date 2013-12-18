@@ -160,7 +160,7 @@ function(
             }
             return false;
         },
-        _queryGreatestFeature: function(){
+        _queryGreatestFeature: function () {
             // features query
             var q = new Query();
             q.returnGeometry = false;
@@ -310,7 +310,7 @@ function(
         },
         _getLayerInfos: function () {
             this._multiple = false;
-            if(this._impactLayer){
+            if (this._impactLayer) {
                 // multiple polygons
                 var renderer = this._impactLayer.renderer;
                 // renderer exists
@@ -397,7 +397,7 @@ function(
         },
         _init: function () {
             // if we have a layer title or layer id
-            if(this.config.impact_layer_title || this.config.impact_layer_id){
+            if (this.config.impact_layer_title || this.config.impact_layer_id) {
                 // get layer by id/title
                 this._impactLayer = this._getImpactLayer({
                     map: this.map,
@@ -419,7 +419,7 @@ function(
                     content: '<div class="' + this.css.areasDescription + '" id="areasDescription"></div><div id="renderer_menu"></div>'
                 });
             }
-            if(this.config.showLegend){
+            if (this.config.showLegend) {
                 // legend menu
                 menus.push({
                     label: this.config.i18n.general.legend,
@@ -432,11 +432,11 @@ function(
             }, dom.byId("drawer_menus"));
             this._drawerMenu.startup();
             // description
-            if(this.config.showAreasDescription){
+            if (this.config.showAreasDescription) {
                 this._setAreaDescription(this.config.areasDescription || this.item.snippet);
             }
             // locate button
-            if(this.config.showLocateButton){
+            if (this.config.showLocateButton) {
                 var LB = new LocateButton({
                     map: this.map,
                     theme: "LocateButtonCalcite"
@@ -444,7 +444,7 @@ function(
                 LB.startup();
             }
             // home button
-            if(this.config.showHomeButton){
+            if (this.config.showHomeButton) {
                 var HB = new HomeButton({
                     map: this.map,
                     theme: "HomeButtonCalcite"
@@ -452,7 +452,7 @@ function(
                 HB.startup();
             }
             // basemap toggle
-            if(this.config.showBasemapToggle){
+            if (this.config.showBasemapToggle) {
                 var BT = new BasemapToggle({
                     map: this.map,
                     basemap: this.config.nextBasemap,
@@ -472,7 +472,7 @@ function(
                 /* END temporary until after JSAPI 3.9 is released */
             }
             // about dialog
-            if(this.config.showAboutDialog){
+            if (this.config.showAboutDialog) {
                 this._AboutDialog = new AboutDialog({
                     theme: "icon-right",
                     item: this.item,
@@ -481,7 +481,7 @@ function(
                 this._AboutDialog.startup();
             }
             // share dialog
-            if(this.config.ShowShareDialog){
+            if (this.config.ShowShareDialog) {
                 this._ShareDialog = new ShareDialog({
                     theme: "icon-right",
                     bitlyLogin: this.config.bitlyLogin,
@@ -491,7 +491,7 @@ function(
                 this._ShareDialog.startup();
             }
             // Legend table of contents
-            if(this.config.showLegend){
+            if (this.config.showLegend) {
                 var legendNode = dom.byId('LayerLegend');
                 if (legendNode) {
                     var LL = new LayerLegend({
@@ -504,7 +504,7 @@ function(
             // geocoders
             this._createGeocoders();
             // stats block
-            if(this._impactLayer){
+            if (this._impactLayer) {
                 this._sb = new StatsBlock({
                     config: this.config.impact_attributes
                 }, dom.byId('geoData'));
@@ -542,7 +542,7 @@ function(
             // window title
             window.document.title = title;
         },
-        _setAreaDescription: function(description){
+        _setAreaDescription: function (description) {
             // map title node
             var node = dom.byId('areasDescription');
             if (node) {
@@ -633,7 +633,7 @@ function(
                 this.layers = response.itemInfo.itemData.operationalLayers;
                 this.item = response.itemInfo.item;
                 // if title is enabled
-                if(this.config.showTitle){
+                if (this.config.showTitle) {
                     this._setTitle(this.config.title || response.itemInfo.item.title);
                 }
                 if (this.map.loaded) {
