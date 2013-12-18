@@ -431,6 +431,10 @@ function(
                 menus: menus
             }, dom.byId("drawer_menus"));
             this._drawerMenu.startup();
+            // description
+            if(this.config.showDescription){
+                this._setDescription(this.config.description || this.item.snippet);
+            }
             // locate button
             if(this.config.showLocateButton){
                 var LB = new LocateButton({
@@ -627,14 +631,11 @@ function(
                 //Here' we'll use it to update the application to match the specified color theme.
                 this.map = response.map;
                 this.layers = response.itemInfo.itemData.operationalLayers;
+                this.item = response.itemInfo.item;
                 // if title is enabled
                 if(this.config.showTitle){
                     this._setTitle(this.config.title || response.itemInfo.item.title);
                 }
-                if(this.config.showDescription){
-                    this._setDescription(this.config.description || response.itemInfo.item.summary);
-                }
-                this.item = response.itemInfo.item;
                 if (this.map.loaded) {
                     this._init();
                 } else {
