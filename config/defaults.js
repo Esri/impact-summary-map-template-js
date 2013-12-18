@@ -26,9 +26,11 @@ define([], function() {
         "showBasemapToggle": true,
         "showAboutDialog":true,
         "ShowShareDialog":true,
-        "basemap": "hybrid",
-        "defaultBasemap": "topo",
+        "nextBasemap": "hybrid",
+        "currentBasemap": "topo",
         "impactAttributeOrder":"DESC",
+        "bitlyLogin": "esri",
+        "bitlyKey": "R_65fd9891cd882e2a96b99d4bda1be00e",
         "impact_attributes": [
            {
               "attribute":"TOTPOP_CY",
@@ -177,8 +179,6 @@ define([], function() {
         ],
         //Enter the url to your organizations bing maps key if you want to use bing basemaps
         "bingmapskey": "",
-        "bitlyLogin": "esri",
-        "bitlyKey": "R_65fd9891cd882e2a96b99d4bda1be00e",
         //Defaults to arcgis.com. Set this value to your portal or organization host name.
         "sharinghost": location.protocol + "//" + "www.arcgis.com"
     };

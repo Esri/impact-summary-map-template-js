@@ -433,7 +433,7 @@ function(
             this._drawerMenu.startup();
             // description
             if(this.config.showAreasDescription){
-                this._setDescription(this.config.areasDescription || this.item.snippet);
+                this._setAreaDescription(this.config.areasDescription || this.item.snippet);
             }
             // locate button
             if(this.config.showLocateButton){
@@ -455,8 +455,8 @@ function(
             if(this.config.showBasemapToggle){
                 var BT = new BasemapToggle({
                     map: this.map,
-                    basemap: this.config.basemap,
-                    defaultBasemap: this.config.defaultBasemap
+                    basemap: this.config.nextBasemap,
+                    defaultBasemap: this.config.currentBasemap
                 }, 'BasemapToggle');
                 BT.startup();
                 /* Start temporary until after JSAPI 3.9 is released */
