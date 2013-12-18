@@ -70,7 +70,7 @@ function(
                 rendererContainer: 'item-container',
                 rendererSummarize: 'summarize',
                 mobileSearchDisplay: "mobileLocateBoxDisplay",
-                description: "application-description"
+                areasDescription: "areas-description"
             };
             // mobile size switch domClass
             this._showDrawerSize = 850;
@@ -416,7 +416,7 @@ function(
             if (this._multiple && this.config.showAreas) {
                 menus.push({
                     label: this.config.i18n.general.impact,
-                    content: '<div class="' + this.css.description + '" id="description"></div><div id="renderer_menu"></div>'
+                    content: '<div class="' + this.css.areasDescription + '" id="areasDescription"></div><div id="renderer_menu"></div>'
                 });
             }
             if(this.config.showLegend){
@@ -432,8 +432,8 @@ function(
             }, dom.byId("drawer_menus"));
             this._drawerMenu.startup();
             // description
-            if(this.config.showDescription){
-                this._setDescription(this.config.description || this.item.snippet);
+            if(this.config.showAreasDescription){
+                this._setDescription(this.config.areasDescription || this.item.snippet);
             }
             // locate button
             if(this.config.showLocateButton){
@@ -542,9 +542,9 @@ function(
             // window title
             window.document.title = title;
         },
-        _setDescription: function(description){
+        _setAreaDescription: function(description){
             // map title node
-            var node = dom.byId('description');
+            var node = dom.byId('areasDescription');
             if (node) {
                 // set title
                 node.innerHTML = description;

@@ -14,11 +14,11 @@ define([], function() {
         //you could define the default here and setup configuration settings to allow users to choose a different
         //color theme.
         "title":"",
-        "description":"",
+        "areasDescription":"",
         "impact_layer_id":"",
         "impact_layer_title": "Impact Area",
         "showTitle":true,
-        "showDescription":true,
+        "showAreasDescription":true,
         "showAreas": true,
         "showLegend": true,
         "showHomeButton": true,
