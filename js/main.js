@@ -159,6 +159,28 @@ function(
             }
             return false;
         },
+        _queryGreatestFeature: function(){
+            // features query
+            var q = new Query();
+            q.returnGeometry = false;
+            q.where = '1=1';
+            // if multiple features. (determined by renderer)
+            if (this._multiple && this._attributeField) {
+                // order by attribute field
+                q.orderByFields = [this._attributeField + ' ' + this.config.impactAttributeOrder];
+            }
+            // get impact features
+            this._impactLayer.queryFeatures(q, lang.hitch(this, function (fs) {
+                // features were returned
+                if (fs.features && fs.features.length) {
+                    // display stats
+                    this._sb.set("features", [fs.features[0]]);
+                    this._sb.startup();
+                    // selected features
+                    this._selectFeatures([fs.features[0]]);
+                }
+            }));
+        },
         _queryFeatures: function (node, value) {
             // show layer if invisible
             if (!this._impactLayer.visible) {
@@ -287,16 +309,18 @@ function(
         },
         _getLayerInfos: function () {
             this._multiple = false;
-            // multiple polygons
-            var renderer = this._impactLayer.renderer;
-            // renderer exists
-            if (renderer) {
-                this._attributeField = renderer.attributeField;
-                // renderer layer infos
-                var infos = renderer.infos;
-                if (infos && infos.length) {
-                    this._multiple = true;
-                    this._impactInfos = infos;
+            if(this._impactLayer){
+                // multiple polygons
+                var renderer = this._impactLayer.renderer;
+                // renderer exists
+                if (renderer) {
+                    this._attributeField = renderer.attributeField;
+                    // renderer layer infos
+                    var infos = renderer.infos;
+                    if (infos && infos.length) {
+                        this._multiple = true;
+                        this._impactInfos = infos;
+                    }
                 }
             }
         },
@@ -340,28 +364,10 @@ function(
                 // create renderer menu
                 this._createRendererItems(this._impactInfos);
             }
-            // features query
-            var q = new Query();
-            q.returnGeometry = false;
-            q.where = '1=1';
-            // if multiple features. (determined by renderer)
-            if (this._multiple && this._attributeField) {
-                // order by attribute field
-                q.orderByFields = [this._attributeField + ' DESC'];
-            }
             // if impact layer exists
             if (this._impactLayer) {
-                // get impact features
-                this._impactLayer.queryFeatures(q, lang.hitch(this, function (fs) {
-                    // features were returned
-                    if (fs.features && fs.features.length) {
-                        // display stats
-                        this._sb.set("features", [fs.features[0]]);
-                        this._sb.startup();
-                        // selected features
-                        this._selectFeatures([fs.features[0]]);
-                    }
-                }));
+                // get highest value feature
+                this._queryGreatestFeature();
                 // selected poly from graphics layer
                 on(this._selectedGraphics, 'click', lang.hitch(this, function (evt) {
                     this._hideInfoWindow();
@@ -389,13 +395,16 @@ function(
             this._sb.show();
         },
         _init: function () {
-            // get layer by id
-            this._impactLayer = this._getImpactLayer({
-                map: this.map,
-                layers: this.layers,
-                title: this.config.impact_layer_title,
-                id: this.config.impact_layer_id
-            });
+            // if we have a layer title or layer id
+            if(this.config.impact_layer_title || this.config.impact_layer_id){
+                // get layer by id/title
+                this._impactLayer = this._getImpactLayer({
+                    map: this.map,
+                    layers: this.layers,
+                    title: this.config.impact_layer_title,
+                    id: this.config.impact_layer_id
+                });
+            }
             // get impact layer infos
             this._getLayerInfos();
             // drawer size check
@@ -403,87 +412,101 @@ function(
             // menu panels
             var menus = [];
             // multiple polygons
-            if (this._multiple) {
+            if (this._multiple && this.config.showAreas) {
                 menus.push({
                     label: this.config.i18n.general.impact,
                     content: '<div id="renderer_menu"></div>'
                 });
             }
-            // legend menu
-            menus.push({
-                label: this.config.i18n.general.legend,
-                content: '<div id="LayerLegend"></div>'
-            });
+            if(this.config.showLegend){
+                // legend menu
+                menus.push({
+                    label: this.config.i18n.general.legend,
+                    content: '<div id="LayerLegend"></div>'
+                });
+            }
             // menus
             this._drawerMenu = new DrawerMenu({
                 menus: menus
             }, dom.byId("drawer_menus"));
             this._drawerMenu.startup();
             // locate button
-            var LB = new LocateButton({
-                map: this.map,
-                theme: "LocateButtonCalcite"
-            }, 'LocateButton');
-            LB.startup();
-            // home button
-            var HB = new HomeButton({
-                map: this.map,
-                theme: "HomeButtonCalcite"
-            }, 'HomeButton');
-            HB.startup();
-            // basemap toggle
-            var BT = new BasemapToggle({
-                map: this.map,
-                basemap: "hybrid",
-                defaultBasemap: "topo"
-            }, 'BasemapToggle');
-            BT.startup();
-            // about dialog
-            this._AboutDialog = new AboutDialog({
-                theme: "icon-right",
-                item: this.item,
-                sharinghost: this.config.sharinghost
-            }, 'AboutDialog');
-            this._AboutDialog.startup();
-            // share dialog
-            this._ShareDialog = new ShareDialog({
-                theme: "icon-right",
-                bitlyLogin: this.config.bitlyLogin,
-                bitlyKey: this.config.bitlyKey,
-                map: this.map
-            }, 'ShareDialog');
-            this._ShareDialog.startup();
-            // Legend table of contents
-            var legendNode = dom.byId('LayerLegend');
-            if (legendNode) {
-                var LL = new LayerLegend({
+            if(this.config.showLocateButton){
+                var LB = new LocateButton({
                     map: this.map,
-                    layers: this.layers
-                }, legendNode);
-                LL.startup();
+                    theme: "LocateButtonCalcite"
+                }, 'LocateButton');
+                LB.startup();
+            }
+            // home button
+            if(this.config.showHomeButton){
+                var HB = new HomeButton({
+                    map: this.map,
+                    theme: "HomeButtonCalcite"
+                }, 'HomeButton');
+                HB.startup();
+            }
+            // basemap toggle
+            if(this.config.showBasemapToggle){
+                var BT = new BasemapToggle({
+                    map: this.map,
+                    basemap: this.config.basemap,
+                    defaultBasemap: this.config.defaultBasemap
+                }, 'BasemapToggle');
+                BT.startup();
+                /* Start temporary until after JSAPI 3.9 is released */
+                var layers = this.map.getLayersVisibleAtScale(this.map.getScale());
+                on.once(this.map, 'basemap-change', lang.hitch(this, function () {
+                    for (var i = 0; i < layers.length; i++) {
+                        if (layers[i]._basemapGalleryLayerType) {
+                            var layer = this.map.getLayer(layers[i].id);
+                            this.map.removeLayer(layer);
+                        }
+                    }
+                }));
+                /* END temporary until after JSAPI 3.9 is released */
+            }
+            // about dialog
+            if(this.config.showAboutDialog){
+                this._AboutDialog = new AboutDialog({
+                    theme: "icon-right",
+                    item: this.item,
+                    sharinghost: this.config.sharinghost
+                }, 'AboutDialog');
+                this._AboutDialog.startup();
+            }
+            // share dialog
+            if(this.config.ShowShareDialog){
+                this._ShareDialog = new ShareDialog({
+                    theme: "icon-right",
+                    bitlyLogin: this.config.bitlyLogin,
+                    bitlyKey: this.config.bitlyKey,
+                    map: this.map
+                }, 'ShareDialog');
+                this._ShareDialog.startup();
+            }
+            // Legend table of contents
+            if(this.config.showLegend){
+                var legendNode = dom.byId('LayerLegend');
+                if (legendNode) {
+                    var LL = new LayerLegend({
+                        map: this.map,
+                        layers: this.layers
+                    }, legendNode);
+                    LL.startup();
+                }
             }
             // geocoders
             this._createGeocoders();
-            // todo
-            /* Start temporary until after JSAPI 3.9 is released */
-            var layers = this.map.getLayersVisibleAtScale(this.map.getScale());
-            on.once(this.map, 'basemap-change', lang.hitch(this, function () {
-                for (var i = 0; i < layers.length; i++) {
-                    if (layers[i]._basemapGalleryLayerType) {
-                        var layer = this.map.getLayer(layers[i].id);
-                        this.map.removeLayer(layer);
-                    }
-                }
-            }));
-            // todo
-            /* END temporary until after JSAPI 3.9 is released */
             // stats block
-            this._sb = new StatsBlock({
-                config: this.config.impact_attributes
-            }, dom.byId('geoData'));
-            this._sb.startup();
-            // init impact layer
-            this._initImpact();
+            if(this._impactLayer){
+                this._sb = new StatsBlock({
+                    config: this.config.impact_attributes
+                }, dom.byId('geoData'));
+                this._sb.startup();
+                // init impact layer
+                this._initImpact();
+            }
             // hide loading div
             this._hideLoadingIndicator();
         },
@@ -595,7 +618,10 @@ function(
                 //Here' we'll use it to update the application to match the specified color theme.
                 this.map = response.map;
                 this.layers = response.itemInfo.itemData.operationalLayers;
-                this._setTitle(response.itemInfo.item.title);
+                // if title is enabled
+                if(this.config.showTitle){
+                    this._setTitle(this.config.title || response.itemInfo.item.title);
+                }
                 this.item = response.itemInfo.item;
                 if (this.map.loaded) {
                     this._init();

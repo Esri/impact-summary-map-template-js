@@ -13,11 +13,21 @@ define([], function() {
         //Example of a template specific property. If your template had several color schemes
         //you could define the default here and setup configuration settings to allow users to choose a different
         //color theme.
+        "title":"",
+        "description":"",
         "impact_layer_id":"",
         "impact_layer_title": "Impact Area",
-        // "legend" or "areas"
-        "defaultPanel": "areas",
-        // overwritten by renderer info
+        "showTitle":true,
+        "showAreas": true,
+        "showLegend": true,
+        "showHomeButton": true,
+        "showLocateButton":true,
+        "showBasemapToggle": true,
+        "showAboutDialog":true,
+        "ShowShareDialog":true,
+        "basemap": "hybrid",
+        "defaultBasemap": "topo",
+        "impactAttributeOrder":"DESC",
         "impact_attributes": [
            {
               "attribute":"TOTPOP_CY",
