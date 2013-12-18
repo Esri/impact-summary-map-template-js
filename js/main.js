@@ -414,13 +414,11 @@ function(
                 label: this.config.i18n.general.legend,
                 content: '<div id="LayerLegend"></div>'
             });
-            console.log(2);
             // menus
             this._drawerMenu = new DrawerMenu({
                 menus: menus
             }, dom.byId("drawer_menus"));
             this._drawerMenu.startup();
-            console.log(3);
             // locate button
             var LB = new LocateButton({
                 map: this.map,
@@ -464,7 +462,6 @@ function(
                 }, legendNode);
                 LL.startup();
             }
-            console.log(4);
             // geocoders
             this._createGeocoders();
             // todo
@@ -529,7 +526,7 @@ function(
             // geocoder results
             on(this._geocoder, 'find-results', lang.hitch(this, function (response) {
                 if (!response.results.length) {
-                    console.log(this.config.i18n.general.noSearchResult);
+                    alert(this.config.i18n.general.noSearchResult);
                 }
             }));
             // mobile sized geocoder
@@ -542,7 +539,7 @@ function(
             // geocoder results
             on(this._mobileGeocoder, 'find-results', lang.hitch(this, function (response) {
                 if (!response.results.length) {
-                    console.log(this.config.i18n.general.noSearchResult);
+                    alert(this.config.i18n.general.noSearchResult);
                 }
                 this._hideMobileGeocoder();
             }));
