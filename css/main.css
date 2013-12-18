@@ -80,6 +80,9 @@ input[type=text]::-ms-clear {
     padding: 0;
     margin: 0;
 }
+.descriptionText{
+    padding:20px 10px;
+}
 
 /* Drawer */
 
