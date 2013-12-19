@@ -627,7 +627,8 @@ input[type=text]::-ms-clear {
     width:100%;
     position:absolute;
     z-index:2;
-    bottom:2px;
+    line-height:8px;
+    bottom:3px;
 }
 .divPagination {
     text-align: center;
