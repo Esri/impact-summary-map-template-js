@@ -636,7 +636,7 @@ function (
                 // each panel
                 for(var i = 0; i < this._nodes.length; i++){
                     // set panel width
-                    domStyle.set(this._nodes[i].detailedPanel, 'width', sliderWidth + 'px');
+                    domStyle.set(this._nodes[i].detailedPanel, 'width', (sliderWidth - 2) + 'px');
                 }
             }
         },

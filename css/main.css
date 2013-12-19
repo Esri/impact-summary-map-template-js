@@ -349,9 +349,6 @@ input[type=text]::-ms-clear {
     text-align: center;
 }
 .geodata-container {
-    display: block;
-}
-.geoPanelExpanded {
     display: inline-block;
 }
 .geoData .panel {
@@ -369,8 +366,9 @@ input[type=text]::-ms-clear {
     color: #777;
     padding: 0;
     position: absolute;
-    bottom: 30px;
+    bottom: 5px;
     height: 0;
+    overflow:hidden;
     transition: height .25s;
     transition-property: height;
     transition-duration: .25s;
@@ -504,10 +502,12 @@ input[type=text]::-ms-clear {
     background-color: rgba(107, 25, 120, 0.70);
 }
 .geoPanel {
-    height: auto;
-    display: inline-block;
     position: relative;
     z-index: 2;
+}
+.geoPanelExpanded{
+    position:relative;
+    z-index:2;
 }
 .divHeader {
     height: 26px;
