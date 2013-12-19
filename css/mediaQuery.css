@@ -16,8 +16,38 @@
     .mobileLocateBoxDisplay {
         display: none;
     }
+    .drawerOpen .geoData .panel .title {
+        margin: 0;
+        padding: 3px 15px!important;
+        font-size: 14px;
+    }
+    .drawerOpen .geoData .panel .count {
+        padding: 12px 8px!important;
+        font-size: 25px!important;
+    }
+    .drawerOpen .divSliderContent {
+        width: 378px!important;
+    }
+    .drawerOpen .divGeoDataHolder .data-block {
+        width: 126px;
+    }
+    .drawerOpen .divGeoDataHolder .title,
+    .drawerOpen .divGeoDataHolder .count {
+        width: 80px!important;
+        margin-left: 35px;
+    }
+    .drawerOpen .divGeoDataHolder .count {
+        font-size: 24px!important;
+    }
+    .drawerOpen .calcite .dialogContent {
+        width: auto;
+        height: auto;
+    }
+    #title {
+        max-width: 30%;
+    }
 }
-@media screen and (max-height: 315px) {
+@media screen and (max-height: 250px) {
     .geoData {
         display: none!important;
     }
@@ -324,7 +354,7 @@
         width: 75%!important;
     }
     .divPagination {
-        visibility: hidden;
+        display: none;
     }
 }
 @media screen and (max-device-aspect-ratio: 400/640) {
@@ -382,7 +412,7 @@
         font-size: 20px!important;
     }
     .divPagination {
-        visibility: hidden;
+        display: none;
     }
 }
 @media screen and (max-device-width: 480px) and (orientation: landscape) {
@@ -460,7 +490,7 @@
         margin-top: 15px!important;
     }
     .divPagination {
-        visibility: hidden;
+        display: none;
     }
     #geocoderMobile .esriGeocoderResults,
     #geocoderMobile .esriGeocoder input,
@@ -547,7 +577,7 @@
         margin-top: 15px!important;
     }
     .divPagination {
-        visibility: hidden;
+        display: none;
     }
     #geocoderMobile .esriGeocoderResults,
     #geocoderMobile .esriGeocoder input,
@@ -561,38 +591,6 @@
     }
     #geocoderMobile .esriGeocoder input {
         width: 70%!important;
-    }
-}
-@media screen and (max-width: 850px) {
-    .drawerOpen .geoData .panel .title {
-        margin: 0;
-        padding: 3px 15px!important;
-        font-size: 14px;
-    }
-    .drawerOpen .geoData .panel .count {
-        padding: 12px 8px!important;
-        font-size: 25px!important;
-    }
-    .drawerOpen .divSliderContent {
-        width: 378px!important;
-    }
-    .drawerOpen .divGeoDataHolder .data-block {
-        width: 126px;
-    }
-    .drawerOpen .divGeoDataHolder .title,
-    .drawerOpen .divGeoDataHolder .count {
-        width: 80px!important;
-        margin-left: 35px;
-    }
-    .drawerOpen .divGeoDataHolder .count {
-        font-size: 24px!important;
-    }
-    .drawerOpen .calcite .dialogContent {
-        width: auto;
-        height: auto;
-    }
-    #title {
-        max-width: 30%;
     }
 }
 @media screen and (max-width: 800px) {
@@ -812,7 +810,7 @@
         display: none!important;
     }
     .drawerOpen .divPagination {
-        visibility: hidden;
+        display: none;
     }
     .drawerOpen #geocoderMobile .esriGeocoderResults,
     .drawerOpen #geocoderMobile .esriGeocoder input,

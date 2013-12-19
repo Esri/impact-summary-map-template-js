@@ -83,8 +83,8 @@ input[type=text]::-ms-clear {
 }
 .areas-description{
     color:#666;
-    padding:20px 10px;
-    line-height:21px;
+    padding:10px;
+    line-height:24px;
 }
 
 /* Drawer */
