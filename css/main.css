@@ -10,6 +10,7 @@ body {
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-size:16px;
 }
 input[type=text]::-ms-clear {
     display: none;
@@ -83,6 +84,7 @@ input[type=text]::-ms-clear {
 .areas-description{
     color:#666;
     padding:20px 10px;
+    line-height:21px;
 }
 
 /* Drawer */
@@ -376,20 +378,20 @@ input[type=text]::-ms-clear {
     -webkit-transition-duration: .25s;
 }
 .geoData .animateSlider {
-    height: 130px;
+    height:127px;
     border: 1px solid #777;
     border-top: none;
     border-bottom: 3px solid;
 }
 .geoData .panel-expanded .dataSourceUrl {
     position: absolute;
-    bottom: 9px;
-    right: 0;
+    bottom: 5px;
+    right: 5px;
     z-index: 2;
     font-size: 16px;
     line-height: 16px;
-    padding: 0 10px 0 0;
-    text-align: right;
+    padding:0;
+    margin:0;
 }
 .geoData .panel-expanded .dataSourceUrl a{
     text-decoration:none;
@@ -566,7 +568,7 @@ input[type=text]::-ms-clear {
 .divOuterSliderContainer {
     background-color: #fff;
     width: 100%;
-    height: 79%;
+    height:100px;
     overflow: hidden;
     display: none;
     position: relative;
@@ -609,17 +611,10 @@ input[type=text]::-ms-clear {
     -webkit-transition-timing-function: linear;
     -webkit-transition-delay: 0;
 }
-.carouselscroll {
-    height: 70px;
-    position: absolute;
-    left: 0;
-    bottom: 5px;
-    vertical-align: middle;
-}
 .divGeoDataHolder {
     display: inline-block;
-    margin-top: 13px;
-    height: 75px;
+    margin-top: 12px;
+    margin-bottom:12px;
     overflow: hidden;
 }
 .topMenuRight {
@@ -628,27 +623,34 @@ input[type=text]::-ms-clear {
     left: 0;
     float: right;
 }
+.divPaginationContainer{
+    width:100%;
+    position:absolute;
+    z-index:2;
+    bottom:2px;
+}
 .divPagination {
-    width: 100%;
-    position: relative;
     text-align: center;
-    bottom: 9px;
+    height: 8px;
+    line-height: 8px;
+    display: inline-block;
+    overflow: hidden;
 }
 .paginationDot {
-    display: inline-block;
-    width: 7px;
+    display: block;
+    float:left;
+    width: 8px;
     height: 8px;
-    position: relative;
     background-color: #777;
-    border-radius: 7px;
-    -webkit-border-radius: 7px;
-    -moz-border-radius: 7px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
     margin: 0 3px;
     cursor: pointer;
 }
 .divGeoDataHolder .data-block {
     float: left;
-    height: 75px;
+    height: 76px;
     width: 150px;
     border-right: 1px solid #ccc;
     overflow: hidden;
@@ -677,6 +679,7 @@ input[type=text]::-ms-clear {
 .carousel {
     overflow: hidden;
     position: relative;
+    height:100px;
 }
 .divGeoDataHolder .count,
 .divGeoDataHolder .title {

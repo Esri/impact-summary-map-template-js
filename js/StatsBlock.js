@@ -80,6 +80,7 @@ function (
                 divSliderContent: "divSliderContent",
                 carousel: "carousel",
                 slidePanel: "slidePanel",
+                divPaginationContainer: "divPaginationContainer",
                 divPagination: "divPagination",
                 paginationDot: "paginationDot",                
                 clear: "clear"
@@ -303,7 +304,7 @@ function (
             var item = config[index];
             var stats = this.get("stats");
             // expanded nodes
-            var detailedContainer, detailedLeft, detailedLeftArrow, detailedInnerContainer, detailedCarousel, detailedData, detailedPagination, detailedRight, detailedRightArrow, detailedPanel, detailedPanelHeader, detailedPanelHeaderTitle, detailedPanelHeaderSpanTitle, detailedPanelHeaderSpanNumber, detailedPanelHeaderClose, detailedPanelHeaderClear, detailedOuterContainer, detailedDataSource, detailedDataSourceAnchor, clearExpandedPanels, clearDetailedContainer;
+            var detailedContainer, detailedLeft, detailedLeftArrow, detailedInnerContainer, detailedCarousel, detailedData, detailedPagination, detailedPaginationContainer, detailedRight, detailedRightArrow, detailedPanel, detailedPanelHeader, detailedPanelHeaderTitle, detailedPanelHeaderSpanTitle, detailedPanelHeaderSpanNumber, detailedPanelHeaderClose, detailedPanelHeaderClear, detailedOuterContainer, detailedDataSource, detailedDataSourceAnchor, clearExpandedPanels, clearDetailedContainer;
             // expanded panel container
             detailedPanel = domConstruct.create('div', {
                 className: this.css.statsPanelSelected + " " + this.blockThemes[index]
@@ -379,11 +380,16 @@ function (
                     className: this.css.divGeoDataHolder
                 });
                 domConstruct.place(detailedData, detailedCarousel, 'last');
+                // pagination container
+                detailedPaginationContainer = domConstruct.create('div', {
+                    className: this.css.divPaginationContainer
+                });
+                domConstruct.place(detailedPaginationContainer, detailedInnerContainer, 'last');              
                 // pagination
                 detailedPagination = domConstruct.create('div', {
                     className: this.css.divPagination
                 });
-                domConstruct.place(detailedPagination, detailedInnerContainer, 'last');
+                domConstruct.place(detailedPagination, detailedPaginationContainer, 'last');
                 // right paginate
                 detailedRight = domConstruct.create('div', {
                     className: this.css.divRight
@@ -451,6 +457,7 @@ function (
                 detailedCarousel: detailedCarousel,
                 detailedData: detailedData,
                 detailedPagination: detailedPagination,
+                detailedPaginationContainer: detailedPaginationContainer,
                 detailedRight: detailedRight,
                 detailedRightArrow: detailedRightArrow,
                 detailedDataSource: detailedDataSource,
@@ -573,7 +580,7 @@ function (
                 // each page
                 for (var i = 0; i < pageCount; i++) {
                     // create dot
-                    var spanPaginationDot = domConstruct.create("span", {
+                    var spanPaginationDot = domConstruct.create("div", {
                         className: this.css.paginationDot
                     });
                     // if first dot
@@ -587,6 +594,13 @@ function (
                     this._nodes[index].pagination[i] = spanPaginationDot;
                     // setup event
                     this._createPageEvent(index, i);
+                    // last dot
+                    if(i ===(pageCount - 1)){
+                        var clearDots = domConstruct.create('div', {
+                            className: this.css.clear
+                        });
+                        domConstruct.place(clearDots,  this._nodes[index].detailedPagination, 'last');
+                    }
                 }
                 // set arrows
                 this._setArrowVisibility(index);
