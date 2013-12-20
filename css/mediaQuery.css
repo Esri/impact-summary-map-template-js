@@ -139,19 +139,8 @@
     #geocoderMobile {
         display: block!important;
     }
-    #geocoderMobile .esriGeocoderContainer {
-        width: 365px!important;
-    }
-    #geocoderMobile .esriGeocoder input {
-        width: 80%!important;
-    }
     #mobileSearch {
         display: none;
-    }
-}
-@media screen and (max-width: 470px) {
-    #geocoderMobile .esriGeocoderContainer {
-        width: 345px!important;
     }
 }
 @media screen and (max-width: 450px) {
@@ -181,9 +170,6 @@
     .divGeoDataHolder .count {
         font-size: 20px!important;
     }
-    #geocoderMobile .esriGeocoderContainer {
-        width: 315px!important;
-    }
     .leftArrow,
     .rightArrow {
         font-size: 35px!important;
@@ -191,11 +177,6 @@
     .divLeft,
     .divRight {
         width: 35px!important;
-    }
-}
-@media screen and (max-width: 420px) {
-    #geocoderMobile .esriGeocoderContainer {
-        width: 295px!important;
     }
 }
 @media screen and (max-width: 400px) {
@@ -217,35 +198,8 @@
     .divGeoDataHolder .count {
         font-size: 18px!important;
     }
-    #geocoderMobile .esriGeocoderContainer {
-        width: 270px!important;
-    }
-}
-@media screen and (max-width: 380px) {
-    #geocoderMobile .esriGeocoderContainer {
-        width: 250px!important;
-    }
-    #geocoderMobile .esriGeocoder input {
-        width: 75%!important;
-    }
-}
-@media screen and (max-width: 360px) {
-    #geocoderMobile .esriGeocoderContainer {
-        width: 245px!important;
-    }
-}
-@media screen and (max-width: 350px) {
-    #geocoderMobile .esriGeocoderContainer {
-        width: 225px!important;
-    }
-    #geocoderMobile .esriGeocoder input {
-        width: 70%!important;
-    }
 }
 @media screen and (max-width: 330px) {
-    #geocoderMobile .esriGeocoderContainer {
-        width: 215px!important;
-    }
     .divGeoDataHolder .title {
         height: 50px!important;
     }
@@ -290,12 +244,6 @@
     .geocoderSearch {
         display: none!important;
     }
-    #geocoderMobile .esriGeocoderContainer {
-        width: 200px!important;
-    }
-    #geocoderMobile .esriGeocoder input {
-        width: 70%!important;
-    }
 }
 @media screen and (max-width: 315px) {
     .geoData .panel .title {
@@ -314,9 +262,6 @@
     .topMenuRight,
     #mobileSearch {
         display: none!important;
-    }
-    #geocoderMobile .esriGeocoderContainer {
-        width: 190px!important;
     }
 }
 @media screen and (max-width: 800px) {
@@ -481,12 +426,6 @@
     .drawerOpen .geocoderSearch {
         display: none!important;
     }
-    .drawerOpen #geocoderMobile .esriGeocoderContainer {
-        width: 190px!important;
-    }
-    .drawerOpen #geocoderMobile .esriGeocoder input {
-        width: 70%!important;
-    }
 }
 @media screen and (max-width: 595px) {
     .drawerOpen .geoData {
@@ -532,12 +471,6 @@
     #geocoderMobile {
         display: block!important;
     }
-    #geocoderMobile .esriGeocoderContainer {
-        width: 365px!important;
-    }
-    #geocoderMobile .esriGeocoder input {
-        width: 80%!important;
-    }
     #mobileSearch {
         display: none;
     }
@@ -549,10 +482,6 @@
     .geoData {
         bottom: 25px!important;
     }
-}
-/* iPhone 5 in landscape */
-
-@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
     .esriSimpleSlider,
     #BasemapToggle,
     #title,
@@ -571,17 +500,16 @@
     #geocoderMobile {
         display: block!important;
     }
-    #geocoderMobile .esriGeocoderContainer {
-        width: auto!important;
-    }
-    #geocoderMobile .esriGeocoder input {
-        width: 90%!important;
-    }
-    #geocoderMobile {
-        width: 75%!important;
-    }
-    .divPagination {
+    .divPagination, .divPaginationContainer {
         display: none;
+    }
+}
+/* iPhone 5 in landscape */
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
+    #mobileGeocoderIcon,
+    #geocoderMobile {
+        display: block!important;
     }
     .drawerOpen .mobileLocateBoxDisplay {
         display: block!important;
@@ -601,23 +529,10 @@
     .drawerOpen .locateBox {
         display: none!important;
     }
-    .drawerOpen #mobileGeocoderIcon,
-    #geocoderMobile {
-        display: block!important;
-    }
-    .drawerOpen #geocoderMobile .esriGeocoderContainer {
-        width: auto!important;
-    }
-    .drawerOpen #geocoderMobile .esriGeocoder input {
-        width: 75%!important;
-    }
-    .drawerOpen #geocoderMobile {
-        width: 65%!important;
-    }
     .drawerOpen .esriAttribution {
         display: none!important;
     }
-    .drawerOpen .divPagination {
+    .drawerOpen .divPagination , .drawerOpen .divPaginationContainer{
         display: none;
     }
     .drawerOpen #geocoderMobile .esriGeocoderResults,
@@ -629,33 +544,6 @@
 /* iPhone 5 in portrait */
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: portrait) {
-    .esriSimpleSlider,
-    #BasemapToggle,
-    #title,
-    .geocoderSearch,
-    .locateBox {
-        display: none!important;
-    }
-    #mapButtons {
-        top: 55px!important;
-        display: block!important;
-    }
-    .mobileLocateBoxDisplay {
-        display: block!important;
-    }
-    #mobileGeocoderIcon,
-    #geocoderMobile {
-        display: block!important;
-    }
-    #geocoderMobile .esriGeocoderContainer {
-        width: auto!important;
-    }
-    #geocoderMobile .esriGeocoder input {
-        width: 70%!important;
-    }
-    #geocoderMobile {
-        width: 65%!important;
-    }
     .geoData .panel .count {
         padding: 15px 3px!important;
         font-size: 15px!important;
@@ -682,9 +570,6 @@
     .divGeoDataHolder .count {
         font-size: 20px!important;
     }
-    .divPagination {
-        display: none;
-    }
 }
 /* iPhone 2G-4S in portrait and landscape */
 
@@ -693,10 +578,6 @@
     .geoData {
         bottom: 25px!important;
     }
-}
-/* iPhone 2G-4S in landscape */
-
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: landscape) {
     .mobileLocateBoxDisplay {
         display: block!important;
     }
@@ -715,6 +596,16 @@
     .divRight {
         width: 34px!important;
     }
+    .divPagination, .divPaginationContainer {
+        display: none;
+    }
+    .esriAttribution {
+        display: none!important;
+    }
+}
+/* iPhone 2G-4S in landscape */
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: landscape) {
     .geoData .panel .count {
         padding: 15px 5px!important;
         font-size: 20px!important;
@@ -741,27 +632,12 @@
         width: 80px!important;
         margin-left: 30px!important;
     }
-    #geocoderMobile {
-        width: 75%!important;
-    }
     #mobileGeocoder,
     #mobileGeocoderIcon {
         display: block!important;
     }
-    #geocoderMobile .esriGeocoderContainer {
-        width: 100%!important;
-    }
-    #geocoderMobile .esriGeocoder input {
-        width: 86%!important;
-    }
-    .esriAttribution {
-        display: none!important;
-    }
     .divGeoDataHolder {
         margin-top: 15px!important;
-    }
-    .divPagination {
-        display: none;
     }
     #geocoderMobile .esriGeocoderResults,
     #geocoderMobile .esriGeocoder input,
@@ -772,24 +648,6 @@
 /* iPhone 2G-4S in portrait */
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait) {
-    .mobileLocateBoxDisplay {
-        display: block!important;
-    }
-    .divLeft,
-    .divRight {
-        width: 34px!important;
-    }
-    #mapButtons {
-        top: 55px!important;
-        display: block!important;
-    }
-    .esriSimpleSlider,
-    #BasemapToggle,
-    #title,
-    .geocoderSearch,
-    .locateBox {
-        display: none!important;
-    }
     .geoData .panel .count {
         padding: 12px 5px!important;
         font-size: 15px!important;
@@ -816,38 +674,8 @@
     .divGeoDataHolder .title {
         font-size: 10px!important;
     }
-    .geocoderSearch {
-        display: none!important;
-    }
-    .shareMapURL {
-        width: 200px;
-    }
-    .shareDialogTextarea {
-        width: 300px!important;
-    }
-    .locateBox {
-        display: none!important;
-    }
-    #mobileGeocoder {
-        display: block;
-    }
-    #geocoderMobile .esriGeocoderContainer {
-        width: auto!important;
-    }
-    #geocoderMobile .esriGeocoder input {
-        width: 70%!important;
-    }
-    #geocoderMobile {
-        width: 65%!important;
-    }
-    .esriAttribution {
-        display: none!important;
-    }
     .divGeoDataHolder {
         margin-top: 15px!important;
-    }
-    .divPagination {
-        display: none;
     }
     #geocoderMobile .esriGeocoderResults,
     #geocoderMobile .esriGeocoder input,

@@ -175,12 +175,16 @@ input[type=text]::-ms-clear {
 }
 #geocoderMobile {
     float: left;
+    width:75%;
+}
+#geocoderMobile .esriGeocoderContainer{
+    width:100%;
 }
 .mobileLocateBoxHidden {
     display: none;
 }
 #geocoderMobile.esriGeocoder input {
-    width: 70%;
+    width: 75%;
 }
 #btnCloseGeocoder {
     float: left;
@@ -585,7 +589,7 @@ input[type=text]::-ms-clear {
     margin: 0;
     padding: 0;
     text-align: center;
-    width: 36px;
+    width: 100%;
     height: 100px;
     line-height: 100px;
 }
