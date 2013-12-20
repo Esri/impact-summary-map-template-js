@@ -47,9 +47,6 @@
     }
 }
 @media screen and (max-width: 600px) {
-    .geoData {
-        bottom: 25px!important;
-    }
     .geoData .panel .title {
         padding: 3px 15px!important;
         font-size: 14px;
@@ -110,9 +107,6 @@
     .divSliderContent {
         width: 342px!important;
     }
-    .geoData {
-        bottom: 25px!important;
-    }
     .divGeoDataHolder .data-block {
         width: 114px!important;
     }
@@ -161,9 +155,6 @@
     }
 }
 @media screen and (max-width: 450px) {
-    .geoData {
-        bottom: 25px!important;
-    }
     .geoData .panel .count {
         padding: 15px 3px!important;
         font-size: 15px!important;
