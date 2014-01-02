@@ -331,7 +331,7 @@ input[type=text]::-ms-clear {
 }
 #renderer_menu .selected .item-container,
 #renderer_menu .selected .item-container:hover,
-#renderer_menu .selected .item-container:active {
+#renderer_menu .selected .itemgeoData-container:active {
     cursor: default;
     color: #007ac2;
     font-weight: 700;
@@ -348,18 +348,19 @@ input[type=text]::-ms-clear {
     position: absolute;
     z-index: 40;
     bottom: 40px;
-    width: 100%;
+    width:100%;
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;
     text-align: center;
 }
 .geodata-container {
-    display: inline-block;
+    position:relative;
+    z-index:1;
 }
 .geoData .panel {
     text-align: center;
-    display: inline-block;
+    display: block;
     float: left;
     color: #fff;
     cursor: pointer;
@@ -372,7 +373,10 @@ input[type=text]::-ms-clear {
     color: #777;
     padding: 0;
     position: absolute;
-    bottom: 5px;
+    bottom: 28px;
+    width:522px;
+    left:50%;
+    margin-left:-263px;
     height: 0;
     overflow:hidden;
     transition: height .25s;
@@ -508,12 +512,11 @@ input[type=text]::-ms-clear {
     background-color: rgba(107, 25, 120, 0.70);
 }
 .geoPanel {
-    position: relative;
+    position: absolute;
     z-index: 2;
-}
-.geoPanelExpanded{
-    position:relative;
-    z-index:2;
+    bottom: 0;
+    left: 50%;
+    margin-left: -265px;
 }
 .divHeader {
     height: 26px;

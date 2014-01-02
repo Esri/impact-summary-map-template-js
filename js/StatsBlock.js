@@ -49,6 +49,9 @@ function (
             this._i18n = i18n;
             // classes
             this.css = {
+                geoPanel: 'geoPanel',
+                geoDataContainer: 'geodata-container',
+                geoPanelExpanded: 'panel-expanded-container',
                 stats: 'geoData',
                 statsOpen: 'geoDataExpanded',
                 statsPanel: 'panel',
@@ -645,6 +648,13 @@ function (
             // if nodes are set
             if(this._nodes && this._nodes.length){
                 // get width
+                var mb = domGeom.getContentBox(this._geoPanelsNode);
+                var w = mb.w;
+                domStyle.set(this._geoPanelsNode, 'margin-left', -Math.round(w/2) + 'px');
+            }
+            // if nodes are set
+            /*if(this._nodes && this._nodes.length){
+                // get width
                 var mb = domGeom.getMarginBox(this._geoPanelsNode);
                 var sliderWidth = mb.w;
                 // each panel
@@ -652,7 +662,7 @@ function (
                     // set panel width
                     domStyle.set(this._nodes[i].detailedPanel, 'width', (sliderWidth - 2) + 'px');
                 }
-            }
+            */
         },
         //handle left/right arrow visibility
         _setArrowVisibility: function(index) {
@@ -710,6 +720,8 @@ function (
             domClass.remove(this.domNode, this.css.statsOpen);
             // remove expanded class from panels
             this._removeExpandedClass();
+            // set width of panels
+            this._setPanelWidth();
         },
         _showExpanded: function(index) {
             // remove any expanded classes
