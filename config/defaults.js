@@ -14,12 +14,13 @@ define([], function() {
         //you could define the default here and setup configuration settings to allow users to choose a different
         //color theme.
         "title":"",
-        "areasDescription":"",
-        "impact_layer_id":"",
-        "impact_layer_title": "Impact Area",
+        "areaDescription":"",
+        "aoi_layer_id":"",
+        "aoi_layer_title": "Impact Area",
         "showTitle":true,
-        "showAreasDescription":true,
-        "showAreas": true,
+        "showEntireAreaButton": true,
+        "showAreaDescription":true,
+        "showArea": true,
         "showLegend": true,
         "showHomeButton": true,
         "showLocateButton":true,
@@ -28,10 +29,10 @@ define([], function() {
         "ShowShareDialog":true,
         "nextBasemap": "hybrid",
         "currentBasemap": "topo",
-        "impactAttributeOrder":"DESC",
+        "aoiAttributeOrder":"DESC",
         "bitlyLogin": "esri",
         "bitlyKey": "R_65fd9891cd882e2a96b99d4bda1be00e",
-        "impact_attributes": [
+        "aoi_attributes": [
            {
               "attribute":"TOTPOP_CY",
               "label":"Population",
@@ -64,7 +65,7 @@ define([], function() {
            },
            {
               "attribute":"CIKR_Total",
-              "label":"Critical Infrastructures",
+              "label":"Critical Infrastructure",
               "dataSourceUrl": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Data_Apportionment/02r30000021s000000/",
               "children":[
                  {

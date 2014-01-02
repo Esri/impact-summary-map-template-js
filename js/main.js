@@ -70,7 +70,7 @@ function(
                 rendererContainer: 'item-container',
                 rendererSummarize: 'summarize',
                 mobileSearchDisplay: "mobileLocateBoxDisplay",
-                areasDescription: "areas-description"
+                areaDescription: "area-description"
             };
             // mobile size switch domClass
             this._showDrawerSize = 850;
@@ -134,8 +134,8 @@ function(
                 }
             }
         },
-        // get layer of impact
-        _getImpactLayer: function (obj) {
+        // get layer
+        _getAOILayer: function (obj) {
             var mapLayer, layer, i;
             // if we have a layer id
             if (obj.id) {
@@ -168,10 +168,10 @@ function(
             // if multiple features. (determined by renderer)
             if (this._multiple && this._attributeField) {
                 // order by attribute field
-                q.orderByFields = [this._attributeField + ' ' + this.config.impactAttributeOrder];
+                q.orderByFields = [this._attributeField + ' ' + this.config.aoiAttributeOrder];
             }
-            // get impact features
-            this._impactLayer.queryFeatures(q, lang.hitch(this, function (fs) {
+            // get features
+            this._aoiLayer.queryFeatures(q, lang.hitch(this, function (fs) {
                 // features were returned
                 if (fs.features && fs.features.length) {
                     // display stats
@@ -184,8 +184,8 @@ function(
         },
         _queryFeatures: function (node, value) {
             // show layer if invisible
-            if (!this._impactLayer.visible) {
-                this._impactLayer.setVisibility(true);
+            if (!this._aoiLayer.visible) {
+                this._aoiLayer.setVisibility(true);
             }
             // remove any selected
             this._clearSelected();
@@ -207,7 +207,7 @@ function(
             }
             var ct = node;
             // query features
-            this._impactLayer.queryFeatures(q, lang.hitch(this, function (fs) {
+            this._aoiLayer.queryFeatures(q, lang.hitch(this, function (fs) {
                 // remove current renderer
                 domClass.remove(ct, this.css.rendererLoading);
                 // display geo stats
@@ -254,24 +254,27 @@ function(
             var ulList = domConstruct.create('ul', {
                 className: this.css.rendererMenu
             });
-            // create select all item
-            var selectAll = domConstruct.create('li', {
-                className: this.css.rendererMenuItem + " " + this.css.rendererSummarize
-            });
-            // create select all item container
-            domConstruct.create('div', {
-                className: this.css.rendererContainer,
-                innerHTML: this.config.i18n.general.summarize
-            }, selectAll);
-            // select all click event
-            this._createRendererItemClick(selectAll, this._entireAreaValue);
-            // place item
-            domConstruct.place(selectAll, ulList, 'last');
-            // save reference to select all node
-            this._rendererNodes.push({
-                value: this._entireAreaValue,
-                node: selectAll
-            });
+            // Entire area button in renderer list
+            if(this.config.showEntireAreaButton){
+                // create select all item
+                var selectAll = domConstruct.create('li', {
+                    className: this.css.rendererMenuItem + " " + this.css.rendererSummarize
+                });
+                // create select all item container
+                domConstruct.create('div', {
+                    className: this.css.rendererContainer,
+                    innerHTML: this.config.i18n.general.summarize
+                }, selectAll);
+                // select all click event
+                this._createRendererItemClick(selectAll, this._entireAreaValue);
+                // place item
+                domConstruct.place(selectAll, ulList, 'last');
+                // save reference to select all node
+                this._rendererNodes.push({
+                    value: this._entireAreaValue,
+                    node: selectAll
+                });
+            }
             // each renderer item
             for (var i = 0; i < infos.length; i++) {
                 // create list item
@@ -310,9 +313,9 @@ function(
         },
         _getLayerInfos: function () {
             this._multiple = false;
-            if (this._impactLayer) {
+            if (this._aoiLayer) {
                 // multiple polygons
-                var renderer = this._impactLayer.renderer;
+                var renderer = this._aoiLayer.renderer;
                 // renderer exists
                 if (renderer) {
                     this._attributeField = renderer.attributeField;
@@ -320,7 +323,7 @@ function(
                     var infos = renderer.infos;
                     if (infos && infos.length) {
                         this._multiple = true;
-                        this._impactInfos = infos;
+                        this._aoiInfos = infos;
                     }
                 }
             }
@@ -350,23 +353,23 @@ function(
                 this.map.infoWindow.hide();
             }
         },
-        _initImpact: function () {
-            // impact layer found
-            if (this._impactLayer) {
+        _initaoi: function () {
+            // layer found
+            if (this._aoiLayer) {
                 // selected graphics layer
                 this._selectedGraphics = new GraphicsLayer({
                     id: "selectedArea",
-                    visible: this._impactLayer.visible
+                    visible: this._aoiLayer.visible
                 });
-                this.map.addLayer(this._selectedGraphics, (this._impactLayer.layerIndex + 1));
+                this.map.addLayer(this._selectedGraphics, (this._aoiLayer.layerIndex + 1));
             }
             // renderer layer infos
-            if (this._impactInfos) {
+            if (this._aoiInfos) {
                 // create renderer menu
-                this._createRendererItems(this._impactInfos);
+                this._createRendererItems(this._aoiInfos);
             }
-            // if impact layer exists
-            if (this._impactLayer) {
+            // if layer exists
+            if (this._aoiLayer) {
                 // get highest value feature
                 this._queryGreatestFeature();
                 // selected poly from graphics layer
@@ -374,13 +377,13 @@ function(
                     this._hideInfoWindow();
                     this._selectEvent(evt);
                 }));
-                // selected poly from impact layer
-                on(this._impactLayer, 'click', lang.hitch(this, function (evt) {
+                // selected poly from layer
+                on(this._aoiLayer, 'click', lang.hitch(this, function (evt) {
                     this._hideInfoWindow();
                     this._selectEvent(evt);
                 }));
-                // impact layer show/hide
-                on(this._impactLayer, 'visibility-change', lang.hitch(this, function (evt) {
+                // layer show/hide
+                on(this._aoiLayer, 'visibility-change', lang.hitch(this, function (evt) {
                     // set visibility of graphics layer
                     this._selectedGraphics.setVisibility(evt.visible);
                     // if not visible
@@ -397,26 +400,26 @@ function(
         },
         _init: function () {
             // if we have a layer title or layer id
-            if (this.config.impact_layer_title || this.config.impact_layer_id) {
+            if (this.config.aoi_layer_title || this.config.aoi_layer_id) {
                 // get layer by id/title
-                this._impactLayer = this._getImpactLayer({
+                this._aoiLayer = this._getAOILayer({
                     map: this.map,
                     layers: this.layers,
-                    title: this.config.impact_layer_title,
-                    id: this.config.impact_layer_id
+                    title: this.config.aoi_layer_title,
+                    id: this.config.aoi_layer_id
                 });
             }
-            // get impact layer infos
+            // get layer infos
             this._getLayerInfos();
             // drawer size check
             this._drawer.resize();
             // menu panels
             var menus = [];
             // multiple polygons
-            if (this._multiple && this.config.showAreas) {
+            if (this._multiple && this.config.showArea) {
                 menus.push({
-                    label: this.config.i18n.general.impact,
-                    content: '<div class="' + this.css.areasDescription + '" id="areasDescription"></div><div id="renderer_menu"></div>'
+                    label: this.config.i18n.general.aoi,
+                    content: '<div class="' + this.css.areaDescription + '" id="areaDescription"></div><div id="renderer_menu"></div>'
                 });
             }
             if (this.config.showLegend) {
@@ -432,8 +435,8 @@ function(
             }, dom.byId("drawer_menus"));
             this._drawerMenu.startup();
             // description
-            if (this.config.showAreasDescription) {
-                this._setAreaDescription(this.config.areasDescription || this.item.snippet);
+            if (this.config.showAreaDescription) {
+                this._setAreaDescription(this.config.areaDescription || this.item.snippet);
             }
             // locate button
             if (this.config.showLocateButton) {
@@ -504,13 +507,13 @@ function(
             // geocoders
             this._createGeocoders();
             // stats block
-            if (this._impactLayer) {
+            if (this._aoiLayer) {
                 this._sb = new StatsBlock({
-                    config: this.config.impact_attributes
+                    config: this.config.aoi_attributes
                 }, dom.byId('geoData'));
                 this._sb.startup();
-                // init impact layer
-                this._initImpact();
+                // init layer
+                this._initaoi();
             }
             // hide loading div
             this._hideLoadingIndicator();
@@ -544,7 +547,7 @@ function(
         },
         _setAreaDescription: function (description) {
             // map title node
-            var node = dom.byId('areasDescription');
+            var node = dom.byId('areaDescription');
             if (node) {
                 // set title
                 node.innerHTML = description;

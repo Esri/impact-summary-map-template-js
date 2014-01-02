@@ -5,7 +5,7 @@ define({
         },
         general: {
             legend: "Legend",
-            impact: "Areas",
+            aoi: "Area",
             summarize: "Entire Area",
             share: "Share",
             about: "About",
