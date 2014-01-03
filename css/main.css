@@ -363,6 +363,8 @@ input[type=text]::-ms-clear {
     display: block;
     float: left;
     color: #fff;
+}
+.geoData .panel-parent{
     cursor: pointer;
 }
 .geoData .panel-selected-expand {

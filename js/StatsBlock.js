@@ -55,6 +55,7 @@ function (
                 stats: 'geoData',
                 statsOpen: 'geoDataExpanded',
                 statsPanel: 'panel',
+                StatsPanelParent: 'panel-parent',
                 statsCount: 'count',
                 statsTitle: "title",
                 statsPanelSelected: 'panel-expanded',
@@ -210,9 +211,11 @@ function (
                             if (features[i].attributes.hasOwnProperty(config[j].attribute)) {
                                 stats[config[j].attribute] = features[i].attributes[config[j].attribute];
                             }
-                            // sum children
-                            for (k = 0; k < config[j].children.length; k++) {
-                                stats[config[j].children[k].attribute] = features[i].attributes[config[j].children[k].attribute];
+                            if(config[j].children){
+                                // sum children
+                                for (k = 0; k < config[j].children.length; k++) {
+                                    stats[config[j].children[k].attribute] = features[i].attributes[config[j].children[k].attribute];
+                                }
                             }
                         }
                     } else {
@@ -222,9 +225,11 @@ function (
                             if (features[i].attributes.hasOwnProperty(config[j].attribute)) {
                                 stats[config[j].attribute] += features[i].attributes[config[j].attribute];
                             }
-                            // append sum children
-                            for (k = 0; k < config[j].children.length; k++) {
-                                stats[config[j].children[k].attribute] += features[i].attributes[config[j].children[k].attribute];
+                            if(config[j].children){
+                                // append sum children
+                                for (k = 0; k < config[j].children.length; k++) {
+                                    stats[config[j].children[k].attribute] += features[i].attributes[config[j].children[k].attribute];
+                                }
                             }
                         }
                     }
@@ -241,8 +246,11 @@ function (
                 }
                 // create panel events
                 for (i = 0; i < this._nodes.length; i++) {
-                    this._panelClickEvent(this._nodes[i].panel, i);
-                    this._panelCloseEvent(this._nodes[i].detailedPanelHeaderClose);
+                    // if panel has children
+                    if(config[i].children && config[i].children.length){
+                        this._panelClickEvent(this._nodes[i].panel, i);
+                        this._panelCloseEvent(this._nodes[i].detailedPanelHeaderClose);
+                    }
                 }
                 // show geo stats
                 this.show();
@@ -267,11 +275,15 @@ function (
             var stats = this.get("stats");
             var config = this.get("config");
             var item = config[index];
+            var isParent = "";
+            if(item.children && item.children.length){
+                isParent = this.css.StatsPanelParent;
+            }
             // node variables
             var panel, panelCount, panelTitle, clearPanel;
             // panel container
             panel = domConstruct.create('div', {
-                className: this.css.statsPanel + " " + this.blockThemes[index]
+                className: this.css.statsPanel + " " + isParent + " " + this.blockThemes[index]
             });
             domConstruct.place(panel, this._geoPanelsNode, 'last');
             // panel number
@@ -577,7 +589,7 @@ function (
         _createPagination: function(index) {
             // all child stats
             var children = this._nodes[index].children;
-            if(children.length > this.displayPageCount){
+            if(children && children.length > this.displayPageCount){
                 // count of pages
                 var pageCount = Math.ceil(children.length / this.displayPageCount);
                 // each page
