@@ -367,9 +367,6 @@ input[type=text]::-ms-clear {
 .geoData .panel-parent{
     cursor: pointer;
 }
-.geoData .panel-selected-expand {
-    cursor: default;
-}
 .geoData .panel-expanded {
     text-align: center;
     color: #777;
@@ -406,19 +403,19 @@ input[type=text]::-ms-clear {
 .geoData .panel-expanded .dataSourceUrl a{
     text-decoration:none;
 }
-.geoData .theme_1 {
+.panel-expanded-container .theme_1 {
     border-bottom-color: #da4d1e;
     border-bottom-color: rgba(218, 77, 30, 0.80);
 }
-.geoData .theme_2 {
+.panel-expanded-container .theme_2 {
     border-bottom-color: #004575;
     border-bottom-color: rgba(0, 69, 117, 0.80);
 }
-.geoData .theme_3 {
+.panel-expanded-container .theme_3 {
     border-bottom-color: #35ac46;
     border-bottom-color: rgba(42, 116, 51, 0.80);
 }
-.geoData .theme_4 {
+.panel-expanded-container .theme_4 {
     border-bottom-color: #6b1978;
     border-bottom-color: rgba(107, 25, 120, 0.80);
 }
@@ -445,6 +442,7 @@ input[type=text]::-ms-clear {
     padding: 3px 22px;
     font-size: 14px;
 }
+
 .geoData .geoPanel .theme_1 .count {
     background-color: #f36f20;
     background-color: rgba(243, 111, 32, 0.80);
@@ -454,11 +452,11 @@ input[type=text]::-ms-clear {
     background-color: #da4d1e;
     background-color: rgba(218, 77, 30, 0.80);
 }
-.geoData .geoPanel .theme_1:hover .count {
+.geoData .geoPanel .panel-parent .theme_1:hover .count {
     background-color: #f36f20;
     background-color: rgba(243, 111, 32, 0.70);
 }
-.geoData .geoPanel .theme_1:hover .title {
+.geoData .geoPanel .panel-parent .theme_1:hover .title {
     background-color: #da4d1e;
     background-color: rgba(218, 77, 30, 0.70);
 }
@@ -471,11 +469,11 @@ input[type=text]::-ms-clear {
     background-color: #004575;
     background-color: rgba(0, 69, 117, 0.80);
 }
-.geoData .geoPanel .theme_2:hover .count {
+.geoData .geoPanel .panel-parent .theme_2:hover .count {
     background-color: #007ac2;
     background-color: rgba(0, 122, 194, 0.70);
 }
-.geoData .geoPanel .theme_2:hover .title {
+.geoData .geoPanel .panel-parent .theme_2:hover .title {
     background-color: #004575;
     background-color: rgba(0, 69, 117, 0.70);
 }
@@ -488,11 +486,11 @@ input[type=text]::-ms-clear {
     background-color: #2a7433;
     background-color: rgba(42, 116, 51, 0.80);
 }
-.geoData .geoPanel .theme_3:hover .count {
+.geoData .geoPanel .panel-parent .theme_3:hover .count {
     background-color: #35ac46;
     background-color: rgba(53, 172, 70, 0.70);
 }
-.geoData .geoPanel .theme_3:hover .title {
+.geoData .geoPanel .panel-parent .theme_3:hover .title {
     background-color: #2a7433;
     background-color: rgba(42, 116, 51, 0.70);
 }
@@ -505,11 +503,11 @@ input[type=text]::-ms-clear {
     background-color: #6b1978;
     background-color: rgba(107, 25, 120, 0.80);
 }
-.geoData .geoPanel .theme_4:hover .count {
+.geoData .geoPanel .panel-parent .theme_4:hover .count {
     background-color: #8f499c;
     background-color: rgba(143, 73, 156, 0.70);
 }
-.geoData .geoPanel .theme_4:hover .title {
+.geoData .geoPanel .panel-parent .theme_4:hover .title {
     background-color: #6b1978;
     background-color: rgba(107, 25, 120, 0.70);
 }

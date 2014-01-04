@@ -59,7 +59,6 @@ function (
                 statsCount: 'count',
                 statsTitle: "title",
                 statsPanelSelected: 'panel-expanded',
-                statsPanelSelectedExpand: "panel-selected-expand",
                 statsPanelDataBlock: 'data-block',
                 statsPanelDataBlockLast: 'data-block-last',
                 statsSourceInfo: 'icon-info-circled-1',
@@ -280,24 +279,29 @@ function (
                 isParent = this.css.StatsPanelParent;
             }
             // node variables
-            var panel, panelCount, panelTitle, clearPanel;
+            var panel, panelContent, panelCount, panelTitle, clearPanel;
             // panel container
             panel = domConstruct.create('div', {
-                className: this.css.statsPanel + " " + isParent + " " + this.blockThemes[index]
+                className: this.css.statsPanel + " " + isParent
             });
             domConstruct.place(panel, this._geoPanelsNode, 'last');
+            // panel content holder
+            panelContent = domConstruct.create('div', {
+                className: this.blockThemes[index]
+            });
+            domConstruct.place(panelContent, panel, 'last');
             // panel number
             panelCount = domConstruct.create('div', {
                 className: this.css.statsCount,
                 innerHTML: this._decPlaces(stats[item.attribute])
             });
-            domConstruct.place(panelCount, panel, 'last');
+            domConstruct.place(panelCount, panelContent, 'last');
             // panel title
             panelTitle = domConstruct.create('div', {
                 className: this.css.statsTitle,
                 innerHTML: item.label
             });
-            domConstruct.place(panelTitle, panel, 'last');
+            domConstruct.place(panelTitle, panelContent, 'last');
             // if last item
             if(index === (config.length - 1)){
                 // clear blocks
@@ -309,6 +313,7 @@ function (
             // save references to these nodes
             this._nodes[index] = lang.mixin(this._nodes[index], {
                 panel: panel,
+                panelContent: panelContent,
                 panelCount: panelCount,
                 panelTitle: panelTitle,
                 clearPanel: clearPanel
@@ -718,9 +723,13 @@ function (
             }
         },
         _removeExpandedClass: function() {
+            var config = this.get("config");
             // remove stats panel expanded class from all panels
-            array.forEach(this._nodes, lang.hitch(this, function(obj) {
-                domClass.remove(obj.panel, this.css.statsPanelSelectedExpand);
+            array.forEach(this._nodes, lang.hitch(this, function(obj, index) {
+                // panel has children
+                if(config[index].children && config[index].children.length){
+                    domClass.add(obj.panel, this.css.StatsPanelParent);
+                }
                 domClass.remove(obj.detailedPanel, this.css.animateSlider);
             }));
             // set variables null
@@ -746,7 +755,7 @@ function (
             // show panel
             domClass.add(this._displayedContainer, this.css.animateSlider);
             // add expanded class
-            domClass.add(this._nodes[index].panel, this.css.statsPanelSelectedExpand);
+            domClass.remove(this._nodes[index].panel, this.css.StatsPanelParent);
             // set width of panels
             this._setPanelWidth();
         }
