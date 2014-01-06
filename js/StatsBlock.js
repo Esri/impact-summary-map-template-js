@@ -50,6 +50,10 @@ function (
             // classes
             this.css = {
                 geoPanel: 'geoPanel',
+                geoPanelOne: 'geoPanelOne',
+                geoPanelTwo: 'geoPanelTwo',
+                geoPanelThree: 'geoPanelThree',
+                geoPanelFour: 'geoPanelFour',
                 geoDataContainer: 'geodata-container',
                 geoPanelExpanded: 'panel-expanded-container',
                 stats: 'geoData',
@@ -74,6 +78,7 @@ function (
                 iconCancel: "icon-cancel-1",
                 divSliderContainer: "divSliderContainer",
                 dataSourceUrl: "dataSourceUrl",
+                divBorder: "panel-border",
                 divInnerSliderContainer: "divInnerSliderContainer",
                 divLeft: "divLeft",
                 divRight: "divRight",
@@ -112,7 +117,6 @@ function (
         /* ---------------- */
         resize: function() {
             this._resizeSliders();
-            this._setPanelWidth();
         },
         show: function() {
             domStyle.set(this.domNode, 'display', 'block');
@@ -299,6 +303,7 @@ function (
             // panel title
             panelTitle = domConstruct.create('div', {
                 className: this.css.statsTitle,
+                title: item.label,
                 innerHTML: item.label
             });
             domConstruct.place(panelTitle, panelContent, 'last');
@@ -324,17 +329,22 @@ function (
             var item = config[index];
             var stats = this.get("stats");
             // expanded nodes
-            var detailedContainer, detailedLeft, detailedLeftArrow, detailedInnerContainer, detailedCarousel, detailedData, detailedPagination, detailedPaginationContainer, detailedRight, detailedRightArrow, detailedPanel, detailedPanelHeader, detailedPanelHeaderTitle, detailedPanelHeaderSpanTitle, detailedPanelHeaderSpanNumber, detailedPanelHeaderClose, detailedPanelHeaderClear, detailedOuterContainer, detailedDataSource, detailedDataSourceAnchor, clearExpandedPanels, clearDetailedContainer;
+            var detailedContainer, detailedLeft, detailedLeftArrow, detailedInnerContainer, detailedCarousel, detailedData, detailedPagination, detailedPaginationContainer, detailedRight, detailedRightArrow, detailedPanel, detailedPanelBorder, detailedPanelHeader, detailedPanelHeaderTitle, detailedPanelHeaderSpanTitle, detailedPanelHeaderSpanNumber, detailedPanelHeaderClose, detailedPanelHeaderClear, detailedOuterContainer, detailedDataSource, detailedDataSourceAnchor, clearExpandedPanels, clearDetailedContainer;
             // expanded panel container
             detailedPanel = domConstruct.create('div', {
                 className: this.css.statsPanelSelected + " " + this.blockThemes[index]
             });
             domConstruct.place(detailedPanel, this._geoDataPanelsExpandedNode, 'last');
+            // panel border
+            detailedPanelBorder =domConstruct.create('div', {
+                className: this.css.divBorder
+            });
+            domConstruct.place(detailedPanelBorder, detailedPanel, 'last');
             // header
             detailedPanelHeader = domConstruct.create('div', {
                 className: this.css.divHeader
             });
-            domConstruct.place(detailedPanelHeader, detailedPanel, 'last');
+            domConstruct.place(detailedPanelHeader, detailedPanelBorder, 'last');
             // header title
             detailedPanelHeaderTitle = domConstruct.create('div', {
                 className: this.css.bgColor + " " + this.css.divHeaderTitle
@@ -367,7 +377,7 @@ function (
             detailedOuterContainer = domConstruct.create('div', {
                 className: this.css.divOuterSliderContainer
             });
-            domConstruct.place(detailedOuterContainer, detailedPanel, 'last');
+            domConstruct.place(detailedOuterContainer, detailedPanelBorder, 'last');
             // if we have children
             if (item.children && item.children.length && item.children.length > 3) {
                 // slider container
@@ -462,6 +472,7 @@ function (
             // save references to these nodes
             this._nodes[index] = lang.mixin(this._nodes[index], {
                 detailedPanel: detailedPanel,
+                detailedPanelBorder: detailedPanelBorder,
                 detailedPanelHeader: detailedPanelHeader,
                 detailedPanelHeaderTitle: detailedPanelHeaderTitle,
                 detailedPanelHeaderSpanTitle: detailedPanelHeaderSpanTitle,
@@ -539,6 +550,24 @@ function (
         },
         _createPanels: function() {
             var config = this.get("config");
+            // set class for number of variables shown
+            var parentClass = '';
+            switch(config.length){
+                case 1:
+                    parentClass = this.css.geoPanelOne;
+                    break;
+                case 2:
+                    parentClass = this.css.geoPanelTwo;
+                    break;
+                case 3:
+                    parentClass = this.css.geoPanelThree;
+                    break;
+                case 4:
+                    parentClass = this.css.geoPanelFour;
+                    break;
+            }
+            // add class
+            domClass.add(this._geoPanelsNode, parentClass);
             // remove old events
             this._removeEvents();
             // clear previous html
@@ -661,26 +690,6 @@ function (
             // reset arrow visibility
             this._setArrowVisibility(parentIndex);
         },
-        _setPanelWidth: function() {
-            // if nodes are set
-            if(this._nodes && this._nodes.length){
-                // get width
-                var mb = domGeom.getContentBox(this._geoPanelsNode);
-                var w = mb.w;
-                domStyle.set(this._geoPanelsNode, 'margin-left', -Math.round(w/2) + 'px');
-            }
-            // if nodes are set
-            /*if(this._nodes && this._nodes.length){
-                // get width
-                var mb = domGeom.getMarginBox(this._geoPanelsNode);
-                var sliderWidth = mb.w;
-                // each panel
-                for(var i = 0; i < this._nodes.length; i++){
-                    // set panel width
-                    domStyle.set(this._nodes[i].detailedPanel, 'width', (sliderWidth - 2) + 'px');
-                }
-            */
-        },
         //handle left/right arrow visibility
         _setArrowVisibility: function(index) {
             if (this._selectedPageIndex[index] === 0) {
@@ -741,8 +750,6 @@ function (
             domClass.remove(this.domNode, this.css.statsOpen);
             // remove expanded class from panels
             this._removeExpandedClass();
-            // set width of panels
-            this._setPanelWidth();
         },
         _showExpanded: function(index) {
             // remove any expanded classes
@@ -756,8 +763,6 @@ function (
             domClass.add(this._displayedContainer, this.css.animateSlider);
             // add expanded class
             domClass.remove(this._nodes[index].panel, this.css.StatsPanelParent);
-            // set width of panels
-            this._setPanelWidth();
         }
     });
     if (has("extend-esri")) {

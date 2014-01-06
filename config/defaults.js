@@ -65,7 +65,7 @@ define([], function() {
            },
            {
               "attribute":"CIKR_Total",
-              "label":"Critical Infrastructure",
+              "label":"Infrastructure",
               "dataSourceUrl": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Data_Apportionment/02r30000021s000000/",
               "children":[
                  {

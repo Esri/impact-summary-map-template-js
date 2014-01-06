@@ -47,7 +47,7 @@
     }
 }
 @media screen and (max-width: 600px) {
-    .geoData .panel-expanded {
+    .geoData .panel-expanded, .geoData .geoPanel {
         width:450px;
         margin-left:-226px;
     }
@@ -94,7 +94,7 @@
     }
 }
 @media screen and (max-width: 480px) {
-    .geoData .panel-expanded {
+    .geoData .panel-expanded, .geoData .geoPanel {
         width:414px;
         margin-left:-208px;
     }
@@ -152,7 +152,7 @@
     }
 }
 @media screen and (max-width: 450px) {
-    .geoData .panel-expanded {
+    .geoData .panel-expanded, .geoData .geoPanel {
         width:361px;
         margin-left:-181px;
     }
@@ -192,7 +192,7 @@
     }
 }
 @media screen and (max-width: 400px) {
-    .geoData .panel-expanded {
+    .geoData .panel-expanded, .geoData .geoPanel {
         width:310px;
         margin-left:-156px;
     }
@@ -216,7 +216,7 @@
     }
 }
 @media screen and (max-width: 330px) {
-    .geoData .panel-expanded {
+    .geoData .panel-expanded, .geoData .geoPanel {
         width:298px;
         margin-left:-149px;
     }
@@ -266,9 +266,9 @@
     }
 }
 @media screen and (max-width: 315px) {
-    .geoData .panel-expanded {
-        width:295px;
-        margin-left:-148px;
+    .geoData .panel-expanded, .geoData .geoPanel {
+        width:297px;
+        margin-left:-149px;
     }
     .geoData .panel .title {
         padding: 3px 6px!important;
@@ -289,9 +289,9 @@
     }
 }
 @media screen and (max-width: 800px) {
-    .drawerOpen .geoData .panel-expanded {
-        width:361px;
-        margin-left:-181px;
+    .drawerOpen .geoData .panel-expanded, .drawerOpen .geoData .geoPanel {
+        width:416px;
+        margin-left:-209px;
     }
     .drawerOpen .geoData .panel .title {
         margin: 0;
@@ -321,9 +321,9 @@
     }
 }
 @media screen and (max-width: 780px) {
-    .drawerOpen .geoData .panel-expanded {
-        width:414px;
-        margin-left:-208px;
+    .drawerOpen .geoData .panel-expanded, .drawerOpen .geoData .geoPanel {
+         width:416px;
+        margin-left:-209px;
     }
     .drawerOpen .geoData .panel .count {
         padding: 12px 5px!important;
@@ -352,9 +352,9 @@
     }
 }
 @media screen and (max-width: 730px) {
-    .drawerOpen .geoData .panel-expanded {
-        width:363px;
-        margin-left:-182px;
+    .drawerOpen .geoData .panel-expanded, .drawerOpen .geoData .geoPanel {
+        width:365px;
+        margin-left:-183px;
     }
     .drawerOpen .geoData .panel .count {
         padding: 15px 3px!important;
@@ -384,9 +384,9 @@
     }
 }
 @media screen and (max-width: 680px) {
-    .drawerOpen .geoData .panel-expanded {
-        width:310px;
-        margin-left:-156px;
+    .drawerOpen .geoData .panel-expanded, .drawerOpen .geoData .geoPanel {
+        width:312px;
+        margin-left:-157px;
     }
     .drawerOpen .geoData .panel .title {
         padding: 4px 8px!important;
@@ -415,9 +415,9 @@
     }
 }
 @media screen and (max-width: 650px) {
-    .drawerOpen .geoData .panel-expanded {
-        width:298px;
-        margin-left:-149px;
+    .drawerOpen .geoData .panel-expanded, .drawerOpen .geoData .geoPanel {
+        width:300px;
+        margin-left:-150px;
     }
     .drawerOpen .geoData .panel .title {
         padding: 4px 7px!important;
