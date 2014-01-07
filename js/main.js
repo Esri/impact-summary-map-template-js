@@ -13,12 +13,12 @@ define([
     "modules/ShareDialog",
     "modules/Drawer",
     "modules/DrawerMenu",
-    "modules/AreaOfInterest",
     "esri/dijit/HomeButton",
     "esri/dijit/LocateButton",
     "esri/dijit/BasemapToggle",
     "esri/dijit/Geocoder",
-    "esri/dijit/Popup"
+    "esri/dijit/Popup",
+    "modules/AreaOfInterest",
 ],
 function(
     declare,
@@ -30,10 +30,11 @@ function(
     domStyle,
     domAttr,
     domClass,
-    LayerLegend, AboutDialog, ShareDialog, Drawer, DrawerMenu, AreaOfInterest,
+    LayerLegend, AboutDialog, ShareDialog, Drawer, DrawerMenu,
     HomeButton, LocateButton, BasemapToggle,
     Geocoder,
-    Popup
+    Popup,
+    AreaOfInterest
 ) {
     return declare("", [AreaOfInterest], {
         config: {},
@@ -46,7 +47,8 @@ function(
             this.css= {
                 mobileSearchDisplay: "mobileLocateBoxDisplay",
                 toggleBlue: 'toggle-grey',
-                toggleBlueOn: 'toggle-grey-on'  
+                toggleBlueOn: 'toggle-grey-on',
+                areaDescription: "area-description"
             };
             // mobile size switch domClass
             this._showDrawerSize = 850;
@@ -69,12 +71,29 @@ function(
             this._createWebMap();
         },
         _init: function () {
-            this.initArea();
             // drawer size check
             this._drawer.resize();
+            // init area panel
+            this.initArea();
+            // menu panels
+            this.drawerMenus = [];
+            // multiple polygons
+            if (this._multiple && this.config.showArea) {
+                this.drawerMenus.push({
+                    label: this.config.i18n.general.aoi,
+                    content: '<div class="' + this.css.areaDescription + '" id="areaDescription"></div><div id="renderer_menu"></div>'
+                });
+            }
+            if (this.config.showLegend) {
+                // legend menu
+                this.drawerMenus.push({
+                    label: this.config.i18n.general.legend,
+                    content: '<div id="LayerLegend"></div>'
+                });
+            }
             // menus
             this._drawerMenu = new DrawerMenu({
-                menus: this.areaMenus
+                menus: this.drawerMenus
             }, dom.byId("drawer_menus"));
             this._drawerMenu.startup();
             // locate button

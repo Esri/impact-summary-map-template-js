@@ -42,8 +42,7 @@ define([
                     rendererSelected: 'selected',
                     rendererLoading: 'loadingFeatures',
                     rendererContainer: 'item-container',
-                    rendererSummarize: 'summarize',
-                    areaDescription: "area-description"
+                    rendererSummarize: 'summarize'
                 };          
                 // if we have a layer title or layer id
                 if (this.config.aoi_layer_title || this.config.aoi_layer_id) {
@@ -57,22 +56,6 @@ define([
                 }
                 // get layer infos
                 this._getLayerInfos();
-                // menu panels
-                this.areaMenus = [];
-                // multiple polygons
-                if (this._multiple && this.config.showArea) {
-                    this.areaMenus.push({
-                        label: this.config.i18n.general.aoi,
-                        content: '<div class="' + this.areaCSS.areaDescription + '" id="areaDescription"></div><div id="renderer_menu"></div>'
-                    });
-                }
-                if (this.config.showLegend) {
-                    // legend menu
-                    this.areaMenus.push({
-                        label: this.config.i18n.general.legend,
-                        content: '<div id="LayerLegend"></div>'
-                    });
-                }
             },
             startupArea: function(){
                 // stats block
