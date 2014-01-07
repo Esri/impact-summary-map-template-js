@@ -435,22 +435,20 @@
 @media screen and (max-width: 910px) {
     .geoData .panel .count {
         font-size: 30px;
-        padding: 15px 18px;
+        padding: 15px 3px;
         text-align: center;
     }
 }
 @media screen and (max-width: 850px) {
     .geoData .panel .count {
-        padding: 15px!important;
         font-size: 30px!important;
     }
     .drawerOpen .geoData .panel .title {
         margin: 0;
-        padding: 3px 15px!important;
         font-size: 14px;
     }
     .drawerOpen .geoData .panel .count {
-        padding: 12px 8px!important;
+        padding: 12px 3px!important;
         font-size: 25px!important;
     }
     .drawerOpen .divSliderContent {
@@ -474,11 +472,10 @@
         margin-left:-226px;
     }
     .geoData .panel .title {
-        padding: 3px 15px!important;
         font-size: 14px;
     }
     .geoData .panel .count {
-        padding: 12px 8px!important;
+        padding: 12px 3px!important;
         font-size: 25px!important;
     }
     .divSliderContent {
@@ -498,7 +495,6 @@
 }
 @media only screen and (max-width: 510px) {
     .geoData .panel .title {
-        padding: 3px 14px!important;
         font-size: 14px!important;
     }
 }
@@ -508,7 +504,7 @@
         margin-left:-208px;
     }
     .geoData .panel .count {
-        padding: 12px 5px!important;
+        padding: 12px 3px!important;
         font-size: 20px!important;
     }
     .divGeoDataHolder .count {
@@ -518,7 +514,6 @@
         font-size: 12px!important;
     }
     .geoData .panel .title {
-        padding: 3px 10px!important;
         font-size: 14px!important;
     }
     .divSliderContent {
@@ -544,7 +539,6 @@
     }
     .geoData .panel .title {
         margin: 0;
-        padding: 3px 10px!important;
         font-size: 12px!important;
     }
     .divSliderContent {
@@ -579,7 +573,6 @@
         margin-left:-156px;
     }
     .geoData .panel .title {
-        padding: 4px 8px!important;
         font-size: 10px!important;
     }
     .divSliderContent {
@@ -605,9 +598,6 @@
     .divGeoDataHolder .title {
         height: 50px!important;
     }
-    .geoData .panel .title {
-        padding: 4px 7px!important;
-    }
     .divSliderContent {
         width: 228px!important;
     }
@@ -622,7 +612,6 @@
 }
 @media screen and (max-width: 320px) {
     .geoData .panel .title {
-        padding: 3px 7px!important;
         font-size: 10px!important;
     }
     .divSliderContent {
@@ -650,7 +639,6 @@
         margin-left:-150px;
     }
     .geoData .panel .title {
-        padding: 3px 6px!important;
         font-size: 10px!important;
     }
     .divSliderContent {
@@ -672,11 +660,10 @@
     }
     .drawerOpen .geoData .panel .title {
         margin: 0;
-        padding: 3px 15px!important;
         font-size: 14px;
     }
     .drawerOpen .geoData .panel .count {
-        padding: 12px 8px!important;
+        padding: 12px 3px!important;
         font-size: 25px!important;
     }
     .drawerOpen .divSliderContent {
@@ -700,7 +687,7 @@
         margin-left:-209px;
     }
     .drawerOpen .geoData .panel .count {
-        padding: 12px 5px!important;
+        padding: 12px 3px!important;
         font-size: 20px!important;
     }
     .drawerOpen .divGeoDataHolder .count {
@@ -710,7 +697,6 @@
         font-size: 12px!important;
     }
     .drawerOpen .geoData .panel .title {
-        padding: 3px 10px!important;
         font-size: 14px!important;
     }
     .drawerOpen .divSliderContent {
@@ -735,7 +721,6 @@
         font-size: 15px!important;
     }
     .drawerOpen .geoData .panel .title {
-        padding: 3px 10px!important;
         font-size: 12px!important;
     }
     .drawerOpen .divSliderContent {
@@ -763,7 +748,6 @@
         margin-left:-157px;
     }
     .drawerOpen .geoData .panel .title {
-        padding: 4px 8px!important;
         font-size: 10px!important;
     }
     .drawerOpen .divSliderContent {
@@ -794,7 +778,6 @@
         margin-left:-151px;
     }
     .drawerOpen .geoData .panel .title {
-        padding: 4px 7px!important;
         font-size: 10px!important;
     }
     .drawerOpen .divSliderContent {
@@ -806,7 +789,6 @@
 }
 @media screen and (max-width: 600px) {
     .drawerOpen .geoData .panel .title {
-        padding: 3px 7px!important;
         font-size: 10px!important;
     }
     .drawerOpen .divSliderContent {
@@ -876,7 +858,6 @@
     }
     .geoData .panel .title {
         margin: 0;
-        padding: 4px 10px!important;
         font-size: 12px!important;
     }
     .divSliderContent {
@@ -916,7 +897,7 @@
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: landscape) {
     .geoData .panel .count {
-        padding: 15px 5px!important;
+        padding: 15px 3px!important;
         font-size: 20px!important;
     }
     .divGeoDataHolder .count {
@@ -927,7 +908,6 @@
     }
     .geoData .panel .title {
         margin: 0;
-        padding: 5px 10px!important;
         font-size: 14px!important;
     }
     .divSliderContent {
@@ -949,12 +929,11 @@
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait) {
     .geoData .panel .count {
-        padding: 12px 5px!important;
+        padding: 12px 3px!important;
         font-size: 15px!important;
     }
     .geoData .panel .title {
         margin: 0;
-        padding: 6px!important;
         font-size: 10px!important;
     }
     .divSliderContent {
