@@ -167,6 +167,15 @@ function(
             this.startupArea();
             // hide loading div
             this._hideLoadingIndicator();
+            // builder mode
+            if(this.config.edit){
+                // require module
+                require(["modules/Edit"], function(Edit){
+                    // create edit stuff
+                    var edit = new Edit();
+                    edit.startup();
+                });
+            }
         },
         _checkMobileGeocoderVisibility: function () {
             // check if mobile icon needs to be selected
