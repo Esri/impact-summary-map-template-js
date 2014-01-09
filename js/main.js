@@ -215,7 +215,7 @@ function(
             this._geocoder.startup();
             // geocoder results
             on(this._geocoder, 'find-results', lang.hitch(this, function (response) {
-                if (!response.results.length) {
+                if (!response.results || !response.results.results || !response.results.results.length) {
                     alert(this.config.i18n.general.noSearchResult);
                 }
             }));
@@ -228,7 +228,7 @@ function(
             this._mobileGeocoder.startup();
             // geocoder results
             on(this._mobileGeocoder, 'find-results', lang.hitch(this, function (response) {
-                if (!response.results.length) {
+                if (!response.results || !response.results.results || !response.results.results.length) {
                     alert(this.config.i18n.general.noSearchResult);
                 }
                 this._hideMobileGeocoder();
