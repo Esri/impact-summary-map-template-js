@@ -327,10 +327,6 @@ input[type=text]::-ms-clear {
     .mobileLocateBoxDisplay {
         display: none;
     }
-    .drawerOpen .calcite .dialogContent {
-        width: auto;
-        height: auto;
-    }
     #title {
         max-width: 30%;
     }
@@ -338,10 +334,6 @@ input[type=text]::-ms-clear {
 @media screen and (max-width: 600px) {
     #mobileSearch {
         display: none;
-    }
-    .calcite .dialogContent {
-        width: auto;
-        height: auto;
     }
     #title {
         max-width: 35%;
