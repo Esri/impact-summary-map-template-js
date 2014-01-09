@@ -15,8 +15,8 @@ define([], function() {
         //color theme.
         "title":"",
         "areaDescription":"This interactive map highlights the potential impact of an earthquake in Southern California based on the 1994 Northridge <a href=\"http://earthquake.usgs.gov/earthquakes/shakemap/\" target=\"_blank\">shakemap</a>.",
-        "aoi_layer_id":"",
-        "aoi_layer_title": "Impact Area",
+        "summaryLayerId":"",
+        "summaryLayerTitle": "Impact Area",
         "showTitle":true,
         "showEntireAreaButton": true,
         "showAreaDescription":true,
@@ -29,10 +29,10 @@ define([], function() {
         "ShowShareDialog":true,
         "nextBasemap": "hybrid",
         "currentBasemap": "topo",
-        "aoiAttributeOrder":"DESC",
+        "summaryAttributeOrder":"DESC",
         "bitlyLogin": "esri",
         "bitlyKey": "R_65fd9891cd882e2a96b99d4bda1be00e",
-        "aoi_attributes": [
+        "summaryAttributes": [
            {
               "attribute":"TOTPOP_CY",
               "label":"Population",

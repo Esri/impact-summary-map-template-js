@@ -45,13 +45,13 @@ define([
                     rendererSummarize: 'summarize'
                 };          
                 // if we have a layer title or layer id
-                if (this.config.aoi_layer_title || this.config.aoi_layer_id) {
+                if (this.config.summaryLayerTitle || this.config.summaryLayerId) {
                     // get layer by id/title
                     this._aoiLayer = this._getAOILayer({
                         map: this.map,
                         layers: this.layers,
-                        title: this.config.aoi_layer_title,
-                        id: this.config.aoi_layer_id
+                        title: this.config.summaryLayerTitle,
+                        id: this.config.summaryLayerId
                     });
                 }
                 // get layer infos
@@ -61,7 +61,7 @@ define([
                 // stats block
                 if (this._aoiLayer) {
                     this._sb = new StatsBlock({
-                        config: this.config.aoi_attributes
+                        config: this.config.summaryAttributes
                     }, dom.byId('geoData'));
                     this._sb.startup();
                     // init layer
@@ -200,7 +200,7 @@ define([
                 // if multiple features. (determined by renderer)
                 if (this._multiple && this._attributeField) {
                     // order by attribute field
-                    q.orderByFields = [this._attributeField + ' ' + this.config.aoiAttributeOrder];
+                    q.orderByFields = [this._attributeField + ' ' + this.config.summaryAttributeOrder];
                 }
                 // get features
                 this._aoiLayer.queryFeatures(q, lang.hitch(this, function (fs) {
