@@ -49,15 +49,15 @@ function (
             this._i18n = i18n;
             // classes
             this.css = {
-                geoPanel: 'geoPanel',
-                geoPanelOne: 'geoPanelOne',
-                geoPanelTwo: 'geoPanelTwo',
-                geoPanelThree: 'geoPanelThree',
-                geoPanelFour: 'geoPanelFour',
+                geoPanel: 'geo-panel',
+                geoPanelOne: 'geo-panel-one',
+                geoPanelTwo: 'geo-panel-two',
+                geoPanelThree: 'geo-panel-three',
+                geoPanelFour: 'geo-panel-four',
                 geoDataContainer: 'geodata-container',
                 geoPanelExpanded: 'panel-expanded-container',
-                stats: 'geoData',
-                statsOpen: 'geoDataExpanded',
+                stats: 'geo-data',
+                statsOpen: 'geo-data-open',
                 statsPanel: 'panel',
                 StatsPanelParent: 'panel-parent',
                 statsCount: 'count',
@@ -66,31 +66,31 @@ function (
                 statsPanelDataBlock: 'data-block',
                 statsPanelDataBlockLast: 'data-block-last',
                 statsSourceInfo: 'icon-info-circled-1',
-                animateSlider: "animateSlider",
-                divOuterSliderContainer: "divOuterSliderContainer",
-                divHeader: "divHeader",
-                bgColor: "bgColor",
-                hTitle: "hTitle",
-                hNumber: "hNumber",
-                divHeaderTitle: "divHeaderTitle",
-                divGeoDataHolder: "divGeoDataHolder",
-                divHeaderClose: "divHeaderClose",
+                animateSlider: "animate-slider",
+                divOuterSliderContainer: "outer-slider-container",
+                divHeader: "div-header",
+                bgColor: "background-color",
+                hTitle: "header-title",
+                hNumber: "header-number",
+                divHeaderTitle: "div-header-title",
+                divGeoDataHolder: "geo-data-holder",
+                divHeaderClose: "div-header-close",
                 iconCancel: "icon-cancel-1",
-                divSliderContainer: "divSliderContainer",
-                dataSourceUrl: "dataSourceUrl",
+                divSliderContainer: "div-slider-container",
+                dataSourceUrl: "data-source-url",
                 divBorder: "panel-border",
-                divInnerSliderContainer: "divInnerSliderContainer",
-                divLeft: "divLeft",
-                divRight: "divRight",
-                leftArrow: "leftArrow",
-                rightArrow: "rightArrow",
-                disableArrow: "disableArrow",
-                divSliderContent: "divSliderContent",
+                divInnerSliderContainer: "div-inner-slider-container",
+                divLeft: "div-left",
+                divRight: "div-right",
+                leftArrow: "left-arrow",
+                rightArrow: "right-arrow",
+                disableArrow: "disable-arrow",
+                divSliderContent: "div-slider-content",
                 carousel: "carousel",
-                slidePanel: "slidePanel",
-                divPaginationContainer: "divPaginationContainer",
-                divPagination: "divPagination",
-                paginationDot: "paginationDot",                
+                slidePanel: "slide-panel",
+                divPaginationContainer: "div-pagination-container",
+                divPagination: "div-pagination",
+                paginationDot: "pagination-dot",
                 clear: "clear"
             };
             //set no of slide to display
@@ -681,10 +681,10 @@ function (
                 // if current selected
                 if (i === childIndex) {
                     // set selected class
-                    domClass.add(this._nodes[parentIndex].pagination[i], "bgColor");
+                    domClass.add(this._nodes[parentIndex].pagination[i], this.css.bgColor);
                 } else {
                     // remove selected class
-                    domClass.remove(this._nodes[parentIndex].pagination[i], "bgColor");
+                    domClass.remove(this._nodes[parentIndex].pagination[i], this.css.bgColor);
                 }
             }
             // reset arrow visibility
