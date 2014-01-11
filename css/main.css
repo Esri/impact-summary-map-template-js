@@ -325,7 +325,7 @@ input[type=text]::-ms-clear {
 
 @media screen and (max-width: 850px) {
 
-    .mobileLocateBoxDisplay {
+    .mobile-locate-box-display {
         display: none;
     }
     #title {
@@ -349,7 +349,7 @@ input[type=text]::-ms-clear {
     .esriAttribution {
         display: none!important;
     }
-    .mobileLocateBoxDisplay {
+    .mobile-locate-box-display {
         display: block!important;
     }
     .esriSimpleSlider,
@@ -363,7 +363,7 @@ input[type=text]::-ms-clear {
         top: 55px!important;
         display: block!important;
     }
-    .mobileLocateBoxDisplay {
+    .mobile-locate-box-display {
         display: block!important;
     }
     #mobileGeocoderIcon,
@@ -400,7 +400,7 @@ input[type=text]::-ms-clear {
     .drawerOpen .locateBox {
         display: none!important;
     }
-    .drawerOpen .mobileLocateBoxDisplay {
+    .drawerOpen .mobile-locate-box-display {
         display: block!important;
     }
     .drawerOpen #mobileGeocoderIcon,
@@ -423,7 +423,7 @@ input[type=text]::-ms-clear {
     .esriAttribution {
         display: none!important;
     }
-    .mobileLocateBoxDisplay {
+    .mobile-locate-box-display {
         display: block!important;
     }
     .esriSimpleSlider,
@@ -437,7 +437,7 @@ input[type=text]::-ms-clear {
         top: 55px!important;
         display: block!important;
     }
-    .mobileLocateBoxDisplay {
+    .mobile-locate-box-display {
         display: block!important;
     }
     #mobileGeocoderIcon,
@@ -463,7 +463,7 @@ input[type=text]::-ms-clear {
         top: 55px!important;
         display: block!important;
     }
-    .mobileLocateBoxDisplay {
+    .mobile-locate-box-display {
         display: block!important;
     }
     #mobileGeocoderIcon,
@@ -478,7 +478,7 @@ input[type=text]::-ms-clear {
     #geocoderMobile {
         display: block!important;
     }
-    .drawerOpen .mobileLocateBoxDisplay {
+    .drawerOpen .mobile-locate-box-display {
         display: block!important;
     }
     .drawerOpen #mapButtons {
@@ -509,7 +509,7 @@ input[type=text]::-ms-clear {
 /* iPhone 2G-4S in portrait and landscape */
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-    .mobileLocateBoxDisplay {
+    .mobile-locate-box-display {
         display: block!important;
     }
     #mapButtons {
