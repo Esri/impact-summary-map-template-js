@@ -37,10 +37,10 @@ define([
             initArea: function () {
                 this._entireAreaValue = "summarize";
                 this.areaCSS = {
-                    rendererMenu: 'menuList',
+                    rendererMenu: 'menu-list',
                     rendererMenuItem: 'item',
                     rendererSelected: 'selected',
-                    rendererLoading: 'loadingFeatures',
+                    rendererLoading: 'loading-features',
                     rendererContainer: 'item-container',
                     rendererSummarize: 'summarize'
                 };          

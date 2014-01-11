@@ -6,7 +6,7 @@
 
 /* Renderer Menu */
 
-.menuList {
+.menu-list {
     list-style: none;
     padding: 0;
     text-align: left;
@@ -48,7 +48,7 @@
     font-weight: 700;
     background-color: #fff;
 }
-#renderer_menu .loadingFeatures .item-container {
+#renderer_menu .loading-features .item-container {
     background-image: url(../images/ajax-loader.gif);
 }
 
