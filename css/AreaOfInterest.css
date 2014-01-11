@@ -12,7 +12,7 @@
     margin: 0;
     border-bottom: 1px solid #e0e0e0;
 }
-#renderer_menu li {
+.menu-list li {
     line-height: 16px;
     font-size: 16px;
     margin: 0;
@@ -20,7 +20,7 @@
     border-top: 1px solid #e0e0e0;
     background: #fff;
 }
-#renderer_menu li .item-container {
+.menu-list li .item-container {
     border-left-style: solid;
     border-left-width: 16px;
     padding: 13px 9px;
@@ -36,18 +36,18 @@
     background-position: 95% center;
     background-repeat: no-repeat;
 }
-#renderer_menu .summarize .item-container {
+.menu-list .summarize .item-container {
     border-left-color: #007ac2;
 }
-#renderer_menu .selected .item-container,
-#renderer_menu .selected .item-container:hover,
-#renderer_menu .selected .item-container:active {
+.menu-list .selected .item-container,
+.menu-list .selected .item-container:hover,
+.menu-list .selected .item-container:active {
     cursor: default;
     color: #007ac2;
     font-weight: 700;
     background-color: #fff;
 }
-#renderer_menu .loading-features .item-container {
+.menu-list .loading-features .item-container {
     background-image: url(../images/ajax-loader.gif);
 }
 /* Stats Block */
