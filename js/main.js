@@ -8,7 +8,7 @@ define([
     "dojo/dom-style",
     "dojo/dom-attr",
     "dojo/dom-class",
-    "modules/LayerLegend",
+    "modules/TableOfContents",
     "modules/AboutDialog",
     "modules/ShareDialog",
     "modules/Drawer",
@@ -30,7 +30,7 @@ function(
     domStyle,
     domAttr,
     domClass,
-    LayerLegend, AboutDialog, ShareDialog, Drawer, DrawerMenu,
+    TableOfContents, AboutDialog, ShareDialog, Drawer, DrawerMenu,
     HomeButton, LocateButton, BasemapToggle,
     Geocoder,
     Popup,
@@ -88,7 +88,7 @@ function(
                 // legend menu
                 this.drawerMenus.push({
                     label: this.config.i18n.general.legend,
-                    content: '<div id="LayerLegend"></div>'
+                    content: '<div id="TableOfContents"></div>'
                 });
             }
             // menus
@@ -153,9 +153,9 @@ function(
             }
             // Legend table of contents
             if (this.config.showLegend) {
-                var legendNode = dom.byId('LayerLegend');
+                var legendNode = dom.byId('TableOfContents');
                 if (legendNode) {
-                    var LL = new LayerLegend({
+                    var LL = new TableOfContents({
                         map: this.map,
                         layers: this.layers
                     }, legendNode);
