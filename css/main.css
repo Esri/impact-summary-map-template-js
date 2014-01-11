@@ -372,7 +372,7 @@ input[type=text]::-ms-clear {
     }
 }
 @media screen and (max-width: 320px) {
-    .geocoderSearch {
+    .locate-box {
         display: none!important;
     }
 }
@@ -403,7 +403,7 @@ input[type=text]::-ms-clear {
     .drawer-open #geocoderMobile {
         display: block!important;
     }
-    .drawer-open .geocoderSearch {
+    .drawer-open .locate-box {
         display: none!important;
     }
 }
@@ -451,7 +451,6 @@ input[type=text]::-ms-clear {
     .esriSimpleSlider,
     #BasemapToggle,
     #title,
-    .geocoderSearch,
     .locate-box {
         display: none!important;
     }
@@ -484,7 +483,6 @@ input[type=text]::-ms-clear {
     .drawer-open .esriSimpleSlider,
     .drawer-open #BasemapToggle,
     .drawer-open #title,
-    .drawer-open .geocoderSearch,
     .drawer-open .locate-box {
         display: none!important;
     }
@@ -513,7 +511,6 @@ input[type=text]::-ms-clear {
     .esriSimpleSlider,
     #BasemapToggle,
     #title,
-    .geocoderSearch,
     .locate-box {
         display: none!important;
     }
