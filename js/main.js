@@ -170,11 +170,13 @@ function(
             // builder mode
             if(this.config.edit){
                 // require module
-                require(["modules/Edit"], function(Edit){
-                    // create edit stuff
-                    var edit = new Edit();
-                    edit.startup();
-                });
+                require(["modules/TemplateBuilder"], lang.hitch(this, function(TemplateBuilder){
+                    // create template builder
+                    var builder = new TemplateBuilder({
+                        drawer: this._drawer
+                    });
+                    builder.startup();
+                }));
             }
         },
         _checkMobileGeocoderVisibility: function () {
