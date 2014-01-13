@@ -61,7 +61,8 @@ define([
                 // stats block
                 if (this._aoiLayer) {
                     this._sb = new StatsBlock({
-                        config: this.config.summaryAttributes
+                        config: this.config.summaryAttributes,
+                        direction: this.config.i18n.direction
                     }, dom.byId('geoData'));
                     this._sb.startup();
                     // init layer
@@ -316,10 +317,15 @@ define([
                     // symbol color
                     var symbolColor = infos[i].symbol.color;
                     var hex = symbolColor.toHex();
+                    // i18n border direction
+                    var borderDirection = 'left';
+                    if(this.config.i18n.direction === 'rtl'){
+                        borderDirection = 'right';
+                    }
                     // create list container
                     domConstruct.create('div', {
                         className: this.areaCSS.rendererContainer,
-                        style: 'border-left-color:' + hex + '; border-left-color:rgb(' + symbolColor.r + ',' + symbolColor.g + ',' + symbolColor.b + '); border-left-color:rgba(' + symbolColor.r + ',' + symbolColor.g + ',' + symbolColor.b + ',' + symbolColor.a + ');',
+                        style: 'border-' + borderDirection + '-color:' + hex + '; border-' + borderDirection + '-color:rgb(' + symbolColor.r + ',' + symbolColor.g + ',' + symbolColor.b + '); border-' + borderDirection + '-color:rgba(' + symbolColor.r + ',' + symbolColor.g + ',' + symbolColor.b + ',' + symbolColor.a + ');',
                         innerHTML: infos[i].label
                     }, liItem);
                     // value

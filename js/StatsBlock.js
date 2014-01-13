@@ -34,7 +34,8 @@ function (
         options: {
             features: null,
             config: null,
-            stats: null
+            stats: null,
+            direction: 'ltr'
         },
         // lifecycle: 1
         constructor: function(options, srcRefNode) {
@@ -43,6 +44,7 @@ function (
             this.set("features", defaults.features);
             this.set("config", defaults.config);
             this.set("stats", defaults.stats);
+            this.set("direction", defaults.direction);
             this.watch("features", this._displayStats);
             // widget node
             this.domNode = srcRefNode;
@@ -674,8 +676,13 @@ function (
             var sliderWidth = mb.w;
             // left offset
             var newLeft = -(sliderWidth + this.displayPageCount) * childIndex;
+            // i18n direction
+            var direction = 'left';
+            if(this.get("direction") === 'rtl'){
+                direction = 'right';
+            }
             // set left offset
-            domStyle.set(this._nodes[parentIndex].detailedCarousel, 'left', newLeft + "px");
+            domStyle.set(this._nodes[parentIndex].detailedCarousel, direction, newLeft + "px");
             // each pagination node
             for (var i = 0; i < this._nodes[parentIndex].pagination.length; i++) {
                 // if current selected

@@ -52,6 +52,17 @@ input[type=text]::-ms-clear {
     line-height: 22px;
     font-size: 18px;
 }
+.top-menu-right {
+    position: relative;
+    top: 0;
+    left: 0;
+    float: right;
+}
+.esriRTL .top-menu-right{
+    float:left;
+    left:auto;
+    right:0;
+}
 .icon-right {
     float: right;
     cursor: pointer;
