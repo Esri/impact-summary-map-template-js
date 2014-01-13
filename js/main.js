@@ -58,7 +58,8 @@ function(
                 container: dom.byId('bc_outer'),
                 contentCenter: dom.byId('cp_outer_center'),
                 contentLeft: dom.byId('cp_outer_left'),
-                toggleButton: dom.byId('hamburger_button')
+                toggleButton: dom.byId('hamburger_button'),
+                direction: this.config.i18n.direction
             });
             // drawer resize event
             on(this._drawer, 'resize', lang.hitch(this, function () {

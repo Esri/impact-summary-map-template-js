@@ -12,6 +12,9 @@
     margin: 0;
     border-bottom: 1px solid #e0e0e0;
 }
+.esriRTL .menu-list{
+    text-align:right;
+}
 .menu-list li {
     line-height: 16px;
     font-size: 16px;
@@ -356,6 +359,11 @@
     top: 0;
     left: 0;
     float: right;
+}
+.esriRTL .top-menu-right{
+    float:left;
+    left:auto;
+    right:0;
 }
 .div-pagination-container {
     width: 100%;
