@@ -26,6 +26,7 @@ define([], function() {
         "showLocateButton":true,
         "showBasemapToggle": true,
         "showAboutDialog":true,
+        "showAboutOnLoad":false,
         "ShowShareDialog":true,
         "nextBasemap": "hybrid",
         "currentBasemap": "topo",

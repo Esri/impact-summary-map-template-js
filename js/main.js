@@ -141,6 +141,9 @@ function(
                     sharinghost: this.config.sharinghost
                 }, 'AboutDialog');
                 this._AboutDialog.startup();
+                if(this.config.showAboutOnLoad){
+                    this._AboutDialog.open();
+                }
             }
             // share dialog
             if (this.config.ShowShareDialog) {
