@@ -363,8 +363,13 @@ function (
                     }
                     // whether to show legend or not
                     var showLegend = true;
+                    var layerObject;
                     if (layer.featureCollection && layer.featureCollection.hasOwnProperty('showLegend')) {
                         showLegend = layer.featureCollection.showLegend;
+                        layerObject = layer.featureCollection.layers[0].layerObject;
+                    }
+                    else{
+                        layerObject = layer.layerObject;
                     }
                     if (showLegend) {
                         // create legend
@@ -372,7 +377,7 @@ function (
                             map: this.get("map"),
                             layerInfos: [{
                                 title: layer.title,
-                                layer: layer.layerObject,
+                                layer: layerObject,
                                 defaultSymbol: defaultSymbol
                             }]
                         }, legendDiv);
