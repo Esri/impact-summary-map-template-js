@@ -8,17 +8,17 @@ define([
     "dojo/dom-style",
     "dojo/dom-attr",
     "dojo/dom-class",
-    "modules/TableOfContents",
-    "modules/AboutDialog",
-    "modules/ShareDialog",
-    "modules/Drawer",
-    "modules/DrawerMenu",
+    "application/TableOfContents",
+    "application/AboutDialog",
+    "application/ShareDialog",
+    "application/Drawer",
+    "application/DrawerMenu",
     "esri/dijit/HomeButton",
     "esri/dijit/LocateButton",
     "esri/dijit/BasemapToggle",
     "esri/dijit/Geocoder",
     "esri/dijit/Popup",
-    "modules/AreaOfInterest",
+    "application/AreaOfInterest",
 ],
 function(
     declare,
@@ -79,7 +79,7 @@ function(
             // menu panels
             this.drawerMenus = [];
             // multiple polygons
-            if (this._multiple && this.config.showAreaPanel) {
+            if (this.config.showAreaPanel) {
                 this.drawerMenus.push({
                     label: this.config.i18n.general.aoi,
                     content: '<div class="' + this.css.areaDescription + '" id="areaDescription"></div><div id="renderer_menu"></div>'
@@ -176,7 +176,7 @@ function(
             // builder mode
             if(this.config.edit){
                 // require module
-                require(["modules/TemplateBuilder"], lang.hitch(this, function(TemplateBuilder){
+                require(["application/TemplateBuilder"], lang.hitch(this, function(TemplateBuilder){
                     // create template builder
                     var builder = new TemplateBuilder({
                         drawer: this._drawer

@@ -17,7 +17,7 @@ function (
     dom, domConstruct, domClass
 ) {
     var Widget = declare([_WidgetBase, Evented], {
-        declaredClass: "modules.TemplateBuilder",
+        declaredClass: "application.TemplateBuilder",
         // lifecycle: 1
         constructor: function(options) {
             // mix in settings and defaults
