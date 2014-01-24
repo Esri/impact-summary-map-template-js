@@ -48,18 +48,25 @@ function(
                 mobileSearchDisplay: "mobile-locate-box-display",
                 toggleBlue: 'toggle-grey',
                 toggleBlueOn: 'toggle-grey-on',
-                areaDescription: "area-description"
+                areaDescription: "area-description",
+                pointerEvents: "pointer-events"
             };
+            // mobile size switch domClass
+            this._showDrawerSize = 850;
+            // pointer event support
+            if(this._pointerEventsSupport()){
+                domClass.add(document.documentElement, this.css.pointerEvents);
+            }
             // mobile size switch domClass
             this._showDrawerSize = 850;
             // drawer
             this._drawer = new Drawer({
+                direction: this.config.i18n.direction,
                 showDrawerSize: this._showDrawerSize,
-                container: dom.byId('bc_outer'),
-                contentCenter: dom.byId('cp_outer_center'),
-                contentLeft: dom.byId('cp_outer_left'),
-                toggleButton: dom.byId('hamburger_button'),
-                direction: this.config.i18n.direction
+                borderContainer: 'bc_outer',
+                contentPaneCenter: 'cp_outer_center',
+                contentPaneSide: 'cp_outer_left',
+                toggleButton: 'hamburger_button'
             });
             // drawer resize event
             on(this._drawer, 'resize', lang.hitch(this, function () {
@@ -70,6 +77,11 @@ function(
             this._drawer.startup();
             // lets get that webmap
             this._createWebMap();
+        },
+        _pointerEventsSupport: function(){
+            var element = document.createElement('x');
+            element.style.cssText = 'pointer-events:auto';
+            return element.style.pointerEvents === 'auto';   
         },
         _init: function () {
             // drawer size check
