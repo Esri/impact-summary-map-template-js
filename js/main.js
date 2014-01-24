@@ -49,7 +49,12 @@ function(
                 toggleBlue: 'toggle-grey',
                 toggleBlueOn: 'toggle-grey-on',
                 areaDescription: "area-description",
-                pointerEvents: "pointer-events"
+                pointerEvents: "pointer-events",
+                iconRight: "icon-right",
+                locateButtonTheme: "LocateButtonCalcite",
+                homebuttonTheme: "HomeButtonCalcite",
+                desktopGeocoderTheme: "geocoder-desktop",
+                mobileGeocoderTheme: "geocoder-mobile"
             };
             // mobile size switch domClass
             this._showDrawerSize = 850;
@@ -113,7 +118,7 @@ function(
             if (this.config.showLocateButton) {
                 var LB = new LocateButton({
                     map: this.map,
-                    theme: "LocateButtonCalcite"
+                    theme: this.css.locateButtonTheme
                 }, 'LocateButton');
                 LB.startup();
             }
@@ -121,7 +126,7 @@ function(
             if (this.config.showHomeButton) {
                 var HB = new HomeButton({
                     map: this.map,
-                    theme: "HomeButtonCalcite"
+                    theme: this.css.homebuttonTheme
                 }, 'HomeButton');
                 HB.startup();
             }
@@ -148,7 +153,7 @@ function(
             // about dialog
             if (this.config.showAboutDialog) {
                 this._AboutDialog = new AboutDialog({
-                    theme: "icon-right",
+                    theme: this.css.iconRight,
                     item: this.item,
                     sharinghost: this.config.sharinghost
                 }, 'AboutDialog');
@@ -160,7 +165,7 @@ function(
             // share dialog
             if (this.config.ShowShareDialog) {
                 this._ShareDialog = new ShareDialog({
-                    theme: "icon-right",
+                    theme: this.css.iconRight,
                     bitlyLogin: this.config.bitlyLogin,
                     bitlyKey: this.config.bitlyKey,
                     image: this.config.sharinghost + '/sharing/rest/content/items/' + this.item.id + '/info/' + this.item.thumbnail,
@@ -198,19 +203,25 @@ function(
             }
         },
         _checkMobileGeocoderVisibility: function () {
-            // check if mobile icon needs to be selected
-            if (domClass.contains(dom.byId("mobileGeocoderIcon"), this.css.toggleBlueOn)) {
-                domClass.add(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
+            if(this._mobileGeocoderIconNode && this._mobileSearchNode){
+                // check if mobile icon needs to be selected
+                if (domClass.contains(this._mobileGeocoderIconNode, this.css.toggleBlueOn)) {
+                    domClass.add(this._mobileSearchNode, this.css.mobileSearchDisplay);
+                }
             }
         },
         _showMobileGeocoder: function () {
-            domClass.add(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
-            domClass.replace(dom.byId("mobileGeocoderIconContainer"), this.css.toggleBlueOn, this.css.toggleBlue);
+            if(this._mobileSearchNode && this._mobileGeocoderIconContainerNode){
+                domClass.add(this._mobileSearchNode, this.css.mobileSearchDisplay);
+                domClass.replace(this._mobileGeocoderIconContainerNode, this.css.toggleBlueOn, this.css.toggleBlue);
+            }
         },
         _hideMobileGeocoder: function () {
-            domClass.remove(dom.byId("mobileSearch"), this.css.mobileSearchDisplay);
-            domStyle.set(dom.byId("mobileSearch"), "display", "none");
-            domClass.replace(dom.byId("mobileGeocoderIconContainer"), this.css.toggleBlue, this.css.toggleBlueOn);
+            if(this._mobileSearchNode && this._mobileGeocoderIconContainerNode){
+                domClass.remove(this._mobileSearchNode, this.css.mobileSearchDisplay);
+                domStyle.set(this._mobileSearchNode, "display", "none");
+                domClass.replace(this._mobileGeocoderIconContainerNode, this.css.toggleBlue, this.css.toggleBlueOn);
+            }
         },
         _setTitle: function (title) {
             // set config title
@@ -231,7 +242,7 @@ function(
             // desktop size geocoder
             this._geocoder = new Geocoder({
                 map: this.map,
-                theme: 'calite geocoder-desktop',
+                theme: this.css.desktopGeocoderTheme,
                 autoComplete: true
             }, dom.byId("geocoderSearch"));
             this._geocoder.startup();
@@ -244,7 +255,7 @@ function(
             // mobile sized geocoder
             this._mobileGeocoder = new Geocoder({
                 map: this.map,
-                theme: 'calite geocoder-mobile',
+                theme: this.css.mobileGeocoderTheme,
                 autoComplete: true
             }, dom.byId("geocoderMobile"));
             this._mobileGeocoder.startup();
@@ -263,21 +274,27 @@ function(
             this._mobileGeocoder.watch("value", lang.hitch(this, function (name, oldValue, value) {
                 this._geocoder.set("value", value);
             }));
-            // mobile geocoder toggle            
-            var mobileIcon = dom.byId("mobileGeocoderIcon");
-            if (mobileIcon) {
-                on(mobileIcon, "click", lang.hitch(this, function () {
-                    if (domStyle.get(dom.byId("mobileSearch"), "display") === "none") {
+            // geocoder nodes
+            this._mobileGeocoderIconNode = dom.byId("mobileGeocoderIcon");
+            this._mobileSearchNode = dom.byId("mobileSearch");
+            this._mobileGeocoderIconContainerNode = dom.byId("mobileGeocoderIconContainer");
+            // mobile geocoder toggle 
+            if (this._mobileGeocoderIconNode) {
+                on(this._mobileGeocoderIconNode, "click", lang.hitch(this, function () {
+                    if (domStyle.get(this._mobileSearchNode, "display") === "none") {
                         this._showMobileGeocoder();
                     } else {
                         this._hideMobileGeocoder();
                     }
                 }));
             }
-            // cancel mobile geocoder
-            on(dom.byId("btnCloseGeocoder"), "click", lang.hitch(this, function () {
-                this._hideMobileGeocoder();
-            }));
+            var closeMobileGeocoderNode = dom.byId("btnCloseGeocoder");
+            if(closeMobileGeocoderNode){
+                // cancel mobile geocoder
+                on(closeMobileGeocoderNode, "click", lang.hitch(this, function () {
+                    this._hideMobileGeocoder();
+                }));
+            }
         },
         // hide map loading spinner
         _hideLoadingIndicator: function () {
