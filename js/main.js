@@ -171,8 +171,7 @@ function(
                     image: this.config.sharinghost + '/sharing/rest/content/items/' + this.item.id + '/info/' + this.item.thumbnail,
                     title: this.config.title,
                     summary: this.item.snippet,
-                    hashtags: 'esriDSM',
-                    map: this.map
+                    hashtags: 'esriDSM'
                 }, 'ShareDialog');
                 this._ShareDialog.startup();
             }

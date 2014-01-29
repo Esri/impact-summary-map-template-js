@@ -49,7 +49,7 @@ function (
                 region: "top"
             }, builderNode);
             // add pane to border container
-            this.get("drawer")._bc_outer.addChild(builderContentPane);
+            this.get("drawer")._borderContainer.addChild(builderContentPane);
             // resize border container
             this.get("drawer").resize();
         },
