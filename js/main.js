@@ -19,6 +19,8 @@ define([
     "esri/dijit/Geocoder",
     "esri/dijit/Popup",
     "application/AreaOfInterest",
+    "dijit/registry",
+    "dojo/_base/array"
 ],
 function(
     declare,
@@ -34,7 +36,9 @@ function(
     HomeButton, LocateButton, BasemapToggle,
     Geocoder,
     Popup,
-    AreaOfInterest
+    AreaOfInterest,
+    registry,
+    array
 ) {
     return declare("", [AreaOfInterest], {
         config: {},
@@ -204,6 +208,17 @@ function(
             this.startupArea();
             // hide loading div
             this._hideLoadingIndicator();
+            // on body click containing underlay class
+            on(document.body, '.dijitDialogUnderlay:click', function(){
+                // get all dialogs
+                var filtered = array.filter(registry.toArray(), function(w){ 
+                    return w && w.declaredClass == "dijit.Dialog";
+                });
+                // hide all dialogs
+                array.forEach(filtered, function(w){ 
+                    w.hide(); 
+                });
+            });
             // builder mode
             if(this.config.edit){
                 // require module
