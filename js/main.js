@@ -381,6 +381,13 @@ function(
                 }));
             }
         },
+        // hide map loading spinner
+        _hideLoadingIndicator: function () {
+            var indicator = dom.byId("loadingIndicatorDiv");
+            if (indicator) {
+                domStyle.set(indicator, "display", "none");
+            }
+        },
         //create a map based on the input web map id
         _createWebMap: function (itemInfo) {
             // popup dijit
