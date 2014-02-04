@@ -116,19 +116,33 @@ function(
             this.initArea();
             // menu panels
             this.drawerMenus = [];
+            var menuObj;
             // multiple polygons
             if (this.config.showAreaPanel) {
-                this.drawerMenus.push({
+                menuObj = {
                     label: this.config.i18n.general.aoi,
                     content: '<div class="' + this.css.areaDescription + '" id="areaDescription"></div><div id="renderer_menu"></div>'
-                });
+                };
+                // area menu
+                if(this.config.defaultMenu === 'area'){
+                    this.drawerMenus.splice(0,0,menuObj);
+                }
+                else{
+                    this.drawerMenus.push(menuObj);
+                }
             }
             if (this.config.showLegendPanel) {
-                // legend menu
-                this.drawerMenus.push({
+                menuObj = {
                     label: this.config.i18n.general.legend,
                     content: '<div id="TableOfContents"></div>'
-                });
+                };
+                // legend menu
+                if(this.config.defaultMenu === 'legend'){
+                    this.drawerMenus.splice(0,0,menuObj);
+                }
+                else{
+                    this.drawerMenus.push(menuObj);
+                }
             }
             // menus
             this._drawerMenu = new DrawerMenu({
