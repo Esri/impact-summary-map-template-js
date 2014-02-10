@@ -53,7 +53,9 @@
                 <div id="hamburger_button" class="hamburger-button toggle-grey toggle-grey-on">
                     <div class="icon-menu-1"></div>
                 </div>
+                <div id="titleContainer" class="titleContainer">
                 <div id="title" class="app-title"></div>
+                </div>
                 <div class="top-menu-right">
                     <div id="AboutDialog"></div>
                     <div id="ShareDialog"></div>
@@ -115,11 +117,11 @@
             //to show how to setup the strings file.
             var supportsLocalization = true; //defaults to false
             var myTemplate = new Template(supportsLocalization);
-            on(myTemplate, "ready", function(config) {
+            on(myTemplate, "ready", function(config, data) {
                 //The config object contains the following properties: helper services, (optionally)
                 //i18n, appid, webmap and any custom values defined by the applcation.
                 //In this example we have one called theme.
-                Main(config);
+                Main(config, data);
             });
         });
     </script>

@@ -15,7 +15,9 @@ define([
     "dojo/dom-construct",
     "dojo/dom-class",
     "dojo/dom-style",
-    "dojo/dom-geometry"
+    "dojo/dom-geometry",
+    "dojo/topic",
+    "dojo/aspect"
 ],
 function (
     Evented,
@@ -26,7 +28,7 @@ function (
     on,
     dijitTemplate, i18n,
     number,
-    domConstruct, domClass, domStyle, domGeom
+    domConstruct, domClass, domStyle, domGeom, topic, aspect
 ) {
     var Widget = declare([_WidgetBase, _TemplatedMixin, Evented], {
         declaredClass: "esri.dijit.StatsBlock",
@@ -241,6 +243,10 @@ function (
                 }
                 // set widget stats
                 this.set("stats", stats);
+                //Create edit icons in the stats panel, everytime the panels are re-created (templateBuilder.js)
+                aspect.after(this, "_createPanels", function () {
+                    topic.publish("createEditIcons");
+                });
                 // create panels from stats
                 this._createPanels();
                 // resize
@@ -262,6 +268,8 @@ function (
             } else {
                 this.hide();
             }
+            //Create edit icons in the stats panel, everytime the panels are re-created (templateBuilder.js)
+            topic.publish("createEditIcons");
         },
         _panelCloseEvent: function(node) {
             var expandedClick = on(node, 'click', lang.hitch(this, function() {

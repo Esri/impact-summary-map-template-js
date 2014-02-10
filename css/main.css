@@ -53,10 +53,10 @@ input[type=text]::-ms-clear {
     font-size: 18px;
 }
 .top-menu-right {
-    position: relative;
+   /* position: relative;*/
     top: 0;
     left: 0;
-    float: right;
+    /*float: right;*/
 }
 .esriRTL .top-menu-right{
     float:left;
@@ -96,7 +96,7 @@ input[type=text]::-ms-clear {
     line-height: 22px;
     font-size: 18px;
     font-weight: 700;
-    max-width: 40%;
+    max-width: 90%;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -218,7 +218,7 @@ input[type=text]::-ms-clear {
 }
 .esriRTL .geocoder-mobile{
     float:right;
-} 
+}
 .drawer-open .geocoder-mobile {
     width: 60%;
 }
@@ -336,7 +336,7 @@ input[type=text]::-ms-clear {
     border-right: 0;
 }
 .esriRTL .drawer-menu-buttons .item-only .title {
-    border-left:0;   
+    border-left:0;
 }
 .drawer-menu-buttons .item-selected {
     color: #fff;
@@ -609,4 +609,7 @@ input[type=text]::-ms-clear {
     .geocoder-mobile .esriGeocoderContainer ul li {
         font-size: 15px!important;
     }
+}
+.titleContainer{float: left;
+                width:40%;
 }

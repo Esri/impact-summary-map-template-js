@@ -44,11 +44,12 @@ function(
 ) {
     return declare("", [AreaOfInterest], {
         config: {},
-        constructor: function (config) {
+        constructor: function (config, data) {
             //config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
             // any url parameters and any application specific configuration information.
             this.config = config;
+            this.data = data;
             // css classes
             this.css= {
                 mobileSearchDisplay: "mobile-locate-box-display",
@@ -241,7 +242,12 @@ function(
                 require(["application/TemplateBuilder"], lang.hitch(this, function(TemplateBuilder){
                     // create template builder
                     var builder = new TemplateBuilder({
-                        drawer: this._drawer
+                        drawer: this._drawer,
+                        config: this.config,
+                        response: this.data,
+                        layers: this.layers,
+                        map: this.map,
+                        baseMapWidget: BT
                     });
                     builder.startup();
                 }));

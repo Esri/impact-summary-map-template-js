@@ -7,7 +7,425 @@
 }
 .template-builder-container {
     padding: 20px;
+    float: left;
 }
 .builder-mode .content-pane-left:before {
     top: 75px;
+}
+
+.esriButton {
+        background-color: #007ac2;
+        padding: 5px 15px;
+        color: White;
+        border: 0px;
+        cursor: pointer;
+}
+
+.esriButtonContainer {
+        padding: 15px;
+        float: left;
+}
+.esriSaveButtonContainer {
+        float: right;
+        padding: 15px;
+        margin-right: 15px;
+        display: none;
+}
+.esriUnsavedChanges {
+        clear: both;
+        text-align: center;
+        color: red;
+        font-size: 12px;
+        font-weight: bolder;
+}
+.esriSaveButton {
+        float: right;
+}
+.esriSettingsLabel {
+        float: left;
+        width: 100px;
+        font-size: 14px;
+        padding-top: 4px;
+}
+.esriConfigurationPanel .dijitTextBox {
+        float: left;
+        margin-bottom: 10px;
+        width: 250px !important;
+}
+.esriButtonConfig {
+        float: left;
+        margin: 15px 0px 20px 0px;
+        width: 100%;
+}
+.esriButtonInnerConfig {
+        margin: 0 auto;
+        float: right;
+}
+
+.esriButtonColorEnable {
+        background-color: rgb(243, 111, 32);
+}
+.esriFieldsetContainer {
+        float: left;
+        margin: 10px 0;
+        width: 100%;
+}
+
+.esriLegendLabelDiv {
+        margin-left: 10px;
+        margin-bottom: 10px;
+}
+
+.esriLegendLabel {
+        background: #fff;
+        padding: 0 10px;
+        font-weight: bold;
+        font-size: 14px;
+}
+
+.esriSelect {
+        width: 260px !important;
+        margin-bottom: 10px !important;
+}
+
+.esriBaseMapSelect {
+        width: 200px !important;
+        margin-bottom: 10px !important;
+}
+
+.esrWebMapHelpText {
+        float: left;
+        width: auto;
+        font-size: 11px;
+        line-height: 15px;
+        background-color: #faf6e6;
+        padding: 5px;
+}
+
+.esriEditTitleIcon {
+        background-image: url('../images/edit.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 20px;
+        width: 20px;
+        float: left;
+        cursor: pointer;
+        margin-left: 5px;
+        margin-top: 6px;
+}
+
+.esriEditBasemapIcon {
+        background-image: url('../images/edit.png');
+        background-position: center;
+        background-color: #fde79c;
+        border: 1px solid #c4b894;
+        height: 20px;
+        width: 20px;
+        cursor: pointer;
+        background-repeat: no-repeat;
+        position: absolute;
+        top: 2px;
+        right: 2px;
+}
+
+.editAreaDescriptionIcon {
+        background-image: url('../images/edit.png');
+        background-position: right;
+        height: 20px;
+        float: right;
+        background-repeat: no-repeat;
+        width: 100%;
+        cursor: pointer;
+}
+
+.esriToolbarEditIcon {
+        background-image: url('../images/edit.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 20px;
+        width: 20px;
+        float: right;
+        padding: 2px 2px 2px 0px;
+        cursor: pointer;
+        margin: 4px 2px;
+        background-color: #fde79c;
+        border: 1px solid #c4b894;
+}
+.esriIconContainer {
+        text-align: right;
+        margin-right: 14px;
+}
+
+.esriEditLayerIcon {
+        background-image: url('../images/edit.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 20px;
+        width: 20px;
+        display: inline-block;
+        cursor: pointer;
+        padding: 2px;
+}
+
+
+.esriSortNameDown {
+        background-image: url('../images/sortDown.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 20px;
+        width: 20px;
+        display: inline-block;
+        cursor: pointer;
+        padding: 2px;
+}
+
+.esriSortNameUp {
+        background-image: url('../images/sortUp.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 20px;
+        width: 20px;
+        display: inline-block;
+        cursor: pointer;
+        padding: 2px;
+}
+
+.esriCheckboxesContainer {
+        position: absolute;
+        top: 35px;
+        right: 0px;
+        z-index: 35;
+        width: 140px;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid #ddd;
+        border-top: none;
+        display: none;
+}
+.esriShareContainer {
+        padding: 6px 6px 3px 6px;
+}
+
+.esriAboutContainer {
+        padding: 3px 6px 6px 6px;
+}
+
+.esriCheckIcon {
+        background-image: url('../images/check.png');
+        background-repeat: no-repeat;
+        display: inline-block;
+        height: 18px;
+        width: 18px;
+        cursor: pointer;
+        vertical-align: middle;
+}
+
+.esriUncheckIcon {
+        background-image: url('../images/uncheck.png');
+        background-repeat: no-repeat;
+        display: inline-block;
+        height: 18px;
+        width: 18px;
+        cursor: pointer;
+        vertical-align: middle;
+}
+
+.esriCheckLabel {
+        display: inline-block;
+        vertical-align: text-top;
+        font-size: 12px;
+        margin-left: 10px;
+}
+
+.esriSelectBasemapPanel {
+        position: absolute;
+        top: 230px;
+        right: 20px;
+        z-index: 35;
+        border: 1px solid gray;
+        width: 200px;
+        padding: 10px;
+        display: none;
+        background: rgba(255, 255, 255, 0.9);
+}
+
+.esriEditTitleInput {
+        width: 96%;
+        margin: 0;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        line-height: 16px;
+        padding: 0px;
+        font-size: 15px;
+        padding: 2px;
+}
+
+.esriStatspanelEditIcon {
+        background-image: url('../images/edit.png');
+        background-position: center;
+        background-color: #fde79c;
+        background-repeat: no-repeat;
+        border: 1px solid #c4b894;
+        height: 20px;
+        width: 20px;
+        cursor: pointer;
+        float: right;
+}
+
+.esriDataContainer {
+        position: absolute;
+        z-index: 3;
+        left: 50%;
+        width: 520px;
+        height: 385px;
+        margin-left: -263px;
+        background-color: rgba(255, 255, 255, 1);
+        bottom: 144px;
+        border: 1px solid #CECBCB;
+}
+
+.esriVariableContentContainer {
+        height: 100%;
+        width: 100%;
+}
+
+.esriDownArrow {
+        background-image: url('../images/selected-arrow.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 9px;
+        width: 18px;
+        margin-left: 15%;
+        transform: rotate(180deg);
+        -ms-transform: rotate(180deg); /* IE 9 */
+        -webkit-transform: rotate(180deg); /* Safari and Chrome */
+}
+
+.esriVariableContainer {
+        clear: both;
+        float: left;
+        width: 95%;
+        padding: 5px 10px;
+        color: #777;
+}
+.esriVariableContent {
+        float: left;
+        width: 48%;
+        margin-right: 2%;
+}
+
+.esrisubVariableContent {
+        float: left;
+        width: 100%;
+        height: 150px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        border: 1px solid #dcdcdc;
+}
+
+.esriSpaceLeft {
+        padding: 0px 0px 0px 5px;
+}
+
+
+.esriSpaceRight {
+        padding: 0px 0px 0px 25px;
+        float: left;
+}
+
+.esriVariableContent select {
+        width: 100%;
+        border: 1px solid #dcdcdc;
+}
+
+.esriVariableContent input {
+        width: 100% !important;
+        border: 1px solid #dcdcdc;
+}
+.esriVarPanelCloseButton  {
+        float: right;
+        cursor: pointer;
+        font-size: 18px;
+}
+.esriSubVariableContainer {
+        width: 100%;
+        clear: both;
+        overflow: hidden;
+}
+.esriSubVariable {
+        line-height: 30px;
+        float: left;
+        border-bottom: 1px solid #dcdcdc;
+        border-right: 1px solid #dcdcdc;
+}
+.esriSubVariable label, .esriSubVariable input {
+        margin-left: 3px;
+        padding-left: 2px;
+}
+.esriFirstColumn {
+        width: 9%;
+        text-align: center;
+}
+.esriCheckBoxIcon {
+        padding-top: 2px;
+}
+.esriSecondColumn {
+        width: 40%;
+}
+.esriThirdColumn {
+        width: 50%;
+}
+.esriThirdColumn input {
+        width: 230px !important;
+        border: 1px solid #dcdcdc;
+        height: 22px !important;
+}
+.esriSourceLink input {
+        width: 98% !important;
+        height: 20px !important;
+        border: 1px solid #dcdcdc;
+}
+.esriRowEvenColor {
+        background: #eee;
+}
+
+.esriSubVariableDeleteButton {
+        background-image: url('../images/delete.png');
+        background-repeat: no-repeat;
+        background-position: center center;
+        height: 25px;
+        width: 25px;
+}
+
+.esriButtonEnabled0 {
+        background-color: rgb(243, 111, 32);
+}
+
+.esriButtonEnabled1 {
+        background-color: rgb(0, 122, 194);
+}
+
+.esriButtonEnabled2 {
+        background-color: rgb(53, 172, 70);
+}
+
+.esriButtonEnabled3 {
+        background-color: rgb(143, 73, 156);
+}
+
+.esriButtonDisabled {
+        background-color: #999;
+}
+.esriDijitDialog .dijitDialogPaneContent {
+        background-color: #f8f8f8 !important;
+}
+
+.esriSubVariableButtonContainer {
+        width: 32%;
+        float: right;
+        padding: 5px 10px;
+}
+
+.esriSimpleTextArea {
+        width: 95%;
+        height: 90px;
 }

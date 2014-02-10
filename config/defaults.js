@@ -16,7 +16,7 @@ define([], function() {
         "title":"",
         "areaDescription":"This interactive map highlights the potential impact of an earthquake in Southern California based on the 1994 Northridge <a href=\"http://earthquake.usgs.gov/earthquakes/shakemap/\" target=\"_blank\">shakemap</a>.",
         "defaultMenu":"area",
-        "summaryLayerId":"",
+        "summaryLayerId":"impact_area1375916377789_9168",
         "summaryLayerTitle": "Impact Area",
         "showTitle":true,
         "showEntireAreaButton": true,

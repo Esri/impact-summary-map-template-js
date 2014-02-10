@@ -47,7 +47,7 @@ function(
             this.config = defaults;
             this.localize = supportsLocalization || false;
             this._init().then(lang.hitch(this, function() {
-                this.emit("ready", this.config);
+                this.emit("ready", this.config, this.response);
             }));
         },
         //Get URL parameters and set applciation defaults needed to query arcgis.com for 
@@ -145,7 +145,13 @@ function(
                 require(["dojo/i18n!application/nls/resources"], lang.hitch(this, function(appBundle) {
                     //Get the localization strings for the template and store in an i18n variable. Also determine if the 
                     //application is in a right-to-left language like Arabic or Hebrew. 
-                    this.config.i18n = appBundle || {};
+                    //this.config.i18n = appBundle || {};
+                    //we did this because if appBundle is directly assigned to this.config.i18n,then it was creating object
+                    //with "_prototype" attribute.and becasue of this updateItem query was not working as expected
+                    this.config.i18n = {};
+                    this.config.i18n.general = appBundle.general;
+                    this.config.i18n.map = appBundle.map;
+                    this.config.i18n.$locale = appBundle.$locale;
                     //Bi-directional language support added to support right-to-left languages like Arabic and Hebrew
                     //Note: The map must stay ltr  
                     this.config.i18n.direction = "ltr";
@@ -189,6 +195,9 @@ function(
                     if(response.item && response.item.extent){
                         this.config.application_extent = response.item.extent;
                     }
+                    //Take "response" in a variable.it will be used in templateBuilder.js while Upadating item on AGOL.
+                    //So,instead of creating whole item again we can just change configuration parameters in item and then update the item.
+                    this.response = response;
                     deferred.resolve();
                 }));
             } else {
