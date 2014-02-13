@@ -4,7 +4,7 @@ This interactive map highlights your area of interest and shows an interactive r
 
 [View it live](http://esri.github.io/data-summary-map-template-js/)
 
-![App](http://esri.github.io/data-summary-map-template-js/master/images/item.png)
+![App](http://esri.github.io/data-summary-map-template-js/images/item.png)
 
 ## Instructions
 
