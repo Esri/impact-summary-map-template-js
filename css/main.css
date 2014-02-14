@@ -381,6 +381,7 @@ input[type=text]::-ms-clear {
 /* Misc */
 .panel-padding{
     padding: 10px;
+    color: #666;
 }
 .clear {
     clear: both;
