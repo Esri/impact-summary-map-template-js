@@ -379,7 +379,9 @@ input[type=text]::-ms-clear {
     display: none;
 }
 /* Misc */
-
+.panel-padding{
+    padding: 10px;
+}
 .clear {
     clear: both;
     display: block;
