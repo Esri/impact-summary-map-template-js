@@ -1,10 +1,26 @@
 # impact-summary-map-template-js
 
-This interactive map highlights your area of interest and shows an interactive report based on its location, allowing you to leverage your analysis work. The data presented in the boxes, at the bottom of the map, can be any integer data allowing you to answer new questions about locations that you cannot answer with maps alone. 
+![App](http://esri.github.io/impact-summary-map-template-js/images/item.png)
+
+This interactive map highlights an area and shows a summary of data related to its location. The data presented in the boxes, at the bottom of the map, can be any integer data allowing you to answer new questions about locations that you cannot answer with maps alone.
+
+For instance, in the web map you could enrich your polygon with demographics, landscape, infrastructure, and other variables using Enrich Layer or analyze your own data with Aggregate Points. Then you can use this template to show your analysis with a simple web mapping application.
 
 [View it live](http://esri.github.io/impact-summary-map-template-js/)
 
-![App](http://esri.github.io/impact-summary-map-template-js/images/item.png)
+The template can be configured using the following options:
+
+- **Map:** Choose the web map to use in your application.
+- **Responsive:** A side drawer is shown when its size can be accommodated. The responsive drawer can be toggled on or off by the user and allows the application to be embedded into blogs and websites.
+- **Navigation:** Home and Locate buttons add ease of map navigation.
+- **Content:** Summarize integer data by choosing a FeatureService layer containing the fields. A layer containing multiple features and has a renderer defined allows for selecting the features by the renderer values. An interactive dashboard provides ability to categorize fields in up to 4 group panels and page through the fields.
+- **Summary:** Briefly describe your application in the "Area" panel.
+- **Search:** Enable Searching for addresses and places.
+- **Share:** Share this application through Twitter, Facebook, Google+ or generate HTML for embedding in a blog or website.
+- **Basemap:** Enable toggling between two Esri basemaps.
+- **Layers:** Toggle visibility of layers.
+- **Legend:** Display a legend.
+- **About:** Display information about the application. The dialog can also be set to open on startup.
 
 ## Instructions
 
