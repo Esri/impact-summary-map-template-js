@@ -9,7 +9,7 @@ define([], function() {
         //"AFTKRmv16wj14N3z",
         //Enter the url to the proxy if needed by the applcation. See the "Using the proxy page" help topic for details
         //http://developers.arcgis.com/en/javascript/jshelp/ags_proxy.html
-        "proxyurl": "/resource-proxy/PHP/auth_proxy.php",
+        "proxyurl": "",
         //Example of a template specific property. If your template had several color schemes
         //you could define the default here and setup configuration settings to allow users to choose a different
         //color theme.
@@ -41,7 +41,7 @@ define([], function() {
            {
               "attribute":"TOTPOP_CY",
               "label":"Population",
-              "dataSourceUrl": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Data_Apportionment/02r30000021s000000/",
+              "dataSourceUrl": "",
               "children":[
                  {
                     "attribute":"POP15_CY",
@@ -56,7 +56,7 @@ define([], function() {
            {
               "attribute":"TOTHH_CY",
               "label":"Households",
-              "dataSourceUrl": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Data_Apportionment/02r30000021s000000/",
+              "dataSourceUrl": "",
               "children":[
                  {
                     "attribute":"OWNER_CY",
@@ -71,7 +71,7 @@ define([], function() {
            {
               "attribute":"CIKR_Total",
               "label":"Infrastructure",
-              "dataSourceUrl": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Data_Apportionment/02r30000021s000000/",
+              "dataSourceUrl": "",
               "children":[
                  {
                     "attribute":"CIKR_AMTwr",
@@ -134,7 +134,7 @@ define([], function() {
            {
               "attribute":"BUS_Total",
               "label":"Businesses",
-              "dataSourceUrl": "http://resources.arcgis.com/en/help/arcgis-rest-api/#/Data_Apportionment/02r30000021s000000/",
+              "dataSourceUrl": "",
               "children":[
                  {
                     "attribute":"BUS_Banks",
