@@ -200,7 +200,6 @@ define([
                         layer = obj.layers[i];
                         if (layer.id === obj.id) {
                             mapLayer = obj.map.getLayer(layer.id);
-                            console.log(mapLayer);
                             if(mapLayer.arcgisProps && mapLayer.arcgisProps.title){
                                 this._impactAreaTitle = mapLayer.arcgisProps.title;   
                             }
