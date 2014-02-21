@@ -213,8 +213,10 @@ define([
             _queryGreatestFeature: function () {
                 // features query
                 var q = new Query();
-                q.returnGeometry = false;
+                q.returnGeometry = true;
                 q.where = '1=1';
+                q.num = 1;
+                q.start = 0;
                 if(this._aoiOutFields){
                     q.outFields = this._aoiOutFields;
                 }
