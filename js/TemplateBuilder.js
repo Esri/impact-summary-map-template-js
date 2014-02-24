@@ -22,7 +22,16 @@ define([
     "dojo/dom-style",
     "esri/arcgis/Portal",
     "dojo/i18n!application/nls/TemplateBuilder",
-    "dojo/topic"
+    "dojo/topic",
+    "dojo/Deferred",
+    "dijit/Editor",
+    "dijit/TooltipDialog",
+    "dijit/popup",
+    "dijit/_editor/plugins/AlwaysShowToolbar",
+    "dijit/_editor/plugins/FontChoice",
+    "dijit/_editor/plugins/LinkDialog",
+    "dijit/_editor/plugins/TextColor",
+    "dojo/parser"
 ],
 function (
     Evented,
@@ -30,15 +39,15 @@ function (
     lang,
     _WidgetBase,
     ContentPane,
-    dom, on, string, query, array, domConstruct, domClass, Dialog, TextBox, esriRequest, arcgisUtils, SimpleTextarea, CheckBox, domAttr, domGeom, domStyle, portal, nls, topic
-) {
-    var Widget = declare([_WidgetBase, Evented], {
+    dom, on, string, query, array, domConstruct, domClass, Dialog, TextBox, esriRequest, arcgisUtils, SimpleTextarea, CheckBox, domAttr, domGeom, domStyle, portal, nls, topic, Deferred, Editor, TooltipDialog, popup, AlwaysShowToolbar, FontChoice, LinkDialog, TextColor) {
+    var Widget = declare([_WidgetBase], {
         declaredClass: "application.TemplateBuilder",
         //URL for updating Item
         updateItemURL: "https://www.arcgis.com/sharing/content/users/${username}/items/${appid}/update",
         //Predefined keywords for basemap's available on AGOL
         availableBaseMaps: ["streets", "satellite", "hybrid", "topo", "gray", "oceans", "national-geographic", "osm"],
         unSavedChanges: false,
+        previousConfigObj: null,
         configDialog: null,
         // lifecycle: 1
         constructor: function (options) {
@@ -52,6 +61,7 @@ function (
                 root: 'template-builder',
                 rootContainer: 'template-builder-container'
             };
+            this.previousConfigObj = lang.clone(defaults.config);
         },
         // start widget. called by user
         startup: function () {
@@ -66,16 +76,31 @@ function (
             });
             domConstruct.create("div", { innerHTML: "Template Builder Node", "class": this.css.rootContainer }, builderNode);
             var buttonContainer = domConstruct.create("div", { class: "esriButtonContainer" }, builderNode);
-            var applicationSettingButton = domConstruct.create("button", { innerHTML: nls.widgets.TemplateBuilder.applicationSettingText, "class": "esriButton" }, buttonContainer);
+            var dataConfigurationButton = domConstruct.create("button", { innerHTML: nls.widgets.TemplateBuilder.dataConfigurationButtonText, "class": "esriButton" }, buttonContainer);
+            var appSettingConfigurationButton = domConstruct.create("button", { "style": "margin-left:10px;", "class": "esriButton", innerHTML: nls.widgets.TemplateBuilder.applicationSettingText }, buttonContainer);
+            var previewModeButton = domConstruct.create("button", { "style": "margin-left:10px;", "class": "esriButton", innerHTML: "Preview Mode" }, buttonContainer);
             var saveButtonContainer = domConstruct.create("div", { class: "esriSaveButtonContainer" }, builderNode);
-            var applicationSettingSaveButton = domConstruct.create("button", { innerHTML: "Save", "class": "esriButton esriSaveButton" }, saveButtonContainer);
-            var unsavedChangesText = domConstruct.create("div", { "class": "esriUnsavedChanges", innerHTML: "Unsaved Changes" }, saveButtonContainer);
+            var applicationSettingSaveButton = domConstruct.create("button", { innerHTML: nls.widgets.TemplateBuilder.saveButtonText, "class": "esriButton esriSaveButton" }, saveButtonContainer);
+
+            var unsavedChangesText = domConstruct.create("div", { "class": "esriUnsavedChanges", innerHTML: nls.widgets.TemplateBuilder.unSavedChangesAlert }, saveButtonContainer);
             on(applicationSettingSaveButton, "click", lang.hitch(this, function () {
-                domAttr.set(unsavedChangesText, "innerHTML", "Saving Changes...");
-                this._updateItem();
+                domAttr.set(unsavedChangesText, "innerHTML", nls.widgets.TemplateBuilder.savingChangesMessage);
+                this._updateItem(false);
             }));
-            on(applicationSettingButton, "click", lang.hitch(this, function () {
+            on(dataConfigurationButton, "click", lang.hitch(this, function () {
                 this._createConfigurationPanel(true);
+            }));
+
+            on(appSettingConfigurationButton, "click", lang.hitch(this, function () {
+                this._createApplicationSettingsPanel();
+            }));
+
+            on(previewModeButton, "click", lang.hitch(this, function () {
+                var currentURL = location.href.split("&edit");
+                var newURL = currentURL[0];
+                this.previousConfigObj.edit = "";
+                this._updateItem(true);
+                window.location.href = newURL;
             }));
             // place node in body
             // top content pane
@@ -86,11 +111,236 @@ function (
             this.get("drawer")._borderContainer.addChild(builderContentPane);
             // resize border container
             this.get("drawer").resize();
-            this._showEditableUI();
-            this._createPortal();
+
+            this._createPortal().then(lang.hitch(this, function () {
+                this._showEditableUI();
+            }));
+
         },
+
+        _createApplicationSettingsPanel: function () {
+            var settingsContainer, settingsDialog;
+            settingsContainer = domConstruct.create("div", {}, null);
+            this._createApplicationSettingsLeftPanel(settingsContainer);
+            this._createApplicationSettingsRightPanel(settingsContainer);
+            this._createBasemapSelectionPanel(settingsContainer);
+
+            //Bottom container which contains button for saving the configuration settings
+            var bottomcontainer = domConstruct.create("div", { "class": "esriAppSettingBottomContainer" }, settingsContainer);
+            var saveButton = domConstruct.create("button", { innerHTML: nls.widgets.TemplateBuilder.appSettingsSaveCloseButtonText, class: "esriButton esriSaveCloseButon" }, bottomcontainer);
+
+            on(saveButton, "click", function () {
+                if (settingsDialog) {
+                    settingsDialog.destroy();
+                }
+            });
+            //create dialog and show entire application settings
+            settingsDialog = new Dialog({
+                title: nls.widgets.TemplateBuilder.applicationSettingText,
+                style: "min-width:700px !important",
+                class: "esriDijitDialog",
+                draggable: false
+            });
+            on(settingsDialog, "hide", lang.hitch(this, function () {
+                //If we want to revert settings we can add some code here
+            }));
+            settingsDialog.setContent(settingsContainer);
+            settingsDialog.show();
+        },
+        _createApplicationSettingsLeftPanel: function (settingsContainer) {
+            var leftSettingsContent, appTitleLabelContainer, appTitleLabel, appTitleInputContainer, appTitleInput,
+            appDescriptionLabelContainer, appDescriptionLabel, appDescriptionInputContainer, dijitInputContainer;
+
+            leftSettingsContent = domConstruct.create("div", { "class": "esriSettingsLeftContent" }, settingsContainer);
+            appTitleLabelContainer = domConstruct.create("div", { class: "esriClear" }, leftSettingsContent);
+            appTitleLabel = domConstruct.create("label", { innerHTML: nls.widgets.TemplateBuilder.appSettingsTitleText }, appTitleLabelContainer);
+            appTitleInputContainer = domConstruct.create("div", { class: "esriClear" }, leftSettingsContent);
+            appTitleInput = domConstruct.create("input", { style: "width:89%;", value: this.config.title || this.response.itemData.values.title }, appTitleInputContainer);
+            on(appTitleInput, "blur", lang.hitch(this, function () {
+                this.config.title = domAttr.get(appTitleInput, "value");
+                dom.byId("title").innerHTML = this.config.title;
+            }));
+            appDescriptionLabelContainer = domConstruct.create("div", { class: "esriClear" }, leftSettingsContent);
+            appDescriptionLabel = domConstruct.create("label", { innerHTML: nls.widgets.TemplateBuilder.appSettingsDescriptionText }, appDescriptionLabelContainer);
+            appDescriptionInputContainer = domConstruct.create("div", { class: "esriClear" }, leftSettingsContent);
+            dijitValue = this.config.summary ? this.config.summary : this.response ? this.response.item.snippet : "";
+            dijitInputContainer = new Editor({
+                height: '250px',
+                required: true,
+                plugins: ['bold', 'italic', 'underline', 'createLink'],
+                value: dijitValue
+            }, appDescriptionInputContainer);
+            dijitInputContainer.startup();
+            on(dijitInputContainer, "blur", lang.hitch(this, function () {
+                this.config.summary = domAttr.get(dijitInputContainer, "value");
+                domAttr.set(dom.byId("summary"), "innerHTML", this.config.summary);
+            }));
+        },
+
+        _createApplicationSettingsRightPanel: function (settingsContainer) {
+            var rightSettingsContent = domConstruct.create("div", { "class": "esriSettingsRightContent" }, settingsContainer);
+            //First column for Rendererd Area
+            var rendererContainer, rendererLabelContainer, rendererLabel, rendererbuttonContainer, onOffButtonLabel, onOffButtondiv,
+                buttonContainer, rendererSortContainer, rendererSortInnerContainer, rendererSortLabel, rendererSorttoggle;
+
+            rendererContainer = domConstruct.create("div", { class: "esriClear" }, rightSettingsContent);
+            rendererLabelContainer = domConstruct.create("div", { "class": "esriParentContainerStyleClm1" }, rendererContainer);
+            rendererLabel = domConstruct.create("div", { innerHTML: nls.widgets.TemplateBuilder.appSetingsRendererAreaText }, rendererLabelContainer);
+            rendererbuttonContainer = domConstruct.create("div", { "class": "esriParentContainerStyleClm2" }, rendererContainer);
+            currentState = this._checkButtonState(this.config.enableEntireAreaButton);
+            areaOnOffButtonLabel = domConstruct.create("div", { innerHTML: currentState.label, "class": "esriOnOffButtonLabel" }, rendererbuttonContainer);
+            onOffButtondiv = domConstruct.create("div", { "class": "esriOnOffButtonDiv" }, rendererbuttonContainer);
+            areaOnOffButton = domConstruct.create("div", { class: currentState.class }, onOffButtondiv);
+            on(areaOnOffButton, "click", lang.hitch(this, function (evt) {
+                parameterStatus = this._toggleButtonState(areaOnOffButton, this.config.enableEntireAreaButton, areaOnOffButtonLabel);
+                this.config.enableEntireAreaButton = parameterStatus;
+            }));
+            rendererSortContainer = domConstruct.create("div", { "class": "esriParentContainerStyleClm3" }, rendererContainer);
+            rendererSortInnerContainer = domConstruct.create("div", { "class": "esriParentinner" }, rendererSortContainer);
+            rendererSortLabel = domConstruct.create("div", { innerHTML: nls.widgets.TemplateBuilder.summaryAttrAscendingOrderTooltip, style: "float:left;margin-right:5px;" }, rendererSortInnerContainer);
+            currentClass = this.config.summaryAttributeOrder == "ASC" ? "esriSelectIcon" : "esriDeselectIcon";
+            rendererSorttoggle = domConstruct.create("div", { "class": currentClass }, rendererSortInnerContainer);
+            on(rendererSorttoggle, "click", lang.hitch(this, function (evt) {
+                parameterStatus = this._toggleCheckBoxSate(rendererSorttoggle, this.config.summaryAttributeOrder);
+                order = parameterStatus ? "ASC" : "DESC";
+                this.config.summaryAttributeOrder = order;
+            }));
+
+            //Second column for configuring share dialog
+            var shareContainer, shareLabelContainer, shareLabel, sharebuttonContainer, onOffButtonLabel, onOffButton;
+            shareContainer = domConstruct.create("div", { class: "esriClear" }, rightSettingsContent);
+            shareLabelContainer = domConstruct.create("div", { "class": "esriParentContainerStyleClm1" }, shareContainer);
+            shareLabel = domConstruct.create("div", { innerHTML: nls.widgets.TemplateBuilder.shareText }, shareLabelContainer);
+            sharebuttonContainer = domConstruct.create("div", { "class": "esriParentContainerStyleClm2" }, shareContainer);
+            currentState = this._checkButtonState(this.config.enableShareDialog);
+            shareOnOffButtonLabel = domConstruct.create("div", { innerHTML: currentState.label, "class": "esriOnOffButtonLabel" }, sharebuttonContainer);
+            onOffButtondiv = domConstruct.create("div", { "class": "esriOnOffButtonDiv" }, sharebuttonContainer);
+            shareOnOffButton = domConstruct.create("div", { class: currentState.class }, onOffButtondiv);
+            on(shareOnOffButton, "click", lang.hitch(this, function (evt) {
+                parameterStatus = this._toggleButtonState(shareOnOffButton, this.config.enableShareDialog, shareOnOffButtonLabel);
+                this.config.enableShareDialog = parameterStatus;
+            }));
+
+
+            //Third column for configuring about dialog
+            var aboutContainer, aboutLabelContainer, aboutLabelContainer, aboutLabel, aboutButtonContainer, aboutShowContainer,
+                aboutShowInnerContainer, rendererSortLabel, rendererSorttoggle;
+            aboutContainer = domConstruct.create("div", { class: "esriClear" }, rightSettingsContent);
+            aboutLabelContainer = domConstruct.create("div", { "class": "esriParentContainerStyleClm1" }, aboutContainer);
+            aboutLabel = domConstruct.create("div", { innerHTML: nls.widgets.TemplateBuilder.aboutText }, aboutLabelContainer);
+            aboutButtonContainer = domConstruct.create("div", { "class": "esriParentContainerStyleClm2" }, aboutContainer);
+            currentState = this._checkButtonState(this.config.enableAboutDialog);
+            aboutOnOffButtonLabel = domConstruct.create("div", { innerHTML: currentState.label, "class": "esriOnOffButtonLabel" }, aboutButtonContainer);
+            onOffButtondiv = domConstruct.create("div", { "class": "esriOnOffButtonDiv" }, aboutButtonContainer);
+            aboutOnOffButton = domConstruct.create("div", { class: currentState.class }, onOffButtondiv);
+            on(aboutOnOffButton, "click", lang.hitch(this, function (evt) {
+                parameterStatus = this._toggleButtonState(aboutOnOffButton, this.config.enableAboutDialog, aboutOnOffButtonLabel);
+                this.config.enableAboutDialog = parameterStatus;
+            }));
+            aboutShowContainer = domConstruct.create("div", { "class": "esriParentContainerStyleClm3" }, aboutContainer);
+            aboutShowInnerContainer = domConstruct.create("div", { "class": "esriParentinner" }, aboutShowContainer);
+            aboutSortLabel = domConstruct.create("div", { innerHTML: nls.widgets.TemplateBuilder.aboutDialogOnLoadText, style: "float:left; margin-right:5px;" }, aboutShowInnerContainer);
+            currentClass = this.config.showAboutOnLoad ? "esriSelectIcon" : "esriDeselectIcon";
+            abouttoggle = domConstruct.create("div", { "class": currentClass }, aboutShowInnerContainer);
+            on(abouttoggle, "click", lang.hitch(this, function (evt) {
+                parameterStatus = this._toggleCheckBoxSate(abouttoggle, this.config.showAboutOnLoad);
+                this.config.showAboutOnLoad = parameterStatus;
+            }));
+
+            //Fourth column for configuring basemap dialog
+            var basemapContainer, basemapLabelContainer, basemapLabel, basmapButtonContainer;
+            basemapContainer = domConstruct.create("div", { class: "esriClear" }, rightSettingsContent);
+            basemapLabelContainer = domConstruct.create("div", { "class": "esriParentContainerStyleClm1 esriParentContainerStyleClmBrdNone" }, basemapContainer);
+            basemapLabel = domConstruct.create("div", { innerHTML: nls.widgets.TemplateBuilder.basemapText }, basemapLabelContainer);
+            basmapButtonContainer = domConstruct.create("div", { "class": "esriParentContainerStyleClm2 esriParentContainerStyleClmBrdNone" }, basemapContainer);
+            currentState = this._checkButtonState(this.config.enableBasemapToggle);
+            basemapOnOffButtonLabel = domConstruct.create("div", { innerHTML: currentState.label, "class": "esriOnOffButtonLabel" }, basmapButtonContainer);
+            onOffButtondiv = domConstruct.create("div", { "class": "esriOnOffButtonDiv" }, basmapButtonContainer);
+            basemapOnOffButton = domConstruct.create("div", { class: currentState.class }, onOffButtondiv);
+            on(basemapOnOffButton, "click", lang.hitch(this, function (evt) {
+                parameterStatus = this._toggleButtonState(basemapOnOffButton, this.config.enableBasemapToggle, basemapOnOffButtonLabel);
+                this.config.enableBasemapToggle = parameterStatus;
+            }));
+        },
+
+        _createBasemapSelectionPanel: function (settingsContainer) {
+            var baseMapSelectionTemplate, basemapSelectionText, currentBaseMapContainer, basemapSiwtchDivContainer, basemapSiwtchDiv,
+                basemapSiwtchDivText, basemapText, selectDiv, select, option, buttomcontainer, saveButton;
+            baseMapSelectionTemplate = domConstruct.create("div", { "class": "esriBasemapSelection" }, settingsContainer);
+            basemapSelectionText = domConstruct.create("div", { innerHTML: nls.widgets.TemplateBuilder.basemapSelectionText, "class": "esriBasmapSelection" }, baseMapSelectionTemplate);
+
+            currentBaseMapContainer = domConstruct.create("div", { "class": "esriSettingsLeftContent" }, baseMapSelectionTemplate);
+            basemapSiwtchDivContainer = domConstruct.create("div", { "class": "esriBasemapSiwtchDivLeft" }, currentBaseMapContainer);
+            basemapSiwtchDiv = domConstruct.create("div", { "class": "esriBasemapSiwtchDiv" }, basemapSiwtchDivContainer);
+            basemapSiwtchDivText = domConstruct.create("div", { innerHTML: "EMPTY", "class": "esriBasemapSwitchDivText" }, basemapSiwtchDivContainer);
+
+            basemapText = domConstruct.create("div", { innerHTML: nls.widgets.TemplateBuilder.defaultBasemapText, "class": "esriBasemapSiwtchDivRight" }, currentBaseMapContainer);
+            selectDiv = domConstruct.create("div", {}, currentBaseMapContainer);
+            select = domConstruct.create("select", {}, selectDiv);
+            array.forEach(this.availableBaseMaps, function (defaultBasemap) {
+                option = domConstruct.create("option");
+                option.label = defaultBasemap;
+                option.value = defaultBasemap;
+                select.appendChild(option);
+            });
+
+            currentBaseMapContainer = domConstruct.create("div", { "class": "esriSettingsRightContent" }, baseMapSelectionTemplate);
+            basemapSiwtchDivContainer = domConstruct.create("div", { "class": "esriBasemapSiwtchDivLeft" }, currentBaseMapContainer);
+            basemapSiwtchDiv = domConstruct.create("div", { "class": "esriBasemapSiwtchDiv" }, basemapSiwtchDivContainer);
+            basemapSiwtchDivText = domConstruct.create("div", { innerHTML: "EMPTY", "class": "esriBasemapSwitchDivText" }, basemapSiwtchDivContainer);
+
+            basemapText = domConstruct.create("div", { innerHTML: nls.widgets.TemplateBuilder.secondaryBasemapText, "class": "esriBasemapSiwtchDivRight" }, currentBaseMapContainer);
+            selectDiv = domConstruct.create("div", {}, currentBaseMapContainer);
+            select = domConstruct.create("select", {}, selectDiv);
+            array.forEach(this.availableBaseMaps, function (currentBasemap) {
+                option = domConstruct.create("option");
+                option.label = currentBasemap;
+                option.value = currentBasemap;
+                select.appendChild(option);
+            });
+        },
+
+        _checkButtonState: function (isButtonEnabled) {
+            var buttonState = {};
+            isButtonEnabled ? buttonState.class = "esriOnButton" : buttonState.class = "esriOffButton";
+            isButtonEnabled ? buttonState.label = nls.widgets.TemplateBuilder.onButtonLabel : buttonState.label = nls.widgets.TemplateBuilder.offButtonLabel;
+            return buttonState;
+        },
+
+        _toggleButtonState: function (currentButton, configParameter, buttonLabel) {
+            if (domClass.contains(currentButton, "esriOnButton")) {
+                domClass.replace(currentButton, "esriOffButton", "esriOnButton");
+                domAttr.set(buttonLabel, "innerHTML", nls.widgets.TemplateBuilder.offButtonLabel);
+                configParameter = false;
+            }
+            else {
+                domClass.replace(currentButton, "esriOnButton", "esriOffButton");
+                domAttr.set(buttonLabel, "innerHTML", nls.widgets.TemplateBuilder.onButtonLabel);
+                configParameter = true;
+            }
+            this.unSavedChanges = true;
+            this._displayMessage();
+            return configParameter;
+
+        },
+
+        _toggleCheckBoxSate: function (currentCheckBox, configParameter) {
+            if (domClass.contains(currentCheckBox, "esriSelectIcon")) {
+                domClass.replace(currentCheckBox, "esriDeselectIcon", "esriSelectIcon");
+                configParameter = false;
+            }
+            else {
+                domClass.replace(currentCheckBox, "esriSelectIcon", "esriDeselectIcon");
+                configParameter = true;
+            }
+            this.unSavedChanges = true;
+            this._displayMessage();
+            return configParameter;
+        },
+
         _createPortal: function () {
             // create portal
+            var deferred = new Deferred();
             var _self = this, portalURL;
             portalURL = this._getPortalURL();
             this._portal = new portal.Portal(this._getPortalURL());
@@ -98,13 +348,15 @@ function (
             this.own(on(this._portal, "Load", lang.hitch(this, function () {
                 this._portal.signIn().then(function (loggedInUser) {
                     _self.currentUserName = loggedInUser.username;
-                    if (!_self.config.summaryLayerTitle || _self.config.summaryLayerId == "") {
+                    if (_self.config.summaryLayer.id == "") {
                         _self._createConfigurationPanel(true);
                     }
+                    deferred.resolve();
                 }, function (err) {
                     alert("Sign-in Failed");
                 });
             })));
+            return deferred.promise;
         },
 
         // connections/subscriptions will be cleaned up during the destroy() lifecycle phase
@@ -112,22 +364,17 @@ function (
             this.inherited(arguments);
         },
 
-        //This functional internally calls other functions which will create Editable components
+        //This function internally calls other functions which will create Editable components
         _showEditableUI: function () {
-
             this._createEditableTitle();
-            this._createCheckBoxPanel();
-            this._createEditableBasemapWidget();
+            // this._createCheckBoxPanel();
+            //this._createEditableBasemapWidget();
             this._createEditableAreaDescription();
             this._editRendererMenu();
             this._editStatsPanel();
-            //Create edit icons , everytime the stats-panels are re-created
+            this._createTooltip();
+
             topic.subscribe("createEditIcons", (lang.hitch(this, function () {
-                if (query(".esriStatspanelEditIcon")) {
-                    array.forEach(query(".esriStatspanelEditIcon"), function (icon) {
-                        domConstruct.destroy(icon);
-                    });
-                }
                 this._editStatsPanel();
             })));
         },
@@ -149,11 +396,11 @@ function (
         _toggleDialog: function (checkIcon, dialog, isShareDialog) {
             if (domClass.contains(checkIcon, "esriCheckIcon")) {
                 domClass.replace(checkIcon, "esriUncheckIcon", "esriCheckIcon");
-                isShareDialog ? this.config.ShowShareDialog = false : this.config.showAboutDialog = false;
+                isShareDialog ? this.config.enableShareDialog = false : this.config.enableAboutDialog = false;
 
             } else {
                 domClass.replace(checkIcon, "esriCheckIcon", "esriUncheckIcon");
-                isShareDialog ? this.config.ShowShareDialog = true : this.config.showAboutDialog = true;
+                isShareDialog ? this.config.enableShareDialog = true : this.config.enableAboutDialog = true;
             }
             this.unSavedChanges = true;
             this._displayMessage();
@@ -207,7 +454,7 @@ function (
             applicationSettingSaveVariableButton = domConstruct.create("button", { innerHTML: nls.widgets.TemplateBuilder.saveButtonText, "class": "esriButton" }, innerButtonContainer);
             applicationSettingNextVariableButton = domConstruct.create("button", { innerHTML: nls.widgets.TemplateBuilder.nextButtonText, "class": "esriButton esriButtonColorEnable" }, innerButtonContainer);
             on(applicationSettingSaveVariableButton, "click", lang.hitch(this, function () {
-                this._updateItem();
+                this._updateItem(false);
             }));
             on(applicationSettingNextVariableButton, "click", lang.hitch(this, function () {
                 this._createConfigurationPanel(false);
@@ -221,6 +468,10 @@ function (
             legendLabeldiv = domConstruct.create("div", { "class": "esriLegendLabelDiv" }, fieldsetContainer);
             layerLabel = domConstruct.create("div", { innerHTML: nls.widgets.TemplateBuilder.layerLabelText, "class": "esriSettingsLabel" }, legendLabeldiv);
             layerSelect = domConstruct.create("select", { "class": "esriSelect" }, legendLabeldiv);
+            var option = domConstruct.create("option");
+            option.value = "select Layer";
+            option.text = "select Layer";
+            layerSelect.appendChild(option);
             for (var i = 0; i < this.map.getLayersVisibleAtScale().length; i++) {
                 //allow only feature layer to be added to dropdown
                 if ((this.map.getLayersVisibleAtScale()[i].declaredClass == "esri.layers.FeatureLayer")) {
@@ -229,7 +480,7 @@ function (
                     option.text = this.map.getLayersVisibleAtScale()[i].name;
                     layerSelect.appendChild(option);
                 }
-                if (this.config.summaryLayerId == this.map.getLayersVisibleAtScale()[i].id) {
+                if (this.config.summaryLayer.id == this.map.getLayersVisibleAtScale()[i].id) {
                     option.selected = "selected";
                 }
             }
@@ -240,16 +491,16 @@ function (
                 layerSelect.appendChild(option);
             }
             if (layerSelect.options.length == 1) {
-                this.config.summaryLayerId = layerSelect.value;
+                this.config.summaryLayer.id = layerSelect.value;
             }
             on(layerSelect, "change", lang.hitch(this, function (value) {
-                this.config.summaryLayerId = value.currentTarget.value;
+                this.config.summaryLayer.id = value.currentTarget.value;
             }));
             configurationPanelButtonContainer = domConstruct.create("div", { "class": "esriButtonConfig" }, fieldsetContainer);
             innerButtonContainer = domConstruct.create("div", { "class": "esriButtonInnerConfig" }, configurationPanelButtonContainer);
-            configureSaveVariableButton = domConstruct.create("button", { innerHTML: nls.widgets.TemplateBuilder.saveButtonText, "class": "esriButton esriButtonColorEnable" }, innerButtonContainer);
+            configureSaveVariableButton = domConstruct.create("button", { innerHTML: nls.widgets.TemplateBuilder.saveButtonText, "class": "esriButton" }, innerButtonContainer);
             on(configureSaveVariableButton, "click", lang.hitch(this, function () {
-                this._updateItem();
+                this._updateItem(false);
             }));
         },
 
@@ -281,51 +532,32 @@ function (
         //create editable title
         _createEditableTitle: function () {
             var appTitle = dom.byId("title");
-            var editTitleIcon = domConstruct.create("div", { "class": "esriEditTitleIcon" }, dom.byId("titleContainer"));
+            var editTitleIcon = domConstruct.create("div", { "class": "esriEditTitleIcon" }, null);
+            domConstruct.place(editTitleIcon, appTitle, "after");
             dojo.connect(editTitleIcon, "onclick", lang.hitch(this, function () {
                 domConstruct.empty(appTitle);
                 var titleInputBox = domConstruct.create("input", { value: appTitle.title, "class": "esriEditTitleInput" }, appTitle);
                 titleInputBox.select();
                 on(titleInputBox, "blur", lang.hitch(this, function () {
                     domConstruct.empty(appTitle);
-                    appTitle.innerHTML = titleInputBox.value;
-                    appTitle.title = appTitle.innerHTML;
-                    this.config.title = appTitle.title;
-                    domConstruct.place(editTitleIcon, dom.byId("titleContainer"));
-                    this.unSavedChanges = true;
-                    this._displayMessage();
+                    if (titleInputBox.value.trim() != "") {
+                        appTitle.innerHTML = titleInputBox.value;
+                        appTitle.title = appTitle.innerHTML;
+                        this.config.title = appTitle.title;
+                        this.unSavedChanges = true;
+                        this._displayMessage();
+                    }
+                    else {
+                        alert("Application title cannot be EMPTY");
+                        appTitle.innerHTML = this.config.title;
+                        appTitle.title = appTitle.innerHTML;
+                    }
+                    domConstruct.place(editTitleIcon, appTitle, "after");
                 }));
             }));
         },
 
-        //function to create checkbox panel to show/hide about or share dialog container
-        _createCheckBoxPanel: function () {
-            var rightMenu, toolbarEditIcon, checkboxesContainer, shareContainer, shareCheckIcon, dialogStatus,
-            aboutCheckIcon, aboutContainer;
-            rightMenu = query(".top-menu-right")[0];
-            toolbarEditIcon = domConstruct.create("div", { "class": "esriToolbarEditIcon" }, rightMenu, "first");
-            //Checkboxes to show/hide share and about icons in the header panel
-            checkboxesContainer = domConstruct.create("div", { "class": "esriCheckboxesContainer" }, dom.byId("cp_outer_center"));
-            shareContainer = domConstruct.create("div", { "class": "esriShareContainer" }, checkboxesContainer);
-            this.config.ShowShareDialog ? dialogStatus = "esriCheckIcon" : dialogStatus = "esriUncheckIcon";
-            shareCheckIcon = domConstruct.create("div", { "class": dialogStatus }, shareContainer);
-            domConstruct.create("div", { "class": "esriCheckLabel", "innerHTML": nls.widgets.TemplateBuilder.showShareDialogText }, shareContainer);
-            on(shareCheckIcon, "click", lang.hitch(this, function () {
-                this._toggleDialog(shareCheckIcon, "ShareDialog", true);
-            }));
-
-            aboutContainer = domConstruct.create("div", { "class": "esriAboutContainer" }, checkboxesContainer);
-            this.config.showAboutDialog ? dialogStatus = "esriCheckIcon" : dialogStatus = "esriUncheckIcon";
-            aboutCheckIcon = domConstruct.create("div", { "class": dialogStatus }, aboutContainer);
-            domConstruct.create("div", { "class": "esriCheckLabel", "innerHTML": nls.widgets.TemplateBuilder.showAboutDialogText }, aboutContainer);
-            on(aboutCheckIcon, "click", lang.hitch(this, function () {
-                this._toggleDialog(aboutCheckIcon, "AboutDialog", false);
-            }));
-
-            on(toolbarEditIcon, "click", lang.hitch(this, function () { this._toggleContainer(checkboxesContainer); }));
-        },
-
-        //fucntion to edit basemap toggle widget
+        //function to edit basemap toggle widget
         _createEditableBasemapWidget: function () {
             var baseMapDiv, editBasemapIcon;
             baseMapDiv = dom.byId("BasemapToggle");
@@ -339,27 +571,30 @@ function (
 
         //function to  edit area description
         _createEditableAreaDescription: function () {
-            var areaDescription, editAreaDescriptionIcon;
-            if (dom.byId("areaDescription")) {
-                areaDescription = dom.byId("areaDescription");
+            var areaDescription, editAreaDescriptionIcon, dijitEditorParentDiv;
+            if (dom.byId("summary")) {
+                areaDescription = dom.byId("summary");
                 editAreaDescriptionIcon = domConstruct.create("div", { "class": "editAreaDescriptionIcon" }, null);
-                domConstruct.place(editAreaDescriptionIcon, areaDescription, "first");
+                domConstruct.place(editAreaDescriptionIcon, areaDescription, "after");
                 dojo.connect(editAreaDescriptionIcon, "onclick", lang.hitch(this, function () {
-                    var innerText = areaDescription.innerText;
-                    domConstruct.empty(areaDescription);
-                    var descriptionTextArea = domConstruct.create("textarea", {}, areaDescription);
-                    var editableTextArea = new SimpleTextarea({
-                        value: innerText,
-                        class: "esriSimpleTextArea"
-                    }, descriptionTextArea);
-                    on(editableTextArea, "blur, touchend", lang.hitch(this, function (evt) {
-                        var innerText = editableTextArea.textbox.value;
+                    domStyle.set(editAreaDescriptionIcon, "display", "none");
+                    var innerText = areaDescription.innerHTML;
+                    areaDescription.innerHTML = "";
+                    var innerDiv = domConstruct.create("div", {}, null);
+                    dijitEditorParentDiv = domConstruct.create("div", {}, areaDescription);
+                    dijitInputContainer = new Editor({
+                        height: '250px',
+                        required: true,
+                        plugins: ['bold', 'italic', 'underline', 'createLink'],
+                        value: innerText
+                    }, dijitEditorParentDiv);
+                    dijitInputContainer.startup();
+                    on(dijitInputContainer, "Blur", lang.hitch(this, function () {
+                        domStyle.set(editAreaDescriptionIcon, "display", "block");
+                        var innerText = dijitInputContainer.get("value").trim();
                         domConstruct.empty(areaDescription);
-                        dom.byId("areaDescription").innerHTML = innerText;
-                        this.config.areaDescription = innerText;
-                        domConstruct.place(editAreaDescriptionIcon, areaDescription, "first");
-                        this.unSavedChanges = true;
-                        this._displayMessage();
+                        domAttr.set(areaDescription, "innerHTML", innerText);
+                        this.config.summary = innerText;
                     }));
                 }));
             }
@@ -367,65 +602,31 @@ function (
 
         //edit impact area renderers
         _editRendererMenu: function () {
-            var rendererMenu, editDataLayerIconContainer;
-            if (dom.byId("renderer_menu")) {
-                rendererMenu = dom.byId("renderer_menu");
-                editDataLayerIconContainer = domConstruct.create("div", { "class": "esriIconContainer" }, null);
-                domConstruct.place(editDataLayerIconContainer, rendererMenu, "before");
-                this.config.showEntireAreaButton ? title = nls.widgets.TemplateBuilder.hideEntireAreaTootltip : title = nls.widgets.TemplateBuilder.showEntireAreaTooltip;
-                var showEntireAreaPanel = domConstruct.create("div", { "class": "esriEditLayerIcon", title: title }, editDataLayerIconContainer);
-                on(showEntireAreaPanel, "click", lang.hitch(this, function () {
-                    if (domStyle.get(query(".summarize")[0], "display") == "list-item") {
-                        domStyle.set(query(".summarize")[0], "display", "none");
-                        this.config.showEntireAreaButton = false;
-                        showEntireAreaPanel.title = nls.widgets.TemplateBuilder.showEntireAreaTooltip;
+            if (this.config.summaryAttributeOrder != "DESC") {
+                var rendererList = query(".menu-list")[0].getElementsByTagName("li");
+                var i = rendererList.length;
+                while (i--) {
+                    if (!domClass.contains(rendererList[i], "summarize")) {
+                        query(".menu-list")[0].appendChild(rendererList[i]);
                     }
-                    else {
-                        domStyle.set(query(".summarize")[0], "display", "list-item");
-                        this.config.showEntireAreaButton = true;
-                        showEntireAreaPanel.title = nls.widgets.TemplateBuilder.hideEntireAreaTootltip;
-                    }
-                    this.unSavedChanges = true;
-                    this._displayMessage();
-                }));
-                this.config.summaryAttributeOrder == "DESC" ? className = "esriSortNameDown" : className = "esriSortNameUp";
-                if (className == "esriSortNameDown") {
-                    title = nls.widgets.TemplateBuilder.summaryAttrAscendingOrderTooltip;
                 }
-                else {
-                    title = nls.widgets.TemplateBuilder.summaryAttrDescendingOrderTooltip;
-                }
-                var attributeOrder = domConstruct.create("div", { "class": className, title: title }, editDataLayerIconContainer);
-                on(attributeOrder, "click", lang.hitch(this, function () {
-                    this._sortRenderer(attributeOrder);
-                    this.unSavedChanges = true;
-                    this._displayMessage();
-                }));
             }
         },
 
         //function to  edit stats panel blocks
         _editStatsPanel: function () {
             var editpanelButton, statsPanel;
-            on(query(".panel-parent"), "click", lang.hitch(this, function (evt) {
-                this._toggleStatsPanelEditIcon();
-            }));
-
-            on(query(".div-header-close"), "click", lang.hitch(this, function () {
-                this._toggleStatsPanelEditIcon();
-            }));
             statsPanel = query(".panel .count");
             array.forEach(statsPanel, lang.hitch(this, function (panel, index) {
-                editpanelButton = domConstruct.create("div", { "class": "esriStatspanelEditIcon" }, panel, "before");
-                domAttr.set(editpanelButton, "nodeIndex", index);
-                this.own(on(editpanelButton, "click", lang.hitch(this, function (evt) {
+                domAttr.set(panel, "nodeIndex", index);
+                on(panel, "click", lang.hitch(this, function (evt) {
                     evt.stopPropagation();
                     if (query(".esriDataContainer").length) {
                         domConstruct.destroy(query(".esriDataContainer")[0]);
                     }
                     //create panel which will allow user to add/update stats panel configuration
                     this._createVariablePanel(evt.currentTarget);
-                })));
+                }));
             }));
         },
 
@@ -456,7 +657,7 @@ function (
             parentVariableOption.text = "Select Variable";
             selectInput.appendChild(parentVariableOption);
             on(selectInput, "change", lang.hitch(this, function (evt) {
-                array.forEach(this.map.getLayer(this.config.summaryLayerId).fields, lang.hitch(this, function (currentField) {
+                array.forEach(this.map.getLayer(this.config.summaryLayer.id).fields, lang.hitch(this, function (currentField) {
                     if (currentField.name == evt.currentTarget.value) {
                         query(".esriVariableSelectInput")[0].value = currentField.alias;
                     }
@@ -465,23 +666,31 @@ function (
                     domConstruct.empty(subVariableContentContainer);
                     query(".esriVariableSelectInput")[0].value = "Enter Label";
                     domClass.replace(buttonSaveButton, "esriButtonDisabled", "esriButtonEnabled" + currentNodeIndex);
-                    domClass.replace(delteButtonDiv, "esriButtonDisabled", "esriButtonEnabled" + currentNodeIndex);
+                    if (domClass.contains(buttonSaveButton, "esriButtonDisabled")) {
+                        domStyle.set(delteButtonDiv, "display", "none");
+                    }
+                    else {
+                        domStyle.set(delteButtonDiv, "display", "block");
+                    }
                     buttonSaveButton.disabled = true;
-                    delteButtonDiv.disabled = true;
                     return;
                 }
                 else {
                     domClass.replace(buttonSaveButton, "esriButtonEnabled" + currentNodeIndex, "esriButtonDisabled");
-                    domClass.replace(delteButtonDiv, "esriButtonEnabled" + currentNodeIndex, "esriButtonDisabled");
+                    if (domClass.contains(buttonSaveButton, "esriButtonDisabled")) {
+                        domStyle.set(delteButtonDiv, "display", "none");
+                    }
+                    else {
+                        domStyle.set(delteButtonDiv, "display", "block");
+                    }
                     buttonSaveButton.disabled = false;
-                    delteButtonDiv.disabled = false;
                 }
                 domConstruct.empty(subVariableContentContainer);
                 this._populateSubVariables(subVariableContentContainer, currentNodeIndex, evt.currentTarget.value);
             }));
 
             //populate all fields of layer and append it to dropdown
-            array.forEach(this.map.getLayer(this.config.summaryLayerId).fields, lang.hitch(this, function (currentField) {
+            array.forEach(this.map.getLayer(this.config.summaryLayer.id).fields, lang.hitch(this, function (currentField) {
                 parentVariableOption = domConstruct.create("option");
                 parentVariableOption.value = currentField.name;
                 parentVariableOption.text = currentField.name;
@@ -514,7 +723,14 @@ function (
             buttonContainer = domConstruct.create("div", { class: "esriSubVariableButtonContainer" }, variableContent);
             populateSubVariables ? buttonState = false : buttonState = true;
             buttonState ? buttonClass = "esriButtonDisabled" : buttonClass = "esriButtonEnabled" + currentNodeIndex;
-            delteButtonDiv = domConstruct.create("button", { "style": "margin-top:2px;", class: "esriButton " + buttonClass, innerHTML: "Clear Data", disabled: buttonState }, buttonContainer);
+            if (buttonClass == "esriButtonDisabled") {
+                buttonVisibilty = "none";
+            }
+            else {
+                buttonVisibilty = "block";
+            }
+            delteButtonDiv = domConstruct.create("div", { class: "esriClearButton", innerHTML: "Clear Data" }, buttonContainer);
+            domStyle.set(delteButtonDiv, "display", buttonVisibilty);
             buttonSaveButton = domConstruct.create("button", { "style": "float:right", class: "esriButton " + buttonClass, innerHTML: nls.widgets.TemplateBuilder.subVariablePanelButtonText, disabled: buttonState }, buttonContainer);
 
             on(buttonSaveButton, "click", lang.hitch(this, function () {
@@ -533,7 +749,7 @@ function (
         //function to populate sub variables and allow users to add/update the same
         _populateSubVariables: function (subVariableContentContainer, currentNodeIndex, parentAttributeName) {
             var count = 0;
-            array.forEach(this.map.getLayer(this.config.summaryLayerId).fields, lang.hitch(this, function (currentField, index) {
+            array.forEach(this.map.getLayer(this.config.summaryLayer.id).fields, lang.hitch(this, function (currentField, index) {
                 var subVariableContentDiv, subVariableContentFirstDiv, checkBox, subVariableContentSecondDiv, label,
                 subVariableContentThirdDiv, inputText, checkBoxStatusClass;
                 checkBoxStatusClass = "esriUncheckIcon";
@@ -564,6 +780,11 @@ function (
                         }
                         else {
                             domClass.replace(checkBox, "esriCheckIcon", "esriUncheckIcon");
+                        }
+                        var totalSubVariable = query(".esriCheckBoxIcon.esriCheckIcon").length;
+                        if (totalSubVariable > 25) {
+                            domClass.replace(evt.currentTarget, "esriUncheckIcon", "esriCheckIcon");
+                            alert("You cannot select more than 25 subvariables");
                         }
                     });
                 }
@@ -610,27 +831,6 @@ function (
             }
         },
 
-        //function to sort impact area renderers
-        _sortRenderer: function (attributeOrder, isSorting) {
-            var birdList = query(".menu-list")[0].getElementsByTagName("li");
-            var i = birdList.length;
-            while (i--) {
-                if (!domClass.contains(birdList[i], "summarize")) {
-                    query(".menu-list")[0].appendChild(birdList[i]);
-                }
-            }
-            if (domClass.contains(attributeOrder, "esriSortNameDown")) {
-                this.config.summaryAttributeOrder = "ASC";
-                domClass.replace(attributeOrder, "esriSortNameUp", "esriSortNameDown");
-                attributeOrder.title = nls.widgets.TemplateBuilder.summaryAttrAscendingOrderTooltip;
-            }
-            else {
-                this.config.summaryAttributeOrder = "DESC";
-                domClass.replace(attributeOrder, "esriSortNameDown", "esriSortNameUp");
-                attributeOrder.title = nls.widgets.TemplateBuilder.summaryAttrDescendingOrderTooltip;
-            }
-        },
-
         _displayMessage: function () {
             if (domStyle.get(query(".esriSaveButtonContainer")[0], "display") == "none" || this.unSavedChanges) {
                 domStyle.set(query(".esriSaveButtonContainer")[0], "display", "block");
@@ -641,9 +841,11 @@ function (
         },
 
         //function to update item on AGOL with changed configuration settings
-        _updateItem: function () {
+        _updateItem: function (isRollBackRequired, newURL) {
             //Here we are using the response,so we dont need to create whole item again.
             //we are just modifying required parameters.
+            isRollBackRequired ? this.config = this.previousConfigObj : this.config = this.config;
+            delete this.config["i18n"];
             var text = lang.mixin(this.response.itemData.values, this.config);
             this.response.item.tags = typeof (this.response.item.tags) == "object" ? this.response.item.tags.join(',') : this.response.item.tags;
             this.response.item.typeKeywords = typeof (this.response.item.typeKeywords) == "object" ? this.response.item.typeKeywords.join(',') : this.response.item.typeKeywords;
@@ -665,7 +867,9 @@ function (
             }, { usePost: true }).then(lang.hitch(this, function (result) {
                 if (result.success) {
                     alert("Item Updated");
-                    location.reload();
+                    if (!isRollBackRequired) {
+                        location.reload();
+                    }
                 }
             }), function (err) {
                 alert("Failed");
@@ -674,8 +878,78 @@ function (
 
         _getPortalURL: function () {
             return arcgisUtils.arcgisUrl.split('/sharing/')[0];
-        }
+        },
 
+        _createTooltip: function () {
+            var _this = this;
+            var myTooltipDialog = new TooltipDialog({
+                id: 'tooltipDialog',
+                style: "max-width: 200px; font-size: 12px;",
+                onMouseLeave: function (evt) {
+                    popup.close(myTooltipDialog);
+                }
+            });
+            //tooltip for About dialog
+            on(dom.byId('AboutDialog'), "mouseover", function () {
+                var aboutDialogContent, label, aboutOnOfButton, aboutLoadtext, onLoadCheckIcon;
+                aboutDialogContent = domConstruct.create("div", { "class": "esriTooltipDialog" }, null);
+                currentState = _this._checkButtonState(_this.config.enableAboutDialog);
+                aboutlabel = domConstruct.create("div", { innerHTML: currentState.label, "class": "esriFloatLeftStyle esriToggleButtonClass" }, aboutDialogContent);
+                aboutOnOfButton = domConstruct.create("div", { class: "esriFloatLeftStyle " + currentState.class }, aboutDialogContent);
+                aboutLoadtext = domConstruct.create("div", { innerHTML: "On Load", "class": "esriFloatLeftlabel" }, aboutDialogContent);
+                currentClass = _this.config.showAboutOnLoad ? "esriSelectIcon" : "esriDeselectIcon";
+                onLoadCheckIcon = domConstruct.create("div", { class: "esriFloatLeftStyle " + currentClass, "style": "margin-left:5px;" }, aboutDialogContent);
+                on(aboutOnOfButton, "click", function (evt) {
+                    parameterStatus = _this._toggleButtonState(aboutOnOfButton, _this.config.enableAboutDialog, aboutlabel);
+                    _this.config.enableAboutDialog = parameterStatus;
+                });
+                on(onLoadCheckIcon, "click", lang.hitch(this, function (evt) {
+                    parameterStatus = _this._toggleCheckBoxSate(onLoadCheckIcon, _this.config.showAboutOnLoad);
+                    _this.config.showAboutOnLoad = parameterStatus;
+                }));
+                _this._displayTooltip(myTooltipDialog, aboutDialogContent, this);
+            });
+            //tooltip for Share dialog
+            on(dom.byId('ShareDialog'), "mouseover", function () {
+                var shareDialogContent, sharelabel, shareOnOfButton;
+                shareDialogContent = domConstruct.create("div", { "class": "esriTooltipDialog" }, null);
+                currentState = _this._checkButtonState(_this.config.enableShareDialog);
+                sharelabel = domConstruct.create("div", { innerHTML: currentState.label, "class": "esriFloatLeftStyle esriToggleButtonClass" }, shareDialogContent);
+                shareOnOfButton = domConstruct.create("div", { class: "esriFloatLeftStyle " + currentState.class }, shareDialogContent);
+                on(shareOnOfButton, "click", function (evt) {
+                    parameterStatus = _this._toggleButtonState(shareOnOfButton, _this.config.enableShareDialog, sharelabel);
+                    _this.config.enableShareDialog = parameterStatus;
+                });
+                _this._displayTooltip(myTooltipDialog, shareDialogContent, this);
+            });
+            //tooltip for basemap
+            on(dom.byId('BasemapToggle'), "mouseover", function () {
+                var basemapContent, basemapLabel, basemapOnOfButton, basmeapPencilIcon;
+                basemapContent = domConstruct.create("div", { "class": "esriTooltipDialog" }, null);
+                currentState = _this._checkButtonState(_this.config.enableBasemapToggle);
+                basemapLabel = domConstruct.create("div", { innerHTML: currentState.label, "class": "esriFloatLeftStyle esriToggleButtonClass" }, basemapContent);
+                basemapOnOfButton = domConstruct.create("div", { class: "esriFloatLeftStyle " + currentState.class }, basemapContent);
+                basmeapPencilIcon = domConstruct.create("div", { "class": "esriEditBasemapIcon esriFloatLeftStyle" }, basemapContent);
+                on(basemapOnOfButton, "click", function (evt) {
+                    parameterStatus = _this._toggleButtonState(basemapOnOfButton, _this.config.enableBasemapToggle, basemapLabel);
+                    _this.config.enableBasemapToggle = parameterStatus;
+                });
+                _this._displayTooltip(myTooltipDialog, basemapContent, this);
+            });
+
+            on(dom.byId('renderer_menu'), "mouseover", function () {
+            });
+        },
+
+        //function to show tooltip on hover
+        _displayTooltip: function (myTooltipDialog, content, parentNode) {
+            myTooltipDialog.setContent(content);
+            popup.open({
+                popup: myTooltipDialog,
+                around: parentNode,
+                orient: ["below-centered"]
+            });
+        }
         /* ---------------- */
         /* Public Events */
         /* ---------------- */

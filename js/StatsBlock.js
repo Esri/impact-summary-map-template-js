@@ -36,6 +36,7 @@ function (
         options: {
             features: null,
             config: null,
+            newConfig: null,
             stats: null,
             direction: 'ltr'
         },
@@ -183,7 +184,18 @@ function (
         _decPlaces: function(n) {
             // number not defined
             if (!n) {
-                n = 0;
+                if (n == 0) {
+                    n = 0;
+                }
+                else if (n == undefined) {
+                    //add "+" if no values are configured and user us in edit mode
+                    if (this.appConfig.edit) {
+                        n = "<b>+</b>";
+                    }
+                    else {
+                        n = 0;
+                    }
+                }
             }
             // format number according to length
             var decPlaces;
@@ -206,6 +218,24 @@ function (
             if (features && features.length) {
                 // all config to summarize
                 var config = this.get("config");
+                this.newConfig = lang.clone(config);
+                array.forEach(config, lang.hitch(this, function (currentVariable, index) {
+                    if (currentVariable) {
+                        if (currentVariable.attribute == "+" || currentVariable.attribute.trim() == "") {
+                            config.splice(index, 1);
+                        }
+                    }
+                }));
+                //checking wether to show only configured variables or to show all the four stats block
+                if (this.appConfig.edit) {
+                    this.set("config", this.newConfig);
+                    config = this.get("config");
+                    this.appConfig.summaryAttributes = this.newConfig;
+                }
+                else {
+                    this.set("config", config);
+                    config = this.get("config");
+                }
                 var stats = {};
                 var i, j, k;
                 // each feature
@@ -243,10 +273,6 @@ function (
                 }
                 // set widget stats
                 this.set("stats", stats);
-                //Create edit icons in the stats panel, everytime the panels are re-created (templateBuilder.js)
-                aspect.after(this, "_createPanels", function () {
-                    topic.publish("createEditIcons");
-                });
                 // create panels from stats
                 this._createPanels();
                 // resize
@@ -259,8 +285,11 @@ function (
                 for (i = 0; i < this._nodes.length; i++) {
                     // if panel has children
                     if(config[i].children && config[i].children.length){
-                        this._panelClickEvent(this._nodes[i].panel, i);
-                        this._panelCloseEvent(this._nodes[i].detailedPanelHeaderClose);
+                        //Attach panelClick event only if user is in preview mode
+                        if (!this.appConfig.edit) {
+                            this._panelClickEvent(this._nodes[i].panel, i);
+                            this._panelCloseEvent(this._nodes[i].detailedPanelHeaderClose);
+                        }
                     }
                 }
                 // show geo stats
@@ -268,7 +297,6 @@ function (
             } else {
                 this.hide();
             }
-            //Create edit icons in the stats panel, everytime the panels are re-created (templateBuilder.js)
             topic.publish("createEditIcons");
         },
         _panelCloseEvent: function(node) {
@@ -393,7 +421,7 @@ function (
                 // slider container
                 detailedContainer = domConstruct.create('div', {
                     className: this.css.divSliderContainer
-                });  
+                });
                 // paginate left
                 detailedLeft = domConstruct.create('div', {
                     className: this.css.divLeft
@@ -424,7 +452,7 @@ function (
                 detailedPaginationContainer = domConstruct.create('div', {
                     className: this.css.divPaginationContainer
                 });
-                domConstruct.place(detailedPaginationContainer, detailedInnerContainer, 'last');              
+                domConstruct.place(detailedPaginationContainer, detailedInnerContainer, 'last');
                 // pagination
                 detailedPagination = domConstruct.create('div', {
                     className: this.css.divPagination
@@ -721,7 +749,7 @@ function (
         _resizeSliders: function() {
             if(this._nodes && this._nodes.length){
                 // each panel
-                for(var i = 0; i < this._nodes.length; i++){  
+                for(var i = 0; i < this._nodes.length; i++){
                     // get data node
                     var dataNode = this._nodes[i].detailedData;
                     if(dataNode){
@@ -741,7 +769,6 @@ function (
                                 this._showSelectedPage(i, 0);
                             }
                         }
- 
                     }
                 }
             }

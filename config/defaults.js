@@ -14,21 +14,22 @@ define([], function() {
         //you could define the default here and setup configuration settings to allow users to choose a different
         //color theme.
         "title":"",
-<<<<<<< HEAD
-        "areaDescription":"This interactive map highlights the potential impact of an earthquake in Southern California based on the 1994 Northridge <a href=\"http://earthquake.usgs.gov/earthquakes/shakemap/\" target=\"_blank\">shakemap</a>.",
-        "defaultMenu":"area",
-        "summaryLayerId":"impact_area1375916377789_9168",
-        "summaryLayerTitle": "Impact Area",
-        "showTitle":true,
-        "showEntireAreaButton": true,
-        "showAreaDescription":true,
-        "showAreaPanel": true,
-        "showLegendPanel": true,
-        "showHomeButton": true,
-        "showLocateButton":true,
-        "showBasemapToggle": true,
-        "showAboutDialog":true,
-
+        "summary":"",
+        "defaultPanel":"map",
+        "summaryLayer":{
+            "id": "impact_area1375916377789_9168"
+        },
+        "enableTitle":true,
+        "enableEntireAreaButton": true,
+        "selectEntireAreaOnStart": false,
+        "enableSummary":true,
+        "enableMapPanel": true,
+        "enableLegendPanel": true,
+        "enableLayersPanel":true,
+        "enableHomeButton": true,
+        "enableLocateButton":true,
+        "enableBasemapToggle": true,
+        "enableAboutDialog":true,
         "showAboutOnLoad":false,
         "enableShareDialog":true,
         "nextBasemap": "hybrid",

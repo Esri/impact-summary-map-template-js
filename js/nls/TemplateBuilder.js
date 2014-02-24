@@ -28,7 +28,23 @@
                 "sourceLinkText":"Source Link",
                 "selectSubVariableText":"Select Sub Variables",
                 "subVariablePanelButtonText":"DONE",
-                "resetVariableMessage":"Are You sure you want to reset variable ?"
+                "resetVariableMessage": "Are You sure you want to reset variable ?",
+                "onButtonLabel":"On",
+                "offButtonLabel":"Off",
+                "appSettingsSaveCloseButtonText": "SAVE & CLOSE",
+                "appSettingsTitleText":"App Title",
+                "appSettingsDescriptionText": "Application Description",
+                "appSetingsRendererAreaText":"Renedered Area",
+                "shareText":"Share",
+                "aboutText":"About",
+                "aboutDialogOnLoadText": "On Load",
+                "basemapText":"Basemap",
+                "basemapSelectionText":"Basemap Selection",
+                "secondaryBasemapText":"Secondary Basemap",
+                "defaultBasemapText":"Default Basemap",
+                "dataConfigurationButtonText": "Data Configuration",
+                "unSavedChangesAlert":"Unsaved Changes",
+                "savingChangesMessage": "Saving Changes..."
             }
         }
     }),

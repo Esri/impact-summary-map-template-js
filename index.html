@@ -23,6 +23,7 @@
     <!--Use protocol relative urls that way if the browser is viewing the page via HTTPS the js/css file will be requested using the HTTPS protocol-->
     <link rel="stylesheet" type="text/css" href="//js.arcgis.com/3.8/js/esri/css/esri.css" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato:300,400,700" />
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/dojo/1.9.2/dijit/themes/claro/claro.css">
     <!--Load any application specific styles-->
     <link rel="stylesheet" type="text/css" href="css/dijit.css" />
     <link rel="stylesheet" type="text/css" href="css/fontello.css" />
@@ -40,7 +41,7 @@
     <link rel="stylesheet" type="text/css" href="css/TemplateBuilder.css" />
     <!--[if IE 7]><link rel="stylesheet" type="text/css" href="css/fontello-ie7.css" /><![endif]-->
 </head>
-<body class="calcite">
+<body class="claro calcite">
     <!--The ArcGIS API for JavaScript provides bidirectional support.  When viewing the application in an right to left (rtl) language like Hebrew and Arabic the map needs to remain in left-to-right (ltr) mode. Specify this by setting the dir attribute on the div to ltr. -->
     <div id="loadingIndicatorDiv" class="loading-indicator"></div>
     <div id="bc_outer" class="border-container-outer">
@@ -53,9 +54,7 @@
                 <div id="hamburger_button" class="hamburger-button toggle-grey toggle-grey-on">
                     <div class="icon-menu-1"></div>
                 </div>
-                <div id="titleContainer" class="titleContainer">
                 <div id="title" class="app-title"></div>
-                </div>
                 <div class="top-menu-right">
                     <div id="AboutDialog"></div>
                     <div id="ShareDialog"></div>
@@ -117,7 +116,7 @@
             //to show how to setup the strings file.
             var supportsLocalization = true; //defaults to false
             var myTemplate = new Template(supportsLocalization);
-            on(myTemplate, "ready", function(config, data) {
+            on(myTemplate, "ready", function (config, data) {
                 //The config object contains the following properties: helper services, (optionally)
                 //i18n, appid, webmap and any custom values defined by the applcation.
                 //In this example we have one called theme.

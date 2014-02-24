@@ -24,7 +24,7 @@ define([
     "dojo/_base/array",
     "esri/lang"
 ],
-function(
+function (
     declare,
     lang,
     arcgisUtils,
@@ -53,7 +53,7 @@ function(
             this.config = config;
             this.data = data;
             // css classes
-            this.css= {
+            this.css = {
                 mobileSearchDisplay: "mobile-locate-box-display",
                 toggleBlue: 'toggle-grey',
                 toggleBlueOn: 'toggle-grey-on',
@@ -75,7 +75,7 @@ function(
             // mobile size switch domClass
             this._showDrawerSize = 850;
             // pointer event support
-            if(this._pointerEventsSupport()){
+            if (this._pointerEventsSupport()) {
                 domClass.add(document.documentElement, this.css.pointerEvents);
             }
             // mobile size switch domClass
@@ -98,7 +98,7 @@ function(
             this._drawer.startup();
             // get item info
             arcgisUtils.getItem(this.config.webmap).then(lang.hitch(this, function (itemInfo) {
-                //let's get the web map item and update the extent if needed. 
+                //let's get the web map item and update the extent if needed.
                 if (this.config.appid && this.config.application_extent.length > 0) {
                     itemInfo.item.extent = [
                         [
@@ -114,14 +114,14 @@ function(
                 this._createWebMap(itemInfo);
             }));
         },
-        _pointerEventsSupport: function(){
+        _pointerEventsSupport: function () {
             var element = document.createElement('x');
             element.style.cssText = 'pointer-events:auto';
-            return element.style.pointerEvents === 'auto';   
+            return element.style.pointerEvents === 'auto';
         },
-        _initLegend: function(){
+        _initLegend: function () {
             var legendNode = dom.byId('LegendDiv');
-            if(legendNode){
+            if (legendNode) {
                 this._mapLegend = new Legend({
                     map: this.map,
                     layerInfos: this.layerInfos
@@ -129,7 +129,7 @@ function(
                 this._mapLegend.startup();
             }
         },
-        _initTOC: function(){
+        _initTOC: function () {
             // layers
             var tocNode = dom.byId('TableOfContents');
             if (tocNode) {
@@ -157,7 +157,7 @@ function(
                     content += '<div class="' + this.css.panelSummary + '" id="summary"></div>';
                 }
                 // show summary layer
-                if(this.config.summaryLayer && this.config.summaryLayer.id){
+                if (this.config.summaryLayer && this.config.summaryLayer.id) {
                     content += '<div id="impact_area_section">';
                     content += '<div class="' + this.css.panelHeader + '"><span id="impact_area_title">' + this.config.i18n.general.impactArea + '</span></div>';
                     content += '<div id="renderer_menu"></div>';
@@ -171,10 +171,10 @@ function(
                     content: content
                 };
                 // map menu
-                if(this.config.defaultPanel === 'map'){
-                    this.drawerMenus.splice(0,0,menuObj);
+                if (this.config.defaultPanel === 'map') {
+                    this.drawerMenus.splice(0, 0, menuObj);
                 }
-                else{
+                else {
                     this.drawerMenus.push(menuObj);
                 }
             }
@@ -193,10 +193,10 @@ function(
                     content: content
                 };
                 // legend menu
-                if(this.config.defaultPanel === 'legend'){
-                    this.drawerMenus.splice(0,0,menuObj);
+                if (this.config.defaultPanel === 'legend') {
+                    this.drawerMenus.splice(0, 0, menuObj);
                 }
-                else{
+                else {
                     this.drawerMenus.push(menuObj);
                 }
             }
@@ -214,10 +214,10 @@ function(
                     content: content
                 };
                 // layers menu
-                if(this.config.defaultPanel === 'layers'){
-                    this.drawerMenus.splice(0,0,menuObj);
+                if (this.config.defaultPanel === 'layers') {
+                    this.drawerMenus.splice(0, 0, menuObj);
                 }
-                else{
+                else {
                     this.drawerMenus.push(menuObj);
                 }
             }
@@ -270,7 +270,7 @@ function(
                     sharinghost: this.config.sharinghost
                 }, 'AboutDialog');
                 this._AboutDialog.startup();
-                if(this.config.showAboutOnLoad){
+                if (this.config.showAboutOnLoad) {
                     this._AboutDialog.open();
                 }
             }
@@ -297,28 +297,27 @@ function(
             this.initArea();
             this.startupArea();
             // on body click containing underlay class
-            on(document.body, '.dijitDialogUnderlay:click', function(){
+            on(document.body, '.dijitDialogUnderlay:click', function () {
                 // get all dialogs
-                var filtered = array.filter(registry.toArray(), function(w){ 
+                var filtered = array.filter(registry.toArray(), function (w) {
                     return w && w.declaredClass == "dijit.Dialog";
                 });
                 // hide all dialogs
-                array.forEach(filtered, function(w){ 
-                    w.hide(); 
+                array.forEach(filtered, function (w) {
+                    w.hide();
                 });
             });
             // builder mode
-            if(this.config.edit){
+            if (this.config.edit) {
                 // require module
-                require(["application/TemplateBuilder"], lang.hitch(this, function(TemplateBuilder){
+                require(["application/TemplateBuilder"], lang.hitch(this, function (TemplateBuilder) {
                     // create template builder
                     var builder = new TemplateBuilder({
                         drawer: this._drawer,
                         config: this.config,
                         response: this.data,
                         layers: this.layers,
-                        map: this.map,
-                        baseMapWidget: BT
+                        map: this.map
                     });
                     builder.startup();
                 }));
@@ -327,7 +326,7 @@ function(
             this._hideLoadingIndicator();
         },
         _checkMobileGeocoderVisibility: function () {
-            if(this._mobileGeocoderIconNode && this._mobileSearchNode){
+            if (this._mobileGeocoderIconNode && this._mobileSearchNode) {
                 // check if mobile icon needs to be selected
                 if (domClass.contains(this._mobileGeocoderIconNode, this.css.toggleBlueOn)) {
                     domClass.add(this._mobileSearchNode, this.css.mobileSearchDisplay);
@@ -335,13 +334,13 @@ function(
             }
         },
         _showMobileGeocoder: function () {
-            if(this._mobileSearchNode && this._mobileGeocoderIconContainerNode){
+            if (this._mobileSearchNode && this._mobileGeocoderIconContainerNode) {
                 domClass.add(this._mobileSearchNode, this.css.mobileSearchDisplay);
                 domClass.replace(this._mobileGeocoderIconContainerNode, this.css.toggleBlueOn, this.css.toggleBlue);
             }
         },
         _hideMobileGeocoder: function () {
-            if(this._mobileSearchNode && this._mobileGeocoderIconContainerNode){
+            if (this._mobileSearchNode && this._mobileGeocoderIconContainerNode) {
                 domClass.remove(this._mobileSearchNode, this.css.mobileSearchDisplay);
                 domStyle.set(this._mobileSearchNode, "display", "none");
                 domClass.replace(this._mobileGeocoderIconContainerNode, this.css.toggleBlue, this.css.toggleBlueOn);
@@ -361,7 +360,7 @@ function(
             // window title
             window.document.title = title;
         },
-        _createGeocoderOptions: function() {
+        _createGeocoderOptions: function () {
             var hasEsri = false,
                 esriIdx, options, geocoders = lang.clone(this.config.helperServices.geocode);
             // each geocoder
@@ -373,7 +372,7 @@ function(
                     geocoder.singleLineFieldName = "Single Line";
                     geocoder.esri = geocoder.placefinding = true;
                 }
-        
+
             });
             //only use geocoders with a singleLineFieldName that allow placefinding unless its custom
             geocoders = array.filter(geocoders, function (geocoder) {
@@ -401,7 +400,7 @@ function(
                 options.maxLocations = 5;
                 options.searchDelay = 100;
             }
-            //If the World geocoder is primary enable auto complete 
+            //If the World geocoder is primary enable auto complete
             if (hasEsri && esriIdx === 0) {
                 options.arcgisGeocoder = geocoders.splice(0, 1)[0]; //geocoders[0];
                 if (geocoders.length > 0) {
@@ -456,7 +455,7 @@ function(
             this._mobileGeocoderIconNode = dom.byId("mobileGeocoderIcon");
             this._mobileSearchNode = dom.byId("mobileSearch");
             this._mobileGeocoderIconContainerNode = dom.byId("mobileGeocoderIconContainer");
-            // mobile geocoder toggle 
+            // mobile geocoder toggle
             if (this._mobileGeocoderIconNode) {
                 on(this._mobileGeocoderIconNode, "click", lang.hitch(this, function () {
                     if (domStyle.get(this._mobileSearchNode, "display") === "none") {
@@ -467,7 +466,7 @@ function(
                 }));
             }
             var closeMobileGeocoderNode = dom.byId("btnCloseGeocoder");
-            if(closeMobileGeocoderNode){
+            if (closeMobileGeocoderNode) {
                 // cancel mobile geocoder
                 on(closeMobileGeocoderNode, "click", lang.hitch(this, function () {
                     this._hideMobileGeocoder();

@@ -92,7 +92,7 @@ input[type=text]::-ms-clear {
     line-height: 22px;
     font-size: 18px;
     font-weight: 700;
-    max-width: 90%;
+    max-width: 40%;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -356,9 +356,6 @@ input[type=text]::-ms-clear {
 }
 .esriRTL .drawer-menu-buttons .item-first .title {
     border-right: 0;
-}
-.esriRTL .drawer-menu-buttons .item-only .title {
-    border-left:0;
 }
 .drawer-menu-buttons .item-selected {
     color: #fff;
@@ -661,7 +658,4 @@ input[type=text]::-ms-clear {
     .geocoder-mobile .esriGeocoderContainer ul li {
         font-size: 15px!important;
     }
-}
-.titleContainer{float: left;
-                width:40%;
 }
