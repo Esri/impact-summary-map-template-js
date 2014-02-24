@@ -18,6 +18,7 @@ define([
     "esri/dijit/BasemapToggle",
     "esri/dijit/Geocoder",
     "esri/dijit/Popup",
+    "esri/dijit/Legend",
     "application/AreaOfInterest",
     "dijit/registry",
     "dojo/_base/array",
@@ -37,6 +38,7 @@ function(
     HomeButton, LocateButton, BasemapToggle,
     Geocoder,
     Popup,
+    Legend,
     AreaOfInterest,
     registry,
     array,
@@ -55,13 +57,20 @@ function(
                 mobileSearchDisplay: "mobile-locate-box-display",
                 toggleBlue: 'toggle-grey',
                 toggleBlueOn: 'toggle-grey-on',
-                areaDescription: "area-description",
+                panelPadding: "panel-padding",
+                panelContainer: "panel-container",
+                panelHeader: "panel-header",
+                panelSection: "panel-section",
+                panelSummary: "panel-summary",
                 pointerEvents: "pointer-events",
                 iconRight: "icon-right",
                 locateButtonTheme: "LocateButtonCalcite",
                 homebuttonTheme: "HomeButtonCalcite",
                 desktopGeocoderTheme: "geocoder-desktop",
-                mobileGeocoderTheme: "geocoder-mobile"
+                mobileGeocoderTheme: "geocoder-mobile",
+                iconList: "icon-list",
+                iconLayers: "icon-layers",
+                iconMap: "icon-map"
             };
             // mobile size switch domClass
             this._showDrawerSize = 850;
@@ -110,35 +119,102 @@ function(
             element.style.cssText = 'pointer-events:auto';
             return element.style.pointerEvents === 'auto';   
         },
+        _initLegend: function(){
+            var legendNode = dom.byId('LegendDiv');
+            if(legendNode){
+                this._mapLegend = new Legend({
+                    map: this.map,
+                    layerInfos: this.layerInfos
+                }, legendNode);
+                this._mapLegend.startup();
+            }
+        },
+        _initTOC: function(){
+            // layers
+            var tocNode = dom.byId('TableOfContents');
+            if (tocNode) {
+                var tocLayers = this.layers;
+                var toc = new TableOfContents({
+                    map: this.map,
+                    layers: tocLayers
+                }, tocNode);
+                toc.startup();
+            }
+        },
         _init: function () {
             // drawer size check
             this._drawer.resize();
-            // init area panel
-            this.initArea();
             // menu panels
             this.drawerMenus = [];
-            var menuObj;
+            var menuObj, content;
             // multiple polygons
-            if (this.config.showAreaPanel) {
+            if (this.config.enableMapPanel) {
+                content = '';
+                content += '<div class="' + this.css.panelContainer + '">';
+                // if summary enabled
+                if (this.config.enableSummary) {
+                    content += '<div class="' + this.css.panelHeader + '">' + this.config.i18n.general.mapInfo + '</div>';
+                    content += '<div class="' + this.css.panelSummary + '" id="summary"></div>';
+                }
+                // show summary layer
+                if(this.config.summaryLayer && this.config.summaryLayer.id){
+                    content += '<div id="impact_area_section">';
+                    content += '<div class="' + this.css.panelHeader + '"><span id="impact_area_title">' + this.config.i18n.general.impactArea + '</span></div>';
+                    content += '<div id="renderer_menu"></div>';
+                    content += '</div>';
+                }
+                content += '</div>';
+                // menu
                 menuObj = {
-                    label: this.config.i18n.general.aoi,
-                    content: '<div class="' + this.css.areaDescription + '" id="areaDescription"></div><div id="renderer_menu"></div>'
+                    title: this.config.i18n.general.map,
+                    label: '<span class="' + this.css.iconMap + '"></span>',
+                    content: content
                 };
-                // area menu
-                if(this.config.defaultMenu === 'area'){
+                // map menu
+                if(this.config.defaultPanel === 'map'){
                     this.drawerMenus.splice(0,0,menuObj);
                 }
                 else{
                     this.drawerMenus.push(menuObj);
                 }
             }
-            if (this.config.showLegendPanel) {
+            if (this.config.enableLegendPanel) {
+                content = '';
+                content += '<div class="' + this.css.panelHeader + '">' + this.config.i18n.general.legend + '</div>';
+                content += '<div class="' + this.css.panelContainer + '">';
+                content += '<div class="' + this.css.panelPadding + '">';
+                content += '<div id="LegendDiv"></div>';
+                content += '</div>';
+                content += '</div>';
+                // menu info
                 menuObj = {
-                    label: this.config.i18n.general.legend,
-                    content: '<div id="TableOfContents"></div>'
+                    title: this.config.i18n.general.legend,
+                    label: '<span class="' + this.css.iconList + '"></span>',
+                    content: content
                 };
                 // legend menu
-                if(this.config.defaultMenu === 'legend'){
+                if(this.config.defaultPanel === 'legend'){
+                    this.drawerMenus.splice(0,0,menuObj);
+                }
+                else{
+                    this.drawerMenus.push(menuObj);
+                }
+            }
+            // Layers Panel
+            if (this.config.enableLayersPanel) {
+                content = '';
+                content += '<div class="' + this.css.panelHeader + '">' + this.config.i18n.general.layers + '</div>';
+                content += '<div class="' + this.css.panelContainer + '">';
+                content += '<div id="TableOfContents"></div>';
+                content += '</div>';
+                // menu info
+                menuObj = {
+                    title: this.config.i18n.general.layers,
+                    label: '<span class="' + this.css.iconLayers + '"></span>',
+                    content: content
+                };
+                // layers menu
+                if(this.config.defaultPanel === 'layers'){
                     this.drawerMenus.splice(0,0,menuObj);
                 }
                 else{
@@ -151,7 +227,7 @@ function(
             }, dom.byId("drawer_menus"));
             this._drawerMenu.startup();
             // locate button
-            if (this.config.showLocateButton) {
+            if (this.config.enableLocateButton) {
                 var LB = new LocateButton({
                     map: this.map,
                     theme: this.css.locateButtonTheme
@@ -159,7 +235,7 @@ function(
                 LB.startup();
             }
             // home button
-            if (this.config.showHomeButton) {
+            if (this.config.enableHomeButton) {
                 var HB = new HomeButton({
                     map: this.map,
                     theme: this.css.homebuttonTheme
@@ -167,14 +243,14 @@ function(
                 HB.startup();
             }
             // basemap toggle
-            if (this.config.showBasemapToggle) {
+            if (this.config.enableBasemapToggle) {
                 var BT = new BasemapToggle({
                     map: this.map,
                     basemap: this.config.nextBasemap,
-                    defaultBasemap: this.config.currentBasemap
+                    defaultBasemap: this.config.defaultBasemap
                 }, 'BasemapToggle');
                 BT.startup();
-                /* Start temporary until after JSAPI 3.9 is released */
+                /* Start temporary until after JSAPI 4.0 is released */
                 var layers = this.map.getLayersVisibleAtScale(this.map.getScale());
                 on.once(this.map, 'basemap-change', lang.hitch(this, function () {
                     for (var i = 0; i < layers.length; i++) {
@@ -184,10 +260,10 @@ function(
                         }
                     }
                 }));
-                /* END temporary until after JSAPI 3.9 is released */
+                /* END temporary until after JSAPI 4.0 is released */
             }
             // about dialog
-            if (this.config.showAboutDialog) {
+            if (this.config.enableAboutDialog) {
                 this._AboutDialog = new AboutDialog({
                     theme: this.css.iconRight,
                     item: this.item,
@@ -199,7 +275,7 @@ function(
                 }
             }
             // share dialog
-            if (this.config.ShowShareDialog) {
+            if (this.config.enableShareDialog) {
                 this._ShareDialog = new ShareDialog({
                     theme: this.css.iconRight,
                     bitlyLogin: this.config.bitlyLogin,
@@ -211,20 +287,15 @@ function(
                 }, 'ShareDialog');
                 this._ShareDialog.startup();
             }
-            // Legend table of contents
-            var legendNode = dom.byId('TableOfContents');
-            if (legendNode) {
-                var LL = new TableOfContents({
-                    map: this.map,
-                    layers: this.layers
-                }, legendNode);
-                LL.startup();
-            }
+            // startup legend
+            this._initLegend();
+            //  startup toc
+            this._initTOC();
             // geocoders
             this._createGeocoders();
+            // init area panel
+            this.initArea();
             this.startupArea();
-            // hide loading div
-            this._hideLoadingIndicator();
             // on body click containing underlay class
             on(document.body, '.dijitDialogUnderlay:click', function(){
                 // get all dialogs
@@ -252,6 +323,8 @@ function(
                     builder.startup();
                 }));
             }
+            // hide loading div
+            this._hideLoadingIndicator();
         },
         _checkMobileGeocoderVisibility: function () {
             if(this._mobileGeocoderIconNode && this._mobileSearchNode){
@@ -431,8 +504,9 @@ function(
                 this.layers = response.itemInfo.itemData.operationalLayers;
                 this.item = response.itemInfo.item;
                 this.bookmarks = response.itemInfo.itemData.bookmarks;
+                this.layerInfos = arcgisUtils.getLegendLayers(response);
                 // if title is enabled
-                if (this.config.showTitle) {
+                if (this.config.enableTitle) {
                     this._setTitle(this.config.title || response.itemInfo.item.title);
                 }
                 if (this.map.loaded) {
@@ -452,6 +526,8 @@ function(
                 } else {
                     alert("Unable to create map: " + error.message);
                 }
+                // hide loading div
+                this._hideLoadingIndicator();
             }));
         }
     });
