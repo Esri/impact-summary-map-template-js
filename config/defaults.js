@@ -4,7 +4,7 @@ define([], function() {
     //and url parameters.
     var defaults = {
         "appid": "",
-        "webmap": "8c59dfba1f9b46ca88331f1a830a0ee9",
+        "webmap": "21633896293248b7a40d4e3126c93621",
         "oauthappid": null,
         //"AFTKRmv16wj14N3z",
         //Enter the url to the proxy if needed by the applcation. See the "Using the proxy page" help topic for details

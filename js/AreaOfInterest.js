@@ -164,7 +164,7 @@ define([
                                 // each renderer nodes
                                 for (i = 0; i < this._rendererNodes.length; i++) {
                                     // value matches
-                                    if (this._rendererNodes[i].value === value) {
+                                    if (this._rendererNodes[i].value.toString() === value.toString()) {
                                         // set selected
                                         domClass.add(this._rendererNodes[i].node, this.areaCSS.rendererSelected);
                                         break;
