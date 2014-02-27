@@ -21,7 +21,7 @@ define([], function() {
         },
         "enableTitle":true,
         "enableEntireAreaButton": true,
-        "selectEntireAreaOnStart": false,
+        "selectEntireAreaOnStart": true,
         "enableSummary":true,
         "enableMapPanel": true,
         "enableLegendPanel": true,
