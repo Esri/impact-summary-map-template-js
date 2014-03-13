@@ -1,5 +1,4 @@
 .template-builder {
-        height: 75px;
         width: 100%;
         padding: 0;
         background: #eee;
@@ -27,25 +26,29 @@
 }
 .esriSaveButtonContainer {
         float: right;
-        padding: 15px;
-        margin-right: 15px;
+        padding: 15px 0px 0px 0px;
         display: none;
 }
 .esriUnsavedChanges {
         clear: both;
         text-align: center;
         color: red;
-        font-size: 12px;
+        font-size: 11px;
         font-weight: bolder;
+        margin-right: 15px;
 }
 .esriSaveButton {
         float: right;
+        margin-right: 15px;
 }
 .esriSettingsLabel {
         float: left;
-        width: 100px;
-        font-size: 14px;
-        padding-top: 4px;
+        width: 60px;
+        font-size: 16px;
+        padding-top: 1px;
+}
+.selectMapMessage {
+        float: left;
 }
 .esriConfigurationPanel .dijitTextBox {
         float: left;
@@ -54,11 +57,11 @@
 }
 .esriButtonConfig {
         float: left;
-        margin: 15px 0px 20px 0px;
+        margin: 20px 0px 0px 0px;
         width: 100%;
 }
 .esriButtonInnerConfig {
-        margin: 0 auto;
+        margin: 10px auto;
         float: right;
 }
 
@@ -67,7 +70,7 @@
 }
 .esriFieldsetContainer {
         float: left;
-        margin: 10px 0;
+        margin: 0px;
         width: 100%;
 }
 
@@ -85,6 +88,8 @@
 
 .esriSelect {
         width: 260px !important;
+        height: 23px !important;
+        font-size: 16px !important;
         margin-bottom: 10px !important;
 }
 
@@ -93,12 +98,13 @@
         margin-bottom: 10px !important;
 }
 
-.esrWebMapHelpText {
-        float: left;
+.esriLayerHelpText {
         width: auto;
-        font-size: 11px;
+        font-size: 13px;
+        text-align: center;
         line-height: 15px;
-        background-color: #faf6e6;
+        background-color: #FAF6D0;
+        margin-top: 10px;
         padding: 5px;
 }
 
@@ -112,7 +118,7 @@
         cursor: pointer;
         margin-left: 5px;
         margin-top: 6px;
-        background-size:75%;
+        background-size: 75%;
 }
 
 .esriEditBasemapIcon {
@@ -132,8 +138,19 @@
         background-repeat: no-repeat;
         width: 20px;
         cursor: pointer;
-        background-size:75%;
-        margin-right: 5px;
+        background-size: 75%;
+        margin-right: 15px;
+}
+
+.editAreaDescriptionButtonContainer {
+        display:none;
+        float: right;
+        width: 100%;
+}
+
+.editAreaDescriptionButton {
+        float: right;
+        margin-right:14px;
 }
 
 .esriToolbarEditIcon {
@@ -274,7 +291,7 @@
         float: left;
         width: 95%;
         padding: 5px 10px;
-        color: #777;
+        color: #777 !important;
 }
 .esriVariableContent {
         float: left;
@@ -304,11 +321,13 @@
 .esriVariableContent select {
         width: 100%;
         border: 1px solid #dcdcdc;
+        height: 24px !important;
 }
 
 .esriVariableContent input {
         width: 100% !important;
         border: 1px solid #dcdcdc;
+        height: 22px !important;
 }
 .esriVarPanelCloseButton {
         float: right;
@@ -357,14 +376,6 @@
         background: #eee;
 }
 
-.esriSubVariableDeleteButton {
-        background-image: url('../images/delete.png');
-        background-repeat: no-repeat;
-        background-position: center center;
-        height: 25px;
-        width: 25px;
-}
-
 .esriButtonEnabled0 {
         background-color: rgb(243, 111, 32);
 }
@@ -403,6 +414,9 @@
         float: left;
         line-height: 2;
         height: 20px;
+        cursor: pointer;
+        text-decoration: underline;
+        color: #007ac2;
 }
 
 .esriSignInDialog {
@@ -421,6 +435,18 @@
 .claro .dijitEditorIFrame {
         background-color: #ffffff;
         height: 80px !important;
+}
+
+.claro #dijitEditorBody {
+        font-family: Lato Sans-Serif !important;
+}
+
+.claro .dijitToolbar, .esriDijitDialog .dijitToolbar {
+        padding: 0px !important;
+}
+
+.panel-summary .dijitEditor {
+        width: 98%;
 }
 /* Styles for new Design*/
 
@@ -445,7 +471,7 @@
 }
 .esriParentContainerStyleClm1 {
         float: left;
-        width: 31%;
+        width: 30%;
         border-bottom: 1px solid #efefef;
         border-right: 1px solid #efefef;
         height: 25px;
@@ -453,7 +479,7 @@
 }
 .esriParentContainerStyleClm2 {
         float: left;
-        width: 32%;
+        width: 27%;
         border-bottom: 1px solid #efefef;
         border-right: 1px solid #efefef;
         height: 25px;
@@ -461,7 +487,7 @@
 }
 .esriParentContainerStyleClm3 {
         float: left;
-        width: 28%;
+        width: 34%;
         border-bottom: 1px solid #efefef;
         height: 25px;
         padding: 12px 5px;
@@ -485,13 +511,13 @@
 .esriBasmapSelection {
         padding: 10px 0;
 }
-.esriBasemapSiwtchDivLeft {
+.esriBasemapSwitchDivLeft {
         float: left;
         border: 1px solid #ccc;
         padding: 1px;
         margin-right: 10px;
 }
-.esriBasemapSiwtchDivRight {
+.esriBasemapSwitchDivRight {
 }
 
 .esriOffButton {
@@ -510,12 +536,13 @@
         width: 60px;
 }
 
-.esriSaveCloseButon {
-        float: right;
+.esriAppSettingButton {
         margin: 10px 10px 0 0;
         border: none;
         background-color: rgb(243, 111, 32);
+        float: right;
 }
+
 .esriOnOffButtonLabel {
         float: left;
         margin-right: 5px;
@@ -532,18 +559,56 @@
         width: 100%;
 }
 
-.esriBasemapSiwtchDiv {
-        height: 80px;
-        width: 80px;
+.esriBasemapSwitchDiv {
+        height: 60px;
+        width: 60px;
         background-color: #ddd;
 }
+/*Classes for Basemap Images */
+.esriBasicBasemapStyle {
+        background-repeat: no-repeat;
+        background-position: center center;
+}
+.esritopo {
+        background-image: url(http://js.arcgis.com/3.8/js/esri/dijit/images/basemaps/topo.jpg);
+}
 
+.esristreets {
+        background-image: url(http://js.arcgis.com/3.8/js/esri/dijit/images/basemaps/streets.jpg);
+}
+
+.esrihybrid {
+        background-image: url(http://js.arcgis.com/3.8/js/esri/dijit/images/basemaps/hybrid.jpg);
+}
+
+.esrisatellite {
+        background-image: url(http://js.arcgis.com/3.8/js/esri/dijit/images/basemaps/satellite.jpg);
+}
+
+.esrigray {
+        background-image: url(http://js.arcgis.com/3.8/js/esri/dijit/images/basemaps/gray.jpg);
+}
+
+.esriosm {
+        background-image: url(http://js.arcgis.com/3.8/js/esri/dijit/images/basemaps/osm.jpg);
+}
+
+.esrioceans {
+        background-image: url(http://js.arcgis.com/3.8/js/esri/dijit/images/basemaps/oceans.jpg);
+}
+
+.esrinational-geographic {
+        background-image: url(http://js.arcgis.com/3.8/js/esri/dijit/images/basemaps/national-geographic.jpg);
+}
 
 .esriBasemapSwitchDivText {
         text-align: center;
         height: 20px;
-        width: 80px;
         background-color: white;
+        width: 60px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
 }
 
 .esriAppSettingBottomContainer {
@@ -573,5 +638,39 @@
         float: left;
 }
 .esriToggleButtonClass {
-        width:20px;
+        width: 20px;
+        margin-top: 2px;
+}
+
+.editModeButton {
+        position: absolute;
+        top: 55px;
+        right: 90px;
+        z-index: 35;
+}
+
+.esriSpaceStyle {
+        margin-right: 10px;
+}
+
+input, select, label {
+        font-family: 'Lato' , sans-serif !important;
+        color: #777 !important;
+        font-size: 16px !important;
+}
+
+.dgrid {
+        height: 22em !important;
+}
+
+.esriVisible {
+        visibility: visible;
+}
+
+.esriHidden {
+        visibility: hidden;
+}
+
+.claro .dijitDialogPaneActionBar {
+        background-color:transparent !important;
 }

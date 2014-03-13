@@ -19,7 +19,6 @@ define([
     "application/OAuthHelper"
 
 ],
-
     function (
         Evented,
         parser,
@@ -52,7 +51,7 @@ define([
                 this.config = defaults;
                 this.localize = supportsLocalization || false;
                 this._init().then(lang.hitch(this, function () {
-                    this.emit("ready", this.config);
+                    this.emit("ready", this.config, this.response);
                 }));
             },
             //Get URL parameters and set application defaults needed to query arcgis.com for
@@ -200,14 +199,12 @@ define([
                             dirNode.setAttribute("dir", "rtl");
                             var rtlClasses = " esriRTL dj_rtl dijitRtl " + classes.replace(/ /g, "-rtl ");
                             dirNode.className = lang.trim(classes + rtlClasses);
-
                         } else {
                             dirNode.setAttribute("dir", "ltr");
                             domClass.add(dirNode, "esriLTR");
                         }
                         deferred.resolve(this.config.i18n);
                     }));
-
                 } else {
                     deferred.resolve();
                 }
@@ -266,6 +263,9 @@ define([
                         if (response.item && response.item.extent) {
                             this.config.application_extent = response.item.extent;
                         }
+                        //Take "response" in a variable.it will be used in templateBuilder.js while Upadating item on AGOL.
+                        //So,instead of creating whole item again we can just change configuration parameters in item and then update the item.
+                        this.response = response;
                         deferred.resolve();
                     }));
                 } else {
@@ -308,7 +308,6 @@ define([
                           this.orgConfig.userPrivileges = response.user.privileges;
                         }
                     }
-
                     deferred.resolve();
                 }), function (error) {
                     console.log(error);
@@ -328,6 +327,5 @@ define([
                 var mixinParams = this._createUrlParamsObject(paramItems);
                 lang.mixin(this.config, mixinParams);
             }
-
         });
     });

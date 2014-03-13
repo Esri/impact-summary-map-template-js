@@ -189,14 +189,12 @@ define([
                 }
             },
             // get layer
-
             _getAOILayer: function (id) {
                 if (id && this.layers && this.map) {
                     var mapLayer = this.map.getLayer(id);
                     if(mapLayer){
                         if(mapLayer.arcgisProps && mapLayer.arcgisProps.title){
                             this._impactAreaTitle = mapLayer.arcgisProps.title;   
-
                         }
                         return mapLayer; 
                     }
@@ -388,6 +386,7 @@ define([
                         // renderer layer infos
                         var infos = renderer.infos;
                         if (infos && infos.length) {
+                            infos = (this.config.summaryAttributeOrder == "DESC") ? infos : infos.reverse();
                             this._multiple = true;
                             this._aoiInfos = infos;
                         }

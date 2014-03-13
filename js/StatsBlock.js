@@ -219,13 +219,11 @@ function (
                 // all config to summarize
                 var config = this.get("config");
                 this.newConfig = lang.clone(config);
-                array.forEach(config, lang.hitch(this, function (currentVariable, index) {
-                    if (currentVariable) {
-                        if (currentVariable.attribute == "+" || currentVariable.attribute.trim() == "") {
-                            config.splice(index, 1);
-                        }
+                for (var i = config.length - 1; i >= 0; i--) {
+                    if (config[i].attribute.trim() == "") {
+                        config.splice(i, 1);
                     }
-                }));
+                }
                 //checking wether to show only configured variables or to show all the four stats block
                 if (this.appConfig.edit) {
                     this.set("config", this.newConfig);
@@ -284,7 +282,7 @@ function (
                 // create panel events
                 for (i = 0; i < this._nodes.length; i++) {
                     // if panel has children
-                    if(config[i].children && config[i].children.length){
+                    if (config[i].children && config[i].children.length) {
                         //Attach panelClick event only if user is in preview mode
                         if (!this.appConfig.edit) {
                             this._panelClickEvent(this._nodes[i].panel, i);

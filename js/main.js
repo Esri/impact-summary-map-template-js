@@ -22,6 +22,7 @@ define([
     "application/AreaOfInterest",
     "dijit/registry",
     "dojo/_base/array",
+    "application/signInHelper",
     "esri/lang"
 ],
 function (
@@ -41,7 +42,7 @@ function (
     Legend,
     AreaOfInterest,
     registry,
-    array,
+    array, signInHelper,
     esriLang
 ) {
     return declare("", [AreaOfInterest], {
@@ -98,11 +99,9 @@ function (
             }));
             // startup drawer
             this._drawer.startup();
-
-            //supply either the webmap id or, if available, the item info 
+            //supply either the webmap id or, if available, the item info
             var itemInfo = this.config.itemInfo || this.config.webmap;
             this._createWebMap(itemInfo);
-
         },
         _pointerEventsSupport: function () {
             var element = document.createElement('x');
@@ -230,8 +229,8 @@ function (
                 }, 'HomeButton');
                 this._HB.startup();
                 // clear locate on home button
-                on(this._HB, 'home', lang.hitch(this, function(){
-                    if(this._LB){
+                on(this._HB, 'home', lang.hitch(this, function () {
+                    if (this._LB) {
                         this._LB.clear();
                     }
                 }));
@@ -301,8 +300,9 @@ function (
                     w.hide();
                 });
             });
+            var signIn = new signInHelper();
             // builder mode
-            if (this.config.edit) {
+            if (signIn.userIsAppOwner(this.data)) {
                 // require module
                 require(["application/TemplateBuilder"], lang.hitch(this, function (TemplateBuilder) {
                     // create template builder
@@ -356,8 +356,7 @@ function (
             // window title
             window.document.title = title;
         },
-
-        _createGeocoderOptions: function() {
+        _createGeocoderOptions: function () {
             var hasEsri = false, esriIdx, geocoders = lang.clone(this.config.helperServices.geocode);
             // default options
             var options = {
@@ -368,17 +367,16 @@ function (
                 geocoders: null
             };
             //only use geocoders with a url defined
-
             geocoders = array.filter(geocoders, function (geocoder) {
                 if (geocoder.url) {
                     return true;
                 }
-                else{
+                else {
                     return false;
                 }
             });
             // at least 1 geocoder defined
-            if(geocoders.length){
+            if (geocoders.length) {
                 // each geocoder
                 array.forEach(geocoders, function (geocoder) {
                     // if esri geocoder
@@ -407,7 +405,6 @@ function (
                         }
                     }
                 }
-
                 // set autoComplete
                 options.autoComplete = hasEsri;
                 // set esri options
@@ -416,7 +413,7 @@ function (
                     options.maxLocations = 5;
                     options.searchDelay = 100;
                 }
-                //If the World geocoder is primary enable auto complete 
+                //If the World geocoder is primary enable auto complete
                 if (hasEsri && esriIdx === 0) {
                     options.arcgisGeocoder = geocoders.splice(0, 1)[0]; //geocoders[0];
                     if (geocoders.length > 0) {
@@ -424,7 +421,6 @@ function (
                     }
                 } else {
                     options.arcgisGeocoder = false;
-
                     options.geocoders = geocoders;
                 }
             }
@@ -496,13 +492,13 @@ function (
             // add loaded class
             domClass.remove(document.body, this.css.appLoading);
         },
-        _setLayerMode: function(itemInfo, id){
+        _setLayerMode: function (itemInfo, id) {
             // if we have a layer id
             if (id && itemInfo && itemInfo.itemData && itemInfo.itemData.operationalLayers) {
                 for (var i = 0; i < itemInfo.itemData.operationalLayers.length; i++) {
                     if (itemInfo.itemData.operationalLayers[i].id === id) {
                         // set snapshot mode
-                        if(itemInfo.itemData.operationalLayers[i].hasOwnProperty('mode')){
+                        if (itemInfo.itemData.operationalLayers[i].hasOwnProperty('mode')) {
                             itemInfo.itemData.operationalLayers[i].mode = 0;
                         }
                         // record layer order index
@@ -515,8 +511,8 @@ function (
         //create a map based on the input web map id
         _createWebMap: function (itemInfo) {
             // set impact layer mode to snapshot
-            if(this.config.summaryLayer && this.config.summaryLayer.id){
-                itemInfo = this._setLayerMode(itemInfo, this.config.summaryLayer.id);   
+            if (this.config.summaryLayer && this.config.summaryLayer.id) {
+                itemInfo = this._setLayerMode(itemInfo, this.config.summaryLayer.id);
             }
             // popup dijit
             var customPopup = new Popup({}, domConstruct.create("div"));
@@ -540,6 +536,7 @@ function (
                 this.item = response.itemInfo.item;
                 this.bookmarks = response.itemInfo.itemData.bookmarks;
                 this.layerInfos = arcgisUtils.getLegendLayers(response);
+                this.map.webmapTitle = response.itemInfo.item.title;
                 // if title is enabled
                 if (this.config.enableTitle) {
                     this._setTitle(this.config.title || response.itemInfo.item.title);
