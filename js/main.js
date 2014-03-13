@@ -70,7 +70,9 @@ function (
                 mobileGeocoderTheme: "geocoder-mobile",
                 iconList: "icon-list",
                 iconLayers: "icon-layers",
-                iconMap: "icon-map"
+                iconMap: "icon-map",
+                iconText: "icon-text",
+                appLoading: "app-loading"
             };
             // mobile size switch domClass
             this._showDrawerSize = 850;
@@ -96,23 +98,11 @@ function (
             }));
             // startup drawer
             this._drawer.startup();
-            // get item info
-            arcgisUtils.getItem(this.config.webmap).then(lang.hitch(this, function (itemInfo) {
-                //let's get the web map item and update the extent if needed.
-                if (this.config.appid && this.config.application_extent.length > 0) {
-                    itemInfo.item.extent = [
-                        [
-                            parseFloat(this.config.application_extent[0][0]),
-                            parseFloat(this.config.application_extent[0][1])
-                        ],
-                        [
-                            parseFloat(this.config.application_extent[1][0]),
-                            parseFloat(this.config.application_extent[1][1])
-                        ]
-                    ];
-                }
-                this._createWebMap(itemInfo);
-            }));
+
+            //supply either the webmap id or, if available, the item info 
+            var itemInfo = this.config.itemInfo || this.config.webmap;
+            this._createWebMap(itemInfo);
+
         },
         _pointerEventsSupport: function () {
             var element = document.createElement('x');
@@ -142,8 +132,6 @@ function (
             }
         },
         _init: function () {
-            // drawer size check
-            this._drawer.resize();
             // menu panels
             this.drawerMenus = [];
             var menuObj, content;
@@ -167,7 +155,7 @@ function (
                 // menu
                 menuObj = {
                     title: this.config.i18n.general.map,
-                    label: '<span class="' + this.css.iconMap + '"></span>',
+                    label: '<div class="' + this.css.iconMap + '"></div><div class="' + this.css.iconText + '">' + this.config.i18n.general.map + '</div>',
                     content: content
                 };
                 // map menu
@@ -189,7 +177,7 @@ function (
                 // menu info
                 menuObj = {
                     title: this.config.i18n.general.legend,
-                    label: '<span class="' + this.css.iconList + '"></span>',
+                    label: '<div class="' + this.css.iconList + '"></div><div class="' + this.css.iconText + '">' + this.config.i18n.general.legend + '</div>',
                     content: content
                 };
                 // legend menu
@@ -210,7 +198,7 @@ function (
                 // menu info
                 menuObj = {
                     title: this.config.i18n.general.layers,
-                    label: '<span class="' + this.css.iconLayers + '"></span>',
+                    label: '<div class="' + this.css.iconLayers + '"></div><div class="' + this.css.iconText + '">' + this.config.i18n.general.layers + '</div>',
                     content: content
                 };
                 // layers menu
@@ -228,19 +216,25 @@ function (
             this._drawerMenu.startup();
             // locate button
             if (this.config.enableLocateButton) {
-                var LB = new LocateButton({
+                this._LB = new LocateButton({
                     map: this.map,
                     theme: this.css.locateButtonTheme
                 }, 'LocateButton');
-                LB.startup();
+                this._LB.startup();
             }
             // home button
             if (this.config.enableHomeButton) {
-                var HB = new HomeButton({
+                this._HB = new HomeButton({
                     map: this.map,
                     theme: this.css.homebuttonTheme
                 }, 'HomeButton');
-                HB.startup();
+                this._HB.startup();
+                // clear locate on home button
+                on(this._HB, 'home', lang.hitch(this, function(){
+                    if(this._LB){
+                        this._LB.clear();
+                    }
+                }));
             }
             // basemap toggle
             if (this.config.enableBasemapToggle) {
@@ -324,6 +318,8 @@ function (
             }
             // hide loading div
             this._hideLoadingIndicator();
+            // drawer size check
+            this._drawer.resize();
         },
         _checkMobileGeocoderVisibility: function () {
             if (this._mobileGeocoderIconNode && this._mobileSearchNode) {
@@ -360,55 +356,77 @@ function (
             // window title
             window.document.title = title;
         },
-        _createGeocoderOptions: function () {
-            var hasEsri = false,
-                esriIdx, options, geocoders = lang.clone(this.config.helperServices.geocode);
-            // each geocoder
-            array.forEach(geocoders, function (geocoder) {
-                if (geocoder.url.indexOf(".arcgis.com/arcgis/rest/services/World/GeocodeServer") > -1) {
-                    hasEsri = true;
-                    geocoder.name = "Esri World Geocoder";
-                    geocoder.outFields = "Match_addr, stAddr, City";
-                    geocoder.singleLineFieldName = "Single Line";
-                    geocoder.esri = geocoder.placefinding = true;
-                }
 
-            });
-            //only use geocoders with a singleLineFieldName that allow placefinding unless its custom
-            geocoders = array.filter(geocoders, function (geocoder) {
-                if (geocoder.name && geocoder.name === "Custom") {
-                    return (esriLang.isDefined(geocoder.singleLineFieldName));
-                } else {
-                    return (esriLang.isDefined(geocoder.singleLineFieldName) && esriLang.isDefined(geocoder.placefinding) && geocoder.placefinding);
-                }
-            });
-            if (hasEsri) {
-                for (var i = 0; i < geocoders.length; i++) {
-                    if (esriLang.isDefined(geocoders[i].esri) && geocoders[i].esri === true) {
-                        esriIdx = i;
-                        break;
-                    }
-                }
-            }
-            options = {
+        _createGeocoderOptions: function() {
+            var hasEsri = false, esriIdx, geocoders = lang.clone(this.config.helperServices.geocode);
+            // default options
+            var options = {
                 map: this.map,
                 autoNavigate: true,
-                autoComplete: hasEsri
+                autoComplete: true,
+                arcgisGeocoder: true,
+                geocoders: null
             };
-            if (hasEsri) {
-                options.minCharacters = 0;
-                options.maxLocations = 5;
-                options.searchDelay = 100;
-            }
-            //If the World geocoder is primary enable auto complete
-            if (hasEsri && esriIdx === 0) {
-                options.arcgisGeocoder = geocoders.splice(0, 1)[0]; //geocoders[0];
-                if (geocoders.length > 0) {
+            //only use geocoders with a url defined
+
+            geocoders = array.filter(geocoders, function (geocoder) {
+                if (geocoder.url) {
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            });
+            // at least 1 geocoder defined
+            if(geocoders.length){
+                // each geocoder
+                array.forEach(geocoders, function (geocoder) {
+                    // if esri geocoder
+                    if (geocoder.url && geocoder.url.indexOf(".arcgis.com/arcgis/rest/services/World/GeocodeServer") > -1) {
+                        hasEsri = true;
+                        geocoder.name = "Esri World Geocoder";
+                        geocoder.outFields = "Match_addr, stAddr, City";
+                        geocoder.singleLineFieldName = "Single Line";
+                        geocoder.esri = geocoder.placefinding = true;
+                    }
+                });
+                //only use geocoders with a singleLineFieldName that allow placefinding unless its custom
+                geocoders = array.filter(geocoders, function (geocoder) {
+                    if (geocoder.name && geocoder.name === "Custom") {
+                        return (esriLang.isDefined(geocoder.singleLineFieldName));
+                    } else {
+                        return (esriLang.isDefined(geocoder.singleLineFieldName) && esriLang.isDefined(geocoder.placefinding) && geocoder.placefinding);
+                    }
+                });
+                // if we have an esri geocoder
+                if (hasEsri) {
+                    for (var i = 0; i < geocoders.length; i++) {
+                        if (esriLang.isDefined(geocoders[i].esri) && geocoders[i].esri === true) {
+                            esriIdx = i;
+                            break;
+                        }
+                    }
+                }
+
+                // set autoComplete
+                options.autoComplete = hasEsri;
+                // set esri options
+                if (hasEsri) {
+                    options.minCharacters = 0;
+                    options.maxLocations = 5;
+                    options.searchDelay = 100;
+                }
+                //If the World geocoder is primary enable auto complete 
+                if (hasEsri && esriIdx === 0) {
+                    options.arcgisGeocoder = geocoders.splice(0, 1)[0]; //geocoders[0];
+                    if (geocoders.length > 0) {
+                        options.geocoders = geocoders;
+                    }
+                } else {
+                    options.arcgisGeocoder = false;
+
                     options.geocoders = geocoders;
                 }
-            } else {
-                options.arcgisGeocoder = false;
-                options.geocoders = geocoders;
             }
             return options;
         },
@@ -475,13 +493,31 @@ function (
         },
         // hide map loading spinner
         _hideLoadingIndicator: function () {
-            var indicator = dom.byId("loadingIndicatorDiv");
-            if (indicator) {
-                domStyle.set(indicator, "display", "none");
+            // add loaded class
+            domClass.remove(document.body, this.css.appLoading);
+        },
+        _setLayerMode: function(itemInfo, id){
+            // if we have a layer id
+            if (id && itemInfo && itemInfo.itemData && itemInfo.itemData.operationalLayers) {
+                for (var i = 0; i < itemInfo.itemData.operationalLayers.length; i++) {
+                    if (itemInfo.itemData.operationalLayers[i].id === id) {
+                        // set snapshot mode
+                        if(itemInfo.itemData.operationalLayers[i].hasOwnProperty('mode')){
+                            itemInfo.itemData.operationalLayers[i].mode = 0;
+                        }
+                        // record layer order index
+                        this._impactLayerIndex = i;
+                    }
+                }
             }
+            return itemInfo;
         },
         //create a map based on the input web map id
         _createWebMap: function (itemInfo) {
+            // set impact layer mode to snapshot
+            if(this.config.summaryLayer && this.config.summaryLayer.id){
+                itemInfo = this._setLayerMode(itemInfo, this.config.summaryLayer.id);   
+            }
             // popup dijit
             var customPopup = new Popup({}, domConstruct.create("div"));
             // add popup theme
