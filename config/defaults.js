@@ -16,7 +16,7 @@ define({
     "summary": "",
     "defaultPanel": "map",
     "summaryLayer": {
-        "id": ""
+        "id": "impact_area1375916377789_9168"
     },
     "enableTitle": true,
     "enableEntireAreaButton": true,
