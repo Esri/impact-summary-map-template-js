@@ -22,6 +22,7 @@ define([
     "application/AreaOfInterest",
     "dijit/registry",
     "dojo/_base/array",
+    "application/signInHelper",
     "esri/lang"
 ],
 function(
@@ -41,16 +42,17 @@ function(
     Legend,
     AreaOfInterest,
     registry,
-    array,
+    array, signInHelper,
     esriLang
 ) {
     return declare("", [AreaOfInterest], {
         config: {},
-        constructor: function (config) {
+        constructor: function (config, data) {
             //config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
             // any url parameters and any application specific configuration information.
             this.config = config;
+            this.data = data;
             // css classes
             this.css= {
                 mobileSearchDisplay: "mobile-locate-box-display",
@@ -97,14 +99,14 @@ function(
             }));
             // startup drawer
             this._drawer.startup();
-            //supply either the webmap id or, if available, the item info 
+            //supply either the webmap id or, if available, the item info
             var itemInfo = this.config.itemInfo || this.config.webmap;
             this._createWebMap(itemInfo);
         },
         _pointerEventsSupport: function(){
             var element = document.createElement('x');
             element.style.cssText = 'pointer-events:auto';
-            return element.style.pointerEvents === 'auto';   
+            return element.style.pointerEvents === 'auto';
         },
         _initLegend: function(){
             var legendNode = dom.byId('LegendDiv');
@@ -291,24 +293,31 @@ function(
             // on body click containing underlay class
             on(document.body, '.dijitDialogUnderlay:click', function(){
                 // get all dialogs
-                var filtered = array.filter(registry.toArray(), function(w){ 
+                var filtered = array.filter(registry.toArray(), function(w){
                     return w && w.declaredClass == "dijit.Dialog";
                 });
                 // hide all dialogs
-                array.forEach(filtered, function(w){ 
-                    w.hide(); 
+                array.forEach(filtered, function(w){
+                    w.hide();
                 });
             });
-            // builder mode
-            if(this.config.edit){
-                // require module
-                require(["application/TemplateBuilder"], lang.hitch(this, function(TemplateBuilder){
-                    // create template builder
-                    var builder = new TemplateBuilder({
-                        drawer: this._drawer
-                    });
-                    builder.startup();
-                }));
+            if (this.config.appid) {
+                var signIn = new signInHelper();
+                // builder mode
+                if (signIn.userIsAppOwner(this.data)) {
+                    // require module
+                    require(["application/TemplateBuilder"], lang.hitch(this, function (TemplateBuilder) {
+                        // create template builder
+                        var builder = new TemplateBuilder({
+                            drawer: this._drawer,
+                            config: this.config,
+                            response: this.data,
+                            layers: this.layers,
+                            map: this.map
+                        });
+                        builder.startup();
+                    }));
+                }
             }
             // hide loading div
             this._hideLoadingIndicator();
@@ -407,7 +416,7 @@ function(
                     options.maxLocations = 5;
                     options.searchDelay = 100;
                 }
-                //If the World geocoder is primary enable auto complete 
+                //If the World geocoder is primary enable auto complete
                 if (hasEsri && esriIdx === 0) {
                     options.arcgisGeocoder = geocoders.splice(0, 1)[0]; //geocoders[0];
                     if (geocoders.length > 0) {
@@ -463,7 +472,7 @@ function(
             this._mobileGeocoderIconNode = dom.byId("mobileGeocoderIcon");
             this._mobileSearchNode = dom.byId("mobileSearch");
             this._mobileGeocoderIconContainerNode = dom.byId("mobileGeocoderIconContainer");
-            // mobile geocoder toggle 
+            // mobile geocoder toggle
             if (this._mobileGeocoderIconNode) {
                 on(this._mobileGeocoderIconNode, "click", lang.hitch(this, function () {
                     if (domStyle.get(this._mobileSearchNode, "display") === "none") {
@@ -506,7 +515,7 @@ function(
         _createWebMap: function (itemInfo) {
             // set impact layer mode to snapshot
             if(this.config.summaryLayer && this.config.summaryLayer.id){
-                itemInfo = this._setLayerMode(itemInfo, this.config.summaryLayer.id);   
+                itemInfo = this._setLayerMode(itemInfo, this.config.summaryLayer.id);
             }
             // popup dijit
             var customPopup = new Popup({}, domConstruct.create("div"));
@@ -546,6 +555,7 @@ function(
                 this.item = response.itemInfo.item;
                 this.bookmarks = response.itemInfo.itemData.bookmarks;
                 this.layerInfos = arcgisUtils.getLegendLayers(response);
+                this.map.webmapTitle = response.itemInfo.item.title;
                 // if title is enabled
                 if (this.config.enableTitle) {
                     this._setTitle(this.config.title || response.itemInfo.item.title);

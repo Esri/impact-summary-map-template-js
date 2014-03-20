@@ -16,169 +16,57 @@ define({
     "summary": "",
     "defaultPanel": "map",
     "summaryLayer": {
-        "id": "impact_area1375916377789_9168"
-    },
-    "enableTitle": true,
-    "enableEntireAreaButton": true,
-    "selectEntireAreaOnStart": true,
-    "enableSummary": true,
-    "enableMapPanel": true,
-    "enableLegendPanel": true,
-    "enableLayersPanel": true,
-    "enableHomeButton": true,
-    "enableLocateButton": true,
-    "enableBasemapToggle": true,
-    "enableAboutDialog": true,
-    "showAboutOnLoad": false,
-    "enableShareDialog": true,
-    "nextBasemap": "hybrid",
-    "defaultBasemap": "topo",
-    "summaryAttributeOrder": "DESC",
-    "bitlyLogin": "esri",
-    "bitlyKey": "R_65fd9891cd882e2a96b99d4bda1be00e",
-    "summaryAttributes": [
-        {
-            "attribute": "TOTPOP_CY",
-            "label": "Population",
-            "dataSourceUrl": "",
-            "children": [
-                {
-                    "attribute": "POP15_CY",
-                    "label": "Under 16"
-                 },
-                {
-                    "attribute": "POP65U_CY",
-                    "label": "Over 64"
-                 }
+            "id": ""
+        },
+        "enableTitle":true,
+        "enableEntireAreaButton": true,
+        "selectEntireAreaOnStart": true,
+        "enableSummary":true,
+        "enableMapPanel": true,
+        "enableLegendPanel": true,
+        "enableLayersPanel":true,
+        "enableHomeButton": true,
+        "enableLocateButton":true,
+        "enableBasemapToggle": true,
+        "enableAboutDialog":true,
+        "showAboutOnLoad":false,
+        "enableShareDialog":true,
+        "nextBasemap": "hybrid",
+        "defaultBasemap": "topo",
+        "summaryAttributeOrder":"DESC",
+        "bitlyLogin": "esri",
+        "bitlyKey": "R_65fd9891cd882e2a96b99d4bda1be00e",
+        "summaryAttributes": [
+           {
+              "attribute":"",
+              "label":"Add Variable",
+              "dataSourceUrl": "",
+              "children":[
+
               ]
            },
-        {
-            "attribute": "TOTHH_CY",
-            "label": "Households",
-            "dataSourceUrl": "",
-            "children": [
-                {
-                    "attribute": "OWNER_CY",
-                    "label": "Owners"
-                 },
-                {
-                    "attribute": "RENTER_CY",
-                    "label": "Renters"
-                 }
+           {
+              "attribute":"",
+              "label":"Add Variable",
+              "dataSourceUrl": "",
+              "children":[
+
               ]
            },
-        {
-            "attribute": "CIKR_Total",
-            "label": "Infrastructure",
-            "dataSourceUrl": "",
-            "children": [
-                {
-                    "attribute": "CIKR_AMTwr",
-                    "label": "AM Towers"
-                 },
-                {
-                    "attribute": "CIKR_Dam",
-                    "label": "Dams"
-                 },
-                {
-                    "attribute": "CIKR_Edu",
-                    "label": "Education Facilities"
-                 },
-                {
-                    "attribute": "CIKR_ECC",
-                    "label": "Emergency Communications Centers"
-                 },
-                {
-                    "attribute": "CIKR_FMTwr",
-                    "label": "FM Towers"
-                 },
-                {
-                    "attribute": "CIKR_FrSta",
-                    "label": "Fire Stations"
-                 },
-                {
-                    "attribute": "CIKR_Hzmt",
-                    "label": "Hazmat Facilities"
-                 },
-                {
-                    "attribute": "CIKR_HCF",
-                    "label": "Healthcare Facilities"
-                 },
-                {
-                    "attribute": "CIKR_PkIco",
-                    "label": "Parks and Icons"
-                 },
-                {
-                    "attribute": "CIKR_Pol",
-                    "label": "Police Stations"
-                 },
-                {
-                    "attribute": "CIKR_Port",
-                    "label": "Port Facilities"
-                 },
-                {
-                    "attribute": "CIKR_Rsrvr",
-                    "label": "Reservoirs"
-                 },
-                {
-                    "attribute": "CIKR_WWF",
-                    "label": "Wastewater Facilities"
-                 },
-                {
-                    "attribute": "CIKR_Pwr",
-                    "label": "Energy Facilities"
-                 }
+           {
+              "attribute":"",
+              "label": "Add Variable",
+              "dataSourceUrl": "",
+              "children":[
+
               ]
            },
-        {
-            "attribute": "BUS_Total",
-            "label": "Businesses",
-            "dataSourceUrl": "",
-            "children": [
-                {
-                    "attribute": "BUS_Banks",
-                    "label": "Banks and Financial Services"
-                 },
-                {
-                    "attribute": "BUS_Hsptl",
-                    "label": "Hospitals"
-                 },
-                {
-                    "attribute": "BUS_GrcStr",
-                    "label": "Grocery and Convenience Stores"
-                 },
-                {
-                    "attribute": "BUS_PnTSvc",
-                    "label": "Professional and Technical Services"
-                 },
-                {
-                    "attribute": "BUS_Safety",
-                    "label": "Public Safety and Justice"
-                 },
-                {
-                    "attribute": "BUS_Util",
-                    "label": "Utilities"
-                 },
-                {
-                    "attribute": "BUS_BldSpl",
-                    "label": "Building Supplies"
-                 },
-                {
-                    "attribute": "BUS_GasStn",
-                    "label": "Gas Stations"
-                 },
-                {
-                    "attribute": "BUS_DptStr",
-                    "label": "Discount and Department Stores"
-                 },
-                {
-                    "attribute": "BUS_Ldging",
-                    "label": "Lodging"
-                 },
-                {
-                    "attribute": "BUS_Other",
-                    "label": "Other"
-                 }
+           {
+              "attribute":"",
+              "label": "Add Variable",
+              "dataSourceUrl": "",
+              "children":[
+
               ]
            }
         ],
@@ -190,9 +78,9 @@ define({
         "edit",
         "extent"
     ],
-    //When true the template will query arcgis.com for default settings for helper services, units etc. If you 
+    //When true the template will query arcgis.com for default settings for helper services, units etc. If you
     //want to use custom settings for units or any of the helper services set queryForOrg to false then enter
-    //default values for any items you need using the helper services and units properties. 
+    //default values for any items you need using the helper services and units properties.
     "queryForOrg": false,
     "units": null,
     "helperServices": {

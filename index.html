@@ -24,6 +24,7 @@
     <link rel="stylesheet" type="text/css" href="//js.arcgis.com/3.9/js/esri/css/esri.css" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato:300,400,700" />
     <!--Load any application specific styles-->
+    <link id="claroTheme" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="css/dijit.css" />
     <link rel="stylesheet" type="text/css" href="css/fontello.css" />
     <link rel="stylesheet" type="text/css" href="css/TableOfContents.css" />
@@ -102,11 +103,13 @@
             "dojo/on",
             "application/main",
             "application/template",
+            "application/signInHelper",
             "dojo/domReady!"
         ], function(
             on,
             Main,
-            Template
+            Template,
+            signInHelper
         ) {
             //create the template. This will take care of all the logic required for template applciations
             //If you need localization set the supportsLocalization value to true to get the localized strings
@@ -115,11 +118,34 @@
             //to show how to setup the strings file.
             var supportsLocalization = true; //defaults to false
             var myTemplate = new Template(supportsLocalization);
-            on(myTemplate, "ready", function(config) {
+            on(myTemplate, "ready", function (config, data) {
                 //The config object contains the following properties: helper services, (optionally)
                 //i18n, appid, webmap and any custom values defined by the applcation.
                 //In this example we have one called theme.
-                Main(config);
+                var signIn = new signInHelper();
+                if (config.appid) {
+                    var userDetails = signIn.getPortalUser();
+                    if (userDetails) {
+                        dojo.currentLoggedInUser = userDetails.email;
+                        dojo.token = userDetails.token;
+                        var canExcute = signIn.authenticateUser(config.edit, data);
+                        if (canExcute) {
+                            Main(config, data);
+                        }
+                    }
+                    else {
+                        signIn.createPortal().then(function (loggedInUser) {
+                            dojo.currentLoggedInUser = loggedInUser.username;
+                            var canExcute = signIn.authenticateUser(config.edit, data);
+                            if (canExcute) {
+                                Main(config, data);
+                            }
+                        });
+                    }
+                }
+                else {
+                    Main(config, data);
+                }
             });
         });
     </script>
