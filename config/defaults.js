@@ -16,56 +16,56 @@ define({
     "summary": "",
     "defaultPanel": "map",
     "summaryLayer": {
-            "id": ""
-        },
-        "enableTitle":true,
-        "enableEntireAreaButton": true,
-        "selectEntireAreaOnStart": true,
-        "enableSummary":true,
-        "enableMapPanel": true,
-        "enableLegendPanel": true,
-        "enableLayersPanel":true,
-        "enableHomeButton": true,
-        "enableLocateButton":true,
-        "enableBasemapToggle": true,
-        "enableAboutDialog":true,
-        "showAboutOnLoad":false,
-        "enableShareDialog":true,
-        "nextBasemap": "hybrid",
-        "defaultBasemap": "topo",
-        "summaryAttributeOrder":"DESC",
-        "bitlyLogin": "esri",
-        "bitlyKey": "R_65fd9891cd882e2a96b99d4bda1be00e",
-        "summaryAttributes": [
-           {
-              "attribute":"",
-              "label":"Add Variable",
-              "dataSourceUrl": "",
-              "children":[
+        "id": ""
+    },
+    "enableTitle": true,
+    "enableEntireAreaButton": true,
+    "selectEntireAreaOnStart": true,
+    "enableSummary": true,
+    "enableMapPanel": true,
+    "enableLegendPanel": true,
+    "enableLayersPanel": true,
+    "enableHomeButton": true,
+    "enableLocateButton": true,
+    "enableBasemapToggle": true,
+    "enableAboutDialog": true,
+    "showAboutOnLoad": false,
+    "enableShareDialog": true,
+    "nextBasemap": "hybrid",
+    "defaultBasemap": "topo",
+    "summaryAttributeOrder": "DESC",
+    "bitlyLogin": "esri",
+    "bitlyKey": "R_65fd9891cd882e2a96b99d4bda1be00e",
+    "summaryAttributes": [
+        {
+            "attribute": "",
+            "label": "Add Variable",
+            "dataSourceUrl": "",
+            "children": [
 
               ]
            },
-           {
-              "attribute":"",
-              "label":"Add Variable",
-              "dataSourceUrl": "",
-              "children":[
+        {
+            "attribute": "",
+            "label": "Add Variable",
+            "dataSourceUrl": "",
+            "children": [
 
               ]
            },
-           {
-              "attribute":"",
-              "label": "Add Variable",
-              "dataSourceUrl": "",
-              "children":[
+        {
+            "attribute": "",
+            "label": "Add Variable",
+            "dataSourceUrl": "",
+            "children": [
 
               ]
            },
-           {
-              "attribute":"",
-              "label": "Add Variable",
-              "dataSourceUrl": "",
-              "children":[
+        {
+            "attribute": "",
+            "label": "Add Variable",
+            "dataSourceUrl": "",
+            "children": [
 
               ]
            }
@@ -82,6 +82,7 @@ define({
     //want to use custom settings for units or any of the helper services set queryForOrg to false then enter
     //default values for any items you need using the helper services and units properties.
     "queryForOrg": false,
+    "localize": false,
     "units": null,
     "helperServices": {
         "geometry": {
