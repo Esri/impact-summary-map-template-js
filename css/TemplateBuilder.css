@@ -579,35 +579,35 @@
         background-position: center center;
 }
 .esritopo {
-        background-image: url(http://js.arcgis.com/3.8/js/esri/dijit/images/basemaps/topo.jpg);
+        background-image: url(//js.arcgis.com/3.8/js/esri/dijit/images/basemaps/topo.jpg);
 }
 
 .esristreets {
-        background-image: url(http://js.arcgis.com/3.8/js/esri/dijit/images/basemaps/streets.jpg);
+        background-image: url(//js.arcgis.com/3.8/js/esri/dijit/images/basemaps/streets.jpg);
 }
 
 .esrihybrid {
-        background-image: url(http://js.arcgis.com/3.8/js/esri/dijit/images/basemaps/hybrid.jpg);
+        background-image: url(//js.arcgis.com/3.8/js/esri/dijit/images/basemaps/hybrid.jpg);
 }
 
 .esrisatellite {
-        background-image: url(http://js.arcgis.com/3.8/js/esri/dijit/images/basemaps/satellite.jpg);
+        background-image: url(//js.arcgis.com/3.8/js/esri/dijit/images/basemaps/satellite.jpg);
 }
 
 .esrigray {
-        background-image: url(http://js.arcgis.com/3.8/js/esri/dijit/images/basemaps/gray.jpg);
+        background-image: url(//js.arcgis.com/3.8/js/esri/dijit/images/basemaps/gray.jpg);
 }
 
 .esriosm {
-        background-image: url(http://js.arcgis.com/3.8/js/esri/dijit/images/basemaps/osm.jpg);
+        background-image: url(//js.arcgis.com/3.8/js/esri/dijit/images/basemaps/osm.jpg);
 }
 
 .esrioceans {
-        background-image: url(http://js.arcgis.com/3.8/js/esri/dijit/images/basemaps/oceans.jpg);
+        background-image: url(//js.arcgis.com/3.8/js/esri/dijit/images/basemaps/oceans.jpg);
 }
 
 .esrinational-geographic {
-        background-image: url(http://js.arcgis.com/3.8/js/esri/dijit/images/basemaps/national-geographic.jpg);
+        background-image: url(//js.arcgis.com/3.8/js/esri/dijit/images/basemaps/national-geographic.jpg);
 }
 
 .esriBasemapSwitchDivText {
