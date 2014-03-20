@@ -20,6 +20,10 @@
         cursor: pointer;
 }
 
+.esriPreviousButton {
+        margin-right: 10px;
+}
+
 .esriButtonContainer {
         padding: 15px;
         float: left;
@@ -143,14 +147,14 @@
 }
 
 .editAreaDescriptionButtonContainer {
-        display:none;
+        display: none;
         float: right;
-        width: 100%;
+        width: 100px;
 }
 
 .editAreaDescriptionButton {
         float: right;
-        margin-right:14px;
+        margin-right: 14px;
 }
 
 .esriToolbarEditIcon {
@@ -400,9 +404,13 @@
 }
 
 .esriSubVariableButtonContainer {
-        width: 32%;
-        float: right;
         padding: 5px 10px;
+        width: 96%;
+}
+
+.esriNextPreviousButton {
+        margin-right: 10px;
+        float: right;
 }
 
 .esriSimpleTextArea {
@@ -417,6 +425,7 @@
         cursor: pointer;
         text-decoration: underline;
         color: #007ac2;
+        margin-right: 10px;
 }
 
 .esriSignInDialog {
@@ -672,5 +681,18 @@ input, select, label {
 }
 
 .claro .dijitDialogPaneActionBar {
-        background-color:transparent !important;
+        background-color: transparent !important;
+}
+
+.calcite .dialog-content .layer-settings-submit, .calcite .dijitButtonNode {
+        margin: 0px !important;
+}
+.claro .dijitSelect .dijitArrowButtonInner, .claro .dijitComboBox .dijitArrowButtonInner {
+        margin: 4px !important;
+}
+.claro .dijitTextArea, .claro .dijitInputField .dijitPlaceHolder {
+        padding: 4px 2px !important;
+}
+.claro .dijitSelect, .claro .dijitTextBox {
+        border: 1px solid #b5bcc7 !important;
 }
