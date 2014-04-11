@@ -433,10 +433,16 @@ input[type=text]::-ms-clear {
 .panel-section {
     border-top: 1px solid #e0e0e0;
 }
+.panel-more-info,
+.panel-modified-date,
 .panel-summary {
     color: #666;
-    padding: 0 10px 10px 10px;
+    padding: 0 15px 10px 10px;
     line-height: 24px;
+}
+.panel-modified-date {
+    font-size: 14px;
+    color: #999;
 }
 /* Misc */
 .clear {

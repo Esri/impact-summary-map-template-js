@@ -102,18 +102,6 @@
             },
             {
                "type":"boolean",
-               "fieldName":"enableAboutDialog",
-               "label":"Enable About Dialog",
-               "tooltip":"Enable About Dialog"
-            },
-            {
-               "type":"boolean",
-               "fieldName":"showAboutOnLoad",
-               "label":"Show About Dialog on load",
-               "tooltip":"Show About Dialog on load"
-            },
-            {
-               "type":"boolean",
                "fieldName":"enableShareDialog",
                "label":"Enable Share Dialog",
                "tooltip":"Enable Share Dialog"
@@ -214,8 +202,6 @@
       "enableHomeButton":true,
       "enableLocateButton":true,
       "enableBasemapToggle":true,
-      "enableAboutDialog":true,
-      "showAboutOnLoad":false,
       "enableShareDialog":true,
       "nextBasemap":"hybrid",
       "defaultBasemap":"topo"

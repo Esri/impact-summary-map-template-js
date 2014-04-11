@@ -1,5 +1,5 @@
 .calcite .dijitDialog {
-    max-width: 550px;
+    max-width: 600px;
 }
 .calcite .dijitDialog,
 .calcite .dijitDialogTitle {
@@ -21,8 +21,8 @@
     line-height: 24px;
     background-image: none;
     border: 0;
-    height: 24px;
-    width: 24px;
+    height: auto;
+    width: auto;
     top: 0;
     right: 0;
     padding: 10px 20px;
@@ -45,7 +45,7 @@
 }
 .calcite .dijitDialogPaneContent {
     max-height: 550px;
-    max-width: 530px;
+    max-width: 660px;
     overflow: auto;
     border: none;
     padding: 20px;
@@ -108,7 +108,6 @@
     cursor: pointer;
     font-weight: 700;
     display: inline-block;
-    *display: inline;
 }
 .calcite .esriIdCancel .dijitButtonNode {
     background: none;
