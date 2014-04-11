@@ -418,27 +418,29 @@ input[type=text]::-ms-clear {
 }
 .panel-header {
     font-size: 18px;
-    font-weight: bold;
-    padding: 12px 8px 12px 10px;
-    line-height: 18px;
+    font-weight: 700;
+    padding: 12px 10px 6px 10px;
+    line-height: 24px;
     color: #555;
     background: #fff;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-.esriRTL .panel-header {
-    padding: 12px 10px 12px 8px;
 }
 .panel-section {
     border-top: 1px solid #e0e0e0;
 }
 .panel-more-info,
 .panel-modified-date,
-.panel-summary {
+.panel-summary,
+.panel-description {
     color: #666;
-    padding: 0 15px 10px 10px;
     line-height: 24px;
+}
+.panel-modified-date,
+.panel-summary {
+    padding: 0 10px 5px 10px;
+}
+.panel-description,
+.panel-more-info {
+    padding: 0 10px 10px 10px;
 }
 .panel-modified-date {
     font-size: 14px;
