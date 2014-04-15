@@ -188,7 +188,7 @@ function (
                     content: content
                 };
                 // map menu
-                if (this.config.about === 'map') {
+                if (this.config.defaultPanel === 'about') {
                     this.drawerMenus.splice(0, 0, menuObj);
                 }
                 else {
@@ -211,7 +211,7 @@ function (
                     content: content
                 };
                 // legend menu
-                if (this.config.about === 'legend') {
+                if (this.config.defaultPanel === 'legend') {
                     this.drawerMenus.splice(0, 0, menuObj);
                 }
                 else {
@@ -232,7 +232,7 @@ function (
                     content: content
                 };
                 // layers menu
-                if (this.config.about === 'layers') {
+                if (this.config.defaultPanel === 'layers') {
                     this.drawerMenus.splice(0, 0, menuObj);
                 }
                 else {

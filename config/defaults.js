@@ -14,7 +14,7 @@ define({
     //color theme.
     "title": "",
     "summary": "",
-    "about": "layers",
+    "defaultPanel": "about",
     "summaryLayer": {
         "id": "impact_area1375916377789_9168"
     },

@@ -29,7 +29,7 @@
             },
             {
                "type":"string",
-               "fieldName":"about",
+               "fieldName":"defaultPanel",
                "tooltip":"Default Menu Panel",
                "label":"Default Menu Panel",
                "options":[
