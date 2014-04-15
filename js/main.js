@@ -158,7 +158,7 @@ function (
             var menuObj, content, mapPanelHeader;
 
             // multiple polygons
-            if (this.config.enableMapPanel) {
+            if (this.config.enableAboutPanel) {
                 mapPanelHeader = (this.config.title || this.config.itemInfo.item.title);
                 content = '';
                 content += '<div class="' + this.css.panelContainer + '">';
@@ -188,7 +188,7 @@ function (
                     content: content
                 };
                 // map menu
-                if (this.config.defaultPanel === 'map') {
+                if (this.config.defaultPanel === 'about') {
                     this.drawerMenus.splice(0, 0, menuObj);
                 }
                 else {

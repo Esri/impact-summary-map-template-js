@@ -72,7 +72,7 @@
             },
             {
                "type":"boolean",
-               "fieldName":"enableMapPanel",
+               "fieldName":"enableAboutPanel",
                "label":"Enable Map Panel",
                "tooltip":"Enable Map Panel"
             },
@@ -198,7 +198,7 @@
       "title":"",
       "enableSummary":true,
       "enableLegendPanel":true,
-      "enableMapPanel":true,
+      "enableAboutPanel":true,
       "enableHomeButton":true,
       "enableLocateButton":true,
       "enableBasemapToggle":true,

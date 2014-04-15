@@ -1,5 +1,5 @@
 define({
-    //Default configuration settings for the applciation. This is where you"ll define things like a bing maps key,
+    //Default configuration settings for the application. This is where you"ll define things like a bing maps key,
     //default web map, default app color theme and more. These values can be overwritten by template configuration settings
     //and url parameters.
     "appid": "",
@@ -14,7 +14,7 @@ define({
     //color theme.
     "title": "",
     "summary": "",
-    "defaultPanel": "map",
+    "defaultPanel": "about",
     "summaryLayer": {
         "id": "impact_area1375916377789_9168"
     },
@@ -24,7 +24,7 @@ define({
     "enableSummary": true,
     "enableModifiedDate": true,
     "enableMoreInfo": true,
-    "enableMapPanel": true,
+    "enableAboutPanel": true,
     "enableLegendPanel": true,
     "enableLayersPanel": true,
     "enableHomeButton": true,
