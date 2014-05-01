@@ -20,7 +20,7 @@ define({
     },
     "enableTitle": true,
     "enableEntireAreaButton": true,
-    "selectEntireAreaOnStart": true,
+    "selectEntireAreaOnStart": false,
     "enableSummary": true,
     "enableModifiedDate": true,
     "enableMoreInfo": true,
