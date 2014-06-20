@@ -381,13 +381,12 @@
 }
 
 .esriButtonEnabled0, .esriButtonEnabled1, .esriButtonEnabled2, .esriButtonEnabled3 {
-        background-color: #999;
-        color: #E9E2E2;
+        background-color: #007ac2;
+        color: #fff;
 }
 
 .esriButtonDisabled {
-        background-color: rgb(227, 227, 227);
-        color: #777;
+        background-color: #999;
 }
 .esriDijitDialog .dijitDialogPaneContent {
         background-color: #f8f8f8 !important;

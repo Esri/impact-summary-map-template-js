@@ -12,6 +12,8 @@ define([
     "esri/symbols/SimpleLineSymbol",
     "dojo/_base/Color",
     "dojo/_base/event",
+    "esri/graphic",
+    "esri/layers/GraphicsLayer",
     "esri/graphicsUtils",
     "esri/tasks/query",
     "dojo/window"
@@ -29,6 +31,7 @@ define([
         SimpleFillSymbol, SimpleLineSymbol,
         Color,
         event,
+        Graphic, GraphicsLayer,
         graphicsUtils,
         Query,
         win
@@ -45,6 +48,7 @@ define([
                     rendererSummarize: 'summarize'
                 };
                 this.previousFeatures = null;
+                this.entireAreaFeatures = null;
                 this.rendererInfo = null;
                 this.symbol = null;
                 // if we have a layer title or layer id
@@ -66,6 +70,15 @@ define([
                         appConfig: this.config //we need a config object here to check for edit mode and adding "+" variables
                     }, dom.byId('geoData'));   //So, i think we need not need this.data l.e entire response
                     this._sb.startup();
+                    // layer found
+                    if (this._aoiLayer) {
+                        // selected graphics layer
+                        this._selectedGraphics = new GraphicsLayer({
+                            id: "selectedArea",
+                            visible: this._aoiLayer.visible
+                        });
+                        this.map.addLayer(this._selectedGraphics, (this._impactLayerIndex + 1));
+                    }
                     // renderer layer infos
                     if (this._aoiInfos) {
                         // create renderer menu
@@ -122,6 +135,15 @@ define([
                 }
             },
             _selectFeatures: function (features, value) {
+                var alpha, themeColor, sls;
+                this._selectedGraphics.clear();
+                themeColor = [0, 255, 255, 1];
+                sls = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color(themeColor), 2);
+                array.forEach(this.config.featuresTransparency, lang.hitch(this, function (transparency) {
+                    if (transparency.label == this.config.featureCurrentTransparency.label) {
+                        alpha = transparency.value;
+                    }
+                }));
                 if (features && features.length) {
                     //set renderer info
                     array.some(this._aoiInfos, lang.hitch(this, function (renderer, index) {
@@ -130,6 +152,16 @@ define([
                             return true;
                         }
                     }));
+                    if (this.previousFeatures == "Entire Area") {
+                        array.forEach(this.entireAreaFeatures, lang.hitch(this, function (feature) {
+                            array.some(this._aoiInfos, lang.hitch(this, function (renderer, idx) {
+                                if (feature.attributes[this._attributeField] == renderer.label || feature.attributes[this._attributeField] == renderer.classMaxValue) {
+                                    feature.setSymbol(this._aoiInfos[idx].symbol);
+                                }
+                            }));
+                        }));
+                        this.previousFeatures = null;
+                    }
                     //unselect previously selected features
                     if (this.previousFeatures !== null) {
                         for (var i = 0; i < this.previousFeatures.length; i++) {
@@ -141,11 +173,28 @@ define([
                         }
                     }
                     if (value == "Entire Area") {
+                        this.entireAreaFeatures = features;
+                        array.forEach(features, lang.hitch(this, function (feature) {
+                            array.some(this._aoiInfos, lang.hitch(this, function (renderer, idx) {
+                                if (feature.attributes[this._attributeField] == renderer.label || feature.attributes[this._attributeField] == renderer.classMaxValue) {
+                                    var tempSymbol = lang.clone(this._aoiInfos[idx].symbol);
+                                    tempSymbol.color.a = alpha;
+                                    var g = new Graphic(feature.geometry, sls, feature.attributes, null);
+                                    if (g) {
+                                        // add graphic to layer
+                                        this._selectedGraphics.add(g);
+                                    }
+                                    feature.setSymbol(tempSymbol);
+                                    return true;
+                                }
+                            }));
+                        }));
+                        this.previousFeatures = "Entire Area";
                         return;
                     }
                     // each selected feature
                     for (var i = 0; i < features.length; i++) {
-                        this._createSymbol(features[i]);
+                        this._createSymbol(features[i], alpha, sls);
                     }
                     this.previousFeatures = features;
                     // single fature
@@ -160,13 +209,13 @@ define([
                                     if (this._rendererNodes[i].value) {
                                         // value matches
                                         if (this._rendererNodes[i].value.toString() === fieldValue.toString()) {
-                                            this._highlightFeature(features, i);
+                                            this._highlightFeature(features, alpha, sls, i);
                                             break;
                                         }
                                     } else {
                                         //for class break
                                         if ((fieldValue.toString() >= this._rendererNodes[i].minValue.toString()) && (fieldValue.toString() <= this._rendererNodes[i].maxValue)) {
-                                            this._highlightFeature(features, i);
+                                            this._highlightFeature(features, alpha, sls, i);
                                             break;
                                         }
                                     }
@@ -176,28 +225,26 @@ define([
                     }
                 }
             },
-            _createSymbol: function (feature) {
-                var alpha, themeColor, sls, fillColor;
-                array.forEach(this.config.featuresTransparency, lang.hitch(this, function (transparency) {
-                    if (transparency.label == this.config.featureCurrentTransparency.label) {
-                        alpha = transparency.value;
-                    }
-                }));
-                themeColor = [0, 255, 255, 1];
-                sls = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color(themeColor), 2);
+            _createSymbol: function (feature, alpha, sls) {
+                var fillColor;
                 if (this.rendererInfo) {
                     // set fill color
                     fillColor = new Color([this.rendererInfo.symbol.color.r, this.rendererInfo.symbol.color.g, this.rendererInfo.symbol.color.b, alpha]);
                     // set symbol
-                    this.symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, sls, fillColor);
+                    this.symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, fillColor);
                     // set feature symbol
                     feature.setSymbol(this.symbol);
+                    var g = new Graphic(feature.geometry, sls, feature.attributes, null);
+                    if (g) {
+                        // add graphic to layer
+                        this._selectedGraphics.add(g);
+                    }
                 }
             },
-            _highlightFeature: function (features, i) {
+            _highlightFeature: function (features, alpha, sls, i) {
                 domClass.add(this._rendererNodes[i].node, this.areaCSS.rendererSelected);
                 this.rendererInfo = this._aoiInfos[i - 1];
-                this._createSymbol(features[0]);
+                this._createSymbol(features[0], alpha, sls);
             },
             _setImpactLayerTitle: function(){
                 var node;
