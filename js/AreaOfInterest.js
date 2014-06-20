@@ -135,7 +135,7 @@ define([
                 }
             },
             _selectFeatures: function (features, value) {
-                var alpha, themeColor, sls;
+                var alpha, themeColor, sls, i;
                 this._selectedGraphics.clear();
                 themeColor = [0, 255, 255, 1];
                 sls = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color(themeColor), 2);
@@ -164,7 +164,7 @@ define([
                     }
                     //unselect previously selected features
                     if (this.previousFeatures !== null) {
-                        for (var i = 0; i < this.previousFeatures.length; i++) {
+                        for (i = 0; i < this.previousFeatures.length; i++) {
                             if (this.rendererInfo) {
                                 this.symbol.color.a = this.rendererInfo.symbol.color.a;
                                 this.symbol.outline = this.rendererInfo.symbol.outline;
@@ -193,7 +193,7 @@ define([
                         return;
                     }
                     // each selected feature
-                    for (var i = 0; i < features.length; i++) {
+                    for (i = 0; i < features.length; i++) {
                         this._createSymbol(features[i], alpha, sls);
                     }
                     this.previousFeatures = features;
