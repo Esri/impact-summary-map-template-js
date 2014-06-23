@@ -137,7 +137,7 @@ define([
             _selectFeatures: function (features, value) {
                 var alpha, themeColor, sls, i;
                 this._selectedGraphics.clear();
-                themeColor = [0, 255, 255, 1];
+                themeColor = this.config.theme == "light" ? [255, 255, 255, 1] : [60, 60, 60, 0.9];
                 sls = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color(themeColor), 2);
                 array.forEach(this.config.featuresTransparency, lang.hitch(this, function (transparency) {
                     if (transparency.label == this.config.featureCurrentTransparency.label) {
@@ -155,7 +155,8 @@ define([
                     if (this.previousFeatures == "Entire Area") {
                         array.forEach(this.entireAreaFeatures, lang.hitch(this, function (feature) {
                             array.some(this._aoiInfos, lang.hitch(this, function (renderer, idx) {
-                                if (feature.attributes[this._attributeField] == renderer.label || feature.attributes[this._attributeField] == renderer.classMaxValue) {
+                                var attributeField = feature.attributes[this._attributeField];
+                                if (attributeField == renderer.label || attributeField == renderer.value || (attributeField > renderer.minValue && attributeField <= renderer.maxValue)) {
                                     feature.setSymbol(this._aoiInfos[idx].symbol);
                                 }
                             }));
@@ -176,7 +177,8 @@ define([
                         this.entireAreaFeatures = features;
                         array.forEach(features, lang.hitch(this, function (feature) {
                             array.some(this._aoiInfos, lang.hitch(this, function (renderer, idx) {
-                                if (feature.attributes[this._attributeField] == renderer.label || feature.attributes[this._attributeField] == renderer.classMaxValue) {
+                                var attributeField = feature.attributes[this._attributeField];
+                                if (attributeField == renderer.label || attributeField == renderer.value || (attributeField > renderer.minValue && attributeField <= renderer.maxValue)) {
                                     var tempSymbol = lang.clone(this._aoiInfos[idx].symbol);
                                     tempSymbol.color.a = alpha;
                                     var g = new Graphic(feature.geometry, sls, feature.attributes, null);
