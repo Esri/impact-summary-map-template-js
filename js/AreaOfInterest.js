@@ -156,7 +156,7 @@ define([
                         array.forEach(this.entireAreaFeatures, lang.hitch(this, function (feature) {
                             array.some(this._aoiInfos, lang.hitch(this, function (renderer, idx) {
                                 var attributeField = feature.attributes[this._attributeField];
-                                if (attributeField == renderer.label || attributeField == renderer.value || (attributeField > renderer.minValue && attributeField <= renderer.maxValue)) {
+                                if (attributeField == renderer.label || attributeField == renderer.value || (attributeField >= renderer.minValue && attributeField <= renderer.maxValue)) {
                                     feature.setSymbol(this._aoiInfos[idx].symbol);
                                 }
                             }));
@@ -178,7 +178,7 @@ define([
                         array.forEach(features, lang.hitch(this, function (feature) {
                             array.some(this._aoiInfos, lang.hitch(this, function (renderer, idx) {
                                 var attributeField = feature.attributes[this._attributeField];
-                                if (attributeField == renderer.label || attributeField == renderer.value || (attributeField > renderer.minValue && attributeField <= renderer.maxValue)) {
+                                if (attributeField == renderer.label || attributeField == renderer.value || (attributeField >= renderer.minValue && attributeField <= renderer.maxValue)) {
                                     var tempSymbol = lang.clone(this._aoiInfos[idx].symbol);
                                     tempSymbol.color.a = alpha;
                                     var g = new Graphic(feature.geometry, sls, feature.attributes, null);
