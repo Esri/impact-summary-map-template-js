@@ -353,11 +353,6 @@ function (
                     newVis = !layer.layerObject.visible;
                     layer.visibility = newVis;
                     layerObject.setVisibility(newVis);
-                    if (newVis) {
-                        this.map.getLayer("selectedArea").show();
-                    } else {
-                        this.map.getLayer("selectedArea").hide();
-                    }
                 }
             }
         },

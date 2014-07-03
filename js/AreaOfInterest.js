@@ -104,9 +104,11 @@ define([
                             if (!evt.visible) {
                                 // hide stats
                                 this._sb.hide();
+                                this.map.getLayer("selectedArea").hide();
                             } else {
                                 // show stats
                                 this._sb.show();
+                                this.map.getLayer("selectedArea").show();
                             }
                         }));
                     }
@@ -249,7 +251,11 @@ define([
             },
             _highlightFeature: function (features, alpha, sls, i) {
                 domClass.add(this._rendererNodes[i].node, this.areaCSS.rendererSelected);
-                this.rendererInfo = this._aoiInfos[i - 1];
+                if (this.config.enableEntireAreaButton) {
+                    this.rendererInfo = this._aoiInfos[i - 1];
+                } else {
+                    this.rendererInfo = this._aoiInfos[i];
+                }
                 this._createSymbol(features[0], alpha, sls);
             },
             _setImpactLayerTitle: function(){
