@@ -1,5 +1,5 @@
 ﻿define(
-     ({
+   ({
         map: {
             error: "Impossible de créer la carte"
         },
@@ -15,7 +15,9 @@
             about: "A propos",
             find: "Code postal, ville, etc.",
             noSearchResult: "Aucun résultat trouvé",
-            impactArea: "Zone d\'impact"
+            impactArea: "Zone d\'impact",
+            dateModified: "Modifié",
+            moreInfo: "En savoir plus",
         },
         configure: {
             mapdlg: {

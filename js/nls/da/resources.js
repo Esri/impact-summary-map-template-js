@@ -1,5 +1,5 @@
 ﻿define(
-     ({
+   ({
         map: {
             error: "Kan ikke oprette kort"
         },
@@ -15,7 +15,9 @@
             about: "Om",
             find: "Postnummer, by osv.",
             noSearchResult: "Intet resultat fundet",
-            impactArea: "Kollisionsområde"
+            impactArea: "Kollisionsområde",
+            dateModified: "Ændret",
+            moreInfo: "Flere oplysninger",
         },
         configure: {
             mapdlg: {

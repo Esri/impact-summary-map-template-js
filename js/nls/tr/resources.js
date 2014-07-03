@@ -1,12 +1,12 @@
 ﻿define(
-     ({
+   ({
         map: {
             error: "Harita oluşturulamıyor"
         },
         general: {
             map: "Harita",
             mapInfo: "Harita Bilgileri",
-            legend: "Gösterge",
+            legend: "Gösterim",
             layers: "Katmanlar",
             rendererTitle: "Bu alanla ilgili bilgileri görüntüle",
             summarize: "Tüm Alan",
@@ -15,7 +15,9 @@
             about: "Hakkında",
             find: "Posta Kodu, şehir vb.",
             noSearchResult: "Hiçbir sonuç bulunamadı",
-            impactArea: "Etki Alanı"
+            impactArea: "Etki Alanı",
+            dateModified: "Değiştirilme",
+            moreInfo: "Daha fazlasını keşfedin",
         },
         configure: {
             mapdlg: {

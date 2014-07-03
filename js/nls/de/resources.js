@@ -1,5 +1,5 @@
 ﻿define(
-     ({
+   ({
         map: {
             error: "Karte kann nicht erstellt werden"
         },
@@ -15,7 +15,9 @@
             about: "Info zu",
             find: "Postleitzahl, Stadt usw.",
             noSearchResult: "Kein Ergebnis gefunden",
-            impactArea: "Betroffenes Gebiet"
+            impactArea: "Betroffenes Gebiet",
+            dateModified: "Geändert",
+            moreInfo: "Weitere Informationen",
         },
         configure: {
             mapdlg: {

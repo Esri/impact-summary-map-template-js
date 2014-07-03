@@ -1,5 +1,5 @@
 ﻿define(
-     ({
+   ({
         map: {
             error: "לא ניתן ליצור מפה"
         },
@@ -15,7 +15,9 @@
             about: "אודות",
             find: "מיקוד, עיר ועוד.",
             noSearchResult: "לא נמצאו תוצאות",
-            impactArea: "אזור השפעה"
+            impactArea: "אזור השפעה",
+            dateModified: "שונה",
+            moreInfo: "למידע נוסף",
         },
         configure: {
             mapdlg: {

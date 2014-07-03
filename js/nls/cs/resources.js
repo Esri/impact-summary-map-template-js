@@ -1,5 +1,5 @@
 ﻿define(
-     ({
+   ({
         map: {
             error: "Nelze vytvořit mapu"
         },
@@ -15,7 +15,9 @@
             about: "O aplikaci",
             find: "PSČ, město atd.",
             noSearchResult: "Nebyly nalezeny žádné výsledky",
-            impactArea: "Ovlivněná oblast"
+            impactArea: "Ovlivněná oblast",
+            dateModified: "Upraveno",
+            moreInfo: "Další informace",
         },
         configure: {
             mapdlg: {

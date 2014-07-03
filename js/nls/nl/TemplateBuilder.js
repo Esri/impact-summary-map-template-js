@@ -1,0 +1,68 @@
+﻿define(
+     ({
+        "widgets": {
+            "TemplateBuilder": {
+                "enterBuilderButtonText": "Naar builder gaan",
+                "exitBuilderButtonText": "Builder verlaten",
+                "enterBuilderModeHelpText": "Ga naar de buildermodus om de applicatie te configureren",
+                "builderModeHelpText": "Templatebuildermodus",
+                "webmapCaption": "Kaart",
+                "selectMapMessage": "Momenteel ${displaying} <b>${webmapTitle}</b><br/>Klik op Kaart selecteren om een andere webmap te kiezen",
+                "loadMapMessage": "Momenteel geselecteerd <b>${webmapTitle}</b><br/>Klik op Opslaan om deze webmap te gebruiken",
+                "changeWebmap": "Kaart selecteren",
+                "saveButtonText": "Opslaan",
+                "webmapNextButtonText": "Volgende ->",
+                "previousButtonText":"Vorige",
+                "layerLabelText": "Kaartlaag",
+                "noLayerFoundText": "Geen kaartlaag gevonden",
+                "selectLayer": "Kaartlaag selecteren",
+                "applicationSettingText": "Applicatie-instellingen",
+                "summaryAttrAscendingOrderTooltip": "Oplopend",
+                "onStartLabel": "Bij opstarten",
+                "selectVariableText": "Een variabele selecteren",
+                "selectVariableDropdown": "Een variabele selecteren",
+                "label":"Label",
+                "sourceLinkText":"Bronkoppeling",
+                "selectSubVariableText":"Subvariabelen selecteren",
+                "subVariablePanelButtonText":"GEREED",
+                "onButtonLabel":"Aan",
+                "offButtonLabel":"Uit",
+                "appSettingsSaveCloseButtonText": "OPSLAAN & SLUITEN",
+                "appSettingsTitleText":"App-titel",
+                "appSettingsDescriptionText": "Applicatiebeschrijving",
+                "appSetingsRendererAreaText":"Gerenderd gebied",
+                "shareText":"Delen",
+                "basemapText":"Basiskaart",
+                "basemapSelectionText":"Basiskaartselectie",
+                "secondaryBasemapText":"Secundaire basiskaart",
+                "defaultBasemapText": "Standaard basiskaart",
+                "entireAreaButton": "Volledig gebied",
+                "entireAreaOnStartButton": "Volledige gebied bij opstarten",
+                "aboutPanel": "Deelvenster Informatie",
+                "legendPanel": "Deelvenster Legenda",
+                "layersPanel": "Deelvenster Kaartlagen",
+                "dataConfigurationButtonText": "Gegevensconfiguratie",
+                "savingChangesMessage": "Wijzigingen opslaan...",
+                "nextButtonText": "Volgende",
+                "prevButtonText": "Vorige",
+                "enterLabelText": "Label invoeren",
+                "SelectedFeatureText": "Geselecteerd object",
+                "layerHelpTextMessage": "Deze applicatie vereist een kaartlaag met numerieke velden",
+                "alertMessage": {
+                    "resetVariableMessage": "Weet u zeker dat u de variabele wilt opnieuw instellen?",
+                    "emptyAppTitleMessage": "Applicatietitel mag niet leeg zijn",
+                    "emptyDescriptionMessage": "Beschrijving mag niet leeg zijn",
+                    "maxVariableSelection": "U mag niet meer dan 25 subvariabelen selecteren",
+                    "signInFail" : "Aanmelding mislukt",
+                    "itemUpdateMessage": "Item bijgewerkt",
+                    "unsavedChangesMessage": "Niet-opgeslagen wijzigingen",
+                    "failMessage": "Het item kon niet worden bijgewerkt",
+                    "saveChangesAlert": "Wilt u de wijzigingen opslaan?",
+                    "variableLabelValidation": "Label van variabele mag niet LEEG zijn",
+                    "subVariableLabelValidation": "Label van subvariabele mag niet LEEG zijn"
+                    }
+            }
+        }
+    })
+
+);

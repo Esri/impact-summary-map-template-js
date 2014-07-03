@@ -1,5 +1,5 @@
 ﻿define(
-     ({
+   ({
         map: {
             error: "Kan kaart niet maken"
         },
@@ -15,7 +15,9 @@
             about: "Over",
             find: "Postcode, plaats enzovoort",
             noSearchResult: "Geen resultaat gevonden",
-            impactArea: "Impactgebied"
+            impactArea: "Impactgebied",
+            dateModified: "Gewijzigd",
+            moreInfo: "Ontdek meer informatie",
         },
         configure: {
             mapdlg: {
