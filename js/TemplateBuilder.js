@@ -204,6 +204,7 @@ function (
             this.appSetting.title = this.config.title;
             this.appSetting.summary = this.config.summary;
             this.appSetting.enableEntireAreaButton = this.config.enableEntireAreaButton;
+            this.appSetting.selectEntireAreaOnStart = this.config.selectEntireAreaOnStart;
             this.appSetting.summaryAttributeOrder = this.config.summaryAttributeOrder;
             this.appSetting.enableShareDialog = this.config.enableShareDialog;
             this.appSetting.enableBasemapToggle = this.config.enableBasemapToggle;
@@ -1290,18 +1291,21 @@ function (
 
         //function to update item on AGOL with changed configuration settings
         _updateItem: function (isRollBackRequired, newURL) {
+            var applicationSettings;
             //Here we are using the response,so we dont need to create whole item again.
             //we are just modifying required parameters.
-            if (isRollBackRequired)
+            if (isRollBackRequired) {
                 this.config = this.previousConfigObj;
-            else
+                applicationSettings = this._configureAppSettings(this.previousConfigObj);
+            } else {
                 this.config = this.config;
-
+                applicationSettings = this._configureAppSettings(this.config);
+            }
             delete this.config.i18n;
             if (this.config.edit) {
                 delete this.config.edit;
             }
-            lang.mixin(this.response.itemData.values, this.config);
+            this.response.itemData.values = applicationSettings;
             this.response.item.tags = typeof (this.response.item.tags) == "object" ? this.response.item.tags.join(',') : this.response.item.tags;
             this.response.item.typeKeywords = typeof (this.response.item.typeKeywords) == "object" ? this.response.item.typeKeywords.join(',') : this.response.item.typeKeywords;
             var rqData = lang.mixin(this.response.item, {
@@ -1339,6 +1343,37 @@ function (
             }));
         },
 
+        _configureAppSettings: function (config) {
+            var appSettings = {
+                "defaultBasemap": config.defaultBasemap,
+                "defaultPanel": config.defaultPanel,
+                "enableAboutPanel": config.enableAboutPanel,
+                "enableBasemapToggle": config.enableBasemapToggle,
+                "enableEntireAreaButton": config.enableEntireAreaButton,
+                "enableHomeButton": config.enableHomeButton,
+                "enableLayersPanel": config.enableLayersPanel,
+                "enableLegendPanel": config.enableLegendPanel,
+                "enableLocateButton": config.enableLocateButton,
+                "enableModifiedDate": config.enableModifiedDate,
+                "enableMoreInfo": config.enableMoreInfo,
+                "enableShareDialog": config.enableShareDialog,
+                "enableSummary": config.enableSummary,
+                "enableTitle": config.enableTitle,
+                "featureCurrentTransparency": config.featureCurrentTransparency,
+                "featuresTransparency": config.featuresTransparency,
+                "nextBasemap": config.nextBasemap,
+                "selectEntireAreaOnStart": config.selectEntireAreaOnStart,
+                "summary": config.summary,
+                "summaryAttributeOrder": config.summaryAttributeOrder,
+                "summaryAttributes": config.summaryAttributes,
+                "summaryLayer": config.summaryLayer,
+                "theme": config.theme,
+                "title": config.title,
+                "webmap": config.webmap,
+                "zoomType": config.zoomType
+            };
+            return appSettings;
+        },
         _createTooltip: function () {
             var myTooltipDialog, isShowing = false;
             myTooltipDialog = new TooltipDialog({
