@@ -1222,7 +1222,7 @@ function (
             summaryAttributes = [], validationRequire = false;
             subVariables = query(".esriCheckBoxIcon.esriCheckIcon");
             parentAttribute = query(".esriVariableSelect")[0].value;
-            parentAttributeLabel = query(".esriVariableSelectInput")[0].value;
+            parentAttributeLabel = query(".esriVariableSelectInput")[0].value.trim();
             variableSourceLink = query(".esriSourceLinkInput")[0].value;
             if (parentAttributeLabel === "") {
                 alert(nls.widgets.TemplateBuilder.alertMessage.variableLabelValidation);
