@@ -258,14 +258,14 @@ function (
                 }, 300);
             }));
             on(appDijitInputContainer, "change", lang.hitch(this, function () {
-                if (domAttr.get(appDijitInputContainer, "value").trim() !== "") {
+                if (lang.trim(domAttr.get(appDijitInputContainer, "value")) !== "") {
                     setTimeout(lang.hitch(this, function () {
-                        this.config.summary = domAttr.get(appDijitInputContainer, "value");
+                        this.config.summary = lang.trim(domAttr.get(appDijitInputContainer, "value"));
                     }), 0);
                 }
                 else {
                     alert(nls.widgets.TemplateBuilder.alertMessage.emptyDescriptionMessage);
-                    appDijitInputContainer.set("value", appDijitInputContainer.value);
+                    appDijitInputContainer.set("value", lang.trim(appDijitInputContainer.value));
                 }
             }));
             this._createAppSettingBasemapPanel(leftSettingsContent);
@@ -1222,7 +1222,7 @@ function (
             summaryAttributes = [], validationRequire = false;
             subVariables = query(".esriCheckBoxIcon.esriCheckIcon");
             parentAttribute = query(".esriVariableSelect")[0].value;
-            parentAttributeLabel = query(".esriVariableSelectInput")[0].value;
+            parentAttributeLabel = lang.trim(query(".esriVariableSelectInput")[0].value);
             variableSourceLink = query(".esriSourceLinkInput")[0].value;
             if (parentAttributeLabel === "") {
                 alert(nls.widgets.TemplateBuilder.alertMessage.variableLabelValidation);
