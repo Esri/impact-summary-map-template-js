@@ -58,11 +58,10 @@
                     "unsavedChangesMessage": "저장되지 않은 변경 사항",
                     "failMessage": "항목을 업데이트할 수 없습니다.",
                     "saveChangesAlert": "변경 사항을 저장하시겠습니까?",
-                    "variableLabelValidation": "변수 레이블은 비워 둘 수 없습니다.",
-                    "subVariableLabelValidation": "하위 변수 레이블은 비워 둘 수 없습니다."
+                    "variableLabelValidation": "변수 레이블은 비워 둘 수 없음",
+                    "subVariableLabelValidation": "하위 변수 레이블은 비워 둘 수 없음"
                     }
             }
         }
     })
-
 );

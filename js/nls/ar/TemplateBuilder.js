@@ -32,7 +32,7 @@
                 "appSettingsDescriptionText": "وصف التطبيق",
                 "appSetingsRendererAreaText":"المنطقة المعروضة",
                 "shareText":"مشاركة",
-                "basemapText":"خريطة الأساس",
+                "basemapText":"خريطة أساس",
                 "basemapSelectionText":"تحديد خريطة الأساس",
                 "secondaryBasemapText":"خريطة الأساس الثانوية",
                 "defaultBasemapText": "خريطة الأساس الافتراضية",
@@ -49,7 +49,7 @@
                 "SelectedFeatureText": "المعالم المحددة",
                 "layerHelpTextMessage": "يتطلب هذا التطبيق طبقة بها حقول عددية",
                 "alertMessage": {
-                    "resetVariableMessage": "هل أنت متأكد من رغبتك في إعادة تعيين المتغير؟",
+                    "resetVariableMessage": "هل تريد بالتأكيد إعادة تعيين المتغير؟",
                     "emptyAppTitleMessage": "لا يكون عنوان التطبيق فارغ",
                     "emptyDescriptionMessage": "لا يكون الوصف فارغ",
                     "maxVariableSelection": "يتعذر تحديد ما يزيد عن 25 متغير فرعي",
@@ -58,11 +58,10 @@
                     "unsavedChangesMessage": "التغييرات غير المحفوظة",
                     "failMessage": "يتعذر تحديث العنصر بنجاح",
                     "saveChangesAlert": "هل تريد حفظ التغييرات؟",
-                    "variableLabelValidation": "لا تكون لافتة تسمية المتغير فارغة",
-                    "subVariableLabelValidation": "لا تكون لافتة تسمية المتغير الفرعي فارغة"
+                    "variableLabelValidation": "لا يجوز أن تكون تسمية المتغير فارغة",
+                    "subVariableLabelValidation": "لا يجوز أن تكون تسمية المتغير الفرعي فارغة"
                     }
             }
         }
     })
-
 );

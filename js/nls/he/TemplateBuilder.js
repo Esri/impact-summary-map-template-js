@@ -49,7 +49,7 @@
                 "SelectedFeatureText": "ישויות נבחרות",
                 "layerHelpTextMessage": "אפליקציה זו דורשת שכבה עם שדות מספריים",
                 "alertMessage": {
-                    "resetVariableMessage": "האם אתה בטוח שברצונך לאתחל את המשתנים?",
+                    "resetVariableMessage": "האם אתה בטוח שברצונך לאתחל את המשתנה?",
                     "emptyAppTitleMessage": "כותרת האפליקציה לא יכולה להיות ריקה",
                     "emptyDescriptionMessage": "התיאור לא יכול להיות ריק",
                     "maxVariableSelection": "לא ניתן לבחור יותר מ-25 תתי משתנים",
@@ -64,5 +64,4 @@
             }
         }
     })
-
 );

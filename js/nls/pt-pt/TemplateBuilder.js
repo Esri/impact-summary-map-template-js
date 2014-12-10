@@ -58,11 +58,10 @@
                     "unsavedChangesMessage": "Alterações Não-Guardadas",
                     "failMessage": "Não foi possível atualizar o item",
                     "saveChangesAlert": "Pretende guardar as alterações?",
-                    "variableLabelValidation": "O rótulo da variável não pode estar VAZIO",
-                    "subVariableLabelValidation": "O rótulo da sub-variável não pode estar VAZIO"
+                    "variableLabelValidation": "O rótulo da variável não pode estar vazio",
+                    "subVariableLabelValidation": "O rótulo da sub-variável não pode estar vazio"
                     }
             }
         }
     })
-
 );

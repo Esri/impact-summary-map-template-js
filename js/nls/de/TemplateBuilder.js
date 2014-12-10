@@ -58,11 +58,10 @@
                     "unsavedChangesMessage": "Nicht gespeicherte Änderungen",
                     "failMessage": "Element konnte nicht erfolgreich gespeichert werden",
                     "saveChangesAlert": "Möchten Sie die Änderungen speichern?",
-                    "variableLabelValidation": "Variablenbeschriftung darf nicht LEER sein",
-                    "subVariableLabelValidation": "Subvariablenbeschriftung darf nicht LEER sein"
+                    "variableLabelValidation": "Variablenbeschriftung darf nicht leer sein",
+                    "subVariableLabelValidation": "Subvariablenbeschriftung darf nicht leer sein"
                     }
             }
         }
     })
-
 );

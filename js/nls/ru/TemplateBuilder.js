@@ -58,11 +58,10 @@
                     "unsavedChangesMessage": "Несохраненные изменения",
                     "failMessage": "Не удалось обновить элемент",
                     "saveChangesAlert": "Сохранить изменения?",
-                    "variableLabelValidation": "Надпись переменной не может быть ПУСТОЙ",
-                    "subVariableLabelValidation": "Надпись суб-переменной не может быть ПУСТОЙ"
+                    "variableLabelValidation": "Надпись переменной не может быть пустой",
+                    "subVariableLabelValidation": "Надпись суб-переменной не может быть пустой"
                     }
             }
         }
     })
-
 );

@@ -58,11 +58,10 @@
                     "unsavedChangesMessage": "Ulagrede endringer",
                     "failMessage": "Oppdateringen av elementet mislyktes",
                     "saveChangesAlert": "Vil du lagre endringene?",
-                    "variableLabelValidation": "Variabeletikett kan ikke være TOM",
-                    "subVariableLabelValidation": "Undervariabeletikett kan ikke være TOM"
+                    "variableLabelValidation": "Variabelpåskriften kan ikke være tom",
+                    "subVariableLabelValidation": "Undervariabelpåskriften kan ikke være tom"
                     }
             }
         }
     })
-
 );

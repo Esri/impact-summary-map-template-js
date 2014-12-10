@@ -58,11 +58,10 @@
                     "unsavedChangesMessage": "Osparade ändringar",
                     "failMessage": "Det gick inte att uppdatera objektet",
                     "saveChangesAlert": "Vill du spara ändringarna?",
-                    "variableLabelValidation": "Variabeletiketten får inte vara TOM",
-                    "subVariableLabelValidation": "Undervariabeletiketten får inte vara TOM"
+                    "variableLabelValidation": "Variabeletiketten får inte vara tom",
+                    "subVariableLabelValidation": "Undervariabeletiketten får inte vara tom"
                     }
             }
         }
     })
-
 );

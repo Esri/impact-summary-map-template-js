@@ -58,11 +58,10 @@
                     "unsavedChangesMessage": "Modifiche non salvate",
                     "failMessage": "Impossibile aggiornare l\'elemento",
                     "saveChangesAlert": "Salvare le modifiche?",
-                    "variableLabelValidation": "L\'etichetta della variabile non può essere VUOTA",
-                    "subVariableLabelValidation": "L\'etichetta della variabile secondaria non può essere VUOTA"
+                    "variableLabelValidation": "L\'etichetta della variabile non può essere vuota",
+                    "subVariableLabelValidation": "L\'etichetta della variabile secondaria non può essere vuota"
                     }
             }
         }
     })
-
 );

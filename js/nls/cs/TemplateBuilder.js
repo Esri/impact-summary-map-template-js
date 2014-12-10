@@ -58,11 +58,10 @@
                     "unsavedChangesMessage": "Neuložené změny",
                     "failMessage": "Položku se nepodařilo aktualizovat",
                     "saveChangesAlert": "Chcete uložit změny?",
-                    "variableLabelValidation": "Štítek proměnné nesmí být prázdný",
-                    "subVariableLabelValidation": "Štítek podřízené proměnné nesmí být prázdný"
+                    "variableLabelValidation": "Popisek proměnné nesmí být prázdný.",
+                    "subVariableLabelValidation": "Popisek podřízené proměnné nesmí být prázdný."
                     }
             }
         }
     })
-
 );

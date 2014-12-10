@@ -58,11 +58,10 @@
                     "unsavedChangesMessage": "Neįrašyti pakeitimai",
                     "failMessage": "Nepavyko atnaujinti šio elemento",
                     "saveChangesAlert": "Ar norite įrašyti pakeitimus?",
-                    "variableLabelValidation": "Kintamojo žymė negali būti TUŠČIA",
-                    "subVariableLabelValidation": "Antrinio kintamojo žymė negali būti TUŠČIA"
+                    "variableLabelValidation": "Kintamojo žymė negali būti tuščia",
+                    "subVariableLabelValidation": "Antrinio kintamojo žymė negali būti tuščia"
                     }
             }
         }
     })
-
 );

@@ -58,11 +58,10 @@
                     "unsavedChangesMessage": "Salvestamata muudatused",
                     "failMessage": "Objekti ei õnnestunud edukalt uuendada",
                     "saveChangesAlert": "Kas soovite muudatused salvestada ?",
-                    "variableLabelValidation": "Muutuja märgis ei saa olla TÜHI",
-                    "subVariableLabelValidation": "Alammuutuja märgis ei saa olla TÜHI"
+                    "variableLabelValidation": "Muutuja märgis ei saa olla tühi",
+                    "subVariableLabelValidation": "Alammuutuja märgis ei saa olla tühi"
                     }
             }
         }
     })
-
 );

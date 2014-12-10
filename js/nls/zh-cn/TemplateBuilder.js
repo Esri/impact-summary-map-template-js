@@ -49,7 +49,7 @@
                 "SelectedFeatureText": "所选要素",
                 "layerHelpTextMessage": "此应用程序需要包含数值字段的图层",
                 "alertMessage": {
-                    "resetVariableMessage": "确定要重置变量?",
+                    "resetVariableMessage": "是否确定要重置变量?",
                     "emptyAppTitleMessage": "应用程序标题不能为空",
                     "emptyDescriptionMessage": "描述不能为空",
                     "maxVariableSelection": "不能选择超过 25 个子变量",
@@ -64,5 +64,4 @@
             }
         }
     })
-
 );

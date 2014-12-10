@@ -58,11 +58,10 @@
                     "unsavedChangesMessage": "Kaydedilmemiş Değişiklikler",
                     "failMessage": "Öğe başarıyla güncellenemedi",
                     "saveChangesAlert": "Değişiklikleri kaydetmek istiyor musunuz?",
-                    "variableLabelValidation": "Değişken etiketi BOŞ olamaz",
-                    "subVariableLabelValidation": "Alt değişken etiketi BOŞ olamaz"
+                    "variableLabelValidation": "Değişken etiketi boş olamaz",
+                    "subVariableLabelValidation": "Alt değişken etiketi boş olamaz"
                     }
             }
         }
     })
-
 );

@@ -58,11 +58,10 @@
                     "unsavedChangesMessage": "Niet-opgeslagen wijzigingen",
                     "failMessage": "Het item kon niet worden bijgewerkt",
                     "saveChangesAlert": "Wilt u de wijzigingen opslaan?",
-                    "variableLabelValidation": "Label van variabele mag niet LEEG zijn",
-                    "subVariableLabelValidation": "Label van subvariabele mag niet LEEG zijn"
+                    "variableLabelValidation": "Label van variabele mag niet leeg zijn",
+                    "subVariableLabelValidation": "Label van subvariabele mag niet leeg zijn"
                     }
             }
         }
     })
-
 );

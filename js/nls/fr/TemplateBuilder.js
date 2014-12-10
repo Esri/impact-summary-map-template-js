@@ -58,11 +58,10 @@
                     "unsavedChangesMessage": "Modifications non enregistrées",
                     "failMessage": "Impossible de mettre à jour l\'élément",
                     "saveChangesAlert": "Voulez-vous enregistrer les modifications ?",
-                    "variableLabelValidation": "L\'étiquette de la variable ne peut pas être VIDE",
-                    "subVariableLabelValidation": "L\'étiquette de la sous-variable ne peut pas être VIDE"
+                    "variableLabelValidation": "L\'étiquette de la variable ne peut pas être vide",
+                    "subVariableLabelValidation": "L\'étiquette de la sous-variable ne peut pas être vide"
                     }
             }
         }
     })
-
 );

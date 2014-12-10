@@ -58,11 +58,10 @@
                     "unsavedChangesMessage": "Niezapisane zmiany",
                     "failMessage": "Nie można pomyślnie zaktualizować elementu.",
                     "saveChangesAlert": "Czy chcesz zapisać zmiany?",
-                    "variableLabelValidation": "Pole Etykieta zmiennej nie może być PUSTE.",
-                    "subVariableLabelValidation": "Pole Etykieta zmiennej podrzędnej nie może być PUSTE."
+                    "variableLabelValidation": "Pole Etykieta zmiennej nie może być puste.",
+                    "subVariableLabelValidation": "Pole Etykieta zmiennej podrzędnej nie może być puste."
                     }
             }
         }
     })
-
 );

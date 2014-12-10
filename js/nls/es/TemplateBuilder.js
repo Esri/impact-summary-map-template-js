@@ -58,11 +58,10 @@
                     "unsavedChangesMessage": "Cambios no guardados",
                     "failMessage": "El elemento no se ha podido actualizar correctamente",
                     "saveChangesAlert": "¿Deseas guardar los cambios?",
-                    "variableLabelValidation": "La etiqueta de variable no puede estar VACÍA",
-                    "subVariableLabelValidation": "La etiqueta de subvariable no puede estar VACÍA"
+                    "variableLabelValidation": "La etiqueta de variable no puede estar vacía",
+                    "subVariableLabelValidation": "La etiqueta de subvariable no puede estar vacía"
                     }
             }
         }
     })
-
 );

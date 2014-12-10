@@ -58,11 +58,10 @@
                     "unsavedChangesMessage": "Ændringer, der ikke er gemt",
                     "failMessage": "Kunne ikke opdatere element",
                     "saveChangesAlert": "Vil du gemme ændringerne?",
-                    "variableLabelValidation": "Variabel-etikel kan ikke være TOM",
-                    "subVariableLabelValidation": "Undervariabel-etikel kan ikke være TOM"
+                    "variableLabelValidation": "Variabel-etiket kan ikke være tom",
+                    "subVariableLabelValidation": "Undervariabel-etiket kan ikke være tom"
                     }
             }
         }
     })
-
 );

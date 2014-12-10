@@ -58,11 +58,10 @@
                     "unsavedChangesMessage": "Tallentamattomat muutokset",
                     "failMessage": "Kohteen päivitys ei onnistunut",
                     "saveChangesAlert": "Haluatko tallentaa muutokset?",
-                    "variableLabelValidation": "Muuttujan tunnusteksti ei voi olla TYHJÄ",
-                    "subVariableLabelValidation": "Alimuuttujan tunnusteksti ei voi olla TYHJÄ"
+                    "variableLabelValidation": "Muuttujan tunnusteksti ei voi olla tyhjä",
+                    "subVariableLabelValidation": "Alimuuttujan tunnusteksti ei voi olla tyhjä"
                     }
             }
         }
     })
-
 );
