@@ -215,7 +215,7 @@ function (
             this.appSetting.selectEntireAreaOnStart = this.config.selectEntireAreaOnStart;
             this.appSetting.summaryAttributeOrder = this.config.summaryAttributeOrder;
             this.appSetting.enableShareDialog = this.config.enableShareDialog;
-            this.appSetting.enablePopupDialog = this.config.enablePopupDialog,
+            this.appSetting.enablePopupDialog = this.config.enablePopupDialog;
             this.appSetting.enableBasemapToggle = this.config.enableBasemapToggle;
             this.appSetting.nextBasemap = this.config.nextBasemap;
             this.appSetting.defaultBasemap = this.config.defaultBasemap;
