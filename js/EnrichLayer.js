@@ -53,7 +53,6 @@
         shareURL: "${userInfoPortalUrl}/sharing/content/users/${username}/items/${enrichUrlItemId}/share",
         constructor: function (options) {
             this.map = options.map;
-            esriConfig.defaults.io.proxyUrl = "proxy.ashx";
             this.userInfo = options.userInfo;
             this.config = options.config;
             this.analysisUrl = this.userInfo.portal.helperServices.analysis ? this.userInfo.portal.helperServices.analysis.url : null;
