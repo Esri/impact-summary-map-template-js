@@ -865,6 +865,7 @@
                     deferred.resolve(response);
                 }),
                 error: lang.hitch(this, function (e) {
+                    this._deleteService();
                     this._gotoPreviousDialog(nls.widgets.geoEnrichment.message.shareFailed);
                     deferred.reject(e);
                 })
@@ -1085,6 +1086,7 @@
                     deferred.resolve(response);
                 }),
                 error: lang.hitch(this, function (e) {
+                    this._deleteService();
                     this._removeLoadingIndicator();
                     this._gotoPreviousDialog(nls.widgets.geoEnrichment.message.updateItemFailed, false);
                     deferred.reject(e);
@@ -1109,6 +1111,7 @@
                     deferred.resolve(response);
                 }),
                 error: lang.hitch(this, function (e) {
+                    this._deleteService();
                     this._removeLoadingIndicator();
                     this._gotoPreviousDialog(nls.widgets.geoEnrichment.message.geoEnrichFailed, false);
                     deferred.reject(e);
@@ -1134,6 +1137,7 @@
                     deferred.resolve(response);
                 }),
                 error: lang.hitch(this, function (e) {
+                    this._deleteService();
                     this._removeLoadingIndicator();
                     this._gotoPreviousDialog(nls.widgets.geoEnrichment.message.refreshServiceFailed, false);
                     deferred.reject(e);
@@ -1167,6 +1171,7 @@
                     deferred.resolve(response);
                 }),
                 error: lang.hitch(this, function (e) {
+                    this._deleteService();
                     this._removeLoadingIndicator();
                     this._gotoPreviousDialog(nls.widgets.geoEnrichment.message.addToWebmapFailed, false);
                     deferred.reject(e);
@@ -1190,6 +1195,7 @@
                     deferred.resolve(response);
                 }),
                 error: lang.hitch(this, function (e) {
+                    this._deleteService();
                     this._removeLoadingIndicator();
                     this._gotoPreviousDialog(nls.widgets.geoEnrichment.message.layerJsonFailed, false);
                     deferred.reject(e);
