@@ -508,7 +508,7 @@
         //areas are created around each point or line using a straight-line distance or a driving time
         _setAreaParameter: function () {
             var lineDistanceUnits, drivingTimeUnits, enrichParameterContainer, radioOptionContainer, currentExtentButton, defineAreaImageContainer,
-                imageDriveTime, divInputContainer, previousButtonDiv, geoenrichmentCredits, buttonContainer, nextButtonDiv, divLabelContainer, defineAreaDiv, showCreditsDiv;
+                imageDriveTime, divInputContainer, previousButtonDiv, geoenrichmentCredits, buttonContainer, nextButtonDiv, divLabelContainer, defineAreaDiv, showCreditsDiv, bufferAreaHelpText;
             lineDistanceUnits = [{
                 value: "Meters"
             }, {
@@ -574,6 +574,9 @@
                 this._createUnitOptions(drivingTimeUnits);
                 domClass.add(this.driveTimeTextLabelDiv, "labelHighlight");
                 domClass.remove(this.lineDistanceTextLabelDiv, "labelHighlight");
+                    domStyle.set(bufferAreaHelpText, "display", "none");
+                    domClass.replace(divInputContainer, "inputDiv", "noMargin");
+                    domAttr.set(nextButtonDiv, "disabled", false);
             }));
             }
             divInputContainer = domConstruct.create("div", {
@@ -585,10 +588,28 @@
                 "class": "inputDistance",
                 "placeholder": nls.widgets.geoEnrichment.placeholder.enterValue
             }, divInputContainer);
+            bufferAreaHelpText = domConstruct.create("div", { "class": "bufferAreaHelpText" }, defineAreaDiv);
+            domStyle.set(bufferAreaHelpText, "display", "none");
+            on(this.inputDistance, "keyup", lang.hitch(this, function (evt) {
+                if (evt.currentTarget.value.match(/^[0-9]+(\.\d+)?$/)) {
+                    this._validateBufferInputs(bufferAreaHelpText, divInputContainer, nextButtonDiv);
+                }
+                else {
+                    this._showHintTextMessage(bufferAreaHelpText, divInputContainer, nextButtonDiv, nls.widgets.geoEnrichment.message.invalidBufferInput);
+                }
+            }));
             this.bufferAreaUnit = domConstruct.create("select", {
                 "class": "unitInput"
             }, divInputContainer);
             this._createUnitOptions(lineDistanceUnits);
+            on(this.bufferAreaUnit, "change", lang.hitch(this, function () {
+                if (this.inputDistance.value.match(/^[0-9]+(\.\d+)?$/)) {
+                    this._validateBufferInputs(bufferAreaHelpText, divInputContainer, nextButtonDiv);
+                }
+                else {
+                    this._showHintTextMessage(bufferAreaHelpText, divInputContainer, nextButtonDiv, nls.widgets.geoEnrichment.message.invalidBufferInput);
+                }
+            }));
             if (this.map.getLayer(this.config.summaryLayer.id).geometryType === "esriGeometryPolygon") {
                 domClass.add(this.disableAreaDiv, "displayBlock");
                 this.inputDistance.disabled = true;
@@ -666,6 +687,48 @@
                 this._startEnrichProcess();
             }));
             return enrichParameterContainer;
+        },
+        _validateBufferInputs: function (bufferAreaHelpText, divInputContainer, nextButtonDiv) {
+            domStyle.set(bufferAreaHelpText, "display", "none");
+            domClass.replace(divInputContainer, "inputDiv", "noMargin");
+            domAttr.set(nextButtonDiv, "disabled", false);
+            switch (this.bufferAreaUnit.value) {
+                case "Meters":
+                    if (this.inputDistance.value > 16093440) {
+                        this._showHintTextMessage(bufferAreaHelpText, divInputContainer, nextButtonDiv, 16093440);
+                    }
+                    break;
+                case "Kilometers":
+                    if (this.inputDistance.value > 16093.44) {
+                        this._showHintTextMessage(bufferAreaHelpText, divInputContainer, nextButtonDiv, 16093.44);
+                    }
+                    break;
+                case "Miles":
+                    if (this.inputDistance.value > 10000) {
+                        this._showHintTextMessage(bufferAreaHelpText, divInputContainer, nextButtonDiv, 10000);
+                    }
+                    break;
+                case "Feet":
+                    if (this.inputDistance.value > 52800000) {
+                        this._showHintTextMessage(bufferAreaHelpText, divInputContainer, nextButtonDiv, 52800000);
+                    }
+                    break;
+                case "Yards":
+                    if (this.inputDistance.value > 17600000) {
+                        this._showHintTextMessage(bufferAreaHelpText, divInputContainer, nextButtonDiv, 17600000);
+                    }
+                    break;
+            }
+        },
+        _showHintTextMessage: function (bufferAreaHelpText, divInputContainer, nextButtonDiv, value) {
+            if (typeof (value) == "number") {
+                domAttr.set(bufferAreaHelpText, "innerHTML", nls.widgets.geoEnrichment.message.bufferAreaHelpText + value);
+            } else {
+                domAttr.set(bufferAreaHelpText, "innerHTML", value);
+            }
+            domStyle.set(bufferAreaHelpText, "display", "block");
+            domClass.replace(divInputContainer, "noMargin", "inputDiv");
+            domAttr.set(nextButtonDiv, "disabled", "disabled");
         },
         _startEnrichProcess: function () {
             var layerName, featuresVisibleOnMap;
