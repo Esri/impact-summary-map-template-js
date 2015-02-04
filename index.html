@@ -136,9 +136,9 @@
                         userInfo.username = userDetails.email;
                         userInfo.token = userDetails.token;
                         userInfo.portal = signIn.getPortal();
-                        var canExecute = signIn.authenticateUser(config.edit, myTemplate.appResponse, userInfo);
+                        var canExecute = signIn.authenticateUser(config.edit, config.appResponse, userInfo);
                         if (canExecute) {
-                            myApp.startup(config, myTemplate.appResponse, userInfo);
+                            myApp.startup(config, config.appResponse, userInfo);
                         }
                         else{
                             myApp.reportError(new Error('Could not authenticate user'));
@@ -151,9 +151,9 @@
                                 userInfo.token = loggedInUser.credential.token;
                                 userInfo.credential = loggedInUser.credential;
                                 userInfo.portal = signIn.getPortal();
-                                var canExecute = signIn.authenticateUser(config.edit, myTemplate.appResponse, userInfo);
+                                var canExecute = signIn.authenticateUser(config.edit, config.appResponse, userInfo);
                                 if (canExecute) {
-                                myApp.startup(config, myTemplate.appResponse, userInfo);
+                                myApp.startup(config, config.appResponse, userInfo);
                             }
                             else{
                                 myApp.reportError(new Error('Could not authenticate user'));
