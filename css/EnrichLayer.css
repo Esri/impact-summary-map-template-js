@@ -58,16 +58,8 @@ width: 230px;
 display: inline-block;
 }
 .esriVariable {
-display:none;
-min-width: 314px;
-}
-.variableDisplayBlock
-{
-    display:block;
-}
-.variableDisplayNone
-{
-display:none;
+    display: none;
+    min-width: 314px;
 }
 
 .enrichCountryContent 
@@ -142,13 +134,11 @@ margin-right: 35px;
 .radioOptionContainer {
 margin: 15px 0px 20px 0px;
 }
-.enrichImageContanier {
-display: none;
-}
-.inputLayerName {
-width: 287px;
-margin: 10px 0px 15px 17px;
-vertical-align: -webkit-baseline-middle;
+.inputLayerName
+{
+    width: 287px;
+    margin: 10px 0px 15px 17px;
+    vertical-align: -webkit-baseline-middle;
 }
 .enrichCountry {
 margin-bottom: 10px;
@@ -206,21 +196,17 @@ position:absolute;
     z-index: 1;
     cursor: no-drop;
 }
-.displayNone
+.displayNone, .variableDisplayNone
 {
     display: none;
 }
-.displayBlock
+.displayBlock, .variableDisplayBlock
 {
     display: block;
 }
 .fieldCheckBoxChecked
 {
     background-image: url('../images/select.png') !important;
-}
-.subFieldContainer
-{
-    display: none;
 }
 .icon-plus
 {
@@ -230,10 +216,6 @@ position:absolute;
 {
     display: block;
     margin-left: 40px;
-}
-.collapse-field
-{
-    display: none;
 }
 .subFieldContent
 {

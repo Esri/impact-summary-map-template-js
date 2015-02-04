@@ -567,6 +567,12 @@
                 this._createUnitOptions(lineDistanceUnits);
                 domClass.remove(this.driveTimeTextLabelDiv, "labelHighlight");
                 domClass.add(this.lineDistanceTextLabelDiv, "labelHighlight");
+                    if (this.inputDistance.value.match(/^[0-9]+(\.\d+)?$/)) {
+                        this._validateBufferInputs(bufferAreaHelpText, divInputContainer, nextButtonDiv);
+                    }
+                    else {
+                        this._showHintTextMessage(bufferAreaHelpText, divInputContainer, nextButtonDiv, nls.widgets.geoEnrichment.message.invalidBufferInput);
+                    }
             }));
             on(imageDriveTime, "click", lang.hitch(this, function (evt) {
                 this.bufferType = "DrivingTime";
@@ -574,9 +580,11 @@
                 this._createUnitOptions(drivingTimeUnits);
                 domClass.add(this.driveTimeTextLabelDiv, "labelHighlight");
                 domClass.remove(this.lineDistanceTextLabelDiv, "labelHighlight");
-                    domStyle.set(bufferAreaHelpText, "display", "none");
-                    domClass.replace(divInputContainer, "inputDiv", "noMargin");
-                    domAttr.set(nextButtonDiv, "disabled", false);
+                    if (this.inputDistance.value.match(/^[0-9]+?$/)) {
+                        this._validateBufferInputs(bufferAreaHelpText, divInputContainer, nextButtonDiv);
+                    } else {
+                        this._showHintTextMessage(bufferAreaHelpText, divInputContainer, nextButtonDiv, nls.widgets.geoEnrichment.message.invalidBufferInput);
+                    }
             }));
             }
             divInputContainer = domConstruct.create("div", {
@@ -591,11 +599,10 @@
             bufferAreaHelpText = domConstruct.create("div", { "class": "bufferAreaHelpText" }, defineAreaDiv);
             domStyle.set(bufferAreaHelpText, "display", "none");
             on(this.inputDistance, "keyup", lang.hitch(this, function (evt) {
-                if (evt.currentTarget.value.match(/^[0-9]+(\.\d+)?$/)) {
-                    this._validateBufferInputs(bufferAreaHelpText, divInputContainer, nextButtonDiv);
-                }
-                else {
-                    this._showHintTextMessage(bufferAreaHelpText, divInputContainer, nextButtonDiv, nls.widgets.geoEnrichment.message.invalidBufferInput);
+                if (this.bufferType == "DrivingTime") {
+                    this._checkBufferInputs(/^[0-9]+?$/, bufferAreaHelpText, divInputContainer, nextButtonDiv);
+                } else {
+                    this._checkBufferInputs(/^[0-9]+(\.\d+)?$/, bufferAreaHelpText, divInputContainer, nextButtonDiv);
                 }
             }));
             this.bufferAreaUnit = domConstruct.create("select", {
@@ -603,11 +610,10 @@
             }, divInputContainer);
             this._createUnitOptions(lineDistanceUnits);
             on(this.bufferAreaUnit, "change", lang.hitch(this, function () {
-                if (this.inputDistance.value.match(/^[0-9]+(\.\d+)?$/)) {
-                    this._validateBufferInputs(bufferAreaHelpText, divInputContainer, nextButtonDiv);
-                }
-                else {
-                    this._showHintTextMessage(bufferAreaHelpText, divInputContainer, nextButtonDiv, nls.widgets.geoEnrichment.message.invalidBufferInput);
+                if (this.bufferType == "DrivingTime") {
+                    this._checkBufferInputs(/^[0-9]+?$/, bufferAreaHelpText, divInputContainer, nextButtonDiv);
+                } else {
+                    this._checkBufferInputs(/^[0-9]+(\.\d+)?$/, bufferAreaHelpText, divInputContainer, nextButtonDiv);
                 }
             }));
             if (this.map.getLayer(this.config.summaryLayer.id).geometryType === "esriGeometryPolygon") {
@@ -688,10 +694,18 @@
             }));
             return enrichParameterContainer;
         },
+        _checkBufferInputs: function (regEx, bufferAreaHelpText, divInputContainer, nextButtonDiv) {
+            if (this.inputDistance.value.match(regEx)) {
+                this._validateBufferInputs(bufferAreaHelpText, divInputContainer, nextButtonDiv);
+            } else {
+                this._showHintTextMessage(bufferAreaHelpText, divInputContainer, nextButtonDiv, nls.widgets.geoEnrichment.message.invalidBufferInput);
+            }
+        },
         _validateBufferInputs: function (bufferAreaHelpText, divInputContainer, nextButtonDiv) {
             domStyle.set(bufferAreaHelpText, "display", "none");
             domClass.replace(divInputContainer, "inputDiv", "noMargin");
             domAttr.set(nextButtonDiv, "disabled", false);
+            domClass.remove(nextButtonDiv, "esriButtonDisabled");
             switch (this.bufferAreaUnit.value) {
                 case "Meters":
                     if (this.inputDistance.value > 16093440) {
@@ -718,6 +732,21 @@
                         this._showHintTextMessage(bufferAreaHelpText, divInputContainer, nextButtonDiv, 17600000);
                     }
                     break;
+                case "Seconds":
+                    if (this.inputDistance.value > 36000) {
+                        this._showHintTextMessage(bufferAreaHelpText, divInputContainer, nextButtonDiv, 36000);
+                    }
+                    break;
+                case "Minutes":
+                    if (this.inputDistance.value > 600) {
+                        this._showHintTextMessage(bufferAreaHelpText, divInputContainer, nextButtonDiv, 600);
+                    }
+                    break;
+                case "Hours":
+                    if (this.inputDistance.value > 10) {
+                        this._showHintTextMessage(bufferAreaHelpText, divInputContainer, nextButtonDiv, 10);
+                    }
+                    break;
             }
         },
         _showHintTextMessage: function (bufferAreaHelpText, divInputContainer, nextButtonDiv, value) {
@@ -729,6 +758,7 @@
             domStyle.set(bufferAreaHelpText, "display", "block");
             domClass.replace(divInputContainer, "noMargin", "inputDiv");
             domAttr.set(nextButtonDiv, "disabled", "disabled");
+            domClass.add(nextButtonDiv, "esriButtonDisabled");
         },
         _startEnrichProcess: function () {
             var layerName, featuresVisibleOnMap;
