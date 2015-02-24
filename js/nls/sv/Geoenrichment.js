@@ -34,7 +34,7 @@
                     "addToWebmapFailed": "Det gick inte att lägga till lagret i webbkartan. Försök igen.",
                     "bufferAreaHelpText": "Ange ett värde som är mindre än ",
                     "invalidBufferInput": "Det angivna värdet är ogiltigt.",
-                    "emptyBufferInput": "Å_Please enter valid value_ö."
+                    "emptyBufferInput": "Ange ett giltigt värde."
                 },
                 "populationText": "Folkmängd",
                 "housingText": "Hushåll",
@@ -43,7 +43,7 @@
                 "countrySelectTitle": "1. Välj dataplats",
                 "unitedStates": "USA",
                 "global": "Global",
-                "geoenrichDialogText": "Variabler för utökad geoinformation",
+                "geoenrichDialogText": "Variabler för GeoEnrichment",
                 "viewVariablestext": "Visa variabler",
                 "backButtonText":"Bakåt",
                 "customizeVariables": "Anpassa variabler",
