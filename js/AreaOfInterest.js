@@ -657,19 +657,21 @@ define([
                 }
             },
             _zoomToFeature: function (type, fs) {
+              var ge = graphicsUtils.graphicsExtent(fs);
+              var center = ge.getCenter();
                 switch (type) {
                     case "No Zoom":
-                        this.map.centerAt(graphicsUtils.graphicsExtent(fs).getCenter());
+                        this.map.centerAt(center);
                         break;
                     case "Zoom to extent":
-                        this.map.setExtent(graphicsUtils.graphicsExtent(fs), true);
+                        this.map.setExtent(ge, true);
                         break;
                     default:
                         if (this.previousFeatures == "Entire Area") {
-                            this.map.setExtent(graphicsUtils.graphicsExtent(fs), true);
+                            this.map.setExtent(ge, true);
                         } else {
                             this.map.setScale(type);
-                            this.map.centerAt(graphicsUtils.graphicsExtent(fs).getCenter());
+                            this.map.centerAt(center);
                             break;
                         }
                 }
