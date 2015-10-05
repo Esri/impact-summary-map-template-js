@@ -645,9 +645,13 @@ function (
             var zoomToExtentOption = domConstruct.create("option");
             zoomToExtentOption.text = zoomToExtentOption.value = "Zoom to extent";
             zoomLevelSelect.appendChild(zoomToExtentOption);
-
+          
+            var noneOption = domConstruct.create("option");
+            noneOption.text = noneOption.value = "None";
+            zoomLevelSelect.appendChild(noneOption);
+          
             var noZoomOption = domConstruct.create("option");
-            noZoomOption.text = noZoomOption.value = "No Zoom";
+            noZoomOption.text = noZoomOption.value = "Center";
             zoomLevelSelect.appendChild(noZoomOption);
             if (this.config.zoomType == "Zoom to extent") {
                 zoomToExtentOption.selected = "selected";
