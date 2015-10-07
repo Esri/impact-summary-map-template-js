@@ -876,6 +876,7 @@ function (
 
         //Populate all featurelayer into dropdown and allow user to change the impact layer
         _createLayerConfigurationPanel: function (fieldsetContainer) {
+          var helperServices = lang.mixin({}, this.userInfo.portal.helperServices, this.config.helperServices);
             var layerLabel, layerSelect, layerSelectOption, configurePreviousVariableButton, layerHelperText, legendLabeldiv,
                 configurationPanelButtonContainer, innerButtonContainer, configureSaveVariableButton, configurationPanelToggleContainer,
                 configurationPanelToggleContent, existingValueButton, enrichLayerContainer, enrichLayerButton, enrichLayerImageContainer;
@@ -931,7 +932,7 @@ function (
                     domAttr.set(configureSaveVariableButton, "disabled", false);
                     domClass.remove(configureSaveVariableButton, "esriButtonDisabled");
                 }
-                if (this.userInfo.portal.helperServices.analysis) {
+                if (helperServices.analysis) {
                     //show option to enrich layer on layer select
                     if (value.currentTarget.value !== "") {
                         domStyle.set(configurationPanelToggleContainer, "display", "block");
@@ -954,7 +955,7 @@ function (
                 }
             }));
             domConstruct.create("div", { "class": "existingValueLabel", "innerHTML": nls.widgets.TemplateBuilder.existingValue }, configurationPanelToggleContent);
-            if (this.userInfo.portal.helperServices.analysis) {
+            if (helperServices.analysis) {
                 enrichLayerContainer = domConstruct.create("div", { "class": "configurationPanelToggleContent" }, configurationPanelToggleContainer);
                 enrichLayerButton = domConstruct.create("div", { "class": "esriSelectIcon" }, enrichLayerContainer);
                 domAttr.set(enrichLayerButton, "checked", true);
@@ -979,7 +980,7 @@ function (
                     domAttr.set(enrichLayerButton, "checked", false);
                 }
             }));
-            if (this.userInfo.portal.helperServices.analysis) {
+            if (helperServices.analysis) {
                 domAttr.set(configureSaveVariableButton, "innerHTML", nls.widgets.TemplateBuilder.nextButtonText);
                 on(enrichLayerButton, 'click', lang.hitch(this, function (evt) {
                     if (domClass.contains(evt.currentTarget, 'esriDeselectIcon')) {
@@ -1013,7 +1014,7 @@ function (
             if (this.config.summaryLayer.id) {
                 domClass.remove(configureSaveVariableButton, "esriButtonDisabled");
                 configureSaveVariableButton.disabled = false;
-                if (this.userInfo.portal.helperServices.analysis) {
+                if (helperServices.analysis) {
                     domStyle.set(enrichLayerImageContainer, 'display', 'block');
                 }
             }
@@ -1021,7 +1022,7 @@ function (
                 domAttr.set(configureSaveVariableButton, "disabled", true);
                 domClass.add(configureSaveVariableButton, "esriButtonDisabled");
             }
-            if (!this.userInfo.portal.helperServices.analysis) {
+            if (!helperServices.analysis) {
                 domClass.replace(existingValueButton, 'esriSelectIcon', 'esriDeselectIcon');
                 domAttr.set(existingValueButton, "checked", true);
             }
