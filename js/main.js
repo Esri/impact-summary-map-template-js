@@ -1,5 +1,6 @@
 define([
     "dojo/_base/declare",
+    "dojo/_base/kernel",
     "dojo/_base/lang",
     "esri/arcgis/utils",
     "dojo/dom-construct",
@@ -26,7 +27,7 @@ define([
     "dojo/date/locale"
 ],
 function (
-    declare,
+    declare, kernel,
     lang,
     arcgisUtils,
     domConstruct,
@@ -84,6 +85,9 @@ function (
             this._showDrawerSize = 850;
         },
         startup: function (config, appResponse, userInfo) {
+          
+            document.documentElement.lang = kernel.locale;
+          
             //config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
             // any url parameters and any application specific configuration information.
@@ -149,6 +153,11 @@ function (
                     layers: tocLayers
                 }, tocNode);
                 toc.startup();
+                if(this._mapLegend) {
+                  on(toc, "toggle", lang.hitch(this, function () {
+                    this._mapLegend.refresh();
+                  }));
+                }
             }
         },
         _init: function () {
@@ -421,6 +430,8 @@ function (
           itemData: this.config.itemInfo.itemData
         };
         if (this.config.searchConfig) {
+          searchOptions.enableSearchingAll = this.config.searchConfig.enableSearchingAll;
+          searchOptions.activeSourceIndex = this.config.searchConfig.activeSourceIndex;
           searchOptions.applicationConfiguredSources = this.config.searchConfig.sources || [];
         } else {
           var configuredSearchLayers = (this.config.searchLayers instanceof Array) ? this.config.searchLayers : JSON.parse(this.config.searchLayers);
@@ -548,7 +559,11 @@ function (
                 this.map.webmapTitle = response.itemInfo.item.title;
                 // if title is enabled
                 if (this.config.enableTitle) {
-                    this._setTitle(this.config.title || response.itemInfo.item.title);
+                  if (!this.config.title && this.data && this.data.item) {
+                    // use app title
+                    this.config.title = this.data.item.title;
+                  }
+                  this._setTitle(this.config.title || response.itemInfo.item.title);
                 }
                 if (this.map.loaded) {
                     this._init();

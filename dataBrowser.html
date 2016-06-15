@@ -21,8 +21,8 @@
     </style>
 </head>
 <body class="claro">
-    <link rel="stylesheet" href="http://js.arcgis.com/3.16/dijit/themes/claro/claro.css" />
-    <link rel="stylesheet" href="http://js.arcgis.com/3.16/esri/css/esri.css" />
+    <link rel="stylesheet" href="http://js.arcgis.com/3.17/dijit/themes/claro/claro.css" />
+    <link rel="stylesheet" href="http://js.arcgis.com/3.17/esri/css/esri.css" />
     <script type="text/javascript">
         var package_path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
         var dojoConfig = {
@@ -39,10 +39,11 @@
           dojoConfig.locale = RegExp.$1;
         }
     </script>
-    <script src="//js.arcgis.com/3.16"></script>
+    <script src="//js.arcgis.com/3.17"></script>
     <script type="text/javascript">
         var dataBrowser;
         require([
+        "dojo/_base/kernel",
         "esri/urlUtils",
         "esri/dijit/geoenrichment/DataBrowser",
         "dojo/on",
@@ -50,7 +51,10 @@
         "dojo/cookie",
         "dojo/domReady!"
         ], function (
-        urlUtils, DataBrowser, on, kernel, cookie) {
+        kernel, urlUtils, DataBrowser, on, esriKernel, cookie) {
+          
+            document.documentElement.lang = kernel.locale;
+          
             var userInfo = {};
             objRef = window.opener.selectedData;
             window.document.title = objRef.selectedTab + " - Data Browser";
@@ -94,7 +98,7 @@
                 cookie(cred, idString, { expires: 1 });
             }
             var idObject = JSON.parse(idString);
-            kernel.id.initialize(idObject);
+            esriKernel.id.initialize(idObject);
             dataBrowser = new DataBrowser({
                 okButton: 'Apply',
                 backButton: null, //Back button text. Can be set to -null- which should hide the button.

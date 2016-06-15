@@ -106,7 +106,7 @@ function (
         _loadCSS: function () {
             //Load claro css
             if (dom.byId("claroTheme")) {
-                domAttr.set(dom.byId("claroTheme"), "href", location.protocol + "//js.arcgis.com/3.16/dijit/themes/claro/claro.css");
+                domAttr.set(dom.byId("claroTheme"), "href", location.protocol + "//js.arcgis.com/3.17/dijit/themes/claro/claro.css");
             }
             domClass.add(document.body, "claro");
             //Load browser dialog
@@ -252,6 +252,13 @@ function (
         },
 
         _createAppSettingsLeftPanel: function (settingsContainer) {
+            // use app title if current title is not set
+            if (!this.config.title) {
+              if (this.response && this.response.item) {
+                // use app title
+                this.config.title = this.response.item.title;
+              }
+            }
             var leftSettingsContent, appTitleLabelContainer, appTitleLabel, appTitleInputContainer, appTitleInput,
             appDescriptionLabelContainer, appDescriptionLabel, appDescriptionInputContainer, appDijitInputContainer, dijitValue;
 
