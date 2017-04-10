@@ -97,7 +97,7 @@ function (
         _loadCSS: function () {
             //Load claro css
             if (dom.byId("claroTheme")) {
-                domAttr.set(dom.byId("claroTheme"), "href", location.protocol + "//js.arcgis.com/3.18/dijit/themes/claro/claro.css");
+                domAttr.set(dom.byId("claroTheme"), "href", location.protocol + "//js.arcgis.com/3.20/dijit/themes/claro/claro.css");
             }
             domClass.add(document.body, "claro");
             //Load browser dialog
@@ -125,7 +125,7 @@ function (
             on(dataConfigurationButton, "click", lang.hitch(this, function () {
                 this._createConfigurationPanel(true);
             }));
-          
+
           // open webmap config if default webmap
           if(!this.config.webmap || this.config.webmap === "21633896293248b7a40d4e3126c93621"){
             this._createConfigurationPanel(true);
@@ -645,11 +645,11 @@ function (
             var zoomToExtentOption = domConstruct.create("option");
             zoomToExtentOption.text = zoomToExtentOption.value = "Zoom to extent";
             zoomLevelSelect.appendChild(zoomToExtentOption);
-          
+
             var noneOption = domConstruct.create("option");
             noneOption.text = noneOption.value = "None";
             zoomLevelSelect.appendChild(noneOption);
-          
+
             var noZoomOption = domConstruct.create("option");
             noZoomOption.text = noZoomOption.value = "Center";
             zoomLevelSelect.appendChild(noZoomOption);
@@ -721,7 +721,7 @@ function (
                 }
                 basemapSelect.appendChild(basemapOption);
             }
-        },  
+        },
 
         /*End of Application settings dialog*/
 
@@ -1458,7 +1458,7 @@ function (
             });
 
             arcgisUtils.getItem(this.config.appid).then(lang.hitch(this, function (response) {
-                var updateURL = this.userInfo.portal.url + "/sharing/content/users/" + this.userInfo.username + (response.item.ownerFolder ? ("/" + response.item.ownerFolder) : "") + "/items/" + this.config.appid + "/update";
+                var updateURL = this.userInfo.portal.url + "/sharing/rest/content/users/" + response.item.owner + (response.item.ownerFolder ? ("/" + response.item.ownerFolder) : "") + "/items/" + this.config.appid + "/update";
                 esriRequest({
                     url: updateURL,
                     content: rqData,

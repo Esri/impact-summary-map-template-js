@@ -46,7 +46,8 @@ define({
   //specify an alternate basemap via a url parameter.
   "urlItems": [
     "edit",
-    "extent"
+    "extent",
+    "sharinghost"
   ],
   // For esri hosted envoronments only. Will automatically create a sharingurl and proxyurl for the application.
   esriEnvironment: false

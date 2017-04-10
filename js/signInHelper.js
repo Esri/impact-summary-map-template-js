@@ -38,25 +38,6 @@ function (declare, lang, _WidgetBase, on, arcgisUtils, portal, Deferred, cookie)
 
         getPortal: function () {
             return this._portal;
-        },
-
-        userIsAppOwner: function (itemData, userInfo) {
-          return (userInfo && (itemData.item.owner == userInfo.username || userInfo.role === "org_admin"));
-        },
-
-        authenticateUser: function (isEditMode, data, userInfo) {
-            if (isEditMode) {
-                if (this.userIsAppOwner(data, userInfo)) {
-                    return true;
-                }
-                else {
-                    alert("Sorry, you dont have enough permissions to view this item");
-                    return false;
-                }
-            }
-            else {
-                return true;
-            }
         }
     });
     return Widget;

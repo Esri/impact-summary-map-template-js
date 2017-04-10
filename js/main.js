@@ -23,7 +23,6 @@ define([
     "application/AreaOfInterest",
     "dijit/registry",
     "dojo/_base/array",
-    "application/signInHelper",
     "dojo/date/locale"
 ],
 function (
@@ -43,7 +42,7 @@ function (
     Legend,
     AreaOfInterest,
     registry,
-    array, signInHelper,
+    array,
     locale
 ) {
     return declare("", [AreaOfInterest], {
@@ -85,9 +84,9 @@ function (
             this._showDrawerSize = 850;
         },
         startup: function (config, appResponse, userInfo) {
-          
+
             document.documentElement.lang = kernel.locale;
-          
+
             //config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
             // any url parameters and any application specific configuration information.
@@ -308,8 +307,6 @@ function (
             if (this.config.enableShareDialog) {
                 this._ShareDialog = new ShareDialog({
                     theme: this.css.iconRight,
-                    bitlyLogin: this.config.bitlyLogin,
-                    bitlyKey: this.config.bitlyKey,
                     map: this.map,
                     image: this.config.sharinghost + '/sharing/rest/content/items/' + this.item.id + '/info/' + this.item.thumbnail,
                     title: this.config.title,
@@ -338,25 +335,20 @@ function (
                     w.hide();
                 });
             });
-            if (this.config.appid) {
-                var signIn = new signInHelper();
-                // builder mode
-                if (signIn.userIsAppOwner(this.data, this.userInfo)) {
-                    // require module
-                    require(["application/TemplateBuilder"], lang.hitch(this, function (TemplateBuilder) {
-                        // create template builder
-                        var builder = new TemplateBuilder({
-                            drawer: this._drawer,
-                            config: this.config,
-                            response: this.data,
-                            layers: this.layers,
-                            userInfo: this.userInfo,
-                            map: this.map,
-                            dijitClickHandler: dijitHandler
-                        });
-                        builder.startup();
-                    }));
-                }
+            if (this.config.appid && this.config.edit) {
+            	require(["application/TemplateBuilder"], lang.hitch(this, function (TemplateBuilder) {
+            		// create template builder
+            		var builder = new TemplateBuilder({
+            			drawer: this._drawer,
+            			config: this.config,
+            			response: this.data,
+            			layers: this.layers,
+            			userInfo: this.userInfo,
+            			map: this.map,
+            			dijitClickHandler: dijitHandler
+            		});
+            		builder.startup();
+            	}));
             }
             // hide loading div
             this._hideLoadingIndicator();
@@ -471,7 +463,7 @@ function (
         this._mobileGeocoderIconNode = dom.byId("mobileGeocoderIcon");
         this._mobileSearchNode = dom.byId("mobileSearch");
         this._mobileGeocoderIconContainerNode = dom.byId("mobileGeocoderIconContainer");
-        // mobile geocoder toggle 
+        // mobile geocoder toggle
         if (this._mobileGeocoderIconNode) {
           on(this._mobileGeocoderIconNode, "click", lang.hitch(this, function () {
             if (domStyle.get(this._mobileSearchNode, "display") === "none") {

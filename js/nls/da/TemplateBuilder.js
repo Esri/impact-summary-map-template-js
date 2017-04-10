@@ -60,7 +60,7 @@ define({
         "emptyAppTitleMessage": "Applikationstitel kan ikke være tom",
         "emptyDescriptionMessage": "Beskrivelse kan ikke være tom",
         "maxVariableSelection": "Du kan ikke vælge mere end 25 undervariabler",
-        "signInFail": "Log ind mislykkedes",
+        "signInFail": "Login mislykkedes",
         "itemUpdateMessage": "Element opdateret",
         "unsavedChangesMessage": "Ændringer, der ikke er gemt",
         "failMessage": "Kunne ikke opdatere element",

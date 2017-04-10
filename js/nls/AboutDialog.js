@@ -5,14 +5,15 @@ define({
                 "title": "About",
                 "itemInfo": "View this item",
                 "itemInfoLink": "on ArcGIS Online.",
-                "licenseHeader":"License",
-                "dateCreated":"Created:",
-                "dateModified":"Last modified",
-                "moreInfoHeader":"More Information"
+                "licenseHeader": "License",
+                "dateCreated": "Created:",
+                "dateModified": "Last modified",
+                "moreInfoHeader": "More Information"
             }
         }
     }),
     "ar": 1,
+    "bs": 1,
     "cs": 1,
     "da": 1,
     "de": 1,
@@ -22,7 +23,9 @@ define({
     "fi": 1,
     "fr": 1,
     "he": 1,
+    "hi": 1,
     "hr": 1,
+    "id": 1,
     "it": 1,
     "ja": 1,
     "ko": 1,

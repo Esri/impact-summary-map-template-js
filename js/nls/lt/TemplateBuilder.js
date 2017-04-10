@@ -60,7 +60,7 @@ define({
         "emptyAppTitleMessage": "Aplikacijos pavadinimas negali būti tuščia reikšmė",
         "emptyDescriptionMessage": "Aprašas negali būti tuščia reikšmė",
         "maxVariableSelection": "Negalite pasirinkti daugiau nei 25 antrinių kintamųjų",
-        "signInFail": "Prisijungimas nepavyko",
+        "signInFail": "Prisijungti nepavyko",
         "itemUpdateMessage": "Elementas atnaujintas",
         "unsavedChangesMessage": "Neįrašyti pakeitimai",
         "failMessage": "Nepavyko atnaujinti šio elemento",

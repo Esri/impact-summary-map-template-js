@@ -45,7 +45,7 @@ define([
         createServiceURL: "${portalUrl}content/users/${username}/createService",
         checkLayerNameURL: "${userInfoPortalUrl}/sharing/rest/portals/${userInfoPortalId}/isServiceNameAvailable",
         showCreditsURL: "${gpServiceUrl}/exts/Estimate/EnrichLayer",
-        addLayerURL: "${portalUrl}content/users/${username}/items/${webMapInfoItemId}/update",
+        addLayerURL: "${portalUrl}content/users/${username}/${folderId}items/${webMapInfoItemId}/update",
         refreshURL: "${userInfoPortalUrl}/sharing/rest/content/users/${userInfoUsername}/items/${enrichitemId}/refresh",
         geoEnrichURL: "${analysisUrl}/EnrichLayer/jobs/${enrichJobId}/results/enrichedLayer?f=json&returnType=data&token=${userInfoToken}",
         updateServiceURL: "${userInfoPortalUrl}/sharing/rest/content/users/${username}/items/${enrichitemId}/update",
@@ -879,7 +879,7 @@ define([
 
                                                     layerInfo.htmlPopupType = "esriServerHTMLPopupTypeAsHTMLText";
                                                     var newWebmapData = this._createWebmapData(layerInfo, this.webmapInfo.itemData, popupInfo);
-                                                    this._addLayerToWebMap(newWebmapData, this.webmapInfo.itemData);
+                                                    this._addLayerToWebMap(newWebmapData, this.webmapInfo);
                                                 }));
                                             }));
                                         }));
@@ -1244,11 +1244,21 @@ define([
             });
             return deferred.promise;
         },
-        _addLayerToWebMap: function (newWebmapData) {
+        _addLayerToWebMap: function (newWebmapData, webmapInfo) {
+
+            var folderId = webmapInfo && webmapInfo.item && webmapInfo.item.ownerFolder;
+            if (folderId) {
+                folderId += "/";
+            }
+            else {
+                folderId = "";
+            }
+
             var deferred = new Deferred(), addLayerUrl;
             addLayerUrl = string.substitute(this.addLayerURL, {
                 portalUrl: this.userInfo.portal.portalUrl,
                 username: this.userInfo.username,
+                folderId: folderId,
                 webMapInfoItemId: this.webmapInfo.item.id
             });
             esriRequest({

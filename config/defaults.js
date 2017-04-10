@@ -45,8 +45,6 @@ define({
     "defaultBasemap": "topo",
     "summaryAttributeOrder": "DESC",
     "zoomType": "Center", //Valid parameters: "None", "Center","Zoom to Extent" and "Zoom to Scale"
-    "bitlyLogin": "arcgis",
-    "bitlyKey": "R_b8a169f3a8b978b9697f64613bf1db6d",
     "summaryAttributes": [{
         "attribute": "TOTPOP_CY",
         "label": "Population",
