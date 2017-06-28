@@ -15,6 +15,8 @@ define({
       "layerLabelText": "שכבה",
       "noLayerFoundText": "לא נמצאה שכבה",
       "selectLayer": "בחר שכבה",
+      "appProxiesText": "גישת מנוי",
+      "appProxiesDesc": "כדי לאפשר גישה ציבורית דרך המנוי שלך, סמן את התיבות המתאימות. תוכן שמסומן כ'תוכן פרימיום' יצרוך קרדיט מהמנוי שלך.",
       "applicationSettingText": "הגדרות אפליקציה",
       "summaryAttrAscendingOrderTooltip": "עולה",
       "onStartLabel": "בהתחלה",

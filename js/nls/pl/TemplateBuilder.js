@@ -15,6 +15,8 @@ define({
       "layerLabelText": "Warstwa",
       "noLayerFoundText": "Nie znaleziono żadnych warstw",
       "selectLayer": "Wybierz warstwę",
+      "appProxiesText": "Dostęp dla subskrybentów",
+      "appProxiesDesc": "Aby zezwolić na dostęp publiczny za pośrednictwem subskrypcji, zaznacz odpowiednie pola. Zasoby oznaczone jako Zasoby Premium będą zużywać kredyty w ramach subskrypcji.",
       "applicationSettingText": "Ustawienia aplikacji",
       "summaryAttrAscendingOrderTooltip": "Rosnąco",
       "onStartLabel": "Na ekranie początkowym",

@@ -15,6 +15,8 @@ define({
       "layerLabelText": "Capa",
       "noLayerFoundText": "No se ha encontrado ninguna capa",
       "selectLayer": "Seleccionar capa",
+      "appProxiesText": "Acceso de suscriptor",
+      "appProxiesDesc": "Para permitir el acceso público a través de su suscripción, active las casillas adecuadas. El contenido marcado como Premium consumirá créditos de su suscripción.",
       "applicationSettingText": "Configuración de la aplicación",
       "summaryAttrAscendingOrderTooltip": "Ascendente",
       "onStartLabel": "En el inicio",

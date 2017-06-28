@@ -15,6 +15,8 @@ define({
       "layerLabelText": "Layer",
       "noLayerFoundText": "Layer non trovato",
       "selectLayer": "Seleziona layer",
+      "appProxiesText": "Accesso abbonati",
+      "appProxiesDesc": "Per consentire l'accesso pubblico mediante l'abbonamento, controllare le corrispondenti caselle. Il contenuto contrassegnato come Premium consumerà crediti dall'abbonamento.",
       "applicationSettingText": "Impostazioni applicazione",
       "summaryAttrAscendingOrderTooltip": "Crescente",
       "onStartLabel": "All'avvio",

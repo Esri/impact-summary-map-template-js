@@ -15,6 +15,8 @@ define({
       "layerLabelText": "レイヤ",
       "noLayerFoundText": "レイヤが見つかりません",
       "selectLayer": "レイヤの選択",
+      "appProxiesText": "サブスクリプション アクセス",
+      "appProxiesDesc": "サブスクリプションを使用してパブリック アクセスを許可するには、該当するチェックボックスをオンにします。 プレミアム コンテンツのマークが付いたコンテンツは、サブスクリプションからクレジットが消費されます。",
       "applicationSettingText": "アプリケーション設定",
       "summaryAttrAscendingOrderTooltip": "昇順",
       "onStartLabel": "開始時",

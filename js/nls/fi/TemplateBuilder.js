@@ -15,6 +15,8 @@ define({
       "layerLabelText": "Karttataso",
       "noLayerFoundText": "Yhtään karttatasoa ei löytynyt",
       "selectLayer": "Valitse karttataso",
+      "appProxiesText": "Tilaajakäyttöoikeus",
+      "appProxiesDesc": "Jos haluat sallia julkisen käytön tilauksesi kautta, valitse asianmukaiset valintaruudut. Sisältö, joka on merkitty Premium-sisällöksi, kuluttaa tilauksesi krediittejä.",
       "applicationSettingText": "Sovelluksen asetukset",
       "summaryAttrAscendingOrderTooltip": "Nouseva",
       "onStartLabel": "Aloituksessa",

@@ -537,6 +537,7 @@ function (
                 },
                 editable: false,
                 usePopupManager: true,
+                layerMixins: this.config.layerMixins || [],
                 bingMapsKey: this.config.bingmapskey
             }).then(lang.hitch(this, function (response) {
                 //Once the map is created we get access to the response which provides important info

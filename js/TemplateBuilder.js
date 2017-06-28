@@ -28,14 +28,15 @@ define([
     "application/BrowseIdDlg",
     "application/EnrichLayer",
     "esri/basemaps",
-    "esri/arcgis/utils"
+    "esri/arcgis/utils",
+    "esri/dijit/AppProxySettings"
 ],
 function (
     declare,
     lang,
     _WidgetBase,
     ContentPane,
-    dom, on, number, string, query, array, domConstruct, domClass, Dialog, esriRequest, domAttr, domStyle, nls, topic, keys, Editor, TooltipDialog, popup, aspect, FullScreen, LinkDialog, ViewSource, BrowseIdDlg, EnrichLayer, esriBasemaps, arcgisUtils) {
+    dom, on, number, string, query, array, domConstruct, domClass, Dialog, esriRequest, domAttr, domStyle, nls, topic, keys, Editor, TooltipDialog, popup, aspect, FullScreen, LinkDialog, ViewSource, BrowseIdDlg, EnrichLayer, esriBasemaps, arcgisUtils, AppProxySettings) {
     var Widget = declare([_WidgetBase], {
         declaredClass: "application.TemplateBuilder",
         //URL for updating Item
@@ -97,7 +98,7 @@ function (
         _loadCSS: function () {
             //Load claro css
             if (dom.byId("claroTheme")) {
-                domAttr.set(dom.byId("claroTheme"), "href", location.protocol + "//js.arcgis.com/3.20/dijit/themes/claro/claro.css");
+                domAttr.set(dom.byId("claroTheme"), "href", "https://js.arcgis.com/3.21/dijit/themes/claro/claro.css");
             }
             domClass.add(document.body, "claro");
             //Load browser dialog
@@ -109,11 +110,12 @@ function (
         },
 
         _showBuilderMode: function (builderNode) {
-            var buttonContainer, dataConfigurationButton, appSettingConfigurationButton, previewModeButton, saveButtonContainer,
+            var buttonContainer, dataConfigurationButton, appSettingConfigurationButton, previewModeButton, saveButtonContainer, appProxiesButton,
             applicationSettingSaveButton, unsavedChangesText, browseParams;
             buttonContainer = domConstruct.create("div", { "class": "esriButtonContainer" }, builderNode);
             dataConfigurationButton = domConstruct.create("button", { innerHTML: nls.widgets.TemplateBuilder.dataConfigurationButtonText, "class": "esriButton" }, buttonContainer);
             appSettingConfigurationButton = domConstruct.create("button", { "style": "margin-left:10px;", "class": "esriButton", innerHTML: nls.widgets.TemplateBuilder.applicationSettingText }, buttonContainer);
+            appProxiesButton = domConstruct.create("button", { "style": "margin-left:10px;", "class": "esriButton", innerHTML: nls.widgets.TemplateBuilder.appProxiesText }, buttonContainer);
             previewModeButton = domConstruct.create("button", { "style": "margin-left:10px;", "class": "esriButton", innerHTML: nls.widgets.TemplateBuilder.exitBuilderButtonText }, buttonContainer);
             saveButtonContainer = domConstruct.create("div", { "class": "esriSaveButtonContainer" }, builderNode);
             applicationSettingSaveButton = domConstruct.create("button", { innerHTML: nls.widgets.TemplateBuilder.saveButtonText, "class": "esriButton esriSaveButton" }, saveButtonContainer);
@@ -130,6 +132,10 @@ function (
           if(!this.config.webmap || this.config.webmap === "21633896293248b7a40d4e3126c93621"){
             this._createConfigurationPanel(true);
           }
+
+          on(appProxiesButton, "click", lang.hitch(this, function () {
+                this._createAppProxiesPanel();
+            }));
 
             on(appSettingConfigurationButton, "click", lang.hitch(this, function () {
                 this._createAppSettingsPanel();
@@ -189,6 +195,36 @@ function (
             if (this.config.summaryLayer.id === "") {
                 this._createConfigurationPanel(false);
             }
+        },
+
+        _createAppProxiesPanel: function(){
+            if (!this._proxiesDialog) {
+                var proxiesContainer;
+                proxiesContainer = domConstruct.create("div", { "class": "esriAppSettingPanelContainer claro","style": { "width":"500px", "height": "400px"} }, null);
+
+                domConstruct.create("p", {innerHTML: nls.widgets.TemplateBuilder.appProxiesDesc}, proxiesContainer);
+
+                var appProxyWidget = new AppProxySettings({
+                    proxyManagerOptions: {
+                        appid: this.config.appid
+                    },
+                    webmaps: [this.config.webmap]
+                }, domConstruct.create("div", {
+                    id: "appProxyWidget"
+                }));
+                appProxyWidget.startup();
+                domConstruct.place(appProxyWidget.domNode, proxiesContainer);
+
+                //create dialog and show entire application settings
+                this._proxiesDialog = new Dialog({
+                    title: nls.widgets.TemplateBuilder.appProxiesText,
+                    "class": "esriDijitDialog",
+                    draggable: false
+                });
+                this._proxiesDialog.setContent(proxiesContainer);
+            }
+            
+            this._proxiesDialog.show();
         },
 
         /* This section creates Application setting dialog which will be used to configureentire application at one go */

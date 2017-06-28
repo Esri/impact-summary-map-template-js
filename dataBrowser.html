@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <title>Data Browser</title>
     <style>
         html, body
@@ -21,8 +20,8 @@
     </style>
 </head>
 <body class="claro">
-    <link rel="stylesheet" href="http://js.arcgis.com/3.20/dijit/themes/claro/claro.css" />
-    <link rel="stylesheet" href="http://js.arcgis.com/3.20/esri/css/esri.css" />
+    <link rel="stylesheet" href="http://js.arcgis.com/3.21/dijit/themes/claro/claro.css" />
+    <link rel="stylesheet" href="http://js.arcgis.com/3.21/esri/css/esri.css" />
     <script type="text/javascript">
         var package_path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
         var dojoConfig = {
@@ -39,7 +38,7 @@
           dojoConfig.locale = RegExp.$1;
         }
     </script>
-    <script src="//js.arcgis.com/3.20"></script>
+    <script src="https://js.arcgis.com/3.21"></script>
     <script type="text/javascript">
         var dataBrowser;
         require([

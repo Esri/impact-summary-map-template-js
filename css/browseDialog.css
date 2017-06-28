@@ -38,7 +38,7 @@
 .soria .ui-state-active {
     background-color: #fff;
 }
-.dgrid-row {
+#browse-id-box .dgrid-row {
     width: 125px;
     float: left;
     text-align: center;
@@ -46,38 +46,38 @@
     border: solid 1px #fff !important;
     margin: 2px;
 }
-.dgrid-scroller {
+#browse-id-box .dgrid-scroller {
     overflow-y: auto !important;
 }
-.dgrid-pagination-links:hover {
+#browse-id-box .dgrid-pagination-links:hover {
     cursor: pointer;
 }
-.dgrid-pagination .dgrid-page-disabled {
+#browse-id-box .dgrid-pagination .dgrid-page-disabled {
     color: hsl(0, 0%, 67%) !important;
     cursor: default;
 }
-.dgrid-page-link {
+#browse-id-box .dgrid-page-link {
     cursor: pointer;
 }
-.dgrid-active {
+#browse-id-box .dgrid-active {
     background-color: #fff;
 }
-.dgrid-selected {
+#browse-id-box .dgrid-selected {
     border-radius: 4px;
     background-color: #fff;
     border: solid 1px #BFD6EB !important;
 }
-.dgrid-row .dgrid-row-odd {
+#browse-id-box .dgrid-row .dgrid-row-odd {
     background-color: #fff;
 }
-.dgrid-row .dgrid-row-even {
+#browse-id-box .dgrid-row .dgrid-row-even {
     background-color: #fff;
 }
-.dgrid-row:hover {
+#browse-id-box .dgrid-row:hover {
     border-radius: 4px;
     background-color: #E1F0FB !important;
 }
-;
+
  .truncate {
     white-space: nowrap;
     overflow: hidden;

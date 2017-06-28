@@ -15,6 +15,8 @@ define({
       "layerLabelText": "Katman",
       "noLayerFoundText": "Katman Bulunamadı",
       "selectLayer": "Katman seç",
+      "appProxiesText": "Abone Erişimi",
+      "appProxiesDesc": "Aboneliğiniz üzerinden genel erişim sağlamak için uygun kutuları işaretleyin. Ayrıcalıklı İçerik olarak işaretlenen içerik abonelik kredilerinizden kullanır.",
       "applicationSettingText": "Uygulama Ayarları",
       "summaryAttrAscendingOrderTooltip": "Artan",
       "onStartLabel": "Başlangıçta",

@@ -15,6 +15,8 @@ define({
       "layerLabelText": "Kiht",
       "noLayerFoundText": "Kihti ei leitud",
       "selectLayer": "Vali kiht",
+      "appProxiesText": "Tellija juurdepääs",
+      "appProxiesDesc": "Teie tellimuse kaudu avaliku ligipääsu lubamiseks märkige vastavad märkeruudud. Kvaliteetsisu kasutab krediite teie tellimusest.",
       "applicationSettingText": "Rakenduse seaded",
       "summaryAttrAscendingOrderTooltip": "Kasvav",
       "onStartLabel": "Käivitamisel",

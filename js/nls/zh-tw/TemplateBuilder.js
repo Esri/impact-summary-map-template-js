@@ -15,6 +15,8 @@ define({
       "layerLabelText": "圖層",
       "noLayerFoundText": "未找到任何圖層",
       "selectLayer": "選擇圖層",
+      "appProxiesText": "訂閱者存取",
+      "appProxiesDesc": "若要允許透過您的訂閱來公開存取，請勾選適當的方塊。以高級內容標記的內容將使用您訂閱的點數。",
       "applicationSettingText": "應用程式設定",
       "summaryAttrAscendingOrderTooltip": "遞增",
       "onStartLabel": "啟動時",

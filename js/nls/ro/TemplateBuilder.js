@@ -15,6 +15,8 @@ define({
       "layerLabelText": "Strat tematic",
       "noLayerFoundText": "Niciun strat tematic găsit",
       "selectLayer": "Selectare strat tematic",
+      "appProxiesText": "Acces abonat",
+      "appProxiesDesc": "Pentru a permite accesul prin intermediul abonamentului dvs., bifaţi casetele corespunzătoare. Conţinutul marcat drept Conţinut premium va consuma credite din abonamentul dvs.",
       "applicationSettingText": "Setări aplicaţie",
       "summaryAttrAscendingOrderTooltip": "Ascendent",
       "onStartLabel": "La pornire",

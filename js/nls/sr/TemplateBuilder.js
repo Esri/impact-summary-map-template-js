@@ -15,6 +15,8 @@ define({
       "layerLabelText": "Sloj",
       "noLayerFoundText": "Nijedan sloj nije pronađen",
       "selectLayer": "Izaberite sloj",
+      "appProxiesText": "Pretplatnički pristup",
+      "appProxiesDesc": "Kako biste omogućili javni pristup putem vaše pretplate, potvrdite odgovarajuća polja za potvrdu. Sadržaj označen kao Premijum sadržaj će oduzimati kredite sa vaše pretplate.",
       "applicationSettingText": "Postavke aplikacije",
       "summaryAttrAscendingOrderTooltip": "Rastuće",
       "onStartLabel": "Na početak",

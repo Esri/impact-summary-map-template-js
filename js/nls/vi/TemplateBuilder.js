@@ -15,6 +15,8 @@ define({
       "layerLabelText": "Lớp",
       "noLayerFoundText": "Không tìm thấy Lớp nào",
       "selectLayer": "Chọn Lớp",
+      "appProxiesText": "Truy cập người đăng ký",
+      "appProxiesDesc": "Để cho phép truy cập công cộng thông qua gói đăng ký của bạn, đánh dấu chọn vào ô thích hợp. Nội dung được đánh dấu là Nội dung cao cấp sẽ sử dụng tín dụng từ gói đăng ký của bạn.",
       "applicationSettingText": "Thiết lập ứng dụng",
       "summaryAttrAscendingOrderTooltip": "Tăng dần",
       "onStartLabel": "Bắt đầu",

@@ -15,6 +15,8 @@ define({
       "layerLabelText": "Lag",
       "noLayerFoundText": "Fant ingen lag",
       "selectLayer": "Velg lag",
+      "appProxiesText": "Abonnettilgang",
+      "appProxiesDesc": "Hvis du vil tillate offentlig tilgang via abonnementet ditt, merker du av i de aktuelle boksene. Innhold som er merket som premiuminnhold, bruker credits fra abonnementet.",
       "applicationSettingText": "Applikasjonsinnstillinger",
       "summaryAttrAscendingOrderTooltip": "Stigende",
       "onStartLabel": "Ved start",

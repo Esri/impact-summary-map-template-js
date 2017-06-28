@@ -15,6 +15,8 @@ define({
       "layerLabelText": "Lapisan",
       "noLayerFoundText": "Tidak Ditemukan Lapisan",
       "selectLayer": "Pilih Lapisan",
+      "appProxiesText": "Akses Pelanggan",
+      "appProxiesDesc": "Untuk mengizinkan akses publik melalui langganan Anda, centang kotak yang sesuai. Konten yang ditandai sebagai Konten Premium akan mengurangi kredit dari langganan Anda.",
       "applicationSettingText": "Pengaturan Aplikasi",
       "summaryAttrAscendingOrderTooltip": "Naik",
       "onStartLabel": "Saat Mulai",

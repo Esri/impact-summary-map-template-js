@@ -15,6 +15,8 @@ define({
       "layerLabelText": "레이어",
       "noLayerFoundText": "레이어가 없음",
       "selectLayer": "레이어 선택",
+      "appProxiesText": "구독자 접근",
+      "appProxiesDesc": "구독을 통한 공개 접근을 허용하려면 해당 체크 박스를 선택하세요. 프리미엄 콘텐츠로 표시된 콘텐츠의 경우 구독의 크레딧을 소모합니다.",
       "applicationSettingText": "응용프로그램 설정",
       "summaryAttrAscendingOrderTooltip": "오름차순",
       "onStartLabel": "시작 시",

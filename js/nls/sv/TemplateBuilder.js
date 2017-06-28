@@ -15,6 +15,8 @@ define({
       "layerLabelText": "Lager",
       "noLayerFoundText": "Inget lager hittades",
       "selectLayer": "Välj lager",
+      "appProxiesText": "Åtkomst för abonnenter",
+      "appProxiesDesc": "Om du vill tillåta allmän åtkomst via ditt abonnemang markerar du rätt rutor. Innehåll som är märkt som premiuminnehåll förbrukar krediter från ditt abonnemang.",
       "applicationSettingText": "Programinställningar",
       "summaryAttrAscendingOrderTooltip": "Stigande",
       "onStartLabel": "Vid start",

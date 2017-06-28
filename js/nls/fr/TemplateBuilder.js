@@ -15,6 +15,8 @@ define({
       "layerLabelText": "Couche",
       "noLayerFoundText": "Aucune couche trouvée",
       "selectLayer": "Sélectionner une couche",
+      "appProxiesText": "Accès abonné",
+      "appProxiesDesc": "Pour autoriser l'accès public via votre abonnement, cochez les cases appropriées. Le contenu marqué Contenu premium consomme des crédits de votre abonnement.",
       "applicationSettingText": "Paramètres de l'application",
       "summaryAttrAscendingOrderTooltip": "Croissant",
       "onStartLabel": "Au démarrage",

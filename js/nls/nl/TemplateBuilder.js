@@ -15,6 +15,8 @@ define({
       "layerLabelText": "Kaartlaag",
       "noLayerFoundText": "Geen kaartlaag gevonden",
       "selectLayer": "Kaartlaag selecteren",
+      "appProxiesText": "Toegang voor abonnees",
+      "appProxiesDesc": "Om openbare toegang mogelijk te maken via uw abonnement, vink de gepaste vakjes aan. Content die gemarkeerd is als Premium Content zal credits van uw abonnement verbruiken.",
       "applicationSettingText": "Applicatie-instellingen",
       "summaryAttrAscendingOrderTooltip": "Oplopend",
       "onStartLabel": "Bij opstarten",

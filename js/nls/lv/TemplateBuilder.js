@@ -15,6 +15,8 @@ define({
       "layerLabelText": "Slānis",
       "noLayerFoundText": "Nav atrasts neviens slānis",
       "selectLayer": "Atlasīt slāni",
+      "appProxiesText": "Abonenta piekļuve",
+      "appProxiesDesc": "Lai atļautu publisku piekļuvi, izmantojot savu abonementu, atzīmējiet atbilstošās izvēles rūtiņas. Saturs, kas atzīmēts kā augstākās klases saturs, tērēs jūsu abonementa kredītpunktus.",
       "applicationSettingText": "Aplikācijas iestatījumi",
       "summaryAttrAscendingOrderTooltip": "Pieaugošs",
       "onStartLabel": "Sākot",

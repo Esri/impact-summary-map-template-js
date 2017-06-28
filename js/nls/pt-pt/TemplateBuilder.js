@@ -15,6 +15,8 @@ define({
       "layerLabelText": "Camada",
       "noLayerFoundText": "Camada Não Encontrada",
       "selectLayer": "Escolher Camada",
+      "appProxiesText": "Acesso de Subscritor",
+      "appProxiesDesc": "Para permitir acesso público através da sua subscrição, marque as caixas apropriadas. Conteúdo assinalado como Conteúdo Premium irá consumir créditos da sua subscrição.",
       "applicationSettingText": "Definições da Aplicação",
       "summaryAttrAscendingOrderTooltip": "Ascendente",
       "onStartLabel": "Na Inicialização",

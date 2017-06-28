@@ -15,6 +15,8 @@ define({
       "layerLabelText": "Vrstva",
       "noLayerFoundText": "Nebyla nalezena žádná vrstva",
       "selectLayer": "Vybrat vrstvu",
+      "appProxiesText": "Přístup pro předplatitele",
+      "appProxiesDesc": "Chcete-li povolit veřejný přístup prostřednictvím předplatného, zaškrtněte příslušná políčka. Obsah označený jako Prémiový obsah bude z vašeho předplatného čerpat kredity.",
       "applicationSettingText": "Nastavení aplikace",
       "summaryAttrAscendingOrderTooltip": "Vzestupně",
       "onStartLabel": "Při spuštění",

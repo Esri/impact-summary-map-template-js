@@ -15,6 +15,8 @@ define({
       "layerLabelText": "Θεματικό επίπεδο",
       "noLayerFoundText": "Δεν βρέθηκε θεματικό επίπεδο",
       "selectLayer": "Επιλογή θεματικού επιπέδου",
+      "appProxiesText": "Πρόσβαση συνδρομητή",
+      "appProxiesDesc": "Για να επιτρέπεται η δημόσια πρόσβαση μέσω της συνδρομής σας, επιλέξτε τα κατάλληλα πλαίσια. Το περιεχόμενο με την ένδειξη Premium Content θα καταναλώνει μονάδες από τη συνδρομή σας.",
       "applicationSettingText": "Ρυθμίσεις εφαρμογής",
       "summaryAttrAscendingOrderTooltip": "Αύξουσα",
       "onStartLabel": "Κατά την εκκίνηση",

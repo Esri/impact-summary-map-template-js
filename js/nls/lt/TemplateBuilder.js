@@ -15,6 +15,8 @@ define({
       "layerLabelText": "Sluoksnis",
       "noLayerFoundText": "Sluoksnių nerasta",
       "selectLayer": "Pasirinkti sluoksnį",
+      "appProxiesText": "Prenumeratoriaus prieiga",
+      "appProxiesDesc": "Norėdami leisti viešąją prieigą per prenumeratą, pažymėkite atitinkamus laukelius. Turinys pažymėtas kaip „Premium“ naudos jūsų prenumeratos kreditus.",
       "applicationSettingText": "Aplikacijos nustatymai",
       "summaryAttrAscendingOrderTooltip": "Didėjimo tvarka",
       "onStartLabel": "Pradedant",

@@ -15,6 +15,8 @@ define({
       "layerLabelText": "Слой",
       "noLayerFoundText": "Слой не найден",
       "selectLayer": "Выбрать слой",
+      "appProxiesText": "Доступ подписчика",
+      "appProxiesDesc": "Для разрешения общего доступа через вашу подписку отметьте соответствующие опции. Ресурс, отмеченный как Премиум, будет потреблять кредиты из вашей подписки.",
       "applicationSettingText": "Настройки приложения",
       "summaryAttrAscendingOrderTooltip": "По возрастанию",
       "onStartLabel": "В начале",

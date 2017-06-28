@@ -15,6 +15,8 @@ define({
       "layerLabelText": "Layer",
       "noLayerFoundText": "Kein Layer gefunden",
       "selectLayer": "Layer auswählen",
+      "appProxiesText": "Abonnentenzugriff",
+      "appProxiesDesc": "Aktivieren Sie die entsprechenden Kontrollkästchen, um den Zugang der Öffentlichkeit über Ihre Subskription zuzulassen. Bei Inhalten, die als Premium-Inhalte gekennzeichnet sind, werden Credits von Ihrer Subskription verbraucht.",
       "applicationSettingText": "Anwendungseinstellungen",
       "summaryAttrAscendingOrderTooltip": "Aufsteigend",
       "onStartLabel": "Beim Start",

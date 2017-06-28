@@ -15,6 +15,8 @@ define({
       "layerLabelText": "图层",
       "noLayerFoundText": "未找到任何图层",
       "selectLayer": "选择图层",
+      "appProxiesText": "订阅者访问",
+      "appProxiesDesc": "要通过订阅允许公共访问，请选中相应的复选框。标记为高级的内容将消耗您订阅的配额。",
       "applicationSettingText": "应用程序设置",
       "summaryAttrAscendingOrderTooltip": "升序",
       "onStartLabel": "启动时",

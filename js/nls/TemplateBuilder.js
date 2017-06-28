@@ -16,6 +16,8 @@ define({
                 "layerLabelText": "Layer",
                 "noLayerFoundText": "No Layer Found",
                 "selectLayer": "Select Layer",
+                "appProxiesText": "Subscriber Access",
+                "appProxiesDesc": "To allow public access via your subscription, check the appropriate boxes. Content marked as Premium Content will consume credits from your subscription.",
                 "applicationSettingText": "Application Settings",
                 "summaryAttrAscendingOrderTooltip": "Ascending",
                 "onStartLabel": "On Start",

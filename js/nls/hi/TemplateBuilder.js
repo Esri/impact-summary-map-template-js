@@ -15,6 +15,8 @@ define({
       "layerLabelText": "लेयर",
       "noLayerFoundText": "कोई लेयर नहीं मिली",
       "selectLayer": "लेयर चुनें",
+      "appProxiesText": "सदस्य एक्सेस",
+      "appProxiesDesc": "अपनी सदस्यता के ज़रिए सार्वजनिक एक्सेस की अनुमति देने के लिए उचित बॉक्स चुनें। ऐसी सामग्री जो प्रीमियम सामग्री के रूप में चिन्हित है वह आपकी सदस्यता से ज़्यादा क्रेडिट खर्च करेगी।",
       "applicationSettingText": "ऐप्लीकेशन सेटिंग",
       "summaryAttrAscendingOrderTooltip": "आरोही",
       "onStartLabel": "प्रारंभ पर",

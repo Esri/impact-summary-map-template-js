@@ -15,6 +15,8 @@ define({
       "layerLabelText": "الطبقة",
       "noLayerFoundText": "لم يتم إيجاد الطبقة",
       "selectLayer": "تحديد الطبقة",
+      "appProxiesText": "وصول المشترك",
+      "appProxiesDesc": "للسماح بالوصول العام عن طريق الاشتراك الخاص بك، قم بالتأشير على الخانات المناسبة. سوف يستهلك المحتوى ذات علامة محتوى مميز اعتمادات من الاشتراك الخاص بك.",
       "applicationSettingText": "إعدادات التطبيق",
       "summaryAttrAscendingOrderTooltip": "تصاعدي",
       "onStartLabel": "عند البدء",
