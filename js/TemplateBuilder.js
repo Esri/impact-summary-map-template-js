@@ -98,7 +98,7 @@ function (
         _loadCSS: function () {
             //Load claro css
             if (dom.byId("claroTheme")) {
-                domAttr.set(dom.byId("claroTheme"), "href", "https://js.arcgis.com/3.21/dijit/themes/claro/claro.css");
+                domAttr.set(dom.byId("claroTheme"), "href", "https://js.arcgis.com/3.22/dijit/themes/claro/claro.css");
             }
             domClass.add(document.body, "claro");
             //Load browser dialog
@@ -1492,6 +1492,14 @@ function (
                 type: "Web Mapping Application",
                 overwrite: true
             });
+
+            if (rqData.appProxies) {
+                delete rqData.appProxies;
+            }
+
+            if (rqData.serviceProxyParams) {
+                delete rqData.serviceProxyParams;
+            }
 
             arcgisUtils.getItem(this.config.appid).then(lang.hitch(this, function (response) {
                 var updateURL = this.userInfo.portal.url + "/sharing/rest/content/users/" + response.item.owner + (response.item.ownerFolder ? ("/" + response.item.ownerFolder) : "") + "/items/" + this.config.appid + "/update";
