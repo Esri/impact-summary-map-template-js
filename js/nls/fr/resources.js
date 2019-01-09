@@ -1,6 +1,10 @@
 define({
   "map": {
-    "error": "Impossible de créer la carte"
+    "error": "Impossible de créer la carte",
+    "licenseError": {
+      "message": "La licence de votre compte ne permet pas d’utiliser des applications configurables non publiques. Demandez à l’administrateur de votre organisation de vous attribuer un type d’utilisateur qui inclut une licence Essential Apps ou une licence Essential Apps additionnelle.",
+      "title": "Pas de licence"
+    }
   },
   "general": {
     "map": "Carte",
@@ -39,7 +43,7 @@ define({
         "contentLabel": "Mon contenu",
         "favoritesLabel": "Mes favoris"
       },
-      "title": "Sélectionner un groupe",
+      "title": "Sélectionner le groupe",
       "searchTitle": "Rechercher",
       "ok": "OK",
       "cancel": "Annuler",

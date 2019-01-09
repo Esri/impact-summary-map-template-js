@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "進入Builder模式以設定應用程式",
       "builderModeHelpText": "範本建構模式",
       "webmapCaption": "地圖",
+      "displaying": "顯示",
       "selectMapMessage": "目前 ${displaying} <b>${webmapTitle}</b><br/>按一下“選擇地圖”來選擇其他 webmap",
       "loadMapMessage": "目前選擇的 <b>${webmapTitle}</b><br/>按一下“儲存”來使用此 webmap",
       "changeWebmap": "選擇地圖",

@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "Entre no Modo Construtor para configurar o aplicativo",
       "builderModeHelpText": "Modo Construtor do Modelo",
       "webmapCaption": "Mapa",
+      "displaying": "exibindo",
       "selectMapMessage": "Atualmente ${displaying} <b>${webmapTitle}</b><br/>Clique em Selecionar Mapa para escolher um mapa da web diferente",
       "loadMapMessage": "Atualmente selecionado <b>${webmapTitle}</b><br/>Clique em Salvar para utilizar este mapa da web",
       "changeWebmap": "Selecionar mapa",

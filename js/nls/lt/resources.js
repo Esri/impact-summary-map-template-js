@@ -1,6 +1,10 @@
 define({
   "map": {
-    "error": "Žemėlapio sukurti nepavyko"
+    "error": "Žemėlapio sukurti nepavyko",
+    "licenseError": {
+      "message": "Jūsų paskyra nelicencijuota naudoti ne viešas konfigūruojamas aplikacijas. Kreipkitės į organizacijos administratorių, kad paskirtų jums vartotojo tipą, kuris turi svarbiausias aplikacijas, arba suteiktų jums papildomą svarbiausių aplikacijų licenciją.",
+      "title": "Nelicencijuota"
+    }
   },
   "general": {
     "map": "Žemėlapis",
@@ -26,7 +30,7 @@ define({
         "contentLabel": "Turinys",
         "favoritesLabel": "Mėgstamiausi"
       },
-      "title": "Pasirinkite internetinį žemėlapį",
+      "title": "Pasirinkti internetinį žemėlapį",
       "searchTitle": "Ieškoti",
       "ok": "Gerai",
       "cancel": "Atšaukti",

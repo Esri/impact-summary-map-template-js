@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "Uđite u način rada sastavljača da biste konfigurirali aplikaciju",
       "builderModeHelpText": "Način sastavljača predložaka",
       "webmapCaption": "Karta",
+      "displaying": "prikazuje se",
       "selectMapMessage": "Trenutačno ${displaying} <b>${webmapTitle}</b><br/>Kliknite na Odaberi kartu za odabir druge web-karte",
       "loadMapMessage": "Trenutačno odabrano <b>${webmapTitle}</b><br/>Kliknite na Spremi za upotrebu web-karte",
       "changeWebmap": "Odaberi kartu",

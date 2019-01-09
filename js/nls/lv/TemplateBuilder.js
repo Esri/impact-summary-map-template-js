@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "Atvērt veidotāja režīmu, lai konfigurētu aplikāciju",
       "builderModeHelpText": "Šablonu veidotāja režīms",
       "webmapCaption": "Karte",
+      "displaying": "rāda",
       "selectMapMessage": "Pašreiz ${displaying} <b>${webmapTitle}</b><br/>Noklikšķiniet uz Atlasīt karti, lai izvēlētos citu web karti.",
       "loadMapMessage": "Pašreiz atlasīts <b>${webmapTitle}</b><br/>Noklikšķiniet uz Saglabāt, lai izmantotu šo web karti.",
       "changeWebmap": "Atlasīt karti",

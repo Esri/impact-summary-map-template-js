@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "Chcete-li nakonfigurovat aplikaci, přejděte do režimu tvorby.",
       "builderModeHelpText": "Režim tvorby šablon",
       "webmapCaption": "Mapa",
+      "displaying": "probíhá zobrazení",
       "selectMapMessage": "Momentálně ${displaying} <b>${webmapTitle}</b><br/>Chcete-li zvolit jinou mapu, klikněte na tlačítko Vybrat mapu.",
       "loadMapMessage": "Momentálně vybráno <b>${webmapTitle}</b><br/>Chcete-li použít tuto webovou mapu, klikněte na tlačítko Uložit.",
       "changeWebmap": "Vybrat mapu",

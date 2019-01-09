@@ -1,6 +1,10 @@
 define({
   "map": {
-    "error": "Nevar izveidot karti"
+    "error": "Nevar izveidot karti",
+    "licenseError": {
+      "message": "Jūsu kontam nav licences, lai izmantotu konfigurējamās lietotnes, kas nav publiskas. Pieprasiet savas organizācijas administratoram piešķirt jums lietotāja veidu, kurā iekļauts lietotņu komplekts Essential Apps vai papildinājumlietotņu Essential Apps licence.",
+      "title": "Nav licences"
+    }
   },
   "general": {
     "map": "Karte",
@@ -26,7 +30,7 @@ define({
         "contentLabel": "Mans saturs",
         "favoritesLabel": "Mani favorīti"
       },
-      "title": "Izvēlēties web karti",
+      "title": "Izvēlēties tīmekļa karti",
       "searchTitle": "Meklēšana",
       "ok": "Labi",
       "cancel": "Atcelt",

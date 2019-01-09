@@ -45,8 +45,8 @@ function (
         previousConfigObj: null,
         configDialog: null,
         browseDlg: null,
-        webMapConfiguration: null,
         aoiLayer: null,
+        itemInfo: null,
         entireAreaPrevState: null,
         // lifecycle: 1
         constructor: function (options) {
@@ -60,7 +60,7 @@ function (
                 root: 'template-builder',
                 rootContainer: 'template-builder-container'
             };
-            this.webMapConfiguration = defaults.config.itemInfo;
+            this.itemInfo = defaults.itemInfo;
             this.previousConfigObj = lang.mixin({}, defaults.config);
         },
         // start widget. called by user
@@ -92,13 +92,13 @@ function (
                 this.get("drawer").resize();
             }), 250);
             this.entireAreaPrevState = this.config.enableEntireAreaButton;
-            this.enrichLayer = new EnrichLayer({ map: this.map, userInfo: this.userInfo, config: this.config, webmapInfo: this.webMapConfiguration });
+            this.enrichLayer = new EnrichLayer({ map: this.map, userInfo: this.userInfo, config: this.config, webmapInfo: this.itemInfo });
         },
 
         _loadCSS: function () {
             //Load claro css
             if (dom.byId("claroTheme")) {
-                domAttr.set(dom.byId("claroTheme"), "href", "https://js.arcgis.com/3.22/dijit/themes/claro/claro.css");
+                domAttr.set(dom.byId("claroTheme"), "href", "https://js.arcgis.com/3.27/dijit/themes/claro/claro.css");
             }
             domClass.add(document.body, "claro");
             //Load browser dialog
@@ -852,7 +852,7 @@ function (
             var content = this._createConfigurationPanelUI(isConfigurationPanel);
             if (!this.configDialog) {
                 this.configDialog = new Dialog({
-                    title: "Data Configuration",
+                    title: nls.widgets.TemplateBuilder.dataConfigurationButtonText,
                     "style": "min-width:500",
                     "class": "esriDijitDialog",
                     draggable: false
@@ -879,7 +879,7 @@ function (
         _createWebmapConfigurationPanel: function (fieldsetContainer) {
             var webmapTitle, variableContainerBtn, innerButtonContainer,
             saveWebmapBtn, webmapNextBtn;
-            webmapTitle = domConstruct.create("div", { innerHTML: string.substitute(nls.widgets.TemplateBuilder.selectMapMessage, { displaying: "displaying", webmapTitle: this.map.webmapTitle }), "class": "selectMapMessage" }, fieldsetContainer);
+            webmapTitle = domConstruct.create("div", { innerHTML: string.substitute(nls.widgets.TemplateBuilder.selectMapMessage, { displaying: nls.widgets.TemplateBuilder.displaying, webmapTitle: this.map.webmapTitle }), "class": "selectMapMessage" }, fieldsetContainer);
 
             var selectWebmapBtn = domConstruct.create("button", { innerHTML: nls.widgets.TemplateBuilder.changeWebmap, "class": "esriButton", "style": "float: right;" }, fieldsetContainer);
             on(selectWebmapBtn, "click", lang.hitch(this, function () {

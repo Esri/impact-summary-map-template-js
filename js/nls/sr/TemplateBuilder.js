@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "Uđite u režim alatke za izradu da konfigurišete aplikaciju",
       "builderModeHelpText": "Režim šablona alatke za izradu",
       "webmapCaption": "Mapa",
+      "displaying": "prikaz",
       "selectMapMessage": "Trenutno ${displaying} <b>${webmapTitle}</b><br/>Kliknite na „Izaberi mapu“ da odaberete drugu veb mapu",
       "loadMapMessage": "Trenutno izabrano <b>${webmapTitle}</b><br/>Kliknite na „Sačuvaj“ da koristite ovu veb mapu",
       "changeWebmap": "Izaberite mapu",

@@ -110,6 +110,7 @@ function (
             this._drawer.startup();
             //supply either the webmap id or, if available, the item info
             var itemInfo = this.config.itemInfo || this.config.webmap;
+            this.itemInfo = lang.clone(itemInfo);
             this._createWebMap(itemInfo);
         },
         reportError: function (error) {
@@ -343,7 +344,8 @@ function (
             			config: this.config,
             			response: this.data,
             			layers: this.layers,
-            			userInfo: this.userInfo,
+                        userInfo: this.userInfo,
+                        itemInfo: this.itemInfo,
             			map: this.map,
             			dijitClickHandler: dijitHandler
             		});

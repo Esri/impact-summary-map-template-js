@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "응용프로그램을 구성하기 위해 빌더 모드 시작",
       "builderModeHelpText": "템플릿 빌더 모드",
       "webmapCaption": "맵",
+      "displaying": "표시",
       "selectMapMessage": "현재 ${displaying} <b>${webmapTitle}</b><br/>다른 웹 맵을 선택하려면 맵 선택을 클릭합니다.",
       "loadMapMessage": "현재 선택된 <b>${webmapTitle}</b><br/>이 웹 맵을 사용하려면 저장을 클릭합니다.",
       "changeWebmap": "맵 선택",

@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "Ga naar de buildermodus om de applicatie te configureren",
       "builderModeHelpText": "Templatebuildermodus",
       "webmapCaption": "Kaart",
+      "displaying": "weergeven",
       "selectMapMessage": "Momenteel ${displaying} <b>${webmapTitle}</b><br/>Klik op Kaart selecteren om een andere webmap te kiezen",
       "loadMapMessage": "Momenteel geselecteerd <b>${webmapTitle}</b><br/>Klik op Opslaan om deze webmap te gebruiken",
       "changeWebmap": "Kaart selecteren",

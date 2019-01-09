@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "进入构建器模式以配置应用程序",
       "builderModeHelpText": "模板构建器模式",
       "webmapCaption": "地图",
+      "displaying": "显示",
       "selectMapMessage": "当前 ${displaying} <b>${webmapTitle}</b><br/>单击“选择地图”来选择其他 webmap",
       "loadMapMessage": "当前选择的 <b>${webmapTitle}</b><br/>单击“保存”来使用此 webmap",
       "changeWebmap": "选择地图",

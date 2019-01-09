@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "ビルダ モードに入りアプリケーションを構成",
       "builderModeHelpText": "テンプレート ビルダ モード",
       "webmapCaption": "マップ",
+      "displaying": "表示",
       "selectMapMessage": "現在 <b>${webmapTitle}</b> を ${displaying} しています。<br/>[マップの選択] をクリックして、別の Web マップを選択します。",
       "loadMapMessage": "現在 <b>${webmapTitle}</b> を選択しています。<br/>この Web マップを使用するには、[保存] をクリックします。",
       "changeWebmap": "マップの選択",

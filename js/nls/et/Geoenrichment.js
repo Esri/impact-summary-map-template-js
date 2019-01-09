@@ -16,7 +16,7 @@ define({
         "checkLayerName": "Kihi nime kontrollimine... ",
         "addingLayer": "Kihi lisamine veebikaardile ",
         "layerNameExist": "Kihi nimi on juba olemas.",
-        "clickOnSave": " Rakenduse uuesti laadimiseks klõpsake nuppu Salvesta.",
+        "clickOnSave": " Rakenduse uuesti laadimiseks klõpsake nuppu salvesta.",
         "clickOnOk": " Uuesti proovimiseks klõpsake nuppu OK.",
         "enterNumbersOnly": "Sisestatud väärtused ei sobi",
         "nofeatures": "Praeguses ulatuses pole objekte",

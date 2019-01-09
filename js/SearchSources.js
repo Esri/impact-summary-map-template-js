@@ -116,7 +116,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/array", "dojo/_base
             var source = {},
               url = layer.url,
               name = layer.title || layer.name;
-            if (esriLang.isDefined(searchLayer.subLayer)) {
+            if (esriLang.isDefined(searchLayer.subLayer) && layer.layerObject) {
               url = url + "/" + searchLayer.subLayer;
               array.some(layer.layerObject.layerInfos, function (info) {
                 if (info.id === searchLayer.subLayer) {

@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "ऐप्लिकेशन को कॉन्फ़िगर करने के लिए बिल्डर मोड में प्रवेश करें",
       "builderModeHelpText": "टेम्पलेट बिल्डर मोड",
       "webmapCaption": "मानचित्र",
+      "displaying": "प्रदर्शित करना",
       "selectMapMessage": "वर्तमान में ${displaying} <b>${webmapTitle}</b><br/>एक अलग वेब मैप का चयन करने के लिए मानचित्र चुनें पर क्लिक करें",
       "loadMapMessage": "वर्तमान में चयनित <b>${webmapTitle}</b><br/>इस वेब मैप का उपयोग करने हेतु सहेजें पर क्लिक करें",
       "changeWebmap": "मानचित्र चुनें",

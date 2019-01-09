@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "Öppna byggläget för att konfigurera program",
       "builderModeHelpText": "Mallbyggläge",
       "webmapCaption": "Karta",
+      "displaying": "visar",
       "selectMapMessage": "Nu ${displaying} <b>${webmapTitle}</b><br/>Klicka på Välj karta för att välja en annan webbkarta",
       "loadMapMessage": "Vald <b>${webmapTitle}</b><br/>Klicka på Spara för att använda den här webbkartan",
       "changeWebmap": "Välj karta",

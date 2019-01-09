@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "Masuk ke Mode Penyusun untuk mengonfigurasi aplikasi",
       "builderModeHelpText": "Mode Penyusun Pola Dasar",
       "webmapCaption": "Peta",
+      "displaying": "menampilkan",
       "selectMapMessage": "Saat ini ${displaying} <b>${webmapTitle}</b><br/>Klik Pilih peta untuk memilih peta web yang berbeda",
       "loadMapMessage": "Saat ini dipilih <b>${webmapTitle}</b><br/>Klik Simpan untuk menggunakan peta web ini",
       "changeWebmap": "Pilih peta",

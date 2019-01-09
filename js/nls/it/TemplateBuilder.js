@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "Passa alla modalità generatore per configurare l'applicazione",
       "builderModeHelpText": "Modalità generatore modelli",
       "webmapCaption": "Mappa",
+      "displaying": "Visualizzazione in corso",
       "selectMapMessage": "${displaying} di <b>${webmapTitle} in corso</b><br/>Fare clic su Seleziona mappa per scegliere una mappa Web diversa",
       "loadMapMessage": "È attualmente selezionata la mappa <b>${webmapTitle}</b><br/>Fare clic su Salva per utilizzarla",
       "changeWebmap": "Seleziona mappa",

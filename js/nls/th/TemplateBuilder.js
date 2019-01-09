@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "กรอกแบบตัวสร้างเพื่อกำหนดในโปรแกรมประยุกต์",
       "builderModeHelpText": "โครงร่างแบบตัวสร้าง",
       "webmapCaption": "แผนที่",
+      "displaying": "การแสดง",
       "selectMapMessage": "ปัจจุบัน ${displaying} <b>${webmapTitle}</b><br/>คลิก Select map เพื่อเลือกเว็บแม็พที่แตกต่าง",
       "loadMapMessage": "เลือก <b>${webmapTitle}</b><br/>คลิก Save เพื่อใช้เว็บแม็พนี้",
       "changeWebmap": "เลือกแผนที่",

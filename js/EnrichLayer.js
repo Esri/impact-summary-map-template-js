@@ -894,12 +894,7 @@ define([
         _createWebmapData: function (layerInfo, webmapInformationData, popupInfo) {
             this.progressString += nls.widgets.geoEnrichment.message.addingLayer + "<br/>";
             this.executionDialog.setContent(this.progressString);
-            var newLayersArray = [];
-            array.forEach(webmapInformationData.operationalLayers, lang.hitch(this, function (layer) {
-                delete layer["layerObject"];
-                newLayersArray.push(layer);
-            }));
-            JSON.stringify(webmapInformationData.spatialReference);
+
             var layerJson = {
                 "id": layerInfo.name + layerInfo.id,
                 "layerType": "ArcGISFeatureLayer",
@@ -910,25 +905,13 @@ define([
                 "itemId": this.enrichitemID,
                 "popupInfo": popupInfo
             };
-            newLayersArray.push(layerJson);
-            webmapInformationData.operationalLayers = newLayersArray;
-            var webmapInformation = {
-                "baseMap": {
-                    "baseMapLayers": [{
-                        "id": webmapInformationData.baseMap.baseMapLayers[0].id,
-                        "opacity": webmapInformationData.baseMap.baseMapLayers[0].opacity,
-                        "visibility": webmapInformationData.baseMap.baseMapLayers[0].visibility,
-                        "url": webmapInformationData.baseMap.baseMapLayers[0].url
-                    }]
-                },
-                "operationalLayers": webmapInformationData.operationalLayers,
-                "spatialReference": this.webmapInfo.itemData.spatialReference,
-                "version": this.webmapInfo.itemData.version
-            };
-            webmapInformationData.baseMap = webmapInformation.baseMap;
+
+            webmapInformationData.operationalLayers.push(layerJson);
+
+            webmapInformationData.authoringApp = "ImpactSummaryMap";
+            webmapInformationData.authoringAppVersion = "1.1";
+    
             this.config.summaryLayer.id = layerInfo.name + layerInfo.id;
-            delete webmapInformationData["applicationProperties"];
-            delete webmapInformationData["runningAnalysisJobs"];
             return webmapInformationData;
         },
         _shareItem: function (enrichUrlItemID) {

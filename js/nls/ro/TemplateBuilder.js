@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "Accesare mod Builder pentru configurarea aplicaţiei",
       "builderModeHelpText": "Mod Builder de şabloane",
       "webmapCaption": "Hartă",
+      "displaying": "în curs de afişare",
       "selectMapMessage": "În prezent: ${displaying} <b>${webmapTitle}</b><br/>Faceţi clic pe Selectare hartă pentru a alege altă hartă web",
       "loadMapMessage": "Selectată în prezent: <b>${webmapTitle}</b><br/>Faceţi clic pe Salvare pentru a utiliza această hartă web",
       "changeWebmap": "Selectare hartă",

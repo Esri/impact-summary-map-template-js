@@ -1,6 +1,10 @@
 define({
   "map": {
-    "error": "Tidak dapat membuat peta"
+    "error": "Tidak dapat membuat peta",
+    "licenseError": {
+      "message": "Akun Anda tidak dilisensikan untuk menggunakan Aplikasi yang Dapat Dikonfigurasi yang bukan bersifat publik. Harap minta administrator organisasi Anda untuk menetapkan Anda jenis pengguna yang menyertakan lisensi Essential App atau add-on Essential App.",
+      "title": "Tidak Dilisensikan"
+    }
   },
   "general": {
     "map": "Peta",
@@ -26,7 +30,7 @@ define({
         "contentLabel": "Konten Saya",
         "favoritesLabel": "Favorit Saya"
       },
-      "title": "Pilih Peta Web",
+      "title": "Pilih Web Map",
       "searchTitle": "Cari",
       "ok": "Oke",
       "cancel": "Batal",

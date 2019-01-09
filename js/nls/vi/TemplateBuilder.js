@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "Chuyển sang Chế độ Bộ thiết lập để cấu hình ứng dụng",
       "builderModeHelpText": "Chế độ Bộ thiết lập Mẫu",
       "webmapCaption": "Bản đồ",
+      "displaying": "đang hiển thị",
       "selectMapMessage": "Hiện ${displaying} <b>${webmapTitle}</b><br/>Nhấp vào Chọn bản đồ để chọn một webmap khác",
       "loadMapMessage": "Hiện đã chọn <b>${webmapTitle}</b><br/>Nhấp vào Lưu để sử dụng webmap này",
       "changeWebmap": "Chọn bản đồ",

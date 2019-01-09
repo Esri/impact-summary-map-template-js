@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "Zum Konfigurieren der Anwendung zum Builder-Modus wechseln",
       "builderModeHelpText": "Builder-Modus für Vorlagen",
       "webmapCaption": "Karte",
+      "displaying": "Anzeigen",
       "selectMapMessage": "Aktuell wird <b>${webmapTitle}</b> ${displaying} <br/>Klicken Sie auf \"Karte auswählen\", um eine andere Webkarte auszuwählen",
       "loadMapMessage": "Aktuell ist <b>${webmapTitle}</b> ausgewählt<br/>Klicken Sie auf \"Speichern unter\", um diese Webkarte zu speichern",
       "changeWebmap": "Karte auswählen",

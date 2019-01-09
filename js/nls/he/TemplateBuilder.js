@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "הכנס למצב בניה להגדרת האפליקציה",
       "builderModeHelpText": "תבנית מצב הבניה",
       "webmapCaption": "מפה",
+      "displaying": "מציג",
       "selectMapMessage": "${displaying} נוכחי <b>${webmapTitle}</b><br/>לחץ בחר מפה לבחירת webmap אחר",
       "loadMapMessage": "הבחירה הנוכחית של  <b>${webmapTitle}</b><br/>לחץ על שמור כדי להשתמש ב- webmap הזה",
       "changeWebmap": "בחר מפה",

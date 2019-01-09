@@ -1,6 +1,10 @@
 define({
   "map": {
-    "error": "Não foi possível criar o mapa"
+    "error": "Não foi possível criar o mapa",
+    "licenseError": {
+      "message": "A sua conta não está licenciada para usar aplicações configuráveis não públicas. Peça ao administrador da sua organização para lhe atribuir um tipo de utilizador que inclua a licença para aplicações essenciais ou aplicações essenciais complementares.",
+      "title": "Não licenciado"
+    }
   },
   "general": {
     "map": "Mapa",
@@ -26,7 +30,7 @@ define({
         "contentLabel": "O Meu Conteúdo",
         "favoritesLabel": "Os Meus Favoritos"
       },
-      "title": "Selecionar Mapa Web",
+      "title": "Seleccionar Mapa Web",
       "searchTitle": "Pesquisar",
       "ok": "OK",
       "cancel": "Cancelar",

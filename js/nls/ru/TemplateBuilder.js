@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "Войти в Режим конструктора для настройки приложения",
       "builderModeHelpText": "Режим шаблона конструктора",
       "webmapCaption": "Карта",
+      "displaying": "отображение",
       "selectMapMessage": "Сейчас ${displaying} <b>${webmapTitle}</b><br/>Щелкните Выбрать карту, чтобы выбрать другую веб-карту",
       "loadMapMessage": "Выбрано <b>${webmapTitle}</b><br/>Щелкните Сохранить, чтобы использовать эту веб-карту",
       "changeWebmap": "Выбрать карту",

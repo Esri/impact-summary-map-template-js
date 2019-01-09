@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "Määritä sovellus siirtymällä luontitoimintoon",
       "builderModeHelpText": "Mallin luontitoiminnon tila",
       "webmapCaption": "Kartta",
+      "displaying": "näytetään",
       "selectMapMessage": "Tällä hetkellä ${displaying} <b>${webmapTitle}</b><br/>Valitse toinen Web-kartta napsauttamalla Valitse kartta",
       "loadMapMessage": "Tällä hetkellä valittu <b>${webmapTitle}</b><br/>Käytä tätä Web-karttaa napsauttamalla Tallenna",
       "changeWebmap": "Valitse kartta",

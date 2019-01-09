@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "Start Builder-tilstand for at konfigurere applikation",
       "builderModeHelpText": "Skabelon Builder-tilstand",
       "webmapCaption": "Kort",
+      "displaying": "viser",
       "selectMapMessage": "Netop nu ${displaying} <b>${webmapTitle}</b><br/>Klik på Vælg kort for at vælge et andet Click webkort",
       "loadMapMessage": "Aktuelt markeret <b>${webmapTitle}</b><br/>Klik på Gem for at gemme dette webkort",
       "changeWebmap": "Vælg kort",

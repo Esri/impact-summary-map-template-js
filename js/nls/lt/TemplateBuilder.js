@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "Paleisti kūrimo režimą aplikacijai konfigūruoti",
       "builderModeHelpText": "Šablono kūrimo režimas",
       "webmapCaption": "Žemėlapis",
+      "displaying": "rodoma",
       "selectMapMessage": "Šiuo metu ${displaying} <b>${webmapTitle}</b><br/>Paspauskite Pasirinkti žemėlapį, kad pasirinktumėte kitą interneto žemėlapį",
       "loadMapMessage": "Šiuo metu pasirinktas <b>${webmapTitle}</b><br/>Paspauskite Įrašyti, kad naudotumėte šį interneto žemėlapį",
       "changeWebmap": "Pasirinkti žemėlapį",

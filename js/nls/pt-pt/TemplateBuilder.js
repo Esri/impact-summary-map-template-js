@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "Entrar em Modo Builder para configurar a aplicação",
       "builderModeHelpText": "Modo Template Builder",
       "webmapCaption": "Mapa",
+      "displaying": "a exibir",
       "selectMapMessage": "Atualmente ${displaying} <b>${webmapTitle}</b><br/>Clique em Escolher mapa para escolher outro mapa base",
       "loadMapMessage": "Atualmente selecionado <b>${webmapTitle}</b><br/>Clique em Guardar para utilizar este mapa base",
       "changeWebmap": "Escolher mapa",

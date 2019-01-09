@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "Utiliser le mode de générateur pour configurer l'application",
       "builderModeHelpText": "Modèle de mode de générateur",
       "webmapCaption": "Carte",
+      "displaying": "affichage",
       "selectMapMessage": "Actuellement ${displaying} <b>${webmapTitle}</b><br/>Cliquez sur Sélectionner une carte pour choisir un fond de carte différent",
       "loadMapMessage": "<b>${webmapTitle}</b> actuellement sélectionné<br/>Cliquez sur Enregistrer pour utiliser cette carte Web",
       "changeWebmap": "Sélectionner une carte",

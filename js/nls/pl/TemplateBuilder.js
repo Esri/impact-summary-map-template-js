@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "Przejdź do trybu kreatora, aby skonfigurować aplikację.",
       "builderModeHelpText": "Tryb kreatora szablonów",
       "webmapCaption": "Mapa",
+      "displaying": "wyświetlanie",
       "selectMapMessage": "Aktualnie: ${displaying} <b>${webmapTitle}</b><br/>Kliknij przycisk Wybierz mapę, aby wybrać inną mapę internetową.",
       "loadMapMessage": "Aktualnie wybrane <b>${webmapTitle}</b><br/>Kliknij przycisk Zapisz, aby użyć tej mapy internetowej.",
       "changeWebmap": "Wybierz mapę",

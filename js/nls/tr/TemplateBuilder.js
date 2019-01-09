@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "Uygulamayı yapılandırmak için Builder Mode'a gir",
       "builderModeHelpText": "Builder Mode Şablonu",
       "webmapCaption": "Harita",
+      "displaying": "görüntüleniyor",
       "selectMapMessage": "Şu anda ${displaying} <b>${webmapTitle}</b><br/>Farklı bir web haritası seçmek için Harita seç öğesine tıklayın",
       "loadMapMessage": "Şu anda seçili olan <b>${webmapTitle}</b><br/>Bu web haritasını kullanmak için Kaydet'e tıklayın",
       "changeWebmap": "Harita seç",

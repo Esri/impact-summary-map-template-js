@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "إدخال وضع المُنشئ لتكوين التطبيق",
       "builderModeHelpText": "وضع مُنشئ القالب",
       "webmapCaption": "خريطة",
+      "displaying": "عرض",
       "selectMapMessage": "حاليًا${displaying} <b>${webmapTitle}</b><br/>انقر على تحديد الخريطة لاختيار خريطة ويب مختلفة",
       "loadMapMessage": "المُحدد حاليًا <b>${webmapTitle}</b><br/>انقر على حفظ لاستخدام خريطة الويب الحالية",
       "changeWebmap": "تحديد الخريطة",

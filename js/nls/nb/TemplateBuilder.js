@@ -6,6 +6,7 @@ define({
       "enterBuilderModeHelpText": "Åpne verktøymodus for å konfigurere program",
       "builderModeHelpText": "Malverktøymodus",
       "webmapCaption": "Kart",
+      "displaying": "viser",
       "selectMapMessage": "For øyeblikket ${displaying} <b>${webmapTitle}</b><br/>Klikk på Velg kart for å velge et annet webkart",
       "loadMapMessage": "<b>${webmapTitle}</b><br/> er valgt. Klikk på Lagre for å bruke dette webkartet",
       "changeWebmap": "Velg kart",
