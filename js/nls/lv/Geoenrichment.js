@@ -39,7 +39,7 @@ define({
       "housingText": "Mājsaimniecība",
       "businessText": "Uzņēmums",
       "variableListText": " mainīgie ir uzskaitīti šeit:",
-      "countrySelectTitle": "1. Izvēlieties datu izvietojumu",
+      "countrySelectTitle": "1. Izvēlieties datu novietojumu",
       "unitedStates": "Amerikas Savienotās valstis",
       "global": "Globāls",
       "geoenrichDialogText": "Ģeobagātināšanas mainīgie",

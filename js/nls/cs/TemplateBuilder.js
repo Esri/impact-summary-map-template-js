@@ -23,7 +23,7 @@ define({
       "onStartLabel": "Při spuštění",
       "selectVariableText": "Vyberte proměnnou",
       "selectVariableDropdown": "Vyberte proměnnou",
-      "label": "Štítek",
+      "label": "Popisek",
       "sourceLinkText": "Zdrojový odkaz",
       "selectSubVariableText": "Vyberte podřízené proměnné",
       "subVariablePanelButtonText": "HOTOVO",
@@ -55,7 +55,7 @@ define({
       "savingChangesMessage": "Ukládání změn...",
       "nextButtonText": "Další",
       "prevButtonText": "Předchozí",
-      "enterLabelText": "Zadat štítek",
+      "enterLabelText": "Zadat popisek",
       "SelectedFeatureText": "Vybraný prvek",
       "layerHelpTextMessage": "Tato aplikace vyžaduje vrstvu s číselnými poli.",
       "alertMessage": {

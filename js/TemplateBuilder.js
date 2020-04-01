@@ -98,7 +98,7 @@ function (
         _loadCSS: function () {
             //Load claro css
             if (dom.byId("claroTheme")) {
-                domAttr.set(dom.byId("claroTheme"), "href", "https://js.arcgis.com/3.27/dijit/themes/claro/claro.css");
+                domAttr.set(dom.byId("claroTheme"), "href", "https://js.arcgis.com/3.32/dijit/themes/claro/claro.css");
             }
             domClass.add(document.body, "claro");
             //Load browser dialog
@@ -223,7 +223,7 @@ function (
                 });
                 this._proxiesDialog.setContent(proxiesContainer);
             }
-            
+
             this._proxiesDialog.show();
         },
 
