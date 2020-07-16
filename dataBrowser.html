@@ -23,11 +23,11 @@
   <body class="claro">
     <link
       rel="stylesheet"
-      href="https://js.arcgis.com/3.32/dijit/themes/claro/claro.css"
+      href="https://js.arcgis.com/3.33/dijit/themes/claro/claro.css"
     />
     <link
       rel="stylesheet"
-      href="https://js.arcgis.com/3.32/esri/css/esri.css"
+      href="https://js.arcgis.com/3.33/esri/css/esri.css"
     />
     <script type="text/javascript">
       var package_path = window.location.pathname.substring(
@@ -41,16 +41,16 @@
         packages: [
           {
             name: "application",
-            location: package_path + "/js"
-          }
-        ]
+            location: package_path + "/js",
+          },
+        ],
       };
       // Have to handle a locale parameter before dojo is loaded
       if (location.search.match(/locale=([\w-]+)/)) {
         dojoConfig.locale = RegExp.$1;
       }
     </script>
-    <script src="https://js.arcgis.com/3.32"></script>
+    <script src="https://js.arcgis.com/3.33"></script>
     <script type="text/javascript">
       var dataBrowser;
       require([
@@ -60,8 +60,8 @@
         "dojo/on",
         "esri/kernel",
         "dojo/cookie",
-        "dojo/domReady!"
-      ], function(kernel, urlUtils, DataBrowser, on, esriKernel, cookie) {
+        "dojo/domReady!",
+      ], function (kernel, urlUtils, DataBrowser, on, esriKernel, cookie) {
         document.documentElement.lang = kernel.locale;
 
         var userInfo = {};
@@ -72,7 +72,7 @@
         userInfo.portal = window.opener.selectedData.userInfo.portal;
         var cred = "esri_jsapi_id_manager_data";
         idJson = cookie(cred);
-        window.onbeforeunload = function() {
+        window.onbeforeunload = function () {
           window.opener._showData();
         };
         //This logic is for handling Identity Manager
@@ -87,8 +87,8 @@
               tokenServiceUrl: baseUrl + "/ArcGIS/tokens",
               adminTokenServiceUrl: baseUrl + "/ArcGIS/admin/generateToken",
               currentVersion: 10.02,
-              hasServer: true
-            }
+              hasServer: true,
+            },
           ],
           oAuthInfos: [],
           credentials: [
@@ -103,10 +103,10 @@
                 window.opener.selectedData.userInfo.credential.creationTime,
               scope: "server",
               resources: [
-                window.opener.selectedData.userInfo.credential.resources[0]
-              ]
-            }
-          ]
+                window.opener.selectedData.userInfo.credential.resources[0],
+              ],
+            },
+          ],
         };
         if ("localStorage" in window && window["localStorage"] !== null) {
           var idString = JSON.stringify(serverInfo);
@@ -123,17 +123,17 @@
             cancelButton: "Cancel", //Cancel button text. Can be set to -null- which should hide the button.
             countryBox: false, //Show/hide country dropdowm
             selection: objRef.selectedVariables, //Array of currently selected variables
-            countryID: objRef.selectedCountry
+            countryID: objRef.selectedCountry,
           },
           "dataBrowser"
         );
         dataBrowser.startup();
-        on(dataBrowser, "ok", function(evt) {
+        on(dataBrowser, "ok", function (evt) {
           window.opener.selectedVariables = dataBrowser.selection.join();
           window.opener.selectedTab = objRef.selectedTab;
           window.close();
         });
-        on(dataBrowser, "cancel", function(evt) {
+        on(dataBrowser, "cancel", function (evt) {
           window.close();
         });
       });
