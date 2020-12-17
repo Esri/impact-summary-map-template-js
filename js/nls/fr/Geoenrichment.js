@@ -42,7 +42,7 @@ define({
       "countrySelectTitle": "1. Sélectionner l'emplacement des données",
       "unitedStates": "Etats-Unis",
       "global": "Monde",
-      "geoenrichDialogText": "Variables d'enrichissement géographique",
+      "geoenrichDialogText": "Variables de géoenrichissement",
       "viewVariablestext": "Afficher les variables",
       "backButtonText": "Retour",
       "customizeVariables": "Personnaliser les variables",

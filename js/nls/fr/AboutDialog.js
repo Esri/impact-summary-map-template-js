@@ -5,7 +5,7 @@ define({
       "itemInfo": "Afficher cet élément",
       "itemInfoLink": "sur ArcGIS Online.",
       "licenseHeader": "Licence",
-      "dateCreated": "Créé le :",
+      "dateCreated": "Création :",
       "dateModified": "Dernière modification",
       "moreInfoHeader": "Plus d'informations"
     }
